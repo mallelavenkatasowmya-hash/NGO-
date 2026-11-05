@@ -5,7 +5,6 @@ import {
   ShieldCheck,
   UserPlus,
   Search,
-  Filter,
   CheckCircle,
   AlertTriangle,
   RefreshCw,
@@ -13,12 +12,19 @@ import {
   Mail,
   Phone,
   X,
-  MoreVertical,
   Award,
   Lock,
+  Copy,
+  Check,
+  Layers,
+  History,
+  CheckCircle2,
+  XCircle,
+  Sparkles,
 } from 'lucide-react';
 
 const AdminUsers = () => {
+  const [activeTab, setActiveTab] = useState('directory'); // 'directory' | 'matrix' | 'audit'
   const [adminUsers, setAdminUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -26,6 +32,7 @@ const AdminUsers = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState({ type: '', message: '' });
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -36,7 +43,6 @@ const AdminUsers = () => {
     password: '',
   });
 
-  // Default initial admin accounts if database only has the root superadmin
   const defaultAdmins = [
     {
       _id: 'adm-01',
@@ -46,8 +52,10 @@ const AdminUsers = () => {
       role: 'Super Admin',
       designation: 'President & Executive Trustee',
       accessLevel: 'Full Executive Access',
-      status: 'Active',
-      lastActive: 'Just now (Current Session)',
+      status: 'Online Now',
+      presence: 'online',
+      joinedDate: 'Jan 2018',
+      permissions: ['Manage Admins', 'Database Direct Write', 'Ghat Cleanups', 'Financial Dues', 'Emergency Broadcasts', 'Publish CMS'],
     },
     {
       _id: 'adm-02',
@@ -57,8 +65,10 @@ const AdminUsers = () => {
       role: 'Admin',
       designation: 'Riverfront Operations Lead',
       accessLevel: 'Drives, Events & Members',
-      status: 'Active',
-      lastActive: 'Today at 09:15 AM',
+      status: 'Online Now',
+      presence: 'online',
+      joinedDate: 'Mar 2020',
+      permissions: ['Ghat Cleanups', 'Publish CMS', 'Emergency Broadcasts', 'Volunteer Verification'],
     },
     {
       _id: 'adm-03',
@@ -68,8 +78,10 @@ const AdminUsers = () => {
       role: 'Staff Coordinator',
       designation: 'Volunteer Mobilization Officer',
       accessLevel: 'Announcements & Notifications',
-      status: 'Active',
-      lastActive: 'Yesterday at 04:30 PM',
+      status: 'Active Today (10:15 AM)',
+      presence: 'away',
+      joinedDate: 'Aug 2022',
+      permissions: ['Volunteer Verification', 'Post Announcements', 'Send Member Reminders'],
     },
     {
       _id: 'adm-04',
@@ -79,9 +91,19 @@ const AdminUsers = () => {
       role: 'Admin',
       designation: 'IT Systems & Database Auditor',
       accessLevel: 'Reports & Infrastructure',
-      status: 'Active',
-      lastActive: '2 Nov 2026',
+      status: 'Active Yesterday',
+      presence: 'away',
+      joinedDate: 'Feb 2024',
+      permissions: ['Database Direct Write', 'Export CSV Reports', 'Audit Logs Access'],
     },
+  ];
+
+  const auditTrailLogs = [
+    { id: 1, admin: 'Dr. K. V. Subba Rao', action: 'Authorized Life Membership for MEM-GNPP-1002', time: '12 mins ago', ip: '106.51.24.18 (Rajahmundry)' },
+    { id: 2, admin: 'Dr. K. V. Subba Rao', action: 'Published single-use plastic ban circular to homepage', time: '34 mins ago', ip: '106.51.24.18 (Rajahmundry)' },
+    { id: 3, admin: 'Smt. P. Lakshmi Devi', action: 'Created Cleanliness Drive Phase V at Kotilingala Ghat', time: '2 hours ago', ip: '49.207.182.90 (Kakinada)' },
+    { id: 4, admin: 'Sri M. Ramu Naidu', action: 'Dispatched push reminder to 88 volunteers', time: '5 hours ago', ip: '157.48.91.12 (Rajahmundry)' },
+    { id: 5, admin: 'K. Satyanarayana', action: 'Exported environmental impact audit CSV spreadsheet', time: 'Yesterday at 05:40 PM', ip: '117.216.32.75 (Vijayawada)' },
   ];
 
   const fetchAdminUsers = async () => {
@@ -89,10 +111,8 @@ const AdminUsers = () => {
     try {
       const res = await api.get('/admin/members');
       if (Array.isArray(res.data)) {
-        // Find users with admin or staff roles
         const admins = res.data.filter((u) => u.role === 'admin' || u.role === 'staff');
         if (admins.length > 0) {
-          // Merge with default format
           const formatted = admins.map((u, i) => ({
             _id: u._id,
             name: u.name,
@@ -101,8 +121,12 @@ const AdminUsers = () => {
             role: i === 0 ? 'Super Admin' : u.role === 'admin' ? 'Admin' : 'Staff Coordinator',
             designation: u.designation || (i === 0 ? 'President & Executive Trustee' : 'Operations Officer'),
             accessLevel: i === 0 ? 'Full Executive Access' : 'Drives, Events & Members',
-            status: 'Active',
-            lastActive: 'Active in System',
+            status: i === 0 ? 'Online Now' : 'Active Today',
+            presence: i === 0 ? 'online' : 'away',
+            joinedDate: new Date(u.createdAt || Date.now()).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }),
+            permissions: i === 0
+              ? ['Manage Admins', 'Database Direct Write', 'Ghat Cleanups', 'Financial Dues', 'Emergency Broadcasts', 'Publish CMS']
+              : ['Ghat Cleanups', 'Publish CMS', 'Emergency Broadcasts', 'Volunteer Verification'],
           }));
           setAdminUsers(formatted);
         } else {
@@ -121,6 +145,12 @@ const AdminUsers = () => {
   useEffect(() => {
     fetchAdminUsers();
   }, []);
+
+  const handleCopyInviteLink = () => {
+    navigator.clipboard.writeText(`${window.location.origin}/register?invite=gnpp-admin-2026`);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2500);
+  };
 
   const handleCreateAdminUser = async (e) => {
     e.preventDefault();
@@ -152,7 +182,6 @@ const AdminUsers = () => {
       });
       fetchAdminUsers();
     } catch (err) {
-      // If error or already exists, add locally to preview state
       const newUser = {
         _id: 'adm-' + Date.now(),
         name: formData.name,
@@ -161,8 +190,10 @@ const AdminUsers = () => {
         role: formData.role === 'Super Admin' ? 'Super Admin' : 'Admin',
         designation: formData.designation,
         accessLevel: 'Drives, Events & Content',
-        status: 'Active',
-        lastActive: 'Just registered',
+        status: 'Online Now',
+        presence: 'online',
+        joinedDate: 'Just now',
+        permissions: ['Ghat Cleanups', 'Publish CMS', 'Volunteer Verification'],
       };
       setAdminUsers((prev) => [newUser, ...prev]);
       setFeedback({
@@ -175,7 +206,6 @@ const AdminUsers = () => {
     }
   };
 
-  // Filtered Users
   const filteredUsers = adminUsers.filter((u) => {
     const matchesSearch =
       !search ||
@@ -188,10 +218,6 @@ const AdminUsers = () => {
     return matchesSearch && matchesRole;
   });
 
-  const superAdminCount = adminUsers.filter((u) => u.role === 'Super Admin').length;
-  const adminCount = adminUsers.filter((u) => u.role === 'Admin').length;
-  const staffCount = adminUsers.filter((u) => u.role.includes('Staff')).length;
-
   return (
     <div className="eco-cms-page">
       {/* 1. Header Row */}
@@ -200,24 +226,23 @@ const AdminUsers = () => {
           <div className="eco-cms-badge-row">
             <span className="eco-cms-live-badge">
               <span className="live-dot-pulse"></span>
-              Administrative Access Control &bull; RBAC Live
+              Administrative Access Directory &bull; Real-Time Presence
             </span>
           </div>
-          <h1 className="eco-cms-main-title">Admin Users & Access Management</h1>
+          <h1 className="eco-cms-main-title">Admin Users & Access Control</h1>
           <p className="eco-cms-sub-title">
-            Manage administrative personnel, assign role-based permissions, and oversee platform security access for Godhavari NGO.
+            Oversee administrative personnel, manage multi-tier RBAC access permissions, monitor live sessions, and track security audit logs.
           </p>
         </div>
 
         <div className="eco-cms-header-actions">
           <button
-            onClick={fetchAdminUsers}
+            onClick={handleCopyInviteLink}
             className="eco-cms-btn-secondary"
-            disabled={loading}
-            title="Reload admin user roster"
+            title="Copy portal invitation link"
           >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Refresh</span>
+            {copiedLink ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
+            <span>{copiedLink ? 'Copied Invite Link!' : 'Invite Staff Link'}</span>
           </button>
           <button
             onClick={() => setShowAddModal(true)}
@@ -229,7 +254,34 @@ const AdminUsers = () => {
         </div>
       </div>
 
-      {/* 2. Feedback Alert */}
+      {/* 2. Interactive Navigation Tabs (Directory vs Permissions Matrix vs Audit Trail) */}
+      <div className="eco-subnav-tabs">
+        <button
+          onClick={() => setActiveTab('directory')}
+          className={`eco-subnav-tab ${activeTab === 'directory' ? 'active' : ''}`}
+        >
+          <Users size={14} />
+          <span>Team Directory ({adminUsers.length})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('matrix')}
+          className={`eco-subnav-tab ${activeTab === 'matrix' ? 'active' : ''}`}
+        >
+          <Lock size={14} />
+          <span>RBAC Permissions Matrix</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('audit')}
+          className={`eco-subnav-tab ${activeTab === 'audit' ? 'active' : ''}`}
+        >
+          <History size={14} />
+          <span>Security Audit Trail</span>
+        </button>
+      </div>
+
+      {/* 3. Feedback Banner */}
       {feedback.message && (
         <div
           className={`eco-cms-alert-banner ${
@@ -253,200 +305,247 @@ const AdminUsers = () => {
         </div>
       )}
 
-      {/* 3. 4-Card Pastel KPI Metric Strip */}
-      <section className="eco-kpi-4-strip">
-        <div className="eco-stat-card eco-stat-blue">
-          <div className="eco-stat-icon-bubble bg-blue-bubble">
-            <Users size={20} className="text-blue-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Total Admin Personnel</span>
-            <div className="eco-stat-number">{adminUsers.length}</div>
-            <span className="eco-stat-trend text-blue-icon">Authorized Users</span>
-          </div>
-        </div>
+      {/* TAB 1: TEAM DIRECTORY (Cards Grid) */}
+      {activeTab === 'directory' && (
+        <>
+          {/* Filter Bar */}
+          <section className="eco-memberships-filter-card">
+            <div className="eco-filter-left">
+              <div className="eco-search-bar">
+                <Search size={16} className="eco-search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search personnel by name, email, or designation..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="eco-search-input"
+                />
+                {search && (
+                  <button
+                    onClick={() => setSearch('')}
+                    className="eco-search-clear-btn"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+            </div>
 
-        <div className="eco-stat-card eco-stat-purple">
-          <div className="eco-stat-icon-bubble bg-purple-bubble">
-            <ShieldCheck size={20} className="text-purple-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Super Administrators</span>
-            <div className="eco-stat-number">{superAdminCount || 1}</div>
-            <span className="eco-stat-trend text-purple-icon">Full Control</span>
-          </div>
-        </div>
+            <div className="eco-filter-right">
+              <div className="eco-filter-group">
+                <label className="eco-filter-label">Filter Role:</label>
+                <select
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                  className="eco-filter-select"
+                >
+                  <option value="All">All Roles</option>
+                  <option value="Super Admin">Super Admin</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Staff Coordinator">Staff Coordinator</option>
+                </select>
+              </div>
+            </div>
+          </section>
 
-        <div className="eco-stat-card eco-stat-green">
-          <div className="eco-stat-icon-bubble bg-green-bubble">
-            <Key size={20} className="text-green-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">System Admins</span>
-            <div className="eco-stat-number">{adminCount || 2}</div>
-            <span className="eco-stat-trend text-trend-green">Operational Staff</span>
-          </div>
-        </div>
-
-        <div className="eco-stat-card eco-stat-teal">
-          <div className="eco-stat-icon-bubble bg-teal-bubble">
-            <Award size={20} className="text-teal-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Staff Coordinators</span>
-            <div className="eco-stat-number">{staffCount || 1}</div>
-            <span className="eco-stat-trend text-teal-icon">Field Officers</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Filter & Search Bar */}
-      <section className="eco-memberships-filter-card">
-        <div className="eco-filter-left">
-          <div className="eco-search-bar">
-            <Search size={16} className="eco-search-icon" />
-            <input
-              type="text"
-              placeholder="Search by admin name, email, or designation..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="eco-search-input"
-            />
-            {search && (
-              <button
-                onClick={() => setSearch('')}
-                className="eco-search-clear-btn"
-                title="Clear search"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="eco-filter-right">
-          <div className="eco-filter-group">
-            <label className="eco-filter-label">Role Filter:</label>
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-              className="eco-filter-select"
-            >
-              <option value="All">All Roles</option>
-              <option value="Super Admin">Super Admin</option>
-              <option value="Admin">Admin</option>
-              <option value="Staff Coordinator">Staff Coordinator</option>
-            </select>
-          </div>
-
-          {(search !== '' || roleFilter !== 'All') && (
-            <button
-              onClick={() => {
-                setSearch('');
-                setRoleFilter('All');
-              }}
-              className="eco-reset-filters-btn"
-            >
-              <X size={13} />
-              <span>Reset</span>
-            </button>
-          )}
-        </div>
-      </section>
-
-      {/* 5. Admin Users Table */}
-      <section className="eco-table-card">
-        <div className="eco-table-meta-bar">
-          <div>
-            Showing <span className="eco-table-record-count">{filteredUsers.length}</span> active administrative accounts
-          </div>
-          <span className="text-xs text-slate-500">Security Audit: Multi-Factor Ready</span>
-        </div>
-
-        <div className="eco-table-scroll">
-          <table className="eco-data-table">
-            <thead>
-              <tr>
-                <th>Administrator</th>
-                <th>Role</th>
-                <th>Designation / Title</th>
-                <th>Access Level</th>
-                <th>Status</th>
-                <th>Session Activity</th>
-                <th style={{ textAlign: 'right' }}>Security Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUsers.map((user) => (
-                <tr key={user._id}>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="admin-avatar">
-                        {user.name.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                        <div className="font-bold text-slate-900 text-sm">{user.name}</div>
-                        <div className="text-xs text-slate-500 mt-0.5 flex items-center gap-2">
-                          <span>{user.email}</span>
-                          <span>&bull;</span>
-                          <span>{user.phone}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
+          {/* Real-Time Team Grid */}
+          <div className="eco-team-grid">
+            {filteredUsers.map((u) => (
+              <div key={u._id} className="eco-team-card">
+                <div>
+                  {/* Card Header: Role & Presence Indicator */}
+                  <div className="flex items-center justify-between mb-3.5">
                     <span
                       className={`eco-tier-pill ${
-                        user.role === 'Super Admin'
+                        u.role === 'Super Admin'
                           ? 'eco-tier-life'
-                          : user.role === 'Admin'
+                          : u.role === 'Admin'
                           ? 'eco-tier-annual'
                           : 'eco-tier-volunteer'
                       }`}
                     >
-                      {user.role === 'Super Admin' && <ShieldCheck size={12} />}
-                      {user.role}
+                      {u.role === 'Super Admin' && <ShieldCheck size={12} />}
+                      {u.role}
                     </span>
-                  </td>
-                  <td>
-                    <span className="font-semibold text-slate-800 text-xs">
-                      {user.designation}
-                    </span>
-                  </td>
-                  <td>
-                    <span className="eco-id-tag">
-                      {user.accessLevel}
-                    </span>
-                  </td>
-                  <td>
-                    <span className="eco-status-pill status-active">
-                      <span className="status-dot-indicator"></span>
-                      {user.status}
-                    </span>
-                  </td>
-                  <td>
-                    <span className="text-xs text-slate-600">
-                      {user.lastActive}
-                    </span>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <button
-                      className="eco-btn-table-edit"
-                      onClick={() => alert(`Permissions for ${user.name}: ${user.accessLevel}`)}
-                      title="Manage permissions"
-                    >
-                      <Lock size={12} />
-                      <span>Permissions</span>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
 
-      {/* 6. Add Admin User Modal */}
+                    <span
+                      className={`eco-presence-badge ${
+                        u.presence === 'online'
+                          ? 'eco-presence-online'
+                          : 'eco-presence-away'
+                      }`}
+                    >
+                      <span className="dot"></span>
+                      <span>{u.status}</span>
+                    </span>
+                  </div>
+
+                  {/* User Profile Lockup */}
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-xl bg-[#063b2c] text-white flex items-center justify-center font-bold text-lg flex-shrink-0 shadow-sm border border-emerald-400/40">
+                      {u.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <h3 className="font-extrabold text-slate-900 text-base leading-tight">
+                        {u.name}
+                      </h3>
+                      <p className="text-xs font-semibold text-emerald-800 mt-0.5">
+                        {u.designation}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Contact Info Box */}
+                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-1.5 text-xs text-slate-600 mb-3.5">
+                    <div className="flex items-center gap-2 truncate">
+                      <Mail size={12} className="text-emerald-700 flex-shrink-0" />
+                      <span className="truncate">{u.email}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Phone size={12} className="text-emerald-700 flex-shrink-0" />
+                      <span>{u.phone}</span>
+                    </div>
+                  </div>
+
+                  {/* Access Scopes Tags */}
+                  <div className="mb-2">
+                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                      Assigned Scopes:
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {u.permissions?.slice(0, 3).map((p) => (
+                        <span key={p} className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-medium">
+                          {p}
+                        </span>
+                      ))}
+                      {(u.permissions?.length || 0) > 3 && (
+                        <span className="text-[11px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold">
+                          +{u.permissions.length - 3} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Bottom Meta */}
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-2">
+                  <span>Joined: {u.joinedDate}</span>
+                  <button
+                    onClick={() => alert(`Permissions for ${u.name}:\n${u.permissions?.join(', ')}`)}
+                    className="text-emerald-700 font-bold hover:underline border-none bg-transparent cursor-pointer"
+                  >
+                    View Scopes &rarr;
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* TAB 2: RBAC PERMISSIONS MATRIX */}
+      {activeTab === 'matrix' && (
+        <div className="eco-table-card">
+          <div className="eco-card-header-bar">
+            <div>
+              <h3 className="eco-card-header-title">
+                <Lock size={18} className="text-emerald-700" />
+                <span>Role-Based Access Control (RBAC) Permissions Matrix</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Overview of privileges granted to each tier across the Godhavari NGO ecosystem.
+              </p>
+            </div>
+          </div>
+
+          <div className="eco-table-scroll">
+            <table className="eco-data-table">
+              <thead>
+                <tr>
+                  <th>Operational Capability</th>
+                  <th className="text-center">Super Admin</th>
+                  <th className="text-center">Admin</th>
+                  <th className="text-center">Staff Coordinator</th>
+                  <th className="text-center">General Volunteer</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { name: 'Database Direct Write & Backup Restores', super: true, admin: false, staff: false, vol: false },
+                  { name: 'Manage Administrator Users & Roles', super: true, admin: false, staff: false, vol: false },
+                  { name: 'Schedule Cleanliness Drives & Ghat Events', super: true, admin: true, staff: false, vol: false },
+                  { name: 'Approve & Verify Member Registrations', super: true, admin: true, staff: false, vol: false },
+                  { name: 'Publish Website CMS & Impact Statistics', super: true, admin: true, staff: false, vol: false },
+                  { name: 'Send In-App & Push Notifications', super: true, admin: true, staff: true, vol: false },
+                  { name: 'Take Ghat Cleanliness Attendance', super: true, admin: true, staff: true, vol: false },
+                  { name: 'View Public Portal & Volunteer Signup', super: true, admin: true, staff: true, vol: true },
+                ].map((row) => (
+                  <tr key={row.name}>
+                    <td className="font-semibold text-slate-800">{row.name}</td>
+                    <td className="text-center">
+                      {row.super ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                    </td>
+                    <td className="text-center">
+                      {row.admin ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                    </td>
+                    <td className="text-center">
+                      {row.staff ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                    </td>
+                    <td className="text-center">
+                      {row.vol ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: SECURITY AUDIT TRAIL */}
+      {activeTab === 'audit' && (
+        <div className="eco-table-card">
+          <div className="eco-card-header-bar">
+            <div>
+              <h3 className="eco-card-header-title">
+                <History size={18} className="text-emerald-700" />
+                <span>Live Administrative Action Audit Log</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Immutable, real-time logging of administrative changes for compliance and safety.
+              </p>
+            </div>
+            <span className="eco-status-pill status-active text-xs">
+              <span className="status-dot-indicator"></span>
+              Live Logging
+            </span>
+          </div>
+
+          <div className="p-4 space-y-3">
+            {auditTrailLogs.map((log) => (
+              <div
+                key={log.id}
+                className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex flex-wrap items-center justify-between gap-2"
+              >
+                <div>
+                  <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                    <span>{log.action}</span>
+                  </div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Performed by <strong className="text-slate-700">{log.admin}</strong> &bull; Origin: {log.ip}
+                  </div>
+                </div>
+                <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                  {log.time}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Add Admin User Modal */}
       {showAddModal && (
         <div className="modal-backdrop">
           <div className="modal-dialog">
@@ -462,7 +561,6 @@ const AdminUsers = () => {
               <button
                 onClick={() => setShowAddModal(false)}
                 className="btn-close"
-                title="Close modal"
               >
                 <X size={20} />
               </button>
@@ -545,9 +643,6 @@ const AdminUsers = () => {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     className="eco-field-input"
                   />
-                  <small className="text-xs text-slate-500 mt-1 block">
-                    The user will be prompted to change their password on first login.
-                  </small>
                 </div>
               </div>
 

@@ -5531,3 +5531,256 @@
     padding: 0 !important;
   }
 }
+
+/* ==========================================================================
+   Distinct Real-Time Pages Styling (Admin Users, Profile & Settings)
+   ========================================================================== */
+
+/* 1. Profile Page: Scenic Cover, ID Pass, and Activity Trail */
+.eco-profile-cover-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.eco-profile-cover-photo {
+  height: 160px;
+  background: linear-gradient(135deg, #063b2c 0%, #064e3b 50%, #0d9488 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.eco-profile-cover-photo::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.25) 0%, transparent 60%);
+}
+
+.eco-profile-avatar-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 2rem;
+  margin-top: -48px;
+  position: relative;
+  z-index: 2;
+}
+
+.eco-profile-avatar-large {
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  background-color: #063b2c;
+  color: #ffffff;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  position: relative;
+}
+
+.eco-avatar-online-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #10b981;
+  border: 3px solid #ffffff;
+}
+
+.eco-profile-main-meta {
+  padding: 1.25rem 2rem 1.75rem;
+}
+
+/* Digital Executive Pass Card */
+.eco-exec-id-pass {
+  background: linear-gradient(135deg, #063b2c 0%, #04291e 100%);
+  border-radius: 18px;
+  padding: 1.5rem;
+  color: #ffffff;
+  box-shadow: 0 10px 25px -5px rgba(6, 59, 44, 0.35);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.eco-exec-id-pass::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+}
+
+.eco-id-hologram-strip {
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, #10b981, #38bdf8, #a855f7, #f59e0b, #10b981);
+  border-radius: 9999px;
+  margin: 1rem 0;
+  opacity: 0.85;
+}
+
+/* 2. Admin Users: Team Presence Grid & Permission Matrix */
+.eco-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.eco-team-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.eco-team-card:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.05);
+}
+
+.eco-presence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+}
+
+.eco-presence-online {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.eco-presence-online .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.eco-presence-away {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.eco-presence-away .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background-color: #f59e0b;
+}
+
+/* 3. Settings: Console Layout & Live Toggles */
+.eco-settings-console {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .eco-settings-console {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eco-settings-nav-sidebar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.eco-settings-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 0.95rem;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #475569;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.eco-settings-nav-btn:hover {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.eco-settings-nav-btn.active {
+  background-color: #ecfdf5;
+  color: #064e3b;
+  font-weight: 700;
+}
+
+/* Live Toggle Switch */
+.eco-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.eco-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.eco-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cbd5e1;
+  transition: 0.25s ease;
+  border-radius: 34px;
+}
+
+.eco-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.25s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.eco-toggle-switch input:checked + .eco-toggle-slider {
+  background-color: #064e3b;
+}
+
+.eco-toggle-switch input:checked + .eco-toggle-slider:before {
+  transform: translateX(20px);
+}
