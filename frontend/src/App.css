@@ -5491,3 +5491,25 @@
   font-weight: 600;
   color: #475569;
 }
+
+/* Print styles for Reports */
+@media print {
+  .no-print,
+  .eco-admin-sidebar,
+  .eco-admin-topbar {
+    display: none !important;
+  }
+  .eco-admin-wrapper {
+    display: block !important;
+    background: #ffffff !important;
+  }
+  .eco-admin-main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  .eco-cms-page {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+}

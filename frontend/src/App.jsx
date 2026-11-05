@@ -30,6 +30,7 @@ import AdminMeetings from './pages/admin/AdminMeetings';
 import AdminAnnouncements from './pages/admin/AdminAnnouncements';
 import AdminNotifications from './pages/admin/AdminNotifications';
 import AdminWebsite from './pages/admin/AdminWebsite';
+import AdminReports from './pages/admin/AdminReports';
 import AdminSettings from './pages/admin/AdminSettings';
 
 // Member Pages
@@ -94,7 +95,7 @@ function App() {
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="website" element={<AdminWebsite />} />
-            <Route path="reports" element={<AdminDashboard />} />
+            <Route path="reports" element={<AdminReports />} />
             <Route path="users" element={<AdminSettings />} />
             <Route path="profile" element={<AdminSettings />} />
             <Route path="settings" element={<AdminSettings />} />
