@@ -1634,7 +1634,7 @@
 }
 
 .eco-admin-page-heading {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #0f172a;
   margin: 0;
@@ -4688,7 +4688,7 @@
   background: #f8fafc;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
-  padding: 0.55rem 0.95rem;
+  padding: 0.45rem 0.85rem;
   width: 100%;
   max-width: 480px;
   transition: all 0.2s ease;
@@ -4709,7 +4709,7 @@
   border: none;
   background: transparent;
   outline: none;
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   color: #0f172a;
   width: 100%;
 }
@@ -4748,7 +4748,7 @@
 }
 
 .eco-filter-label {
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: #64748b;
   text-transform: uppercase;
@@ -4756,11 +4756,11 @@
 }
 
 .eco-filter-select {
-  padding: 0.5rem 1.85rem 0.5rem 0.85rem;
+  padding: 0.42rem 1.75rem 0.42rem 0.75rem;
   background-color: #ffffff;
   border: 1px solid #cbd5e1;
   border-radius: 9px;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #1e293b;
   outline: none;
@@ -5082,9 +5082,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.45rem 1rem;
+  padding: 0.38rem 0.85rem;
   border-radius: 9px;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #64748b;
   text-decoration: none;
@@ -5653,8 +5653,8 @@
 .eco-team-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 1.35rem;
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -6070,4 +6070,200 @@
 .eco-reach-highlight {
   color: #047857;
   font-weight: 700;
+}
+
+/* ==========================================================================
+   Admin Users Directory & Presence - Compact Scaled Typography
+   ========================================================================== */
+
+.eco-user-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.eco-user-profile-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.eco-user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #063b2c 0%, #0d5c3a 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.eco-user-identity {
+  flex: 1;
+  min-width: 0;
+}
+
+.eco-user-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eco-user-designation {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #065f46;
+  margin: 0.15rem 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eco-user-contact-box {
+  padding: 0.55rem 0.75rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  margin: 0.65rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  color: #475569;
+}
+
+.eco-user-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eco-user-contact-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eco-user-scopes-wrap {
+  margin-top: 0.55rem;
+}
+
+.eco-user-scopes-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
+.eco-user-scopes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.eco-user-scope-tag {
+  font-size: 0.68rem;
+  background-color: #f1f5f9;
+  color: #334155;
+  padding: 0.18rem 0.45rem;
+  border-radius: 5px;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+}
+
+.eco-user-scope-more {
+  font-size: 0.68rem;
+  background-color: #ecfdf5;
+  color: #065f46;
+  padding: 0.18rem 0.4rem;
+  border-radius: 5px;
+  font-weight: 700;
+  border: 1px solid #a7f3d0;
+}
+
+.eco-user-card-footer {
+  padding-top: 0.65rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 0.65rem;
+}
+
+.eco-user-scope-link {
+  color: #064e3b;
+  font-weight: 700;
+  font-size: 0.72rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  transition: color 0.15s ease;
+}
+
+.eco-user-scope-link:hover {
+  text-decoration: underline;
+  color: #047857;
+}
+
+/* Security Audit Log Rows */
+.eco-audit-log-row {
+  padding: 0.75rem 0.95rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.eco-audit-action-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.eco-audit-meta-text {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 0.2rem;
+}
+
+.eco-audit-time-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #065f46;
+  background-color: #ecfdf5;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid #a7f3d0;
+  white-space: nowrap;
 }

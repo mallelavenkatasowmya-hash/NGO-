@@ -354,7 +354,7 @@ const AdminUsers = () => {
               <div key={u._id} className="eco-team-card">
                 <div>
                   {/* Card Header: Role & Presence Indicator */}
-                  <div className="flex items-center justify-between mb-3.5">
+                  <div className="eco-user-card-header">
                     <span
                       className={`eco-tier-pill ${
                         u.role === 'Super Admin'
@@ -364,7 +364,7 @@ const AdminUsers = () => {
                           : 'eco-tier-volunteer'
                       }`}
                     >
-                      {u.role === 'Super Admin' && <ShieldCheck size={12} />}
+                      {u.role === 'Super Admin' && <ShieldCheck size={11} />}
                       {u.role}
                     </span>
 
@@ -381,45 +381,45 @@ const AdminUsers = () => {
                   </div>
 
                   {/* User Profile Lockup */}
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-xl bg-[#063b2c] text-white flex items-center justify-center font-bold text-lg flex-shrink-0 shadow-sm border border-emerald-400/40">
+                  <div className="eco-user-profile-lockup">
+                    <div className="eco-user-avatar">
                       {u.name.charAt(0).toUpperCase()}
                     </div>
-                    <div>
-                      <h3 className="font-extrabold text-slate-900 text-base leading-tight">
+                    <div className="eco-user-identity">
+                      <h3 className="eco-user-name">
                         {u.name}
                       </h3>
-                      <p className="text-xs font-semibold text-emerald-800 mt-0.5">
+                      <p className="eco-user-designation">
                         {u.designation}
                       </p>
                     </div>
                   </div>
 
                   {/* Contact Info Box */}
-                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-1.5 text-xs text-slate-600 mb-3.5">
-                    <div className="flex items-center gap-2 truncate">
+                  <div className="eco-user-contact-box">
+                    <div className="eco-user-contact-row">
                       <Mail size={12} className="text-emerald-700 flex-shrink-0" />
-                      <span className="truncate">{u.email}</span>
+                      <span className="eco-user-contact-text">{u.email}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="eco-user-contact-row">
                       <Phone size={12} className="text-emerald-700 flex-shrink-0" />
-                      <span>{u.phone}</span>
+                      <span className="eco-user-contact-text">{u.phone}</span>
                     </div>
                   </div>
 
                   {/* Access Scopes Tags */}
-                  <div className="mb-2">
-                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  <div className="eco-user-scopes-wrap">
+                    <div className="eco-user-scopes-label">
                       Assigned Scopes:
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="eco-user-scopes-list">
                       {u.permissions?.slice(0, 3).map((p) => (
-                        <span key={p} className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-medium">
+                        <span key={p} className="eco-user-scope-tag">
                           {p}
                         </span>
                       ))}
                       {(u.permissions?.length || 0) > 3 && (
-                        <span className="text-[11px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold">
+                        <span className="eco-user-scope-more">
                           +{u.permissions.length - 3} more
                         </span>
                       )}
@@ -428,13 +428,14 @@ const AdminUsers = () => {
                 </div>
 
                 {/* Card Bottom Meta */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-2">
+                <div className="eco-user-card-footer">
                   <span>Joined: {u.joinedDate}</span>
                   <button
                     onClick={() => alert(`Permissions for ${u.name}:\n${u.permissions?.join(', ')}`)}
-                    className="text-emerald-700 font-bold hover:underline border-none bg-transparent cursor-pointer"
+                    className="eco-user-scope-link"
                   >
-                    View Scopes &rarr;
+                    <span>View Scopes</span>
+                    <span>&rarr;</span>
                   </button>
                 </div>
               </div>
@@ -447,12 +448,12 @@ const AdminUsers = () => {
       {activeTab === 'matrix' && (
         <div className="eco-table-card">
           <div className="eco-card-header-bar">
-            <div>
+            <div className="eco-card-header-title-wrap">
               <h3 className="eco-card-header-title">
-                <Lock size={18} className="text-emerald-700" />
+                <Lock size={16} className="text-emerald-700" />
                 <span>Role-Based Access Control (RBAC) Permissions Matrix</span>
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="eco-card-header-desc">
                 Overview of privileges granted to each tier across the Godhavari NGO ecosystem.
               </p>
             </div>
@@ -462,11 +463,11 @@ const AdminUsers = () => {
             <table className="eco-data-table">
               <thead>
                 <tr>
-                  <th>Operational Capability</th>
-                  <th className="text-center">Super Admin</th>
-                  <th className="text-center">Admin</th>
-                  <th className="text-center">Staff Coordinator</th>
-                  <th className="text-center">General Volunteer</th>
+                  <th style={{ fontSize: '0.74rem' }}>Operational Capability</th>
+                  <th className="text-center" style={{ fontSize: '0.74rem' }}>Super Admin</th>
+                  <th className="text-center" style={{ fontSize: '0.74rem' }}>Admin</th>
+                  <th className="text-center" style={{ fontSize: '0.74rem' }}>Staff Coordinator</th>
+                  <th className="text-center" style={{ fontSize: '0.74rem' }}>General Volunteer</th>
                 </tr>
               </thead>
               <tbody>
@@ -481,18 +482,18 @@ const AdminUsers = () => {
                   { name: 'View Public Portal & Volunteer Signup', super: true, admin: true, staff: true, vol: true },
                 ].map((row) => (
                   <tr key={row.name}>
-                    <td className="font-semibold text-slate-800">{row.name}</td>
+                    <td style={{ fontSize: '0.76rem', fontWeight: 600, color: '#1e293b' }}>{row.name}</td>
                     <td className="text-center">
-                      {row.super ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                      {row.super ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
                     </td>
                     <td className="text-center">
-                      {row.admin ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                      {row.admin ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
                     </td>
                     <td className="text-center">
-                      {row.staff ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                      {row.staff ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
                     </td>
                     <td className="text-center">
-                      {row.vol ? <CheckCircle2 size={18} className="text-emerald-600 inline" /> : <XCircle size={18} className="text-slate-300 inline" />}
+                      {row.vol ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
                     </td>
                   </tr>
                 ))}
@@ -506,12 +507,12 @@ const AdminUsers = () => {
       {activeTab === 'audit' && (
         <div className="eco-table-card">
           <div className="eco-card-header-bar">
-            <div>
+            <div className="eco-card-header-title-wrap">
               <h3 className="eco-card-header-title">
-                <History size={18} className="text-emerald-700" />
+                <History size={16} className="text-emerald-700" />
                 <span>Live Administrative Action Audit Log</span>
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="eco-card-header-desc">
                 Immutable, real-time logging of administrative changes for compliance and safety.
               </p>
             </div>
@@ -521,22 +522,19 @@ const AdminUsers = () => {
             </span>
           </div>
 
-          <div className="p-4 space-y-3">
+          <div style={{ padding: '0.95rem', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
             {auditTrailLogs.map((log) => (
-              <div
-                key={log.id}
-                className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex flex-wrap items-center justify-between gap-2"
-              >
+              <div key={log.id} className="eco-audit-log-row">
                 <div>
-                  <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                  <div className="eco-audit-action-title">
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#059669', display: 'inline-block' }}></span>
                     <span>{log.action}</span>
                   </div>
-                  <div className="text-xs text-slate-500 mt-0.5">
-                    Performed by <strong className="text-slate-700">{log.admin}</strong> &bull; Origin: {log.ip}
+                  <div className="eco-audit-meta-text">
+                    Performed by <strong style={{ color: '#334155' }}>{log.admin}</strong> &bull; Origin: {log.ip}
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                <span className="eco-audit-time-badge">
                   {log.time}
                 </span>
               </div>
@@ -551,7 +549,7 @@ const AdminUsers = () => {
           <div className="modal-dialog">
             <div className="modal-header">
               <div>
-                <h3 className="modal-title font-bold text-slate-900 text-lg">
+                <h3 className="modal-title font-bold text-slate-900 text-base">
                   Add Administrator / Staff
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -562,7 +560,7 @@ const AdminUsers = () => {
                 onClick={() => setShowAddModal(false)}
                 className="btn-close"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
@@ -580,7 +578,7 @@ const AdminUsers = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="eco-form-grid-2">
                   <div className="eco-form-field">
                     <label className="eco-field-label">Official Email Address *</label>
                     <input
@@ -606,7 +604,7 @@ const AdminUsers = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="eco-form-grid-2">
                   <div className="eco-form-field">
                     <label className="eco-field-label">Administrative Role *</label>
                     <select
