@@ -248,27 +248,27 @@ const AdminSettings = () => {
         </aside>
 
         {/* Right Side Main Console Content */}
-        <main className="space-y-5">
+        <main style={{ minWidth: 0 }}>
           {/* SECTION 1: MASTER SECURITY */}
           {activeSection === 'security' && (
             <div className="eco-table-card">
               <div className="eco-card-header-bar">
-                <div>
+                <div className="eco-card-header-title-wrap">
                   <h3 className="eco-card-header-title">
                     <Lock size={18} className="text-emerald-700" />
                     <span>Change Master Administrator Password</span>
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="eco-card-header-desc">
                     Updates root credentials encrypted using bcrypt with salt rounds across MongoDB.
                   </p>
                 </div>
                 <span className="eco-id-tag">Super Admin Only</span>
               </div>
 
-              <form onSubmit={handlePasswordSubmit} className="p-6 space-y-4 max-w-xl">
+              <form onSubmit={handlePasswordSubmit} className="eco-settings-form-body">
                 <div className="eco-form-field">
                   <label className="eco-field-label">Current Master Password *</label>
-                  <div className="relative">
+                  <div className="eco-password-input-wrapper">
                     <input
                       type={showCurrentPw ? 'text' : 'password'}
                       required
@@ -277,12 +277,13 @@ const AdminSettings = () => {
                       onChange={(e) =>
                         setPasswordData({ ...passwordData, currentPassword: e.target.value })
                       }
-                      className="eco-field-input pr-10"
+                      className="eco-field-input"
                     />
                     <button
                       type="button"
                       onClick={() => setShowCurrentPw(!showCurrentPw)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 border-none bg-transparent cursor-pointer"
+                      className="eco-password-toggle-btn"
+                      title={showCurrentPw ? "Hide password" : "Show password"}
                     >
                       {showCurrentPw ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -291,7 +292,7 @@ const AdminSettings = () => {
 
                 <div className="eco-form-field">
                   <label className="eco-field-label">New Password *</label>
-                  <div className="relative">
+                  <div className="eco-password-input-wrapper">
                     <input
                       type={showNewPw ? 'text' : 'password'}
                       required
@@ -300,12 +301,13 @@ const AdminSettings = () => {
                       onChange={(e) =>
                         setPasswordData({ ...passwordData, newPassword: e.target.value })
                       }
-                      className="eco-field-input pr-10"
+                      className="eco-field-input"
                     />
                     <button
                       type="button"
                       onClick={() => setShowNewPw(!showNewPw)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 border-none bg-transparent cursor-pointer"
+                      className="eco-password-toggle-btn"
+                      title={showNewPw ? "Hide password" : "Show password"}
                     >
                       {showNewPw ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -314,7 +316,7 @@ const AdminSettings = () => {
 
                 <div className="eco-form-field">
                   <label className="eco-field-label">Confirm New Password *</label>
-                  <div className="relative">
+                  <div className="eco-password-input-wrapper">
                     <input
                       type={showConfirmPw ? 'text' : 'password'}
                       required
@@ -323,22 +325,28 @@ const AdminSettings = () => {
                       onChange={(e) =>
                         setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                       }
-                      className="eco-field-input pr-10"
+                      className="eco-field-input"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPw(!showConfirmPw)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 border-none bg-transparent cursor-pointer"
+                      className="eco-password-toggle-btn"
+                      title={showConfirmPw ? "Hide password" : "Show password"}
                     >
                       {showConfirmPw ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                 </div>
 
-                <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 space-y-1">
-                  <div className="font-semibold text-slate-800">Security Audit Notice:</div>
-                  <div>&bull; Password changes take effect instantly on all active tokens.</div>
-                  <div>&bull; Stored with 10 bcrypt salt rounds in MongoDB Atlas.</div>
+                <div className="eco-security-notice-box">
+                  <div className="eco-security-notice-title">
+                    <ShieldCheck size={16} color="#059669" />
+                    <span>Security Audit Notice:</span>
+                  </div>
+                  <div className="eco-security-notice-list">
+                    <div>&bull; Password changes take effect instantly on all active tokens.</div>
+                    <div>&bull; Stored with 10 bcrypt salt rounds in MongoDB Atlas.</div>
+                  </div>
                 </div>
 
                 <button
@@ -357,18 +365,18 @@ const AdminSettings = () => {
           {activeSection === 'portal' && (
             <div className="eco-table-card">
               <div className="eco-card-header-bar">
-                <div>
+                <div className="eco-card-header-title-wrap">
                   <h3 className="eco-card-header-title">
                     <Sliders size={18} className="text-emerald-700" />
                     <span>Portal Registration & Public Access Policies</span>
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="eco-card-header-desc">
                     Live switches governing member registration, drive enrollment, and public safety alerts.
                   </p>
                 </div>
               </div>
 
-              <div className="p-6 space-y-5">
+              <div className="eco-settings-toggle-list">
                 {[
                   {
                     key: 'memberSelfRegistration',
@@ -396,13 +404,10 @@ const AdminSettings = () => {
                     desc: 'Display high-water warning notification across the top of public home page.',
                   },
                 ].map((item) => (
-                  <div
-                    key={item.key}
-                    className="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl border border-slate-200/80"
-                  >
-                    <div>
-                      <div className="font-bold text-slate-900 text-sm">{item.title}</div>
-                      <div className="text-xs text-slate-500 mt-0.5">{item.desc}</div>
+                  <div key={item.key} className="eco-setting-toggle-row">
+                    <div className="eco-setting-text">
+                      <div className="eco-setting-title">{item.title}</div>
+                      <div className="eco-setting-desc">{item.desc}</div>
                     </div>
 
                     <label className="eco-toggle-switch">
@@ -423,18 +428,18 @@ const AdminSettings = () => {
           {activeSection === 'gateways' && (
             <div className="eco-table-card">
               <div className="eco-card-header-bar">
-                <div>
+                <div className="eco-card-header-title-wrap">
                   <h3 className="eco-card-header-title">
                     <MessageSquare size={18} className="text-emerald-700" />
                     <span>Automated Notification Gateways</span>
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="eco-card-header-desc">
                     Configure WhatsApp messaging, SMS alerts, and volunteer briefing broadcasts.
                   </p>
                 </div>
               </div>
 
-              <div className="p-6 space-y-5">
+              <div className="eco-settings-toggle-list">
                 {[
                   {
                     key: 'whatsappEnabled',
@@ -457,13 +462,10 @@ const AdminSettings = () => {
                     desc: 'Automated summary of waste tons removed and trees planted sent to volunteer leads.',
                   },
                 ].map((item) => (
-                  <div
-                    key={item.key}
-                    className="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl border border-slate-200/80"
-                  >
-                    <div>
-                      <div className="font-bold text-slate-900 text-sm">{item.title}</div>
-                      <div className="text-xs text-slate-500 mt-0.5">{item.desc}</div>
+                  <div key={item.key} className="eco-setting-toggle-row">
+                    <div className="eco-setting-text">
+                      <div className="eco-setting-title">{item.title}</div>
+                      <div className="eco-setting-desc">{item.desc}</div>
                     </div>
 
                     <label className="eco-toggle-switch">
@@ -482,56 +484,56 @@ const AdminSettings = () => {
 
           {/* SECTION 4: CLOUD & BACKUPS */}
           {activeSection === 'database' && (
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div className="eco-table-card">
                 <div className="eco-card-header-bar">
-                  <div>
+                  <div className="eco-card-header-title-wrap">
                     <h3 className="eco-card-header-title">
                       <Database size={18} className="text-emerald-700" />
                       <span>MongoDB Atlas Cluster Live Diagnostics</span>
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="eco-card-header-desc">
                       Live cluster metrics, roundtrip ping, and database health.
                     </p>
                   </div>
                   <button
                     onClick={handlePingCluster}
-                    className="eco-cms-btn-secondary text-xs"
+                    className="eco-cms-btn-secondary"
                     disabled={pingStatus.pinging}
                   >
-                    <Activity size={13} className={pingStatus.pinging ? 'animate-spin' : ''} />
+                    <Activity size={14} className={pingStatus.pinging ? 'animate-spin' : ''} />
                     <span>{pingStatus.pinging ? 'Pinging Cluster...' : 'Ping Cluster'}</span>
                   </button>
                 </div>
 
-                <div className="p-5 grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-xs text-slate-500 block mb-0.5">Roundtrip Latency</span>
-                    <div className="text-2xl font-black text-emerald-800">
+                <div className="eco-db-diag-grid">
+                  <div className="eco-db-diag-card">
+                    <span className="eco-db-diag-label">Roundtrip Latency</span>
+                    <div className="eco-db-diag-value">
                       {pingStatus.latency} ms
                     </div>
-                    <span className="text-[11px] text-emerald-700 font-semibold flex items-center gap-1 mt-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    <span className="eco-db-diag-sub">
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#059669', display: 'inline-block' }}></span>
                       Optimal Health
                     </span>
                   </div>
 
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-xs text-slate-500 block mb-0.5">Cluster Host</span>
-                    <div className="text-sm font-mono font-bold text-slate-800 truncate" title="ac-dra3uol-shard-00-00.nbcigoi.mongodb.net">
+                  <div className="eco-db-diag-card">
+                    <span className="eco-db-diag-label">Cluster Host</span>
+                    <div style={{ fontSize: '0.88rem', fontFamily: 'monospace', fontWeight: 700, color: '#1e293b' }} title="ac-dra3uol-shard-00-00.nbcigoi.mongodb.net">
                       MongoDB Atlas M0
                     </div>
-                    <span className="text-[11px] text-slate-400 block mt-1">
+                    <span style={{ fontSize: '0.72rem', color: '#94a3b8', display: 'block', marginTop: '0.25rem' }}>
                       TLS 1.3 SSL Enforced
                     </span>
                   </div>
 
-                  <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-xs text-slate-500 block mb-0.5">Database Name</span>
-                    <div className="text-sm font-mono font-bold text-slate-800">
+                  <div className="eco-db-diag-card">
+                    <span className="eco-db-diag-label">Database Name</span>
+                    <div style={{ fontSize: '0.88rem', fontFamily: 'monospace', fontWeight: 700, color: '#1e293b' }}>
                       godhavari-ngo-db
                     </div>
-                    <span className="text-[11px] text-slate-400 block mt-1">
+                    <span style={{ fontSize: '0.72rem', color: '#94a3b8', display: 'block', marginTop: '0.25rem' }}>
                       7 Core Collections
                     </span>
                   </div>
@@ -541,37 +543,37 @@ const AdminSettings = () => {
               {/* Cloud Snapshot & Backup Engine */}
               <div className="eco-table-card">
                 <div className="eco-card-header-bar">
-                  <div>
+                  <div className="eco-card-header-title-wrap">
                     <h3 className="eco-card-header-title">
                       <HardDrive size={18} className="text-emerald-700" />
                       <span>Cloud Disaster Recovery & Snapshots</span>
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="eco-card-header-desc">
                       Daily automated point-in-time recovery archives.
                     </p>
                   </div>
                   <button
                     onClick={handleTriggerBackup}
-                    className="eco-cms-btn-primary text-xs"
+                    className="eco-cms-btn-primary"
                     disabled={backupStatus.backingUp}
                   >
-                    <RefreshCw size={13} className={backupStatus.backingUp ? 'animate-spin' : ''} />
+                    <RefreshCw size={14} className={backupStatus.backingUp ? 'animate-spin' : ''} />
                     <span>{backupStatus.backingUp ? 'Archiving...' : 'Trigger Backup Snapshot'}</span>
                   </button>
                 </div>
 
-                <div className="p-5 text-xs text-slate-600 space-y-2">
-                  <div className="flex justify-between py-1 border-b border-slate-100">
+                <div className="eco-backup-info-list">
+                  <div className="eco-backup-info-row">
                     <span>Automated Schedule:</span>
-                    <strong className="text-slate-800">Daily at 02:00 AM IST (Cloud Cron)</strong>
+                    <strong style={{ color: '#0f172a' }}>Daily at 02:00 AM IST (Cloud Cron)</strong>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
+                  <div className="eco-backup-info-row">
                     <span>Last Successful Snapshot:</span>
-                    <span className="font-semibold text-emerald-700">{backupStatus.lastBackup}</span>
+                    <span style={{ fontWeight: 600, color: '#047857' }}>{backupStatus.lastBackup}</span>
                   </div>
-                  <div className="flex justify-between py-1">
+                  <div className="eco-backup-info-row">
                     <span>Retention Policy:</span>
-                    <span className="text-slate-800">30-day Rolling Daily Archives</span>
+                    <span style={{ color: '#0f172a' }}>30-day Rolling Daily Archives</span>
                   </div>
                 </div>
               </div>

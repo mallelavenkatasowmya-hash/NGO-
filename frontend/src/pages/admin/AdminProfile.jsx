@@ -210,19 +210,24 @@ const AdminProfile = () => {
 
       {/* TAB 1: EXECUTIVE DETAILS */}
       {profileTab === 'details' && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          <div className="lg:col-span-2">
+        <div className="eco-profile-layout-grid">
+          <div>
             <div className="eco-table-card">
               <div className="eco-card-header-bar">
-                <h3 className="eco-card-header-title">
-                  <User size={18} className="text-emerald-700" />
-                  <span>Personal Executive Details</span>
-                </h3>
-                <span className="text-xs text-slate-400">Live MongoDB Profile</span>
+                <div className="eco-card-header-title-wrap">
+                  <h3 className="eco-card-header-title">
+                    <User size={18} className="text-emerald-700" />
+                    <span>Personal Executive Details</span>
+                  </h3>
+                  <p className="eco-card-header-desc">
+                    Official trustee identity and secretariat contact records stored in MongoDB.
+                  </p>
+                </div>
+                <span className="eco-id-tag">Live Profile</span>
               </div>
 
-              <form id="profile-form" onSubmit={handleProfileSubmit} className="p-6 space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <form id="profile-form" onSubmit={handleProfileSubmit} className="eco-profile-form-body">
+                <div className="eco-form-grid-2">
                   <div className="eco-form-field">
                     <label className="eco-field-label">Full Legal Name *</label>
                     <input
@@ -246,7 +251,7 @@ const AdminProfile = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="eco-form-grid-2">
                   <div className="eco-form-field">
                     <label className="eco-field-label">Official Email *</label>
                     <input
@@ -302,46 +307,61 @@ const AdminProfile = () => {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div className="eco-table-card">
               <div className="eco-card-header-bar">
-                <h3 className="eco-card-header-title">
-                  <Award size={18} className="text-emerald-700" />
-                  <span>Executive Clearance</span>
-                </h3>
+                <div className="eco-card-header-title-wrap">
+                  <h3 className="eco-card-header-title">
+                    <Award size={18} className="text-emerald-700" />
+                    <span>Executive Clearance</span>
+                  </h3>
+                </div>
               </div>
-              <div className="p-5 space-y-3 text-xs">
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span className="text-slate-600">Executive Tier:</span>
-                  <span className="font-bold text-purple-700">Tier-1 Root Super Admin</span>
+              <div className="eco-backup-info-list">
+                <div className="eco-backup-info-row">
+                  <span style={{ color: '#64748b' }}>Executive Tier:</span>
+                  <span style={{ fontWeight: 700, color: '#7e22ce' }}>Tier-1 Root Super Admin</span>
                 </div>
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span className="text-slate-600">Database Access:</span>
-                  <span className="font-bold text-emerald-700">Full Direct Read & Write</span>
+                <div className="eco-backup-info-row">
+                  <span style={{ color: '#64748b' }}>Database Access:</span>
+                  <span style={{ fontWeight: 700, color: '#047857' }}>Full Direct Read & Write</span>
                 </div>
-                <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                  <span className="text-slate-600">Emergency Protocol:</span>
-                  <span className="font-bold text-emerald-700">Flood Inflow Sign-off</span>
+                <div className="eco-backup-info-row">
+                  <span style={{ color: '#64748b' }}>Emergency Protocol:</span>
+                  <span style={{ fontWeight: 700, color: '#047857' }}>Flood Inflow Sign-off</span>
                 </div>
-                <div className="flex items-center justify-between py-1.5">
-                  <span className="text-slate-600">Financial Sign-off:</span>
-                  <span className="font-bold text-slate-800">Direct Trustee Authorization</span>
+                <div className="eco-backup-info-row">
+                  <span style={{ color: '#64748b' }}>Financial Sign-off:</span>
+                  <strong style={{ color: '#0f172a' }}>Direct Trustee Authorization</strong>
                 </div>
               </div>
             </div>
 
             <div className="eco-table-card">
               <div className="eco-card-header-bar">
-                <h3 className="eco-card-header-title">
-                  <Clock size={18} className="text-emerald-700" />
-                  <span>Session Security</span>
-                </h3>
+                <div className="eco-card-header-title-wrap">
+                  <h3 className="eco-card-header-title">
+                    <Clock size={18} className="text-emerald-700" />
+                    <span>Session Security</span>
+                  </h3>
+                </div>
               </div>
-              <div className="p-5 space-y-2 text-xs text-slate-600">
-                <p><strong>Device:</strong> Windows 11 Chrome Desktop</p>
-                <p><strong>Network:</strong> Rajahmundry Local Gateway</p>
-                <p><strong>Protocol:</strong> Bearer Token SSL Encrypted</p>
-                <p className="text-emerald-700 font-semibold pt-1">&bull; MongoDB Atlas Connection Verified</p>
+              <div className="eco-backup-info-list">
+                <div className="eco-backup-info-row">
+                  <span style={{ color: '#64748b' }}>Device:</span>
+                  <span style={{ fontWeight: 600, color: '#1e293b' }}>Windows 11 Chrome Desktop</span>
+                </div>
+                <div className="eco-backup-info-row">
+                  <span style={{ color: '#64748b' }}>Network:</span>
+                  <span style={{ fontWeight: 600, color: '#1e293b' }}>Rajahmundry Local Gateway</span>
+                </div>
+                <div className="eco-backup-info-row">
+                  <span style={{ color: '#64748b' }}>Protocol:</span>
+                  <span style={{ fontWeight: 600, color: '#1e293b' }}>Bearer Token SSL Encrypted</span>
+                </div>
+                <div style={{ color: '#047857', fontWeight: 600, fontSize: '0.78rem', paddingTop: '0.25rem' }}>
+                  &bull; MongoDB Atlas Connection Verified
+                </div>
               </div>
             </div>
           </div>
@@ -352,43 +372,43 @@ const AdminProfile = () => {
       {profileTab === 'oversight' && (
         <div className="eco-table-card">
           <div className="eco-card-header-bar">
-            <div>
+            <div className="eco-card-header-title-wrap">
               <h3 className="eco-card-header-title">
                 <Waves size={18} className="text-emerald-700" />
                 <span>Assigned Godavari River Reach Oversight</span>
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="eco-card-header-desc">
                 Primary riverbanks and cleanliness campaigns directly stewarded by Dr. K. V. Subba Rao.
               </p>
             </div>
           </div>
 
-          <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-extrabold text-slate-900 text-sm">Kotilingala Temple Ghat Reach</h4>
-                <span className="eco-status-pill status-active text-xs">Primary Lead</span>
+          <div className="eco-reach-grid">
+            <div className="eco-reach-card">
+              <div className="eco-reach-header">
+                <h4 className="eco-reach-title">Kotilingala Temple Ghat Reach</h4>
+                <span className="eco-status-pill status-active">Primary Lead</span>
               </div>
-              <p className="text-xs text-slate-600 mb-3">
+              <p className="eco-reach-desc">
                 Oversees daily municipal waste interception, segregated bio-waste collection, and devotee awareness booths.
               </p>
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-700 pt-2 border-t border-slate-200">
+              <div className="eco-reach-stats">
                 <span>Drives Conducted: 48</span>
-                <span className="text-emerald-700">96% Cleanliness Score</span>
+                <span className="eco-reach-highlight">96% Cleanliness Score</span>
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-extrabold text-slate-900 text-sm">Pushkar Ghat Pilgrimage Reach</h4>
-                <span className="eco-status-pill status-active text-xs">Stewardship Lead</span>
+            <div className="eco-reach-card">
+              <div className="eco-reach-header">
+                <h4 className="eco-reach-title">Pushkar Ghat Pilgrimage Reach</h4>
+                <span className="eco-status-pill status-active">Stewardship Lead</span>
               </div>
-              <p className="text-xs text-slate-600 mb-3">
+              <p className="eco-reach-desc">
                 Directs mass festival cleanliness drives, clay idol distribution counters, and volunteer deployment.
               </p>
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-700 pt-2 border-t border-slate-200">
+              <div className="eco-reach-stats">
                 <span>Drives Conducted: 38</span>
-                <span className="text-emerald-700">92% Cleanliness Score</span>
+                <span className="eco-reach-highlight">92% Cleanliness Score</span>
               </div>
             </div>
           </div>

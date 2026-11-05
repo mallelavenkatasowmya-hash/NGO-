@@ -5422,7 +5422,13 @@
   background: #ffffff;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.eco-card-header-title-wrap {
+  flex: 1;
+  min-width: 0;
 }
 
 .eco-card-header-title {
@@ -5433,6 +5439,13 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.eco-card-header-desc {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0.25rem 0 0 0;
+  line-height: 1.4;
 }
 
 .eco-card-body-padded {
@@ -5783,4 +5796,278 @@
 
 .eco-toggle-switch input:checked + .eco-toggle-slider:before {
   transform: translateX(20px);
+}
+
+/* ==========================================================================
+   Admin Settings & Profile Alignment & Controls
+   ========================================================================== */
+
+/* Password Input with Embedded Eye Toggle */
+.eco-password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.eco-password-input-wrapper .eco-field-input {
+  width: 100%;
+  padding-right: 2.75rem !important;
+}
+
+.eco-password-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  z-index: 2;
+  transition: color 0.15s ease;
+}
+
+.eco-password-toggle-btn:hover {
+  color: #064e3b;
+}
+
+/* Settings Form Container */
+.eco-settings-form-body {
+  padding: 1.5rem 1.75rem;
+  max-width: 580px;
+}
+
+.eco-settings-form-body .eco-form-field {
+  margin-bottom: 1.25rem;
+}
+
+/* Security Notice Box */
+.eco-security-notice-box {
+  padding: 0.95rem 1.15rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  color: #475569;
+  margin: 1.25rem 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+.eco-security-notice-title {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.eco-security-notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Settings Toggle Rows (Portal & Gateways) */
+.eco-settings-toggle-list {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.eco-setting-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1rem 1.15rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.15s ease;
+}
+
+.eco-setting-toggle-row:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.eco-setting-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.eco-setting-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.eco-setting-desc {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin-top: 0.2rem;
+  line-height: 1.4;
+}
+
+/* Cloud & MongoDB Diagnostics */
+.eco-db-diag-grid {
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .eco-db-diag-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eco-db-diag-card {
+  padding: 1rem 1.15rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.eco-db-diag-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.eco-db-diag-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #064e3b;
+}
+
+.eco-db-diag-sub {
+  font-size: 0.72rem;
+  color: #059669;
+  font-weight: 600;
+  margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.eco-backup-info-list {
+  padding: 1.25rem 1.5rem;
+  font-size: 0.82rem;
+  color: #475569;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.eco-backup-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.eco-backup-info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Form and Profile Grids */
+.eco-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .eco-form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eco-profile-layout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 960px) {
+  .eco-profile-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eco-profile-form-body {
+  padding: 1.5rem 1.75rem;
+}
+
+.eco-profile-form-body .eco-form-field {
+  margin-bottom: 1.15rem;
+}
+
+/* Oversight Reach Cards in Profile */
+.eco-reach-grid {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.eco-reach-card {
+  padding: 1.25rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.eco-reach-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.eco-reach-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.eco-reach-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+  flex: 1;
+}
+
+.eco-reach-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #334155;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.eco-reach-highlight {
+  color: #047857;
+  font-weight: 700;
 }
