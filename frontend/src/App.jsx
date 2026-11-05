@@ -31,6 +31,8 @@ import AdminAnnouncements from './pages/admin/AdminAnnouncements';
 import AdminNotifications from './pages/admin/AdminNotifications';
 import AdminWebsite from './pages/admin/AdminWebsite';
 import AdminReports from './pages/admin/AdminReports';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminProfile from './pages/admin/AdminProfile';
 import AdminSettings from './pages/admin/AdminSettings';
 
 // Member Pages
@@ -96,8 +98,8 @@ function App() {
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="website" element={<AdminWebsite />} />
             <Route path="reports" element={<AdminReports />} />
-            <Route path="users" element={<AdminSettings />} />
-            <Route path="profile" element={<AdminSettings />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="profile" element={<AdminProfile />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
 
