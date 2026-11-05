@@ -34,13 +34,13 @@ const Navbar = () => {
 
   return (
     <header className="eco-header">
-      <div className="container eco-nav-container">
+      <div className="eco-nav-container">
         {/* Brand Logo with Vertical Divider */}
         <div className="eco-brand-wrap">
           <Link to="/" className="eco-brand-link" onClick={() => setMobileMenuOpen(false)}>
-            <Logo variant="dark" size={38} />
+            <Logo variant="dark" size={40} />
           </Link>
-          <span className="eco-nav-divider">|</span>
+          <span className="eco-nav-divider"></span>
         </div>
 
         {/* Desktop Navigation Links */}
@@ -68,20 +68,20 @@ const Navbar = () => {
                 className="btn-eco-member-login"
                 title={isAdmin ? 'Administrator Dashboard' : 'Member Portal'}
               >
-                {isAdmin ? <Shield size={16} /> : <User size={16} />}
-                <span>{isAdmin ? 'Admin Dashboard' : `Hi, ${user.name.split(' ')[0]}`}</span>
+                {isAdmin ? <Shield size={15} /> : <User size={15} />}
+                <span>{isAdmin ? 'Admin Dashboard' : 'Member Portal'}</span>
               </Link>
               <button
                 onClick={handleLogout}
                 className="btn-eco-logout"
                 title="Sign Out"
               >
-                <LogOut size={16} />
+                <LogOut size={15} />
               </button>
             </div>
           ) : (
             <Link to="/login" className="btn-eco-member-login">
-              <User size={16} />
+              <User size={15} />
               <span>Member Login</span>
             </Link>
           )}
@@ -92,7 +92,7 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>

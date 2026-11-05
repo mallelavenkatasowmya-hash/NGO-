@@ -3482,27 +3482,76 @@
    EXACT GODHAVARI NADHI BRAND & ECO PALETTE STYLES (MATCHING USER IMAGES)
    ========================================================================== */
 
+/* NGO Logo Lockup */
+.ngo-logo-lockup {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+  text-decoration: none !important;
+  flex-shrink: 0 !important;
+  user-select: none;
+}
+
+.ngo-logo-svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.ngo-logo-text {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+}
+
+.ngo-logo-title-main {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  display: block;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+.ngo-logo-title-sub {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
 /* Header / Navbar */
 .eco-header {
   background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e5e7eb;
   position: sticky;
   top: 0;
-  z-index: 50;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  width: 100%;
 }
 
 .eco-nav-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 74px;
+  gap: 1rem;
 }
 
 .eco-brand-wrap {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .eco-brand-link {
@@ -3512,85 +3561,101 @@
 }
 
 .eco-nav-divider {
-  color: #d1d5db;
-  font-size: 1.25rem;
-  font-weight: 300;
-  margin: 0 0.85rem;
+  width: 1px;
+  height: 30px;
+  background-color: #e2e8f0;
+  margin: 0 1.1rem;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .eco-desktop-nav {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.35rem;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
 }
 
 .eco-nav-link {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: #1f2937;
-  padding: 0.45rem 0.85rem;
+  color: #374151;
+  padding: 0.4rem 0.68rem;
   border-radius: 9999px;
   transition: all 0.15s ease;
   white-space: nowrap;
+  text-decoration: none;
+  line-height: 1.2;
 }
 
 .eco-nav-link:hover {
-  color: #0d5c3a;
+  color: #064e3b;
+  background-color: #f0fdf4;
 }
 
 .eco-nav-link.active-pill {
-  background-color: #0d5c3a !important;
+  background-color: #064e3b !important;
   color: #ffffff !important;
   font-weight: 600;
-  padding: 0.42rem 1.15rem;
+  padding: 0.4rem 1.15rem;
+  box-shadow: 0 1px 2px rgba(6, 78, 59, 0.2);
 }
 
 .eco-header-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .btn-eco-member-login {
-  background-color: #0d5c3a;
+  background-color: #064e3b;
   color: #ffffff !important;
   border-radius: 9999px;
-  padding: 0.52rem 1.25rem;
-  font-size: 0.88rem;
+  padding: 0.48rem 1.2rem;
+  font-size: 0.86rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
   transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(6, 78, 59, 0.25);
 }
 
 .btn-eco-member-login:hover {
-  background-color: #09462c;
+  background-color: #043628;
 }
 
 .eco-user-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  flex-shrink: 0;
 }
 
 .btn-eco-logout {
   background: #f1f5f9;
-  border: none;
+  border: 1px solid #e2e8f0;
   cursor: pointer;
   color: #64748b;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .btn-eco-logout:hover {
   background-color: #fee2e2;
+  border-color: #fecaca;
   color: #dc2626;
 }
 
@@ -3658,7 +3723,7 @@
 .eco-hero-bg-scenery {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600&auto=format&fit=crop&q=80');
+  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80');
   background-size: cover;
   background-position: center right;
   z-index: 1;
@@ -4458,7 +4523,46 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 1024px) {
+@media (max-width: 1320px) {
+  .eco-nav-container {
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  .eco-nav-divider {
+    margin: 0 0.65rem;
+  }
+  .eco-desktop-nav {
+    gap: 0.15rem;
+  }
+  .eco-nav-link {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.5rem;
+  }
+  .eco-nav-link.active-pill {
+    padding: 0.35rem 0.85rem;
+  }
+  .btn-eco-member-login {
+    padding: 0.42rem 0.95rem;
+    font-size: 0.8rem;
+  }
+  .ngo-logo-title-main {
+    font-size: 0.95rem;
+  }
+  .ngo-logo-title-sub {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 1080px) {
+  .eco-desktop-nav {
+    display: none !important;
+  }
+  .eco-mobile-btn {
+    display: flex !important;
+  }
+  .eco-mobile-drawer {
+    display: block;
+  }
   .eco-feature-strip-card {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -4481,15 +4585,6 @@
 }
 
 @media (max-width: 768px) {
-  .eco-desktop-nav {
-    display: none;
-  }
-  .eco-mobile-btn {
-    display: block;
-  }
-  .eco-mobile-drawer {
-    display: block;
-  }
   .eco-hero-title {
     font-size: 2.2rem;
   }

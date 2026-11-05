@@ -2,11 +2,11 @@ import React from 'react';
 
 const Logo = ({ variant = 'dark', showText = true, size = 42, className = '' }) => {
   const isLight = variant === 'light'; // Light text for dark backgrounds (like hero / left login)
-  const textColor = isLight ? '#ffffff' : '#0d5c3a';
-  const subTextColor = isLight ? '#e2e8f0' : '#1b6b47';
+  const textColor = isLight ? '#ffffff' : '#064e3b';
+  const subTextColor = isLight ? '#d1fae5' : '#0f766e';
 
   return (
-    <div className={`ngo-logo-lockup flex items-center gap-3 ${className}`}>
+    <div className={`ngo-logo-lockup ${className}`}>
       {/* Handcrafted Vector Emblem Matching the NGO Brand Exactly */}
       <svg
         width={size}
@@ -14,7 +14,7 @@ const Logo = ({ variant = 'dark', showText = true, size = 42, className = '' }) 
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="flex-shrink-0"
+        className="ngo-logo-svg"
       >
         <g id="ngo-emblem">
           {/* Riverbank Green Base */}
@@ -63,16 +63,16 @@ const Logo = ({ variant = 'dark', showText = true, size = 42, className = '' }) 
       </svg>
 
       {showText && (
-        <div className="ngo-logo-text flex flex-col leading-tight">
+        <div className="ngo-logo-text">
           <span
             style={{ color: textColor }}
-            className="font-bold text-[1.05rem] tracking-tight block"
+            className="ngo-logo-title-main"
           >
             Godhavari Nadhi
           </span>
           <span
             style={{ color: subTextColor }}
-            className="text-[0.78rem] font-semibold tracking-wide block uppercase"
+            className="ngo-logo-title-sub"
           >
             Paryavarana Parishubratha
           </span>
@@ -83,4 +83,3 @@ const Logo = ({ variant = 'dark', showText = true, size = 42, className = '' }) 
 };
 
 export default Logo;
-
