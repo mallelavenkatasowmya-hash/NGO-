@@ -45,7 +45,7 @@ const AdminLayout = () => {
 
   const isActive = (item) => {
     if (item.exact) return location.pathname === item.path;
-    return location.pathname.startsWith(item.path);
+    return location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);
   };
 
   const getPageTitle = () => {

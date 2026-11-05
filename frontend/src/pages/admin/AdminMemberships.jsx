@@ -7,14 +7,15 @@ import {
   CheckCircle,
   Clock,
   AlertTriangle,
-  XCircle,
   Edit2,
   Calendar,
-  Check,
   X,
   RefreshCw,
   Award,
   DollarSign,
+  ShieldCheck,
+  User,
+  Sparkles,
 } from 'lucide-react';
 
 const AdminMemberships = () => {
@@ -113,6 +114,14 @@ const AdminMemberships = () => {
     return matchesSearch && matchesType && matchesStatus;
   });
 
+  const resetFilters = () => {
+    setSearch('');
+    setFilterType('All');
+    setFilterStatus('All');
+  };
+
+  const hasActiveFilters = search !== '' || filterType !== 'All' || filterStatus !== 'All';
+
   // Calculate dynamic stats
   const totalCount = memberships.length;
   const activeCount = memberships.filter((m) => m.status === 'Active').length;
@@ -120,147 +129,267 @@ const AdminMemberships = () => {
   const lifeCount = memberships.filter((m) => m.membershipType === 'Life Member').length;
   const totalFees = memberships.reduce((acc, cur) => acc + (cur.feePaid || 0), 0);
 
+  const getTierBadgeClass = (tier) => {
+    switch (tier) {
+      case 'Life Member':
+        return 'eco-tier-life';
+      case 'Annual Member':
+        return 'eco-tier-annual';
+      case 'Volunteer Member':
+        return 'eco-tier-volunteer';
+      case 'Patron':
+        return 'eco-tier-patron';
+      case 'Student Member':
+        return 'eco-tier-student';
+      default:
+        return 'eco-tier-annual';
+    }
+  };
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'Active':
+        return 'status-active';
+      case 'Pending Approval':
+        return 'status-pending';
+      case 'Expired':
+        return 'status-expired';
+      case 'Suspended':
+        return 'status-suspended';
+      default:
+        return 'status-active';
+    }
+  };
+
   return (
-    <div className="admin-page-container">
-      {/* Page Header */}
-      <div className="admin-page-header">
-        <div>
-          <h1 className="admin-page-title">Membership Management</h1>
-          <p className="admin-page-subtitle">
+    <div className="eco-cms-page">
+      {/* 1. Page Header with Title, Badge, and Refresh Button */}
+      <div className="eco-cms-header-row">
+        <div className="eco-cms-header-info">
+          <div className="eco-cms-badge-row">
+            <span className="eco-cms-live-badge">
+              <span className="live-dot-pulse"></span>
+              Verified Membership Registry &bull; MongoDB Live
+            </span>
+          </div>
+          <h1 className="eco-cms-main-title">Membership Management</h1>
+          <p className="eco-cms-sub-title">
             Oversee membership tiers, validity dates, renewal status, and fee records directly in MongoDB.
           </p>
         </div>
-        <button
-          onClick={fetchMemberships}
-          className="btn btn-outline btn-sm flex items-center gap-1"
-          disabled={loading}
-        >
-          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-          <span>Refresh Database</span>
-        </button>
+
+        <div className="eco-cms-header-actions">
+          <button
+            onClick={fetchMemberships}
+            className="eco-cms-btn-secondary"
+            disabled={loading}
+            title="Reload latest records from MongoDB"
+          >
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            <span>Refresh Database</span>
+          </button>
+        </div>
       </div>
 
+      {/* 2. Feedback Alert Banner */}
       {feedback.message && (
-        <div className={`alert-banner alert-${feedback.type} mb-4`}>
-          {feedback.type === 'success' ? <CheckCircle size={18} /> : <AlertTriangle size={18} />}
-          <span>{feedback.message}</span>
+        <div
+          className={`eco-cms-alert-banner ${
+            feedback.type === 'success' ? 'alert-success' : 'alert-danger'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            {feedback.type === 'success' ? (
+              <CheckCircle size={18} className="text-green-600 flex-shrink-0" />
+            ) : (
+              <AlertTriangle size={18} className="text-red-600 flex-shrink-0" />
+            )}
+            <span>{feedback.message}</span>
+          </div>
           <button
             onClick={() => setFeedback({ type: '', message: '' })}
-            className="ml-auto text-xs opacity-70 hover:opacity-100"
+            className="text-xs opacity-70 hover:opacity-100 font-semibold cursor-pointer border-none bg-transparent"
           >
             Dismiss
           </button>
         </div>
       )}
 
-      {/* KPI Metric Cards */}
-      <div className="admin-stats-grid mb-4">
-        <div className="stat-card">
-          <div className="stat-icon-wrap bg-blue-tint">
-            <CreditCard size={22} className="text-primary" />
+      {/* 3. 5-Column Sleek Horizontal KPI Stat Cards */}
+      <section className="eco-kpi-5-strip">
+        {/* Card 1: Total Memberships */}
+        <div className="eco-stat-card eco-stat-blue">
+          <div className="eco-stat-icon-bubble bg-blue-bubble">
+            <CreditCard size={20} className="text-blue-icon" />
           </div>
-          <div>
-            <span className="stat-label">Total Memberships</span>
-            <h3 className="stat-value">{totalCount}</h3>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon-wrap bg-green-tint">
-            <CheckCircle size={22} className="text-green-600" />
-          </div>
-          <div>
-            <span className="stat-label">Active Members</span>
-            <h3 className="stat-value">{activeCount}</h3>
+          <div className="eco-stat-details">
+            <span className="eco-stat-label">Total Memberships</span>
+            <div className="eco-stat-number">{totalCount}</div>
+            <span className="eco-stat-trend text-blue-icon">Registered</span>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon-wrap bg-amber-tint">
-            <Clock size={22} className="text-amber-600" />
-          </div>
-          <div>
-            <span className="stat-label">Pending Approval</span>
-            <h3 className="stat-value">{pendingCount}</h3>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon-wrap bg-purple-tint">
-            <Award size={22} className="text-purple-600" />
-          </div>
-          <div>
-            <span className="stat-label">Life Members</span>
-            <h3 className="stat-value">{lifeCount}</h3>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon-wrap bg-teal-tint">
-            <DollarSign size={22} className="text-teal-600" />
-          </div>
-          <div>
-            <span className="stat-label">Fees Collected</span>
-            <h3 className="stat-value">₹{totalFees.toLocaleString()}</h3>
-          </div>
-        </div>
-      </div>
 
-      {/* Filters Bar */}
-      <div className="admin-table-filters mb-4">
-        <div className="search-box">
-          <Search size={16} className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search by Member Name, ID, or Membership No..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {search && (
-            <button onClick={() => setSearch('')} className="clear-search">
-              <X size={14} />
+        {/* Card 2: Active Members */}
+        <div className="eco-stat-card eco-stat-green">
+          <div className="eco-stat-icon-bubble bg-green-bubble">
+            <CheckCircle size={20} className="text-green-icon" />
+          </div>
+          <div className="eco-stat-details">
+            <span className="eco-stat-label">Active Members</span>
+            <div className="eco-stat-number">{activeCount}</div>
+            <span className="eco-stat-trend text-trend-green">Verified & Current</span>
+          </div>
+        </div>
+
+        {/* Card 3: Pending Approval */}
+        <div className="eco-stat-card eco-stat-orange">
+          <div className="eco-stat-icon-bubble bg-orange-bubble">
+            <Clock size={20} className="text-orange-icon" />
+          </div>
+          <div className="eco-stat-details">
+            <span className="eco-stat-label">Pending Approval</span>
+            <div className="eco-stat-number">{pendingCount}</div>
+            <span className="eco-stat-trend text-orange-icon">
+              {pendingCount > 0 ? 'Action Needed' : 'All Cleared'}
+            </span>
+          </div>
+        </div>
+
+        {/* Card 4: Life Members */}
+        <div className="eco-stat-card eco-stat-purple">
+          <div className="eco-stat-icon-bubble bg-purple-bubble">
+            <Award size={20} className="text-purple-icon" />
+          </div>
+          <div className="eco-stat-details">
+            <span className="eco-stat-label">Life Members</span>
+            <div className="eco-stat-number">{lifeCount}</div>
+            <span className="eco-stat-trend text-purple-icon">Lifetime Tier</span>
+          </div>
+        </div>
+
+        {/* Card 5: Fees Collected */}
+        <div className="eco-stat-card eco-stat-teal">
+          <div className="eco-stat-icon-bubble bg-teal-bubble">
+            <DollarSign size={20} className="text-teal-icon" />
+          </div>
+          <div className="eco-stat-details">
+            <span className="eco-stat-label">Fees Collected</span>
+            <div className="eco-stat-number">₹{totalFees.toLocaleString()}</div>
+            <span className="eco-stat-trend text-teal-icon">Received Total</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Modern Filter & Search Bar */}
+      <section className="eco-memberships-filter-card">
+        <div className="eco-filter-left">
+          <div className="eco-search-bar">
+            <Search size={16} className="eco-search-icon" />
+            <input
+              type="text"
+              placeholder="Search by Member Name, ID, or Membership No..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="eco-search-input"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch('')}
+                className="eco-search-clear-btn"
+                title="Clear search"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="eco-filter-right">
+          <div className="eco-filter-group">
+            <label className="eco-filter-label">
+              <Filter size={12} className="inline mr-1" /> Tier:
+            </label>
+            <select
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+              className="eco-filter-select"
+            >
+              <option value="All">All Tiers</option>
+              <option value="Life Member">Life Member</option>
+              <option value="Annual Member">Annual Member</option>
+              <option value="Volunteer Member">Volunteer Member</option>
+              <option value="Patron">Patron</option>
+              <option value="Student Member">Student Member</option>
+            </select>
+          </div>
+
+          <div className="eco-filter-group">
+            <label className="eco-filter-label">Status:</label>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="eco-filter-select"
+            >
+              <option value="All">All Statuses</option>
+              <option value="Active">Active</option>
+              <option value="Pending Approval">Pending Approval</option>
+              <option value="Expired">Expired</option>
+              <option value="Suspended">Suspended</option>
+            </select>
+          </div>
+
+          {hasActiveFilters && (
+            <button
+              onClick={resetFilters}
+              className="eco-reset-filters-btn"
+              title="Reset all filters"
+            >
+              <X size={13} />
+              <span>Reset</span>
             </button>
           )}
         </div>
+      </section>
 
-        <div className="filter-select-group">
-          <label className="filter-label">
-            <Filter size={14} /> Tier:
-          </label>
-          <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-            <option value="All">All Tiers</option>
-            <option value="Life Member">Life Member</option>
-            <option value="Annual Member">Annual Member</option>
-            <option value="Volunteer Member">Volunteer Member</option>
-            <option value="Patron">Patron</option>
-            <option value="Student Member">Student Member</option>
-          </select>
+      {/* 5. Memberships Data Table Card */}
+      <section className="eco-table-card">
+        <div className="eco-table-meta-bar">
+          <div>
+            Showing <span className="eco-table-record-count">{filtered.length}</span> of{' '}
+            <span className="eco-table-record-count">{totalCount}</span> membership records
+          </div>
+          {filtered.length !== totalCount && (
+            <span className="text-xs text-amber-600 font-medium">
+              Filtered results active
+            </span>
+          )}
         </div>
 
-        <div className="filter-select-group">
-          <label className="filter-label">Status:</label>
-          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-            <option value="All">All Statuses</option>
-            <option value="Active">Active</option>
-            <option value="Pending Approval">Pending Approval</option>
-            <option value="Expired">Expired</option>
-            <option value="Suspended">Suspended</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Memberships Data Table */}
-      <div className="admin-card">
         {loading ? (
-          <div className="p-8 text-center text-muted">
-            <RefreshCw size={24} className="animate-spin inline mb-2" />
-            <p>Loading membership records from database...</p>
+          <div className="p-12 text-center text-muted">
+            <RefreshCw size={28} className="animate-spin inline mb-3 text-emerald-700" />
+            <p className="font-semibold text-slate-700">Loading membership records from database...</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="p-8 text-center text-muted">
-            <CreditCard size={32} className="mx-auto mb-2 opacity-50" />
-            <p className="font-semibold">No membership records matched your filters.</p>
-            <span className="text-sm">Try adjusting your search criteria or resetting filters.</span>
+          <div className="p-12 text-center text-muted">
+            <CreditCard size={36} className="mx-auto mb-3 opacity-40 text-slate-500" />
+            <p className="font-semibold text-base text-slate-700 mb-1">
+              No membership records matched your filters.
+            </p>
+            <span className="text-sm text-slate-500">
+              Try adjusting your search criteria or reset filters.
+            </span>
+            {hasActiveFilters && (
+              <div className="mt-3">
+                <button onClick={resetFilters} className="eco-reset-filters-btn">
+                  Reset Filters
+                </button>
+              </div>
+            )}
           </div>
         ) : (
-          <div className="table-responsive">
-            <table className="admin-table">
+          <div className="eco-table-scroll">
+            <table className="eco-data-table">
               <thead>
                 <tr>
                   <th>Membership No</th>
@@ -271,69 +400,78 @@ const AdminMemberships = () => {
                   <th>Valid Until</th>
                   <th>Fee Paid</th>
                   <th>Payment</th>
-                  <th className="text-right">Action</th>
+                  <th style={{ textAlign: 'right' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((item) => (
                   <tr key={item._id}>
                     <td>
-                      <span className="font-mono font-semibold text-primary">
+                      <span className="eco-no-pill">
                         {item.membershipNumber}
                       </span>
                     </td>
                     <td>
                       <div>
-                        <span className="font-semibold block">{item.user?.name || 'Unknown'}</span>
-                        <span className="text-xs text-muted">{item.user?.email}</span>
+                        <div className="font-bold text-slate-800 text-sm">
+                          {item.user?.name || 'Unknown'}
+                        </div>
+                        <div className="text-xs text-slate-500 mt-0.5">
+                          {item.user?.email || 'No email registered'}
+                        </div>
                       </div>
                     </td>
                     <td>
-                      <span className="badge badge-subtle">{item.user?.memberId || 'N/A'}</span>
+                      <span className="eco-id-tag">
+                        {item.user?.memberId || 'N/A'}
+                      </span>
                     </td>
                     <td>
-                      <span className="membership-tier-badge">{item.membershipType}</span>
+                      <span className={`eco-tier-pill ${getTierBadgeClass(item.membershipType)}`}>
+                        {item.membershipType === 'Life Member' && <Award size={12} />}
+                        {item.membershipType}
+                      </span>
                     </td>
                     <td>
-                      <span
-                        className={`badge ${
-                          item.status === 'Active'
-                            ? 'badge-success'
-                            : item.status === 'Pending Approval'
-                            ? 'badge-warning'
-                            : 'badge-danger'
-                        }`}
-                      >
+                      <span className={`eco-status-pill ${getStatusClass(item.status)}`}>
+                        <span className="status-dot-indicator"></span>
                         {item.status}
                       </span>
                     </td>
                     <td>
-                      <span className="text-sm">
+                      <span className="text-xs font-medium text-slate-700">
                         {item.validTo
                           ? new Date(item.validTo).toLocaleDateString()
                           : 'Lifetime'}
                       </span>
                     </td>
                     <td>
-                      <span className="font-semibold">₹{item.feePaid || 0}</span>
+                      <span className="font-bold text-slate-900">
+                        ₹{(item.feePaid || 0).toLocaleString()}
+                      </span>
                     </td>
                     <td>
                       <span
-                        className={`text-xs font-semibold ${
+                        className={`eco-payment-indicator ${
                           item.paymentStatus === 'Paid'
-                            ? 'text-green-600'
+                            ? 'eco-payment-paid'
                             : item.paymentStatus === 'Pending'
-                            ? 'text-amber-600'
-                            : 'text-gray-500'
+                            ? 'eco-payment-pending'
+                            : 'eco-payment-waived'
                         }`}
                       >
+                        {item.paymentStatus === 'Paid' ? (
+                          <CheckCircle size={13} />
+                        ) : (
+                          <Clock size={13} />
+                        )}
                         {item.paymentStatus}
                       </span>
                     </td>
-                    <td className="text-right">
+                    <td style={{ textAlign: 'right' }}>
                       <button
                         onClick={() => openEditModal(item)}
-                        className="btn btn-outline btn-xs inline-flex items-center gap-1"
+                        className="eco-btn-table-edit"
                         title="Edit Membership"
                       >
                         <Edit2 size={13} />
@@ -346,41 +484,60 @@ const AdminMemberships = () => {
             </table>
           </div>
         )}
-      </div>
+      </section>
 
-      {/* Edit Membership Modal */}
+      {/* 6. Edit Membership Modal */}
       {editingItem && (
         <div className="modal-backdrop">
           <div className="modal-dialog">
             <div className="modal-header">
-              <h3 className="modal-title">
-                Edit Membership: {editingItem.membershipNumber}
-              </h3>
-              <button onClick={closeEditModal} className="btn-close">
-                <X size={18} />
+              <div>
+                <h3 className="modal-title font-bold text-slate-900 text-lg">
+                  Edit Membership
+                </h3>
+                <span className="eco-no-pill text-xs mt-1">
+                  {editingItem.membershipNumber}
+                </span>
+              </div>
+              <button
+                onClick={closeEditModal}
+                className="btn-close"
+                title="Close modal"
+              >
+                <X size={20} />
               </button>
             </div>
 
             <form onSubmit={handleSaveMembership}>
               <div className="modal-body">
-                <div className="mb-3 p-3 bg-gray-50 rounded text-sm">
-                  <p>
-                    <strong>Member:</strong> {editingItem.user?.name} (ID: {editingItem.user?.memberId})
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {editingItem.user?.email} | <strong>Phone:</strong>{' '}
-                    {editingItem.user?.phone || 'N/A'}
-                  </p>
+                {/* Member Identity Banner */}
+                <div className="eco-modal-card-box">
+                  <div className="font-bold text-slate-800 text-sm">
+                    {editingItem.user?.name}
+                  </div>
+                  <div className="text-xs text-slate-600 mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                    <span>
+                      <strong>Member ID:</strong> {editingItem.user?.memberId || 'N/A'}
+                    </span>
+                    <span>&bull;</span>
+                    <span>
+                      <strong>Email:</strong> {editingItem.user?.email || 'N/A'}
+                    </span>
+                    <span>&bull;</span>
+                    <span>
+                      <strong>Phone:</strong> {editingItem.user?.phone || 'N/A'}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="form-group mb-3">
-                  <label>Membership Tier *</label>
+                <div className="eco-form-field">
+                  <label className="eco-field-label">Membership Tier *</label>
                   <select
                     value={formData.membershipType}
                     onChange={(e) =>
                       setFormData({ ...formData, membershipType: e.target.value })
                     }
-                    className="form-control"
+                    className="eco-field-select"
                     required
                   >
                     <option value="Life Member">Life Member</option>
@@ -391,12 +548,12 @@ const AdminMemberships = () => {
                   </select>
                 </div>
 
-                <div className="form-group mb-3">
-                  <label>Membership Status *</label>
+                <div className="eco-form-field">
+                  <label className="eco-field-label">Membership Status *</label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="form-control"
+                    className="eco-field-select"
                     required
                   >
                     <option value="Active">Active</option>
@@ -406,20 +563,22 @@ const AdminMemberships = () => {
                   </select>
                 </div>
 
-                <div className="grid-2 gap-3 mb-3">
-                  <div className="form-group">
-                    <label>Valid Until</label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="eco-form-field">
+                    <label className="eco-field-label">Valid Until</label>
                     <input
                       type="date"
                       value={formData.validTo}
                       onChange={(e) => setFormData({ ...formData, validTo: e.target.value })}
-                      className="form-control"
+                      className="eco-field-input"
                     />
-                    <small className="text-muted">Leave empty for Life / Lifetime membership</small>
+                    <small className="text-xs text-slate-500 mt-1 block">
+                      Leave blank for Lifetime membership
+                    </small>
                   </div>
 
-                  <div className="form-group">
-                    <label>Fee Paid (₹)</label>
+                  <div className="eco-form-field">
+                    <label className="eco-field-label">Fee Paid (₹)</label>
                     <input
                       type="number"
                       min="0"
@@ -427,19 +586,19 @@ const AdminMemberships = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, feePaid: Number(e.target.value) })
                       }
-                      className="form-control"
+                      className="eco-field-input"
                     />
                   </div>
                 </div>
 
-                <div className="form-group mb-3">
-                  <label>Payment Status</label>
+                <div className="eco-form-field">
+                  <label className="eco-field-label">Payment Status</label>
                   <select
                     value={formData.paymentStatus}
                     onChange={(e) =>
                       setFormData({ ...formData, paymentStatus: e.target.value })
                     }
-                    className="form-control"
+                    className="eco-field-select"
                   >
                     <option value="Paid">Paid</option>
                     <option value="Pending">Pending</option>
@@ -448,13 +607,13 @@ const AdminMemberships = () => {
                   </select>
                 </div>
 
-                <div className="form-group mb-3">
-                  <label>Admin Remarks / Notes</label>
+                <div className="eco-form-field">
+                  <label className="eco-field-label">Admin Remarks / Notes</label>
                   <textarea
                     rows={2}
                     value={formData.remarks}
                     onChange={(e) => setFormData({ ...formData, remarks: e.target.value })}
-                    className="form-control"
+                    className="eco-field-textarea"
                     placeholder="e.g. Life membership approved by executive committee on 2026-03-01."
                   />
                 </div>
@@ -464,14 +623,14 @@ const AdminMemberships = () => {
                 <button
                   type="button"
                   onClick={closeEditModal}
-                  className="btn btn-outline"
+                  className="eco-cms-btn-secondary"
                   disabled={saveLoading}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-primary"
+                  className="eco-cms-btn-primary"
                   disabled={saveLoading}
                 >
                   {saveLoading ? 'Saving to Database...' : 'Save Changes'}
@@ -486,4 +645,3 @@ const AdminMemberships = () => {
 };
 
 export default AdminMemberships;
-
