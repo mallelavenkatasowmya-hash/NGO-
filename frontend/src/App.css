@@ -5043,3 +5043,245 @@
   border-color: #063b2c;
   box-shadow: 0 0 0 3px rgba(6, 59, 44, 0.1);
 }
+
+/* ==========================================================================
+   Cleanliness Drives & Events Management Redesign
+   ========================================================================== */
+
+/* Subnav tabs (Drives & Events / Meetings) */
+.eco-subnav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f1f5f9;
+  padding: 0.3rem;
+  border-radius: 12px;
+  width: fit-content;
+  border: 1px solid #e2e8f0;
+}
+
+.eco-subnav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1rem;
+  border-radius: 9px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748b;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.eco-subnav-tab.active {
+  background: #ffffff;
+  color: #063b2c;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.eco-subnav-tab:hover:not(.active) {
+  color: #0f172a;
+}
+
+/* 4-Card Responsive KPI Strip */
+.eco-kpi-4-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 1100px) {
+  .eco-kpi-4-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .eco-kpi-4-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Event Filter Bar */
+.eco-events-filter-bar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* Responsive Events Grid */
+.eco-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .eco-events-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Modern Event Card */
+.eco-event-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.eco-event-card:hover {
+  transform: translateY(-3px);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.06);
+}
+
+.eco-event-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.eco-event-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.35;
+  margin: 0 0 0.5rem 0;
+}
+
+.eco-event-desc {
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0 0 1rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Event Metadata Box */
+.eco-event-meta-box {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.eco-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.8rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.eco-meta-icon {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+/* Volunteers Progress */
+.eco-progress-box {
+  margin-bottom: 1.15rem;
+}
+
+.eco-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 0.35rem;
+}
+
+.eco-progress-track {
+  width: 100%;
+  height: 7px;
+  background-color: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.eco-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #064e3b 100%);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+/* Event Card Footer */
+.eco-event-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.95rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.eco-btn-delete-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.eco-btn-delete-card:hover {
+  background: #fee2e2;
+  border-color: #f87171;
+  color: #b91c1c;
+}
+
+.eco-visibility-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.eco-visibility-public {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.eco-visibility-members {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
