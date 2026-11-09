@@ -31,13 +31,13 @@ const AdminLayout = () => {
   // Sidebar navigation structure exactly matching the reference design
   const navItems = [
     { label: 'Dashboard', path: '/admin', icon: Home, exact: true },
-    { label: 'Website Content', path: '/admin/website', icon: FileText, hasSubmenu: true },
     { label: 'Members', path: '/admin/members', icon: Users },
     { label: 'Membership', path: '/admin/memberships', icon: CreditCard },
     { label: 'Meetings & Events', path: '/admin/events', icon: Calendar, hasSubmenu: true },
     { label: 'Announcements', path: '/admin/announcements', icon: Megaphone },
     { label: 'Notifications', path: '/admin/notifications', icon: Bell },
     { label: 'Reports', path: '/admin/reports', icon: BarChart2 },
+    { label: 'Website Content', path: '/admin/website', icon: FileText, hasSubmenu: true },
     { label: 'Admin Users', path: '/admin/users', icon: UserCheck },
     { label: 'Profile', path: '/admin/profile', icon: User },
     { label: 'Settings', path: '/admin/settings', icon: Settings },
