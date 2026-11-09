@@ -3,18 +3,14 @@ import { Link } from 'react-router-dom';
 import API from '../services/api';
 import {
   Users,
-  Sprout,
-  Recycle,
   Leaf,
   Waves,
-  Brush,
-  ChevronRight,
-  ArrowRight,
   Calendar,
+  Megaphone,
+  ArrowRight,
   MapPin,
   Clock,
   Sparkles,
-  Megaphone,
 } from 'lucide-react';
 
 const Home = () => {
@@ -22,6 +18,7 @@ const Home = () => {
   const [events, setEvents] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -45,217 +42,240 @@ const Home = () => {
     fetchHomeData();
   }, []);
 
-  const stats = content?.statistics || {
-    cleanlinessDrives: 142,
-    volunteersActive: 1250,
-    wasteRemovedTons: 85,
-    ghatsCleaned: 18,
-    treesPlanted: 3500,
-  };
-
   return (
     <div className="eco-home-wrapper">
-      {/* 1. HERO SECTION - Exact Match to Design Image */}
-      <section className="eco-hero-section">
+      {/* 1. HERO SECTION - Exact Match to Design Image 1 */}
+      <section className="eco-hero-perminu-section">
+        {/* Scenic River Landscape Background */}
         <div className="eco-hero-bg-scenery"></div>
-        <div className="eco-hero-scrim"></div>
+        <div className="eco-hero-scrim-overlay"></div>
 
-        <div className="container eco-hero-content">
-          <div className="eco-hero-text-block">
-            {/* Small green horizontal bar accent */}
-            <div className="eco-green-accent-bar mb-4"></div>
-
-            <h1 className="eco-hero-title">
-              Working Together for a<br />
-              Cleaner & Greener{' '}
-              <span className="text-highlight-green">Godhavari</span>
-            </h1>
-
-            <p className="eco-hero-subtitle">
-              A People's Initiative for a Clean, Green and Healthy Godhavari
-            </p>
-
-            <div className="eco-hero-btn-group">
-              <Link to="/activities" className="btn-hero-primary-pill">
-                <span>Our Activities</span>
-                <ChevronRight size={18} />
-              </Link>
-              <Link to="/register" className="btn-hero-secondary-pill">
-                Become a Member
-              </Link>
+        <div className="eco-hero-container">
+          <div className="eco-hero-grid">
+            {/* Left Column: Hands Holding Soil Seedling Visual */}
+            <div className="eco-hero-plant-col">
+              <div className="eco-plant-visual-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=900&auto=format&fit=crop&q=80"
+                  alt="Hands cradling soil with young green seedling sprout"
+                  className="eco-plant-visual-img"
+                  loading="eager"
+                />
+              </div>
             </div>
+
+            {/* Right Column: Hero Headline, Subtitle, and CTAs */}
+            <div className="eco-hero-text-col">
+              <div className="eco-hero-content-box">
+                <h1 className="eco-hero-headline">
+                  Together for a<br />
+                  <span className="eco-headline-highlight">Cleaner and Greener Tomorrow</span>
+                </h1>
+
+                <p className="eco-hero-subtext">
+                  Working together to create awareness, promote cleanliness, protect our
+                  environment, and build a responsible community.
+                </p>
+
+                <div className="eco-hero-cta-group">
+                  <Link to="/activities" className="btn-hero-primary-green">
+                    <Leaf size={18} />
+                    <span>Explore Our Activities</span>
+                    <ArrowRight size={16} />
+                  </Link>
+
+                  <Link to="/register" className="btn-hero-outline-green">
+                    <Users size={18} />
+                    <span>Join Our Mission</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 3 Carousel Indicator Dots Centered */}
+          <div className="eco-hero-dots-row">
+            <button
+              onClick={() => setActiveSlide(0)}
+              className={`eco-carousel-dot ${activeSlide === 0 ? 'active' : ''}`}
+              aria-label="Slide 1"
+            />
+            <button
+              onClick={() => setActiveSlide(1)}
+              className={`eco-carousel-dot ${activeSlide === 1 ? 'active' : ''}`}
+              aria-label="Slide 2"
+            />
+            <button
+              onClick={() => setActiveSlide(2)}
+              className={`eco-carousel-dot ${activeSlide === 2 ? 'active' : ''}`}
+              aria-label="Slide 3"
+            />
           </div>
         </div>
       </section>
 
-      {/* 2. FLOATING QUICK FEATURE STRIP - 4 Pillars */}
-      <section className="eco-feature-strip-section">
+      {/* 2. FLOATING 4-CARD FEATURE ROW - Exact Match to Design Image 1 */}
+      <section className="eco-perminu-cards-section">
         <div className="container">
-          <div className="eco-feature-strip-card">
-            {/* Item 1 */}
-            <div className="eco-feature-item">
-              <div className="eco-feature-icon-circle">
-                <Users size={22} className="text-emerald-700" />
+          <div className="eco-perminu-cards-grid">
+            {/* Card 1: Our Mission */}
+            <div className="eco-perminu-card">
+              <div className="eco-pcard-icon-wrap mint">
+                <Waves size={24} className="eco-pcard-icon" />
               </div>
-              <div className="eco-feature-text">
-                <h4 className="eco-feature-title">Public Awareness</h4>
-                <p className="eco-feature-desc">
-                  Educating communities for a cleaner environment
+              <div className="eco-pcard-body">
+                <h3 className="eco-pcard-title">Our Mission</h3>
+                <p className="eco-pcard-desc">
+                  Protect and preserve our rivers and environment.
                 </p>
+                <Link to="/about" className="eco-pcard-link">
+                  <span>Learn More</span>
+                  <ArrowRight size={14} />
+                </Link>
               </div>
             </div>
 
-            {/* Item 2 */}
-            <div className="eco-feature-item">
-              <div className="eco-feature-icon-circle">
-                <Sprout size={22} className="text-emerald-700" />
+            {/* Card 2: Our Activities */}
+            <div className="eco-perminu-card">
+              <div className="eco-pcard-icon-wrap green">
+                <Leaf size={24} className="eco-pcard-icon" />
               </div>
-              <div className="eco-feature-text">
-                <h4 className="eco-feature-title">Cleanliness Drives</h4>
-                <p className="eco-feature-desc">
-                  Regular clean-up activities along Godhavari
+              <div className="eco-pcard-body">
+                <h3 className="eco-pcard-title">Our Activities</h3>
+                <p className="eco-pcard-desc">
+                  Cleanliness drives, tree plantation and more.
                 </p>
+                <Link to="/activities" className="eco-pcard-link">
+                  <span>Learn More</span>
+                  <ArrowRight size={14} />
+                </Link>
               </div>
             </div>
 
-            {/* Item 3 */}
-            <div className="eco-feature-item">
-              <div className="eco-feature-icon-circle">
-                <Recycle size={22} className="text-emerald-700" />
+            {/* Card 3: Upcoming Events */}
+            <div className="eco-perminu-card">
+              <div className="eco-pcard-icon-wrap emerald">
+                <Calendar size={24} className="eco-pcard-icon" />
               </div>
-              <div className="eco-feature-text">
-                <h4 className="eco-feature-title">Community Activities</h4>
-                <p className="eco-feature-desc">
-                  Engaging people for environmental protection
+              <div className="eco-pcard-body">
+                <h3 className="eco-pcard-title">Upcoming Events</h3>
+                <p className="eco-pcard-desc">
+                  Be part of our events and community programs.
                 </p>
+                <Link to="/events" className="eco-pcard-link">
+                  <span>View Events</span>
+                  <ArrowRight size={14} />
+                </Link>
               </div>
             </div>
 
-            {/* Item 4 */}
-            <div className="eco-feature-item">
-              <div className="eco-feature-icon-circle">
-                <Leaf size={22} className="text-emerald-700" />
+            {/* Card 4: Latest Announcements */}
+            <div className="eco-perminu-card">
+              <div className="eco-pcard-icon-wrap teal">
+                <Megaphone size={24} className="eco-pcard-icon" />
               </div>
-              <div className="eco-feature-text">
-                <h4 className="eco-feature-title">Environmental Care</h4>
-                <p className="eco-feature-desc">
-                  Preserving the Godhavari ecosystem for future generations
+              <div className="eco-pcard-body">
+                <h3 className="eco-pcard-title">Latest Announcements</h3>
+                <p className="eco-pcard-desc">
+                  Stay updated with our latest news.
                 </p>
+                <Link to="/announcements" className="eco-pcard-link">
+                  <span>Read More</span>
+                  <ArrowRight size={14} />
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. OUR FOCUS AREAS SECTION - Exact 4 Cards in Row */}
-      <section className="eco-focus-section">
-        <div className="container">
-          <div className="eco-section-header">
-            <div>
-              <div className="eco-green-accent-bar mb-2"></div>
-              <h2 className="eco-section-title">Our Focus Areas</h2>
-            </div>
-            <Link to="/activities" className="eco-view-all-link">
-              <span>View All Activities</span>
-              <ArrowRight size={16} />
-            </Link>
-          </div>
+      {/* 3. OPTIONAL LIVE COMMUNITY UPDATES (When Available) */}
+      {(events.length > 0 || announcements.length > 0) && (
+        <section className="eco-home-preview-section">
+          <div className="container">
+            <div className="eco-preview-grid">
+              {/* Upcoming Events Column */}
+              {events.length > 0 && (
+                <div className="eco-preview-col">
+                  <div className="eco-preview-header">
+                    <div className="d-flex align-items-center gap-2">
+                      <Calendar size={20} className="text-emerald-700" />
+                      <h3 className="eco-preview-title">Upcoming Events</h3>
+                    </div>
+                    <Link to="/events" className="eco-preview-all">
+                      View All →
+                    </Link>
+                  </div>
 
-          <div className="eco-focus-grid">
-            {/* Card 1: Cleanliness Drives */}
-            <div className="eco-focus-card">
-              <div className="eco-focus-image-wrap">
-                <img
-                  src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=800&auto=format&fit=crop&q=80"
-                  alt="Cleanliness Drives along Godavari river"
-                  className="eco-focus-img"
-                  loading="lazy"
-                />
-              </div>
-              <div className="eco-focus-content">
-                <div className="eco-focus-icon-circle">
-                  <Brush size={20} className="text-emerald-700" />
+                  <div className="eco-preview-list">
+                    {events.slice(0, 2).map((evt) => (
+                      <div key={evt._id || evt.id} className="eco-preview-item">
+                        <div className="eco-preview-date-badge">
+                          <span className="p-month">
+                            {new Date(evt.date || Date.now()).toLocaleDateString('en-US', {
+                              month: 'short',
+                            })}
+                          </span>
+                          <span className="p-day">
+                            {new Date(evt.date || Date.now()).getDate()}
+                          </span>
+                        </div>
+                        <div className="eco-preview-item-info">
+                          <h4 className="p-item-name">{evt.title}</h4>
+                          <p className="p-item-meta">
+                            <Clock size={13} />
+                            <span>{evt.time || '07:00 AM - 10:00 AM'}</span>
+                            <span className="mx-1">•</span>
+                            <MapPin size={13} />
+                            <span>{evt.location || 'Godhavari Ghat'}</span>
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="eco-focus-body">
-                  <h3 className="eco-focus-heading">Cleanliness Drives</h3>
-                  <p className="eco-focus-paragraph">
-                    River and community clean-up efforts
-                  </p>
-                </div>
-              </div>
-            </div>
+              )}
 
-            {/* Card 2: Awareness Programs */}
-            <div className="eco-focus-card">
-              <div className="eco-focus-image-wrap">
-                <img
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=80"
-                  alt="Environmental Awareness Programs"
-                  className="eco-focus-img"
-                  loading="lazy"
-                />
-              </div>
-              <div className="eco-focus-content">
-                <div className="eco-focus-icon-circle">
-                  <Users size={20} className="text-emerald-700" />
-                </div>
-                <div className="eco-focus-body">
-                  <h3 className="eco-focus-heading">Awareness Programs</h3>
-                  <p className="eco-focus-paragraph">
-                    Environmental education and public awareness
-                  </p>
-                </div>
-              </div>
-            </div>
+              {/* Latest Announcements Column */}
+              {announcements.length > 0 && (
+                <div className="eco-preview-col">
+                  <div className="eco-preview-header">
+                    <div className="d-flex align-items-center gap-2">
+                      <Megaphone size={20} className="text-emerald-700" />
+                      <h3 className="eco-preview-title">Latest Announcements</h3>
+                    </div>
+                    <Link to="/announcements" className="eco-preview-all">
+                      View All →
+                    </Link>
+                  </div>
 
-            {/* Card 3: Tree Plantation */}
-            <div className="eco-focus-card">
-              <div className="eco-focus-image-wrap">
-                <img
-                  src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80"
-                  alt="Tree Plantation along Godavari riverbanks"
-                  className="eco-focus-img"
-                  loading="lazy"
-                />
-              </div>
-              <div className="eco-focus-content">
-                <div className="eco-focus-icon-circle">
-                  <Leaf size={20} className="text-emerald-700" />
+                  <div className="eco-preview-list">
+                    {announcements.slice(0, 2).map((item) => (
+                      <div key={item._id || item.id} className="eco-preview-item">
+                        <div className="eco-preview-bullet-icon">
+                          <Sparkles size={16} />
+                        </div>
+                        <div className="eco-preview-item-info">
+                          <h4 className="p-item-name">{item.title}</h4>
+                          <p className="p-item-meta">
+                            <span>
+                              {new Date(item.createdAt || Date.now()).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              })}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="eco-focus-body">
-                  <h3 className="eco-focus-heading">Tree Plantation</h3>
-                  <p className="eco-focus-paragraph">
-                    Increasing green cover along the river
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 4: River Conservation */}
-            <div className="eco-focus-card">
-              <div className="eco-focus-image-wrap">
-                <img
-                  src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&auto=format&fit=crop&q=80"
-                  alt="River Conservation in Godavari basin"
-                  className="eco-focus-img"
-                  loading="lazy"
-                />
-              </div>
-              <div className="eco-focus-content">
-                <div className="eco-focus-icon-circle">
-                  <Waves size={20} className="text-emerald-700" />
-                </div>
-                <div className="eco-focus-body">
-                  <h3 className="eco-focus-heading">River Conservation</h3>
-                  <p className="eco-focus-paragraph">
-                    Protecting and preserving the Godhavari ecosystem
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };
