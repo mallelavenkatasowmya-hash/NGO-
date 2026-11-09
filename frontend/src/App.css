@@ -6619,3 +6619,583 @@ body::-webkit-scrollbar {
   border-bottom: none;
 }
 
+/* ==========================================================================
+   Reference Match: Modern SaaS Members Directory Layout (Image 1 Exact Match)
+   ========================================================================== */
+
+.ref-members-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  width: 100%;
+}
+
+/* 1. Header */
+.ref-members-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ref-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.ref-header-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ref-header-text h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.ref-header-text p {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0.2rem 0 0 0;
+}
+
+.ref-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ref-btn-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ref-btn-refresh:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.ref-btn-enroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.15rem;
+  border-radius: 9px;
+  background-color: #1d4ed8;
+  border: 1px solid #1d4ed8;
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(29, 78, 216, 0.2);
+}
+
+.ref-btn-enroll:hover {
+  background-color: #1e40af;
+  border-color: #1e40af;
+}
+
+/* 2. Success Alert Banner */
+.ref-alert-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  color: #065f46;
+}
+
+.ref-alert-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ref-alert-dismiss {
+  background: transparent;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+}
+
+/* 3. 4-Card KPI Stat Strip */
+.ref-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .ref-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ref-kpi-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.ref-kpi-icon-bubble {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ref-bubble-blue {
+  background-color: #eff6ff;
+  color: #3b82f6;
+}
+
+.ref-bubble-green {
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+
+.ref-bubble-orange {
+  background-color: #fff7ed;
+  color: #f97316;
+}
+
+.ref-bubble-purple {
+  background-color: #faf5ff;
+  color: #a855f7;
+}
+
+.ref-kpi-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.ref-kpi-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.ref-kpi-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 0.15rem;
+}
+
+/* 4. Filter Bar Card */
+.ref-filter-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.ref-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.48rem 0.85rem;
+  width: 100%;
+  max-width: 440px;
+  transition: all 0.15s ease;
+}
+
+.ref-search-wrap:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.ref-search-wrap input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.82rem;
+  color: #0f172a;
+  width: 100%;
+}
+
+.ref-search-wrap input::placeholder {
+  color: #94a3b8;
+}
+
+.ref-filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.ref-select-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ref-select-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.ref-select-input {
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #334155;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+.ref-select-input:focus {
+  border-color: #2563eb;
+}
+
+/* 5. Table Container & Header Meta */
+.ref-table-meta-text {
+  font-size: 0.8rem;
+  color: #64748b;
+  padding: 0.25rem 0.25rem 0 0.25rem;
+}
+
+.ref-table-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  width: 100%;
+}
+
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.ref-table th {
+  padding: 0.85rem 1.25rem;
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+}
+
+.ref-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f8fafc;
+  vertical-align: middle;
+  font-size: 0.82rem;
+  color: #1e293b;
+}
+
+.ref-table tbody tr:hover {
+  background-color: #fcfdfe;
+}
+
+.ref-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Table Cells */
+.ref-profile-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.ref-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #064e3b;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+}
+
+.ref-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.ref-member-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ref-tag-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #dc2626;
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  padding: 0.1rem 0.38rem;
+  border-radius: 5px;
+}
+
+.ref-member-role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #059669;
+  margin-top: 0.15rem;
+}
+
+.ref-id-pill {
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #334155;
+  background-color: #f1f5f9;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.ref-contact-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ref-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: #334155;
+}
+
+.ref-contact-sub {
+  color: #64748b;
+  font-size: 0.74rem;
+}
+
+/* Tiers */
+.ref-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ref-tier-life {
+  background-color: #faf5ff;
+  border: 1px solid #e9d5ff;
+  color: #9333ea;
+}
+
+.ref-tier-annual {
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  color: #0284c7;
+}
+
+.ref-tier-volunteer {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+}
+
+/* Status */
+.ref-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ref-status-active {
+  color: #059669;
+}
+
+.ref-status-suspended {
+  color: #d97706;
+}
+
+.ref-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ref-status-active .ref-status-dot {
+  background-color: #10b981;
+}
+
+.ref-status-suspended .ref-status-dot {
+  background-color: #f59e0b;
+}
+
+/* Action buttons */
+.ref-action-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.ref-btn-suspend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #c2410c;
+  background-color: #fff7ed;
+  border: 1px solid #fed7aa;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.ref-btn-suspend:hover {
+  background-color: #ffedd5;
+  border-color: #fdba74;
+}
+
+.ref-btn-activate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #047857;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.ref-btn-activate:hover {
+  background-color: #d1fae5;
+  border-color: #10b981;
+}
+
+.ref-btn-trash {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ref-btn-trash:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+/* 6. Pagination Footer */
+.ref-table-pagination {
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ref-page-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.ref-page-btn:hover:not(.active) {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.ref-page-btn.active {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+

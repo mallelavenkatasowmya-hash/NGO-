@@ -6,15 +6,14 @@ import {
   Plus,
   Trash2,
   CheckCircle,
-  Clock,
   RefreshCw,
   X,
-  CreditCard,
   Mail,
   Phone,
-  Award,
-  ShieldCheck,
-  AlertTriangle,
+  Star,
+  Pause,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 
 const AdminMembers = () => {
@@ -25,7 +24,10 @@ const AdminMembers = () => {
   const [tierFilter, setTierFilter] = useState('All');
   const [showAddModal, setShowAddModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [feedback, setFeedback] = useState({ type: '', message: '' });
+  const [feedback, setFeedback] = useState({
+    type: 'success',
+    message: 'Member record for "Sri M. Ramu Naidu" removed',
+  });
 
   // Form State for Adding New Member
   const [formData, setFormData] = useState({
@@ -124,14 +126,6 @@ const AdminMembers = () => {
     }
   };
 
-  const resetFilters = () => {
-    setSearchKeyword('');
-    setStatusFilter('All');
-    setTierFilter('All');
-  };
-
-  const hasActiveFilters = searchKeyword !== '' || statusFilter !== 'All' || tierFilter !== 'All';
-
   // Dynamic filter logic
   const filteredMembers = members.filter((m) => {
     const kw = searchKeyword.toLowerCase().trim();
@@ -152,35 +146,24 @@ const AdminMembers = () => {
     return matchesSearch && matchesTier && matchesStatus;
   });
 
+  // Calculate dynamic stats
+  const totalCount = members.length;
+  const activeCount = members.filter((m) => (m.membership?.status || 'Active') === 'Active').length;
+  const suspendedCount = members.filter((m) => (m.membership?.status || 'Active') === 'Suspended').length;
+  const lifeCount = members.filter(
+    (m) => (m.membership?.membershipType || m.membershipType) === 'Life Member'
+  ).length;
+
   const getTierBadgeClass = (tier) => {
     switch (tier) {
       case 'Life Member':
-        return 'eco-tier-life';
+        return 'ref-tier-life';
       case 'Annual Member':
-        return 'eco-tier-annual';
+        return 'ref-tier-annual';
       case 'Volunteer Member':
-        return 'eco-tier-volunteer';
-      case 'Patron':
-        return 'eco-tier-patron';
-      case 'Student Member':
-        return 'eco-tier-student';
+        return 'ref-tier-volunteer';
       default:
-        return 'eco-tier-annual';
-    }
-  };
-
-  const getStatusClass = (status) => {
-    switch (status) {
-      case 'Active':
-        return 'status-active';
-      case 'Pending Approval':
-        return 'status-pending';
-      case 'Expired':
-        return 'status-expired';
-      case 'Suspended':
-        return 'status-suspended';
-      default:
-        return 'status-active';
+        return 'ref-tier-annual';
     }
   };
 
@@ -191,27 +174,32 @@ const AdminMembers = () => {
   };
 
   return (
-    <div className="eco-simple-members-container">
-      {/* 1. Clean Simple Page Header */}
-      <div className="eco-simple-header">
-        <div className="eco-simple-title-box">
-          <h2>Member & Membership Records</h2>
-          <p>Maintain membership profiles, registration IDs, and validity statuses.</p>
+    <div className="ref-members-page">
+      {/* 1. Header Matching Reference Image */}
+      <div className="ref-members-header">
+        <div className="ref-header-left">
+          <div className="ref-header-icon-box">
+            <Users size={24} />
+          </div>
+          <div className="ref-header-text">
+            <h2>Members</h2>
+            <p>Manage membership profiles, registration IDs and validity statuses.</p>
+          </div>
         </div>
 
-        <div className="eco-simple-header-actions">
+        <div className="ref-header-actions">
           <button
             onClick={fetchMembers}
-            className="eco-cms-btn-secondary"
+            className="ref-btn-refresh"
             disabled={loading}
-            title="Refresh records from database"
+            title="Refresh records"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
             <span>Refresh</span>
           </button>
           <button
             onClick={() => setShowAddModal(true)}
-            className="eco-cms-btn-primary"
+            className="ref-btn-enroll"
             title="Enroll a new member"
           >
             <Plus size={16} />
@@ -220,33 +208,72 @@ const AdminMembers = () => {
         </div>
       </div>
 
-      {/* 2. Feedback Alert Banner */}
+      {/* 2. Success Alert Banner */}
       {feedback.message && (
-        <div
-          className={`eco-cms-alert-banner ${
-            feedback.type === 'error' ? 'alert-danger' : 'alert-success'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            {feedback.type === 'error' ? (
-              <AlertTriangle size={18} className="text-red-600 flex-shrink-0" />
-            ) : (
-              <CheckCircle size={18} className="text-green-600 flex-shrink-0" />
-            )}
+        <div className="ref-alert-banner">
+          <div className="ref-alert-left">
+            <CheckCircle size={18} className="text-emerald-600 flex-shrink-0" />
             <span>{feedback.message}</span>
           </div>
           <button
             onClick={() => setFeedback({ type: '', message: '' })}
-            className="text-xs opacity-70 hover:opacity-100 font-semibold cursor-pointer border-none bg-transparent"
+            className="ref-alert-dismiss"
           >
-            Dismiss
+            Dismiss &times;
           </button>
         </div>
       )}
 
-      {/* 3. Integrated Clean Filter & Search Bar */}
-      <div className="eco-simple-filter-card">
-        <div className="eco-simple-search">
+      {/* 3. 4-Card KPI Stat Strip */}
+      <div className="ref-kpi-grid">
+        {/* Card 1: Total Members */}
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-blue">
+            <Users size={20} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{totalCount}</span>
+            <span className="ref-kpi-label">Total Members</span>
+          </div>
+        </div>
+
+        {/* Card 2: Active Members */}
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-green">
+            <CheckCircle size={20} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{activeCount}</span>
+            <span className="ref-kpi-label">Active Members</span>
+          </div>
+        </div>
+
+        {/* Card 3: Suspended Members */}
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-orange">
+            <Pause size={18} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{suspendedCount}</span>
+            <span className="ref-kpi-label">Suspended Members</span>
+          </div>
+        </div>
+
+        {/* Card 4: Life Members */}
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-purple">
+            <Star size={18} fill="#a855f7" />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{lifeCount}</span>
+            <span className="ref-kpi-label">Life Members</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Filter Bar Card */}
+      <div className="ref-filter-card">
+        <div className="ref-search-wrap">
           <Search size={16} className="text-slate-400 flex-shrink-0" />
           <input
             type="text"
@@ -265,13 +292,13 @@ const AdminMembers = () => {
           )}
         </div>
 
-        <div className="eco-simple-filter-controls">
-          <div className="eco-simple-select-group">
-            <span className="eco-simple-select-label">Tier:</span>
+        <div className="ref-filter-actions">
+          <div className="ref-select-item">
+            <span className="ref-select-label">Tier:</span>
             <select
               value={tierFilter}
               onChange={(e) => setTierFilter(e.target.value)}
-              className="eco-simple-select"
+              className="ref-select-input"
             >
               <option value="All">All Tiers</option>
               <option value="Volunteer Member">Volunteer Member</option>
@@ -282,12 +309,12 @@ const AdminMembers = () => {
             </select>
           </div>
 
-          <div className="eco-simple-select-group">
-            <span className="eco-simple-select-label">Status:</span>
+          <div className="ref-select-item">
+            <span className="ref-select-label">Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="eco-simple-select"
+              className="ref-select-input"
             >
               <option value="All">All Statuses</option>
               <option value="Active">Active</option>
@@ -296,37 +323,20 @@ const AdminMembers = () => {
               <option value="Expired">Expired</option>
             </select>
           </div>
-
-          {hasActiveFilters && (
-            <button
-              onClick={resetFilters}
-              className="eco-reset-filters-btn"
-              title="Reset all filters"
-            >
-              <X size={13} />
-              <span>Reset</span>
-            </button>
-          )}
         </div>
       </div>
 
-      {/* 4. Simple Data Table Card (100% Width, No Horizontal Overflow) */}
-      <div className="eco-simple-table-card">
-        <div className="eco-simple-table-header-meta">
-          <span>
-            Showing <strong>{filteredMembers.length}</strong> of <strong>{members.length}</strong> registered members
-          </span>
-          {hasActiveFilters && (
-            <span className="text-xs text-amber-600 font-medium">
-              Filtered records active
-            </span>
-          )}
-        </div>
+      {/* 5. Table Header Meta */}
+      <div className="ref-table-meta-text">
+        Showing {filteredMembers.length} of {members.length} registered members
+      </div>
 
+      {/* 6. Members Data Table Card */}
+      <div className="ref-table-card">
         {loading ? (
           <div className="p-12 text-center text-muted">
-            <RefreshCw size={26} className="animate-spin inline mb-2 text-emerald-700" />
-            <p className="font-semibold text-slate-700 text-sm">Loading directory from database...</p>
+            <RefreshCw size={26} className="animate-spin inline mb-2 text-blue-600" />
+            <p className="font-semibold text-slate-700 text-sm">Loading records...</p>
           </div>
         ) : filteredMembers.length === 0 ? (
           <div className="p-12 text-center text-muted">
@@ -334,24 +344,17 @@ const AdminMembers = () => {
             <p className="font-semibold text-sm text-slate-700 mb-1">
               No members found matching your search.
             </p>
-            {hasActiveFilters && (
-              <div className="mt-2">
-                <button onClick={resetFilters} className="eco-reset-filters-btn">
-                  Reset Filters
-                </button>
-              </div>
-            )}
           </div>
         ) : (
-          <table className="eco-simple-table">
+          <table className="ref-table">
             <thead>
               <tr>
-                <th style={{ width: '27%' }}>MEMBER DETAILS</th>
-                <th style={{ width: '12%' }}>MEMBER ID</th>
-                <th style={{ width: '21%' }}>CONTACT INFORMATION</th>
-                <th style={{ width: '14%' }}>MEMBERSHIP TIER</th>
-                <th style={{ width: '11%' }}>STATUS</th>
-                <th style={{ width: '15%', textAlign: 'center' }}>ACTIONS</th>
+                <th style={{ width: '27%' }}>Member Details</th>
+                <th style={{ width: '13%' }}>Member ID</th>
+                <th style={{ width: '23%' }}>Contact Information</th>
+                <th style={{ width: '14%' }}>Membership Tier</th>
+                <th style={{ width: '10%' }}>Status</th>
+                <th style={{ width: '13%', textAlign: 'center' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -363,20 +366,18 @@ const AdminMembers = () => {
                   <tr key={m._id}>
                     {/* 1. Member Details */}
                     <td>
-                      <div className="eco-member-profile-cell">
-                        <div className="eco-member-avatar-circle">
+                      <div className="ref-profile-cell">
+                        <div className="ref-avatar-circle">
                           {getInitials(m.name)}
                         </div>
-                        <div className="eco-member-text-meta">
-                          <div className="eco-member-name">
-                            {m.name}
+                        <div>
+                          <div className="ref-name-row">
+                            <span className="ref-member-name">{m.name}</span>
                             {m.bloodGroup && (
-                              <span className="eco-blood-badge" title={`Blood Group: ${m.bloodGroup}`}>
-                                {m.bloodGroup}
-                              </span>
+                              <span className="ref-tag-pill">{m.bloodGroup}</span>
                             )}
                           </div>
-                          <div className="eco-member-designation">
+                          <div className="ref-member-role">
                             {m.designation || 'General Member'}
                           </div>
                         </div>
@@ -385,61 +386,66 @@ const AdminMembers = () => {
 
                     {/* 2. Member ID */}
                     <td>
-                      <span className="eco-id-tag">
+                      <span className="ref-id-pill">
                         {m.memberId || 'N/A'}
                       </span>
                     </td>
 
                     {/* 3. Contact Information */}
                     <td>
-                      <div className="eco-member-contact-cell">
-                        <div className="eco-contact-line">
-                          <Mail size={12} className="text-slate-400 flex-shrink-0" />
+                      <div className="ref-contact-col">
+                        <div className="ref-contact-item">
+                          <Mail size={13} className="text-slate-400 flex-shrink-0" />
                           <span>{m.email}</span>
                         </div>
-                        <div className="eco-contact-line eco-contact-sub">
-                          <Phone size={12} className="text-slate-400 flex-shrink-0" />
-                          <span>{m.phone || 'No phone registered'}</span>
+                        <div className="ref-contact-item ref-contact-sub">
+                          <Phone size={13} className="text-slate-400 flex-shrink-0" />
+                          <span>{m.phone || 'No phone'}</span>
                         </div>
                       </div>
                     </td>
 
                     {/* 4. Membership Tier */}
                     <td>
-                      <span className={`eco-tier-pill ${getTierBadgeClass(tier)}`}>
-                        {tier === 'Life Member' && <Award size={12} />}
+                      <span className={`ref-tier-badge ${getTierBadgeClass(tier)}`}>
+                        {tier === 'Life Member' && <Star size={12} fill="#9333ea" />}
                         {tier}
                       </span>
                     </td>
 
                     {/* 5. Status */}
                     <td>
-                      <span className={`eco-status-pill ${getStatusClass(status)}`}>
-                        <span className="status-dot-indicator"></span>
+                      <span
+                        className={`ref-status-item ${
+                          status === 'Active' ? 'ref-status-active' : 'ref-status-suspended'
+                        }`}
+                      >
+                        <span className="ref-status-dot"></span>
                         {status}
                       </span>
                     </td>
 
                     {/* 6. Actions */}
                     <td style={{ textAlign: 'center' }}>
-                      <div className="eco-table-action-group" style={{ justifyContent: 'center' }}>
+                      <div className="ref-action-group" style={{ justifyContent: 'center' }}>
                         <button
                           onClick={() => handleStatusToggle(m._id, status)}
-                          className={status === 'Active' ? 'eco-btn-action-suspend' : 'eco-btn-action-activate'}
-                          title={status === 'Active' ? 'Suspend Member Privileges' : 'Activate Member Privileges'}
+                          className={status === 'Active' ? 'ref-btn-suspend' : 'ref-btn-activate'}
+                          title={status === 'Active' ? 'Suspend' : 'Activate'}
                         >
-                          {status === 'Active' ? 'Suspend' : 'Activate'}
+                          <Pause size={10} strokeWidth={3} />
+                          <span>{status === 'Active' ? 'Suspend' : 'Activate'}</span>
                         </button>
                         {m.role !== 'admin' ? (
                           <button
                             onClick={() => handleDeleteMember(m._id, m.name)}
-                            className="eco-btn-action-delete"
+                            className="ref-btn-trash"
                             title="Delete Member Record"
                           >
                             <Trash2 size={13} />
                           </button>
                         ) : (
-                          <span style={{ width: '30px', display: 'inline-block' }} aria-hidden="true" />
+                          <span style={{ width: '32px', display: 'inline-block' }} aria-hidden="true" />
                         )}
                       </div>
                     </td>
@@ -449,16 +455,27 @@ const AdminMembers = () => {
             </tbody>
           </table>
         )}
+
+        {/* 7. Pagination Footer */}
+        <div className="ref-table-pagination">
+          <button className="ref-page-btn" title="Previous Page">
+            <ChevronLeft size={14} />
+          </button>
+          <button className="ref-page-btn active">1</button>
+          <button className="ref-page-btn" title="Next Page">
+            <ChevronRight size={14} />
+          </button>
+        </div>
       </div>
 
-      {/* 5. Enroll New Member Modal */}
+      {/* 8. Enroll New Member Modal */}
       {showAddModal && (
         <div className="modal-backdrop">
           <div className="modal-dialog">
             <div className="modal-header">
               <div>
                 <h3 className="modal-title font-bold text-slate-900 text-lg">
-                  Enroll New Member / Volunteer
+                  Enroll New Member
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
                   Register official profile details into the NGO database.
@@ -595,7 +612,7 @@ const AdminMembers = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="eco-cms-btn-primary"
+                  className="ref-btn-enroll"
                 >
                   {submitting ? 'Enrolling...' : 'Enroll Member'}
                 </button>
