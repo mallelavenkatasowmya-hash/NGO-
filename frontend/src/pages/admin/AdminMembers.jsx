@@ -15,7 +15,6 @@ import {
   Award,
   ShieldCheck,
   AlertTriangle,
-  Filter,
 } from 'lucide-react';
 
 const AdminMembers = () => {
@@ -153,20 +152,6 @@ const AdminMembers = () => {
     return matchesSearch && matchesTier && matchesStatus;
   });
 
-  // Dynamic stats
-  const totalCount = members.length;
-  const activeCount = members.filter((m) => (m.membership?.status || 'Active') === 'Active').length;
-  const lifeCount = members.filter(
-    (m) => (m.membership?.membershipType || m.membershipType) === 'Life Member'
-  ).length;
-  const volunteerCount = members.filter(
-    (m) =>
-      m.role === 'volunteer' ||
-      (m.membership?.membershipType || '').toLowerCase().includes('volunteer') ||
-      (m.designation || '').toLowerCase().includes('coordinator') ||
-      (m.designation || '').toLowerCase().includes('volunteer')
-  ).length;
-
   const getTierBadgeClass = (tier) => {
     switch (tier) {
       case 'Life Member':
@@ -206,44 +191,36 @@ const AdminMembers = () => {
   };
 
   return (
-    <div className="eco-cms-page">
-      {/* 1. Header Row */}
-      <div className="eco-cms-header-row">
-        <div className="eco-cms-header-info">
-          <div className="eco-cms-badge-row">
-            <span className="eco-cms-live-badge">
-              <span className="live-dot-pulse"></span>
-              Verified Directory &bull; NGO Central Registry
-            </span>
-          </div>
-          <h1 className="eco-cms-main-title">Members & Volunteers Directory</h1>
-          <p className="eco-cms-sub-title">
-            Maintain verified membership profiles, registration IDs, contact details, and validity statuses.
-          </p>
+    <div className="eco-simple-members-container">
+      {/* 1. Clean Simple Page Header */}
+      <div className="eco-simple-header">
+        <div className="eco-simple-title-box">
+          <h2>Member & Membership Records</h2>
+          <p>Maintain membership profiles, registration IDs, and validity statuses.</p>
         </div>
 
-        <div className="eco-cms-header-actions">
+        <div className="eco-simple-header-actions">
           <button
             onClick={fetchMembers}
             className="eco-cms-btn-secondary"
             disabled={loading}
-            title="Reload latest records from MongoDB"
+            title="Refresh records from database"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Refresh Database</span>
+            <span>Refresh</span>
           </button>
           <button
             onClick={() => setShowAddModal(true)}
             className="eco-cms-btn-primary"
             title="Enroll a new member"
           >
-            <Plus size={15} />
+            <Plus size={16} />
             <span>Enroll New Member</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Alert Feedback Banner */}
+      {/* 2. Feedback Alert Banner */}
       {feedback.message && (
         <div
           className={`eco-cms-alert-banner ${
@@ -267,107 +244,53 @@ const AdminMembers = () => {
         </div>
       )}
 
-      {/* 3. Responsive 4-Card KPI Strip */}
-      <section className="eco-kpi-4-strip">
-        {/* Card 1: Total Enrolled */}
-        <div className="eco-stat-card eco-stat-blue">
-          <div className="eco-stat-icon-bubble bg-blue-bubble">
-            <Users size={20} className="text-blue-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Total Enrolled</span>
-            <div className="eco-stat-number">{totalCount}</div>
-            <span className="eco-stat-trend text-blue-icon">Registered Members</span>
-          </div>
+      {/* 3. Integrated Clean Filter & Search Bar */}
+      <div className="eco-simple-filter-card">
+        <div className="eco-simple-search">
+          <Search size={16} className="text-slate-400 flex-shrink-0" />
+          <input
+            type="text"
+            placeholder="Search by name, email, phone, or Member ID..."
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+          {searchKeyword && (
+            <button
+              onClick={() => setSearchKeyword('')}
+              className="btn-close"
+              title="Clear search"
+            >
+              <X size={14} />
+            </button>
+          )}
         </div>
 
-        {/* Card 2: Active Members */}
-        <div className="eco-stat-card eco-stat-green">
-          <div className="eco-stat-icon-bubble bg-green-bubble">
-            <CheckCircle size={20} className="text-green-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Active Members</span>
-            <div className="eco-stat-number">{activeCount}</div>
-            <span className="eco-stat-trend text-trend-green">Current & Verified</span>
-          </div>
-        </div>
-
-        {/* Card 3: Volunteers & Leads */}
-        <div className="eco-stat-card eco-stat-orange">
-          <div className="eco-stat-icon-bubble bg-orange-bubble">
-            <ShieldCheck size={20} className="text-orange-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Volunteers & Leads</span>
-            <div className="eco-stat-number">{volunteerCount}</div>
-            <span className="eco-stat-trend text-orange-icon">Riverfront Field Force</span>
-          </div>
-        </div>
-
-        {/* Card 4: Life Members */}
-        <div className="eco-stat-card eco-stat-purple">
-          <div className="eco-stat-icon-bubble bg-purple-bubble">
-            <Award size={20} className="text-purple-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Life Members</span>
-            <div className="eco-stat-number">{lifeCount}</div>
-            <span className="eco-stat-trend text-purple-icon">Honorary Lifetime Tier</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Filter & Search Card */}
-      <section className="eco-memberships-filter-card">
-        <div className="eco-filter-left">
-          <div className="eco-filter-search-box">
-            <Search size={16} className="eco-search-input-icon" />
-            <input
-              type="text"
-              placeholder="Search by name, email, phone, or Member ID..."
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              className="eco-filter-input"
-            />
-            {searchKeyword && (
-              <button
-                onClick={() => setSearchKeyword('')}
-                className="eco-clear-search-btn"
-                title="Clear search"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="eco-filter-right">
-          <div className="eco-filter-group">
-            <label className="eco-filter-label">Tier:</label>
+        <div className="eco-simple-filter-controls">
+          <div className="eco-simple-select-group">
+            <span className="eco-simple-select-label">Tier:</span>
             <select
               value={tierFilter}
               onChange={(e) => setTierFilter(e.target.value)}
-              className="eco-filter-select"
+              className="eco-simple-select"
             >
               <option value="All">All Tiers</option>
+              <option value="Volunteer Member">Volunteer Member</option>
               <option value="Life Member">Life Member</option>
               <option value="Annual Member">Annual Member</option>
-              <option value="Volunteer Member">Volunteer Member</option>
               <option value="Patron">Patron</option>
               <option value="Student Member">Student Member</option>
             </select>
           </div>
 
-          <div className="eco-filter-group">
-            <label className="eco-filter-label">Status:</label>
+          <div className="eco-simple-select-group">
+            <span className="eco-simple-select-label">Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="eco-filter-select"
+              className="eco-simple-select"
             >
               <option value="All">All Statuses</option>
-              <option value="Active">Active Only</option>
+              <option value="Active">Active</option>
               <option value="Suspended">Suspended</option>
               <option value="Pending Approval">Pending Approval</option>
               <option value="Expired">Expired</option>
@@ -385,16 +308,15 @@ const AdminMembers = () => {
             </button>
           )}
         </div>
-      </section>
+      </div>
 
-      {/* 5. Members Data Table Card */}
-      <section className="eco-table-card">
-        <div className="eco-table-meta-bar">
-          <div>
-            Showing <span className="eco-table-record-count">{filteredMembers.length}</span> of{' '}
-            <span className="eco-table-record-count">{totalCount}</span> registered members
-          </div>
-          {filteredMembers.length !== totalCount && (
+      {/* 4. Simple Data Table Card (100% Width, No Horizontal Overflow) */}
+      <div className="eco-simple-table-card">
+        <div className="eco-simple-table-header-meta">
+          <span>
+            Showing <strong>{filteredMembers.length}</strong> of <strong>{members.length}</strong> registered members
+          </span>
+          {hasActiveFilters && (
             <span className="text-xs text-amber-600 font-medium">
               Filtered records active
             </span>
@@ -403,20 +325,17 @@ const AdminMembers = () => {
 
         {loading ? (
           <div className="p-12 text-center text-muted">
-            <RefreshCw size={28} className="animate-spin inline mb-3 text-emerald-700" />
-            <p className="font-semibold text-slate-700">Loading directory from database...</p>
+            <RefreshCw size={26} className="animate-spin inline mb-2 text-emerald-700" />
+            <p className="font-semibold text-slate-700 text-sm">Loading directory from database...</p>
           </div>
         ) : filteredMembers.length === 0 ? (
           <div className="p-12 text-center text-muted">
-            <Users size={36} className="mx-auto mb-3 opacity-40 text-slate-500" />
-            <p className="font-semibold text-base text-slate-700 mb-1">
+            <Users size={32} className="mx-auto mb-2 opacity-40 text-slate-500" />
+            <p className="font-semibold text-sm text-slate-700 mb-1">
               No members found matching your search.
             </p>
-            <span className="text-sm text-slate-500">
-              Try adjusting your search criteria or reset filters.
-            </span>
             {hasActiveFilters && (
-              <div className="mt-3">
+              <div className="mt-2">
                 <button onClick={resetFilters} className="eco-reset-filters-btn">
                   Reset Filters
                 </button>
@@ -424,115 +343,113 @@ const AdminMembers = () => {
             )}
           </div>
         ) : (
-          <div className="eco-table-scroll">
-            <table className="eco-data-table">
-              <thead>
-                <tr>
-                  <th>Member Details</th>
-                  <th>Member ID</th>
-                  <th>Contact Information</th>
-                  <th>Membership Tier</th>
-                  <th>Status</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredMembers.map((m) => {
-                  const status = m.membership?.status || 'Active';
-                  const tier = m.membership?.membershipType || m.membershipType || 'Annual Member';
+          <table className="eco-simple-table">
+            <thead>
+              <tr>
+                <th style={{ width: '28%' }}>MEMBER DETAILS</th>
+                <th style={{ width: '14%' }}>MEMBER ID</th>
+                <th style={{ width: '24%' }}>CONTACT INFORMATION</th>
+                <th style={{ width: '14%' }}>MEMBERSHIP TIER</th>
+                <th style={{ width: '9%' }}>STATUS</th>
+                <th style={{ width: '11%', textAlign: 'right' }}>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredMembers.map((m) => {
+                const status = m.membership?.status || 'Active';
+                const tier = m.membership?.membershipType || m.membershipType || 'Annual Member';
 
-                  return (
-                    <tr key={m._id}>
-                      {/* 1. Member Profile Cell with Avatar Circle and Distinct Lines */}
-                      <td>
-                        <div className="eco-member-profile-cell">
-                          <div className="eco-member-avatar-circle">
-                            {getInitials(m.name)}
+                return (
+                  <tr key={m._id}>
+                    {/* 1. Member Details */}
+                    <td>
+                      <div className="eco-member-profile-cell">
+                        <div className="eco-member-avatar-circle">
+                          {getInitials(m.name)}
+                        </div>
+                        <div className="eco-member-text-meta">
+                          <div className="eco-member-name">
+                            {m.name}
+                            {m.bloodGroup && (
+                              <span className="eco-blood-badge" title={`Blood Group: ${m.bloodGroup}`}>
+                                {m.bloodGroup}
+                              </span>
+                            )}
                           </div>
-                          <div className="eco-member-text-meta">
-                            <div className="eco-member-name">
-                              {m.name}
-                              {m.bloodGroup && (
-                                <span className="eco-blood-badge" title={`Blood Group: ${m.bloodGroup}`}>
-                                  {m.bloodGroup}
-                                </span>
-                              )}
-                            </div>
-                            <div className="eco-member-designation">
-                              {m.designation || 'General Member'}
-                            </div>
+                          <div className="eco-member-designation">
+                            {m.designation || 'General Member'}
                           </div>
                         </div>
-                      </td>
+                      </div>
+                    </td>
 
-                      {/* 2. Member ID Code */}
-                      <td>
-                        <span className="eco-id-tag">
-                          {m.memberId || 'N/A'}
-                        </span>
-                      </td>
+                    {/* 2. Member ID */}
+                    <td>
+                      <span className="eco-id-tag">
+                        {m.memberId || 'N/A'}
+                      </span>
+                    </td>
 
-                      {/* 3. Contact Cell with Mail & Phone Icons */}
-                      <td>
-                        <div className="eco-member-contact-cell">
-                          <div className="eco-contact-line">
-                            <Mail size={12} className="text-slate-400 flex-shrink-0" />
-                            <span>{m.email}</span>
-                          </div>
-                          <div className="eco-contact-line eco-contact-sub">
-                            <Phone size={12} className="text-slate-400 flex-shrink-0" />
-                            <span>{m.phone || 'No phone'}</span>
-                          </div>
+                    {/* 3. Contact Information */}
+                    <td>
+                      <div className="eco-member-contact-cell">
+                        <div className="eco-contact-line">
+                          <Mail size={12} className="text-slate-400 flex-shrink-0" />
+                          <span>{m.email}</span>
                         </div>
-                      </td>
+                        <div className="eco-contact-line eco-contact-sub">
+                          <Phone size={12} className="text-slate-400 flex-shrink-0" />
+                          <span>{m.phone || 'No phone registered'}</span>
+                        </div>
+                      </div>
+                    </td>
 
-                      {/* 4. Membership Tier Badge */}
-                      <td>
-                        <span className={`eco-tier-pill ${getTierBadgeClass(tier)}`}>
-                          {tier === 'Life Member' && <Award size={12} />}
-                          {tier}
-                        </span>
-                      </td>
+                    {/* 4. Membership Tier */}
+                    <td>
+                      <span className={`eco-tier-pill ${getTierBadgeClass(tier)}`}>
+                        {tier === 'Life Member' && <Award size={12} />}
+                        {tier}
+                      </span>
+                    </td>
 
-                      {/* 5. Status Badge */}
-                      <td>
-                        <span className={`eco-status-pill ${getStatusClass(status)}`}>
-                          <span className="status-dot-indicator"></span>
-                          {status}
-                        </span>
-                      </td>
+                    {/* 5. Status */}
+                    <td>
+                      <span className={`eco-status-pill ${getStatusClass(status)}`}>
+                        <span className="status-dot-indicator"></span>
+                        {status}
+                      </span>
+                    </td>
 
-                      {/* 6. Clean Actions */}
-                      <td style={{ textAlign: 'right' }}>
-                        <div className="eco-table-action-group" style={{ justifyContent: 'flex-end' }}>
+                    {/* 6. Actions */}
+                    <td style={{ textAlign: 'right' }}>
+                      <div className="eco-table-action-group" style={{ justifyContent: 'flex-end' }}>
+                        <button
+                          onClick={() => handleStatusToggle(m._id, status)}
+                          className={status === 'Active' ? 'eco-btn-action-suspend' : 'eco-btn-action-activate'}
+                          title={status === 'Active' ? 'Suspend Member Privileges' : 'Activate Member Privileges'}
+                        >
+                          {status === 'Active' ? 'Suspend' : 'Activate'}
+                        </button>
+                        {m.role !== 'admin' && (
                           <button
-                            onClick={() => handleStatusToggle(m._id, status)}
-                            className={status === 'Active' ? 'eco-btn-action-suspend' : 'eco-btn-action-activate'}
-                            title={status === 'Active' ? 'Suspend Member Privileges' : 'Activate Member Privileges'}
+                            onClick={() => handleDeleteMember(m._id, m.name)}
+                            className="eco-btn-action-delete"
+                            title="Delete Member Record"
                           >
-                            {status === 'Active' ? 'Suspend' : 'Activate'}
+                            <Trash2 size={13} />
                           </button>
-                          {m.role !== 'admin' && (
-                            <button
-                              onClick={() => handleDeleteMember(m._id, m.name)}
-                              className="eco-btn-action-delete"
-                              title="Delete Member Record"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         )}
-      </section>
+      </div>
 
-      {/* 6. Enroll New Member Modal */}
+      {/* 5. Enroll New Member Modal */}
       {showAddModal && (
         <div className="modal-backdrop">
           <div className="modal-dialog">
@@ -562,7 +479,7 @@ const AdminMembers = () => {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Sri / Smt. Full Name"
+                      placeholder="Sri / Smt. Full Name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="eco-field-input"
