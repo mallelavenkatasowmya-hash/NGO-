@@ -4,6 +4,17 @@
 -------------------------------------------------------------- */
 
 /* Base Layout & Utilities */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .site-wrapper {
   display: flex;
   flex-direction: column;
@@ -1605,18 +1616,15 @@
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #f8faf9;
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .eco-admin-main-container::-webkit-scrollbar,
 .admin-main::-webkit-scrollbar {
-  width: 5px;
-}
-.eco-admin-main-container::-webkit-scrollbar-thumb,
-.admin-main::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .eco-admin-topbar {
@@ -2142,9 +2150,9 @@
   color: #94a3b8;
 }
 
-/* 4. Quick Actions */
+/* Quick Actions */
 .eco-quick-actions-section {
-  margin-top: 0.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .eco-section-heading-row {

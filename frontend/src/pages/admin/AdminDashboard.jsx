@@ -170,7 +170,42 @@ const AdminDashboard = () => {
         </div>
       </section>
 
-      {/* 3. Middle Two-Column Grid: Membership Growth Chart & Upcoming Events */}
+      {/* 3. Quick Actions Bar (Above Membership Growth) */}
+      <section className="eco-quick-actions-section">
+        <div className="eco-section-heading-row">
+          <Zap size={18} className="text-emerald-icon" />
+          <h3 className="eco-section-title">Quick Actions</h3>
+        </div>
+
+        <div className="eco-quick-actions-grid">
+          <Link to="/admin/members" className="eco-quick-action-tile">
+            <UserPlus size={22} className="tile-icon" />
+            <span className="tile-text">Add Member</span>
+          </Link>
+
+          <Link to="/admin/events" className="eco-quick-action-tile">
+            <CalendarPlus size={22} className="tile-icon" />
+            <span className="tile-text">Create Event</span>
+          </Link>
+
+          <Link to="/admin/announcements" className="eco-quick-action-tile">
+            <Megaphone size={22} className="tile-icon" />
+            <span className="tile-text">New Announcement</span>
+          </Link>
+
+          <Link to="/admin/notifications" className="eco-quick-action-tile">
+            <Bell size={22} className="tile-icon" />
+            <span className="tile-text">Send Notification</span>
+          </Link>
+
+          <Link to="/admin/website" className="eco-quick-action-tile">
+            <LayoutTemplate size={22} className="tile-icon" />
+            <span className="tile-text">Update Website</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* 4. Middle Two-Column Grid: Membership Growth Chart & Upcoming Events */}
       <section className="eco-mid-dashboard-grid">
         {/* Left Column: Membership Growth Chart */}
         <div className="eco-card eco-chart-card">
@@ -286,41 +321,6 @@ const AdminDashboard = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* 4. Quick Actions Bar */}
-      <section className="eco-quick-actions-section">
-        <div className="eco-section-heading-row">
-          <Zap size={18} className="text-emerald-icon" />
-          <h3 className="eco-section-title">Quick Actions</h3>
-        </div>
-
-        <div className="eco-quick-actions-grid">
-          <Link to="/admin/members" className="eco-quick-action-tile">
-            <UserPlus size={22} className="tile-icon" />
-            <span className="tile-text">Add Member</span>
-          </Link>
-
-          <Link to="/admin/events" className="eco-quick-action-tile">
-            <CalendarPlus size={22} className="tile-icon" />
-            <span className="tile-text">Create Event</span>
-          </Link>
-
-          <Link to="/admin/announcements" className="eco-quick-action-tile">
-            <Megaphone size={22} className="tile-icon" />
-            <span className="tile-text">New Announcement</span>
-          </Link>
-
-          <Link to="/admin/notifications" className="eco-quick-action-tile">
-            <Bell size={22} className="tile-icon" />
-            <span className="tile-text">Send Notification</span>
-          </Link>
-
-          <Link to="/admin/website" className="eco-quick-action-tile">
-            <LayoutTemplate size={22} className="tile-icon" />
-            <span className="tile-text">Update Website</span>
-          </Link>
         </div>
       </section>
     </div>
