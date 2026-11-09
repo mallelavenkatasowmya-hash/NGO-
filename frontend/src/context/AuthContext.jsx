@@ -89,8 +89,14 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         membership,
-        isAdmin: user?.role === 'admin',
-        isMember: ['member', 'volunteer', 'staff'].includes(user?.role),
+        isAdmin: Boolean(
+          user &&
+          (user.role?.toLowerCase() === 'admin' || user.role?.toLowerCase() === 'super admin')
+        ),
+        isMember: Boolean(
+          user &&
+          ['member', 'volunteer', 'staff'].includes(user.role?.toLowerCase())
+        ),
         loading,
         adminLogin,
         memberLogin,

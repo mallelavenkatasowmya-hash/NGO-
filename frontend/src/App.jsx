@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -47,15 +47,28 @@ import MemberProfile from './pages/member/MemberProfile';
 import './App.css';
 
 // Public layout wrapper with Navbar & Footer
-const PublicLayout = () => (
-  <div className="site-wrapper">
-    <Navbar />
-    <main className="main-content-flow">
-      <Outlet />
-    </main>
-    <Footer />
-  </div>
-);
+const PublicLayout = () => {
+  const { user, isAdmin, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
+
+  // When admin is logged in, do not show public pages - redirect directly to Admin Dashboard
+  if (user && isAdmin) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return (
+    <div className="site-wrapper">
+      <Navbar />
+      <main className="main-content-flow">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
 function App() {
   return (

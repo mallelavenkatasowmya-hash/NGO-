@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -24,8 +24,19 @@ const Login = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
 
-  const { memberLogin, adminLogin } = useAuth();
+  const { user, isAdmin, isMember, memberLogin, adminLogin } = useAuth();
   const navigate = useNavigate();
+
+  // If already authenticated, redirect to appropriate console
+  useEffect(() => {
+    if (user) {
+      if (isAdmin) {
+        navigate('/admin', { replace: true });
+      } else if (isMember) {
+        navigate('/member', { replace: true });
+      }
+    }
+  }, [user, isAdmin, isMember, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

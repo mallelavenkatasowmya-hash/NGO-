@@ -61,15 +61,15 @@ const Navbar = () => {
 
         {/* Right CTA Action: Member Login Pill */}
         <div className="eco-header-actions">
-          {user ? (
+          {user && isMember ? (
             <div className="eco-user-actions">
               <Link
-                to={isAdmin ? '/admin' : '/member'}
+                to="/member"
                 className="btn-eco-member-login"
-                title={isAdmin ? 'Administrator Dashboard' : 'Member Portal'}
+                title="Member Portal"
               >
-                {isAdmin ? <Shield size={15} /> : <User size={15} />}
-                <span>{isAdmin ? 'Admin Dashboard' : 'Member Portal'}</span>
+                <User size={15} />
+                <span>Member Portal</span>
               </Link>
               <button
                 onClick={handleLogout}
@@ -113,14 +113,15 @@ const Navbar = () => {
             ))}
 
             <div className="eco-mobile-action-wrap">
-              {user ? (
+              {user && isMember ? (
                 <>
                   <Link
-                    to={isAdmin ? '/admin' : '/member'}
+                    to="/member"
                     className="btn-eco-member-login btn-block text-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    {isAdmin ? 'Open Admin Console' : 'Open Member App'}
+                    <User size={16} />
+                    <span>Open Member Portal</span>
                   </Link>
                   <button
                     onClick={handleLogout}
