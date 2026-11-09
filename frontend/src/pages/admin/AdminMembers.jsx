@@ -346,12 +346,12 @@ const AdminMembers = () => {
           <table className="eco-simple-table">
             <thead>
               <tr>
-                <th style={{ width: '28%' }}>MEMBER DETAILS</th>
-                <th style={{ width: '14%' }}>MEMBER ID</th>
-                <th style={{ width: '24%' }}>CONTACT INFORMATION</th>
+                <th style={{ width: '27%' }}>MEMBER DETAILS</th>
+                <th style={{ width: '12%' }}>MEMBER ID</th>
+                <th style={{ width: '21%' }}>CONTACT INFORMATION</th>
                 <th style={{ width: '14%' }}>MEMBERSHIP TIER</th>
-                <th style={{ width: '9%' }}>STATUS</th>
-                <th style={{ width: '11%', textAlign: 'right' }}>ACTIONS</th>
+                <th style={{ width: '11%' }}>STATUS</th>
+                <th style={{ width: '15%', textAlign: 'center' }}>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
@@ -421,8 +421,8 @@ const AdminMembers = () => {
                     </td>
 
                     {/* 6. Actions */}
-                    <td style={{ textAlign: 'right' }}>
-                      <div className="eco-table-action-group" style={{ justifyContent: 'flex-end' }}>
+                    <td style={{ textAlign: 'center' }}>
+                      <div className="eco-table-action-group" style={{ justifyContent: 'center' }}>
                         <button
                           onClick={() => handleStatusToggle(m._id, status)}
                           className={status === 'Active' ? 'eco-btn-action-suspend' : 'eco-btn-action-activate'}
@@ -430,7 +430,7 @@ const AdminMembers = () => {
                         >
                           {status === 'Active' ? 'Suspend' : 'Activate'}
                         </button>
-                        {m.role !== 'admin' && (
+                        {m.role !== 'admin' ? (
                           <button
                             onClick={() => handleDeleteMember(m._id, m.name)}
                             className="eco-btn-action-delete"
@@ -438,6 +438,8 @@ const AdminMembers = () => {
                           >
                             <Trash2 size={13} />
                           </button>
+                        ) : (
+                          <span style={{ width: '30px', display: 'inline-block' }} aria-hidden="true" />
                         )}
                       </div>
                     </td>
