@@ -7198,4 +7198,52 @@ body::-webkit-scrollbar {
   font-weight: 700;
 }
 
+.ref-kpi-sub {
+  font-size: 0.74rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+.ref-btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.ref-btn-edit:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.ref-payment-paid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #059669;
+  white-space: nowrap;
+}
+
+.ref-payment-unpaid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #d97706;
+  white-space: nowrap;
+}
+
 
