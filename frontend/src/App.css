@@ -3956,202 +3956,83 @@ body::-webkit-scrollbar {
 }
 
 /* ==========================================================================
-   PREMIUM HERO SECTION (Matches Reference Image 1)
+   PREMIUM HERO SECTION (Exact Match to Reference Image 2)
    ========================================================================== */
-.eco-hero-perminu-section {
+.eco-hero-master-section {
   position: relative;
-  min-height: 520px;
-  display: flex;
-  align-items: center;
+  width: 100%;
+  background: #f0f7f3;
   overflow: hidden;
-  padding: 3.5rem 0 5.5rem 0;
-  background-color: #e8f3ee;
-}
-
-/* High-res Panoramic Scenic River Scenery Background */
-.eco-hero-bg-scenery {
-  position: absolute;
-  inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80');
-  background-size: cover;
-  background-position: center;
-  z-index: 1;
-}
-
-/* Soft daylight scrim overlay for crisp text readability */
-.eco-hero-scrim-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.72) 40%,
-    rgba(255, 255, 255, 0.88) 70%,
-    rgba(255, 255, 255, 0.94) 100%
-  );
-  z-index: 2;
-}
-
-.eco-hero-container {
-  width: 100%;
-  max-width: 1380px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  position: relative;
-  z-index: 3;
-}
-
-.eco-hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  align-items: center;
-  gap: 3rem;
-}
-
-/* Left Column: Hands Holding Plant Seedling Visual */
-.eco-hero-plant-col {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.eco-plant-visual-wrap {
-  width: 100%;
-  max-width: 480px;
-  height: 380px;
-  border-radius: 28px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 20px 45px -10px rgba(15, 74, 56, 0.25), 0 8px 18px rgba(0, 0, 0, 0.06);
-  border: 4px solid #ffffff;
-  background-color: #d1fae5;
-}
-
-.eco-plant-visual-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.5s ease;
-}
-
-.eco-plant-visual-wrap:hover .eco-plant-visual-img {
-  transform: scale(1.03);
-}
-
-/* Right Column: Hero Content */
-.eco-hero-text-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.eco-hero-content-box {
-  max-width: 620px;
-}
-
-.eco-hero-headline {
-  font-size: 3.15rem;
-  font-weight: 800;
-  line-height: 1.15;
-  color: #1e293b;
-  margin-bottom: 1.15rem;
-  letter-spacing: -0.025em;
-}
-
-.eco-headline-highlight {
-  color: #0f4a38;
-  display: inline-block;
-  font-weight: 850;
-}
-
-.eco-hero-subtext {
-  font-size: 1.12rem;
-  line-height: 1.55;
-  color: #475569;
-  margin-bottom: 2.25rem;
-  max-width: 540px;
-  font-weight: 450;
-}
-
-.eco-hero-cta-group {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
-
-.btn-hero-primary-green {
-  background-color: #0f4a38;
-  color: #ffffff !important;
-  border-radius: 9999px;
-  padding: 0.82rem 1.85rem;
-  font-size: 0.96rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-  box-shadow: 0 4px 14px rgba(15, 74, 56, 0.28);
-  transition: all 0.2s ease;
-}
-
-.btn-hero-primary-green:hover {
-  background-color: #09382b;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(15, 74, 56, 0.38);
-}
-
-.btn-hero-outline-green {
-  background-color: #ffffff;
-  color: #0f4a38 !important;
-  border: 2px solid #0f4a38;
-  border-radius: 9999px;
-  padding: 0.78rem 1.85rem;
-  font-size: 0.96rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.btn-hero-outline-green:hover {
-  background-color: #0f4a38;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(15, 74, 56, 0.2);
-}
-
-/* 3 Carousel Indicator Dots Centered */
-.eco-hero-dots-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 2.75rem;
-  position: relative;
-  z-index: 4;
-}
-
-.eco-carousel-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: rgba(15, 74, 56, 0.25);
-  border: none;
-  cursor: pointer;
   padding: 0;
-  transition: all 0.2s ease;
+  margin: 0;
+  border-bottom: 1px solid #eef5f1;
 }
 
-.eco-carousel-dot.active {
-  width: 26px;
-  height: 10px;
+.eco-hero-canvas-wrapper {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.eco-hero-canvas-inner {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+}
+
+.eco-hero-panorama-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  user-select: none;
+}
+
+.eco-hero-hotspots-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Green Button Hotspot: Explore Our Activities -> */
+.eco-hotspot-btn.btn-explore-hotspot {
+  position: absolute;
+  left: 47%;
+  top: 67.5%;
+  width: 17%;
+  height: 16%;
   border-radius: 9999px;
-  background-color: #0f4a38;
-  box-shadow: 0 1px 3px rgba(15, 74, 56, 0.3);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  outline: none;
+}
+
+.eco-hotspot-btn.btn-explore-hotspot:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 16px rgba(15, 74, 56, 0.45);
+}
+
+/* White Button Hotspot: Join Our Mission */
+.eco-hotspot-btn.btn-join-hotspot {
+  position: absolute;
+  left: 65%;
+  top: 67.5%;
+  width: 14%;
+  height: 16%;
+  border-radius: 9999px;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  outline: none;
+}
+
+.eco-hotspot-btn.btn-join-hotspot:hover {
+  background-color: rgba(15, 74, 56, 0.08);
+  box-shadow: 0 0 16px rgba(15, 74, 56, 0.25);
 }
 
 /* ==========================================================================
@@ -4160,7 +4041,7 @@ body::-webkit-scrollbar {
 .eco-perminu-cards-section {
   position: relative;
   z-index: 10;
-  margin-top: -46px;
+  margin-top: 1.75rem;
   margin-bottom: 3.5rem;
 }
 

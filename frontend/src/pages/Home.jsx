@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../services/api';
-import heroPlantImg from '../assets/hero-plant.png';
+import heroBannerImg from '../assets/hero-banner.jpg';
 import {
   Users,
   Leaf,
@@ -19,7 +19,6 @@ const Home = () => {
   const [events, setEvents] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -45,77 +44,37 @@ const Home = () => {
 
   return (
     <div className="eco-home-wrapper">
-      {/* 1. HERO SECTION - Exact Match to Design Image 1 */}
-      <section className="eco-hero-perminu-section">
-        {/* Scenic River Landscape Background */}
-        <div className="eco-hero-bg-scenery"></div>
-        <div className="eco-hero-scrim-overlay"></div>
+      {/* 1. HERO SECTION - Exact Match to Reference Image 2 */}
+      <section className="eco-hero-master-section">
+        <div className="eco-hero-canvas-wrapper">
+          <div className="eco-hero-canvas-inner">
+            <img
+              src={heroBannerImg}
+              alt="Together for a Cleaner and Greener Tomorrow - Godhavari NGO"
+              className="eco-hero-panorama-img"
+              loading="eager"
+            />
 
-        <div className="eco-hero-container">
-          <div className="eco-hero-grid">
-            {/* Left Column: Hands Holding Soil Seedling Visual (Exact Image from Reference Design) */}
-            <div className="eco-hero-plant-col">
-              <div className="eco-plant-visual-wrap">
-                <img
-                  src={heroPlantImg}
-                  alt="Hands cradling soil with young green seedling sprout"
-                  className="eco-plant-visual-img"
-                  loading="eager"
-                />
-              </div>
+            {/* Seamless Interactive Overlay for CTAs */}
+            <div className="eco-hero-hotspots-layer">
+              <Link
+                to="/activities"
+                className="eco-hotspot-btn btn-explore-hotspot"
+                title="Explore Our Activities"
+                aria-label="Explore Our Activities"
+              />
+              <Link
+                to="/register"
+                className="eco-hotspot-btn btn-join-hotspot"
+                title="Join Our Mission"
+                aria-label="Join Our Mission"
+              />
             </div>
-
-            {/* Right Column: Hero Headline, Subtitle, and CTAs */}
-            <div className="eco-hero-text-col">
-              <div className="eco-hero-content-box">
-                <h1 className="eco-hero-headline">
-                  Together for a<br />
-                  <span className="eco-headline-highlight">Cleaner and Greener Tomorrow</span>
-                </h1>
-
-                <p className="eco-hero-subtext">
-                  Working together to create awareness, promote cleanliness, protect our
-                  environment, and build a responsible community.
-                </p>
-
-                <div className="eco-hero-cta-group">
-                  <Link to="/activities" className="btn-hero-primary-green">
-                    <Leaf size={18} />
-                    <span>Explore Our Activities</span>
-                    <ArrowRight size={16} />
-                  </Link>
-
-                  <Link to="/register" className="btn-hero-outline-green">
-                    <Users size={18} />
-                    <span>Join Our Mission</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 3 Carousel Indicator Dots Centered */}
-          <div className="eco-hero-dots-row">
-            <button
-              onClick={() => setActiveSlide(0)}
-              className={`eco-carousel-dot ${activeSlide === 0 ? 'active' : ''}`}
-              aria-label="Slide 1"
-            />
-            <button
-              onClick={() => setActiveSlide(1)}
-              className={`eco-carousel-dot ${activeSlide === 1 ? 'active' : ''}`}
-              aria-label="Slide 2"
-            />
-            <button
-              onClick={() => setActiveSlide(2)}
-              className={`eco-carousel-dot ${activeSlide === 2 ? 'active' : ''}`}
-              aria-label="Slide 3"
-            />
           </div>
         </div>
       </section>
 
-      {/* 2. FLOATING 4-CARD FEATURE ROW - Exact Match to Design Image 1 */}
+      {/* 2. FLOATING 4-CARD FEATURE ROW - Exact Match to Design Image */}
       <section className="eco-perminu-cards-section">
         <div className="container">
           <div className="eco-perminu-cards-grid">
