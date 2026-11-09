@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../services/api';
+import heroPlantImg from '../assets/hero-plant.png';
 import {
   Users,
   Leaf,
@@ -52,11 +53,11 @@ const Home = () => {
 
         <div className="eco-hero-container">
           <div className="eco-hero-grid">
-            {/* Left Column: Hands Holding Soil Seedling Visual */}
+            {/* Left Column: Hands Holding Soil Seedling Visual (Exact Image from Reference Design) */}
             <div className="eco-hero-plant-col">
               <div className="eco-plant-visual-wrap">
                 <img
-                  src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=900&auto=format&fit=crop&q=80"
+                  src={heroPlantImg}
                   alt="Hands cradling soil with young green seedling sprout"
                   className="eco-plant-visual-img"
                   loading="eager"
