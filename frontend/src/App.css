@@ -6275,3 +6275,148 @@ body::-webkit-scrollbar {
   border: 1px solid #a7f3d0;
   white-space: nowrap;
 }
+
+/* ==========================================================================
+   Admin Members Directory - Clean Text Alignment & Cells
+   ========================================================================== */
+
+/* Member Profile Cell (Avatar + Name + Designation) */
+.eco-member-profile-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.eco-member-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #063b2c 0%, #0d5c3a 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+  border: 1.5px solid #a7f3d0;
+  box-shadow: 0 1px 3px rgba(6, 59, 44, 0.15);
+}
+
+.eco-member-text-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.eco-member-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.eco-member-designation {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #047857;
+  white-space: nowrap;
+}
+
+.eco-blood-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 0.1rem 0.42rem;
+  border-radius: 5px;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+}
+
+/* Contact Column (Email + Phone with Icons) */
+.eco-member-contact-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.eco-contact-line {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.76rem;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.eco-contact-sub {
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+/* Actions in Members Table */
+.eco-table-action-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.eco-btn-action-suspend {
+  padding: 0.35rem 0.75rem;
+  border-radius: 7px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #b45309;
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.eco-btn-action-suspend:hover {
+  background-color: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.eco-btn-action-activate {
+  padding: 0.35rem 0.75rem;
+  border-radius: 7px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #047857;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.eco-btn-action-activate:hover {
+  background-color: #d1fae5;
+  border-color: #10b981;
+}
+
+.eco-btn-action-delete {
+  padding: 0.35rem 0.5rem;
+  border-radius: 7px;
+  font-size: 0.74rem;
+  color: #94a3b8;
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.eco-btn-action-delete:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
