@@ -310,14 +310,14 @@ const AdminMemberships = () => {
           <table className="ref-table">
             <thead>
               <tr>
-                <th style={{ width: '21%' }}>MEMBER NAME</th>
+                <th style={{ width: '20%' }}>MEMBER NAME</th>
                 <th style={{ width: '14%' }}>MEMBER ID</th>
                 <th style={{ width: '14%' }}>TIER / TYPE</th>
-                <th style={{ width: '11%' }}>STATUS</th>
-                <th style={{ width: '11%' }}>VALID UNTIL</th>
+                <th style={{ width: '10%' }}>STATUS</th>
+                <th style={{ width: '10%' }}>VALID UNTIL</th>
                 <th style={{ width: '10%' }}>FEE PAID</th>
                 <th style={{ width: '10%' }}>PAYMENT</th>
-                <th style={{ width: '9%', textAlign: 'center' }}>ACTION</th>
+                <th style={{ width: '12%', textAlign: 'center' }}>ACTION</th>
               </tr>
             </thead>
             <tbody>
@@ -386,12 +386,12 @@ const AdminMemberships = () => {
                     </span>
                   </td>
 
-                  {/* 8. Action */}
+                  {/* 8. Action - Centered Alignment */}
                   <td style={{ textAlign: 'center' }}>
                     <button
                       onClick={() => openEditModal(item)}
                       className="ref-btn-edit"
-                      title="Edit Membership"
+                      title="Edit Membership Record"
                     >
                       <Edit2 size={13} />
                       <span>Edit</span>
@@ -415,58 +415,61 @@ const AdminMemberships = () => {
         </div>
       </div>
 
-      {/* 8. Edit Membership Modal */}
+      {/* 8. Refined Edit Membership Modal with Fixed Header & Footer */}
       {editingItem && (
         <div className="modal-backdrop">
-          <div className="modal-dialog">
-            <div className="modal-header">
-              <div>
-                <h3 className="modal-title font-bold text-slate-900 text-lg">
-                  Edit Membership
-                </h3>
-                <span className="ref-id-pill text-xs mt-1">
+          <div className="ref-modal-dialog">
+            {/* Fixed Modal Header */}
+            <div className="ref-modal-header">
+              <div className="ref-modal-title-wrap">
+                <h3 className="ref-modal-title">Edit Membership</h3>
+                <span className="ref-modal-badge">
                   {editingItem.membershipNumber}
                 </span>
               </div>
               <button
                 onClick={closeEditModal}
-                className="btn-close"
+                className="ref-modal-close-btn"
                 title="Close modal"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleSaveMembership}>
-              <div className="modal-body">
+            <form
+              onSubmit={handleSaveMembership}
+              style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}
+            >
+              {/* Scrollable Modal Body */}
+              <div className="ref-modal-body">
                 {/* Member Identity Banner */}
-                <div className="eco-modal-card-box">
-                  <div className="font-bold text-slate-800 text-sm">
-                    {editingItem.user?.name}
-                  </div>
-                  <div className="text-xs text-slate-600 mt-1 flex flex-wrap gap-x-3 gap-y-1">
-                    <span>
-                      <strong>Member ID:</strong> {editingItem.user?.memberId || 'N/A'}
-                    </span>
-                    <span>&bull;</span>
-                    <span>
-                      <strong>Email:</strong> {editingItem.user?.email || 'N/A'}
-                    </span>
-                    <span>&bull;</span>
-                    <span>
-                      <strong>Phone:</strong> {editingItem.user?.phone || 'N/A'}
-                    </span>
+                <div className="ref-modal-member-card">
+                  <div className="ref-modal-member-info">
+                    <div className="ref-modal-member-name">
+                      {editingItem.user?.name || 'Member Profile'}
+                    </div>
+                    <div className="ref-modal-member-sub">
+                      <span><strong>ID:</strong> {editingItem.user?.memberId || 'N/A'}</span>
+                      <span>&bull;</span>
+                      <span>{editingItem.user?.email || 'No email registered'}</span>
+                      {editingItem.user?.phone && (
+                        <>
+                          <span>&bull;</span>
+                          <span>{editingItem.user?.phone}</span>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Membership Tier *</label>
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Membership Tier *</label>
                   <select
                     value={formData.membershipType}
                     onChange={(e) =>
                       setFormData({ ...formData, membershipType: e.target.value })
                     }
-                    className="eco-field-select"
+                    className="ref-form-select"
                     required
                   >
                     <option value="Life Member">Life Member</option>
@@ -477,15 +480,15 @@ const AdminMemberships = () => {
                   </select>
                 </div>
 
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Status *</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Status *</label>
                     <select
                       value={formData.status}
                       onChange={(e) =>
                         setFormData({ ...formData, status: e.target.value })
                       }
-                      className="eco-field-select"
+                      className="ref-form-select"
                       required
                     >
                       <option value="Active">Active</option>
@@ -495,22 +498,22 @@ const AdminMemberships = () => {
                     </select>
                   </div>
 
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Valid Until</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Valid Until</label>
                     <input
                       type="date"
                       value={formData.validTo}
                       onChange={(e) =>
                         setFormData({ ...formData, validTo: e.target.value })
                       }
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
                 </div>
 
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Fee Paid (₹)</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Fee Paid (₹)</label>
                     <input
                       type="number"
                       min="0"
@@ -518,18 +521,18 @@ const AdminMemberships = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, feePaid: Number(e.target.value) })
                       }
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
 
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Payment Status</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Payment Status</label>
                     <select
                       value={formData.paymentStatus}
                       onChange={(e) =>
                         setFormData({ ...formData, paymentStatus: e.target.value })
                       }
-                      className="eco-field-select"
+                      className="ref-form-select"
                     >
                       <option value="Paid">Paid</option>
                       <option value="Pending">Pending</option>
@@ -538,8 +541,8 @@ const AdminMemberships = () => {
                   </div>
                 </div>
 
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Admin Notes / Remarks</label>
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Admin Notes / Remarks</label>
                   <textarea
                     rows={2}
                     placeholder="Enter any administrative notes or renewal remarks..."
@@ -547,23 +550,24 @@ const AdminMemberships = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, remarks: e.target.value })
                     }
-                    className="eco-field-textarea"
+                    className="ref-form-textarea"
                   />
                 </div>
               </div>
 
-              <div className="modal-footer">
+              {/* Fixed Modal Footer with Perfect Padding & Royal Blue Button */}
+              <div className="ref-modal-footer">
                 <button
                   type="button"
                   onClick={closeEditModal}
-                  className="eco-cms-btn-secondary"
+                  className="ref-modal-btn-cancel"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saveLoading}
-                  className="eco-cms-btn-primary"
+                  className="ref-modal-btn-save"
                 >
                   {saveLoading ? 'Saving...' : 'Save Changes'}
                 </button>
