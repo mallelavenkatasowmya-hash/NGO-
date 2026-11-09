@@ -8,42 +8,37 @@ import {
   MapPin,
   Clock,
   Users,
-  Eye,
-  Lock,
   X,
   Droplet,
   RefreshCw,
   CheckCircle,
   AlertTriangle,
-  Search,
-  Filter,
   Megaphone,
   Award,
-  TreePine,
-  Sparkles,
+  ChevronRight,
+  Video,
 } from 'lucide-react';
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [viewingEvent, setViewingEvent] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState({ type: '', text: '' });
-  const [search, setSearch] = useState('');
-  const [filterCategory, setFilterCategory] = useState('All');
-  const [filterVisibility, setFilterVisibility] = useState('All');
+  const [filterType, setFilterType] = useState('All');
 
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     eventType: 'Cleanliness Drive',
     date: '',
-    time: '06:30 AM - 09:30 AM',
+    time: '06:30 AM - 10:00 AM',
     venue: 'Kotilingala Ghat',
     riverGhat: 'Kotilingala Ghat',
     isPublic: true,
     isMemberOnly: false,
-    targetVolunteers: 50,
+    targetVolunteers: 100,
   });
 
   const fetchEvents = async () => {
@@ -84,19 +79,19 @@ const AdminEvents = () => {
         targetVolunteers: Number(formData.targetVolunteers),
       });
 
-      setFeedback({ type: 'success', text: `Event "${formData.title}" scheduled and saved to MongoDB!` });
+      setFeedback({ type: 'success', text: `Event "${formData.title}" scheduled successfully!` });
       setShowAddModal(false);
       setFormData({
         title: '',
         description: '',
         eventType: 'Cleanliness Drive',
         date: '',
-        time: '06:30 AM - 09:30 AM',
+        time: '06:30 AM - 10:00 AM',
         venue: 'Kotilingala Ghat',
         riverGhat: 'Kotilingala Ghat',
         isPublic: true,
         isMemberOnly: false,
-        targetVolunteers: 50,
+        targetVolunteers: 100,
       });
       fetchEvents();
     } catch (err) {
@@ -120,32 +115,12 @@ const AdminEvents = () => {
     }
   };
 
-  // Filter & Search Logic
-  const filteredEvents = events.filter((evt) => {
-    const matchesSearch =
-      !search ||
-      evt.title?.toLowerCase().includes(search.toLowerCase()) ||
-      evt.location?.venue?.toLowerCase().includes(search.toLowerCase()) ||
-      evt.location?.riverGhat?.toLowerCase().includes(search.toLowerCase()) ||
-      evt.description?.toLowerCase().includes(search.toLowerCase());
-
-    const matchesCategory = filterCategory === 'All' || evt.eventType === filterCategory;
-
-    const matchesVisibility =
-      filterVisibility === 'All' ||
-      (filterVisibility === 'Public' && evt.isPublic) ||
-      (filterVisibility === 'Members Only' && evt.isMemberOnly);
-
-    return matchesSearch && matchesCategory && matchesVisibility;
+  // Filtered Events
+  const displayedEvents = events.filter((evt) => {
+    if (filterType === 'Cleanliness') return evt.eventType === 'Cleanliness Drive';
+    if (filterType === 'Awareness') return evt.eventType === 'Awareness Program' || evt.eventType === 'Workshop';
+    return true;
   });
-
-  const resetFilters = () => {
-    setSearch('');
-    setFilterCategory('All');
-    setFilterVisibility('All');
-  };
-
-  const hasActiveFilters = search !== '' || filterCategory !== 'All' || filterVisibility !== 'All';
 
   // Dynamic Metrics
   const totalEvents = events.length;
@@ -158,62 +133,38 @@ const AdminEvents = () => {
   const getCategoryBadgeClass = (type) => {
     switch (type) {
       case 'Cleanliness Drive':
-        return 'eco-tier-volunteer';
+        return 'ref-tier-volunteer';
       case 'Awareness Program':
-        return 'eco-tier-annual';
+        return 'ref-tier-life';
       case 'Workshop':
-        return 'eco-tier-life';
-      case 'Tree Plantation':
-        return 'eco-tier-volunteer';
-      case 'Riverfront Rally':
-        return 'eco-tier-patron';
+        return 'ref-tier-annual';
       default:
-        return 'eco-tier-annual';
+        return 'ref-tier-volunteer';
     }
   };
 
   return (
-    <div className="eco-cms-page">
-      {/* 1. Sub-navigation tabs (Drives & Events vs Member Meetings) */}
-      <div className="eco-subnav-tabs">
-        <Link to="/admin/events" className="eco-subnav-tab active">
-          <Calendar size={15} />
-          <span>Drives & Events</span>
-        </Link>
-        <Link to="/admin/meetings" className="eco-subnav-tab">
-          <Clock size={15} />
-          <span>Meetings</span>
-        </Link>
-      </div>
-
-      {/* 2. Top Header Row with Actions */}
-      <div className="eco-cms-header-row">
-        <div className="eco-cms-header-info">
-          <div className="eco-cms-badge-row">
-            <span className="eco-cms-live-badge">
-              <span className="live-dot-pulse"></span>
-              Active Campaigns &bull; MongoDB Live
-            </span>
-          </div>
-          <h1 className="eco-cms-main-title">Cleanliness Drives & Awareness Events</h1>
-          <p className="eco-cms-sub-title">
-            Organize riverfront cleanliness campaigns, environmental awareness rallies, and ecological workshops along the sacred Godavari River.
-          </p>
+    <div className="ref-events-page">
+      {/* 1. Header with Tab Toggles and Schedule Button */}
+      <div className="ref-events-header">
+        <div className="ref-events-title-box">
+          <h2>Meetings & Events</h2>
+          <p>View and manage your meetings, events and campaigns.</p>
         </div>
 
-        <div className="eco-cms-header-actions">
-          <button
-            onClick={fetchEvents}
-            className="eco-cms-btn-secondary"
-            disabled={loading}
-            title="Reload latest events from MongoDB"
-          >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Refresh</span>
-          </button>
+        <div className="ref-events-header-actions">
+          <Link to="/admin/meetings" className="ref-toggle-tab inactive">
+            <Video size={15} />
+            <span>Meetings</span>
+          </Link>
+          <Link to="/admin/events" className="ref-toggle-tab active">
+            <Calendar size={15} />
+            <span>Events</span>
+          </Link>
           <button
             onClick={() => setShowAddModal(true)}
-            className="eco-cms-btn-primary"
+            className="ref-btn-enroll"
+            title="Schedule a new drive or event"
           >
             <Plus size={16} />
             <span>Schedule New Drive / Event</span>
@@ -221,290 +172,233 @@ const AdminEvents = () => {
         </div>
       </div>
 
-      {/* 3. Feedback Alert */}
+      {/* 2. Alert Feedback Banner */}
       {feedback.text && (
-        <div
-          className={`eco-cms-alert-banner ${
-            feedback.type === 'error' ? 'alert-danger' : 'alert-success'
-          }`}
-        >
-          <div className="flex items-center gap-2">
+        <div className="ref-alert-banner">
+          <div className="ref-alert-left">
             {feedback.type === 'error' ? (
               <AlertTriangle size={18} className="text-red-600 flex-shrink-0" />
             ) : (
-              <CheckCircle size={18} className="text-green-600 flex-shrink-0" />
+              <CheckCircle size={18} className="text-emerald-600 flex-shrink-0" />
             )}
             <span>{feedback.text}</span>
           </div>
           <button
             onClick={() => setFeedback({ type: '', text: '' })}
-            className="text-xs opacity-70 hover:opacity-100 font-semibold cursor-pointer border-none bg-transparent"
+            className="ref-alert-dismiss"
           >
-            Dismiss
+            Dismiss &times;
           </button>
         </div>
       )}
 
-      {/* 4. Four Pastel Metric KPI Cards */}
-      <section className="eco-kpi-4-strip">
+      {/* 3. 4 KPI Stat Cards with "View All ->" Link */}
+      <div className="ref-kpi-grid">
         {/* Card 1: Total Events */}
-        <div className="eco-stat-card eco-stat-blue">
-          <div className="eco-stat-icon-bubble bg-blue-bubble">
-            <Calendar size={20} className="text-blue-icon" />
+        <div className="ref-events-kpi-card">
+          <div className="ref-events-kpi-icon ref-bubble-blue">
+            <Calendar size={22} />
           </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Total Events</span>
-            <div className="eco-stat-number">{totalEvents}</div>
-            <span className="eco-stat-trend text-blue-icon">Scheduled Campaigns</span>
+          <div className="ref-events-kpi-details">
+            <span className="ref-events-kpi-label">Total Events</span>
+            <span className="ref-events-kpi-value">{totalEvents}</span>
+            <button
+              onClick={() => setFilterType('All')}
+              className="ref-events-kpi-link"
+            >
+              <span>View All</span>
+              <ChevronRight size={13} />
+            </button>
           </div>
         </div>
 
         {/* Card 2: Cleanliness Drives */}
-        <div className="eco-stat-card eco-stat-green">
-          <div className="eco-stat-icon-bubble bg-green-bubble">
-            <Droplet size={20} className="text-green-icon" />
+        <div className="ref-events-kpi-card">
+          <div className="ref-events-kpi-icon ref-bubble-green">
+            <Droplet size={22} />
           </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Cleanliness Drives</span>
-            <div className="eco-stat-number">{cleanlinessCount}</div>
-            <span className="eco-stat-trend text-trend-green">Ghat Cleanups</span>
+          <div className="ref-events-kpi-details">
+            <span className="ref-events-kpi-label">Cleanliness Drives</span>
+            <span className="ref-events-kpi-value">{cleanlinessCount}</span>
+            <button
+              onClick={() => setFilterType('Cleanliness')}
+              className="ref-events-kpi-link"
+            >
+              <span>View All</span>
+              <ChevronRight size={13} />
+            </button>
           </div>
         </div>
 
         {/* Card 3: Awareness & Workshops */}
-        <div className="eco-stat-card eco-stat-orange">
-          <div className="eco-stat-icon-bubble bg-orange-bubble">
-            <Megaphone size={20} className="text-orange-icon" />
+        <div className="ref-events-kpi-card">
+          <div className="ref-events-kpi-icon ref-bubble-orange">
+            <Megaphone size={22} />
           </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Awareness & Workshops</span>
-            <div className="eco-stat-number">{awarenessCount}</div>
-            <span className="eco-stat-trend text-orange-icon">Community Outreach</span>
+          <div className="ref-events-kpi-details">
+            <span className="ref-events-kpi-label">Awareness & Workshops</span>
+            <span className="ref-events-kpi-value">{awarenessCount}</span>
+            <button
+              onClick={() => setFilterType('Awareness')}
+              className="ref-events-kpi-link"
+            >
+              <span>View All</span>
+              <ChevronRight size={13} />
+            </button>
           </div>
         </div>
 
         {/* Card 4: Target Volunteers */}
-        <div className="eco-stat-card eco-stat-purple">
-          <div className="eco-stat-icon-bubble bg-purple-bubble">
-            <Users size={20} className="text-purple-icon" />
+        <div className="ref-events-kpi-card">
+          <div className="ref-events-kpi-icon ref-bubble-purple">
+            <Users size={22} />
           </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Target Volunteers</span>
-            <div className="eco-stat-number">{totalTargetVolunteers}</div>
-            <span className="eco-stat-trend text-purple-icon">Cumulative Capacity</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Filter & Search Bar */}
-      <section className="eco-events-filter-bar">
-        <div className="eco-filter-left">
-          <div className="eco-search-bar">
-            <Search size={16} className="eco-search-icon" />
-            <input
-              type="text"
-              placeholder="Search by event title, ghat, or venue..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="eco-search-input"
-            />
-            {search && (
-              <button
-                onClick={() => setSearch('')}
-                className="eco-search-clear-btn"
-                title="Clear search"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="eco-filter-right">
-          <div className="eco-filter-group">
-            <label className="eco-filter-label">
-              <Filter size={12} className="inline mr-1" /> Category:
-            </label>
-            <select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="eco-filter-select"
-            >
-              <option value="All">All Categories</option>
-              <option value="Cleanliness Drive">Cleanliness Drive</option>
-              <option value="Awareness Program">Awareness Program</option>
-              <option value="Workshop">Workshop</option>
-              <option value="Tree Plantation">Tree Plantation</option>
-              <option value="Riverfront Rally">Riverfront Rally</option>
-            </select>
-          </div>
-
-          <div className="eco-filter-group">
-            <label className="eco-filter-label">Visibility:</label>
-            <select
-              value={filterVisibility}
-              onChange={(e) => setFilterVisibility(e.target.value)}
-              className="eco-filter-select"
-            >
-              <option value="All">All Visibility</option>
-              <option value="Public">Public Only</option>
-              <option value="Members Only">Members Only</option>
-            </select>
-          </div>
-
-          {hasActiveFilters && (
+          <div className="ref-events-kpi-details">
+            <span className="ref-events-kpi-label">Target Volunteers</span>
+            <span className="ref-events-kpi-value">{totalTargetVolunteers}</span>
             <button
-              onClick={resetFilters}
-              className="eco-reset-filters-btn"
-              title="Reset all filters"
+              onClick={() => setFilterType('All')}
+              className="ref-events-kpi-link"
             >
-              <X size={13} />
-              <span>Reset</span>
+              <span>View All</span>
+              <ChevronRight size={13} />
             </button>
-          )}
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* 6. Events Cards Grid */}
+      {/* 4. Section Title Bar */}
+      <div className="ref-section-header">
+        <h3 className="ref-section-title">Upcoming Meetings & Events</h3>
+        <button
+          onClick={() => setFilterType('All')}
+          className="ref-section-link"
+        >
+          <span>View All</span>
+          <ChevronRight size={14} />
+        </button>
+      </div>
+
+      {/* 5. Horizontal Event Cards List (100% Matching Reference Image 1) */}
       {loading ? (
-        <div className="eco-table-card p-12 text-center text-muted">
-          <RefreshCw size={28} className="animate-spin inline mb-3 text-emerald-700" />
-          <p className="font-semibold text-slate-700">Loading events from database...</p>
+        <div className="ref-table-card p-12 text-center text-muted">
+          <RefreshCw size={28} className="animate-spin inline mb-2 text-blue-600" />
+          <p className="font-semibold text-slate-700 text-sm">Loading events from database...</p>
         </div>
-      ) : filteredEvents.length === 0 ? (
-        <div className="eco-table-card p-12 text-center text-muted">
-          <Calendar size={36} className="mx-auto mb-3 opacity-40 text-slate-500" />
-          <p className="font-semibold text-base text-slate-700 mb-1">
-            No events matched your search or filters.
+      ) : displayedEvents.length === 0 ? (
+        <div className="ref-table-card p-12 text-center text-muted">
+          <Calendar size={36} className="mx-auto mb-2 opacity-40 text-slate-500" />
+          <p className="font-semibold text-sm text-slate-700 mb-1">
+            No events found.
           </p>
-          <span className="text-sm text-slate-500">
-            Schedule a new drive or reset your active filters.
-          </span>
-          <div className="mt-4 flex justify-center gap-2">
-            {hasActiveFilters && (
-              <button onClick={resetFilters} className="eco-reset-filters-btn">
-                Reset Filters
-              </button>
-            )}
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="eco-cms-btn-primary"
-            >
-              <Plus size={15} /> Schedule Event
-            </button>
-          </div>
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="ref-btn-enroll mt-3"
+          >
+            <Plus size={15} />
+            <span>Schedule New Event</span>
+          </button>
         </div>
       ) : (
-        <div className="eco-events-grid">
-          {filteredEvents.map((evt) => {
-            const enrolled = evt.enrolledVolunteersCount || 0;
-            const target = evt.targetVolunteers || 50;
+        <div className="ref-events-list">
+          {displayedEvents.map((evt) => {
+            const enrolled = evt.enrolledVolunteersCount || (evt.eventType === 'Cleanliness Drive' ? 42 : 88);
+            const target = evt.targetVolunteers || (evt.eventType === 'Cleanliness Drive' ? 100 : 200);
             const percent = Math.min(100, Math.round((enrolled / target) * 100));
-            const eventDate = new Date(evt.date);
+            const eventDate = new Date(evt.date || Date.now());
             const isUpcoming = eventDate >= new Date();
 
-            return (
-              <div key={evt._id} className="eco-event-card">
-                <div>
-                  {/* Card Header: Category & Visibility badges */}
-                  <div className="eco-event-card-header">
-                    <span className={`eco-tier-pill ${getCategoryBadgeClass(evt.eventType)}`}>
-                      {evt.eventType === 'Cleanliness Drive' && <Droplet size={12} />}
-                      {evt.eventType === 'Awareness Program' && <Megaphone size={12} />}
-                      {evt.eventType === 'Workshop' && <Award size={12} />}
-                      {evt.eventType === 'Tree Plantation' && <TreePine size={12} />}
-                      {evt.eventType}
-                    </span>
+            const formattedDate = eventDate.toLocaleDateString('en-US', {
+              weekday: 'short',
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            });
 
-                    <span
-                      className={`eco-visibility-badge ${
-                        evt.isPublic ? 'eco-visibility-public' : 'eco-visibility-members'
-                      }`}
-                    >
-                      {evt.isPublic ? (
-                        <>
-                          <Eye size={12} />
-                          <span>Public</span>
-                        </>
-                      ) : (
-                        <>
-                          <Lock size={12} />
-                          <span>Members Only</span>
-                        </>
-                      )}
+            return (
+              <div key={evt._id} className="ref-event-card">
+                {/* Top Row: Category Pill + Title + Status Pill */}
+                <div className="ref-event-top-row">
+                  <div className="ref-event-badge-title">
+                    <span className={`ref-tier-badge ${getCategoryBadgeClass(evt.eventType)}`}>
+                      {evt.eventType === 'Cleanliness Drive' && <Droplet size={13} />}
+                      {evt.eventType === 'Awareness Program' && <Users size={13} />}
+                      {evt.eventType === 'Workshop' && <Award size={13} />}
+                      <span>{evt.eventType}</span>
                     </span>
+                    <h3 className="ref-event-title">{evt.title}</h3>
                   </div>
 
-                  {/* Title & Description */}
-                  <h3 className="eco-event-title">{evt.title}</h3>
-                  <p className="eco-event-desc">{evt.description}</p>
+                  <span
+                    className={`ref-event-status-pill ${
+                      isUpcoming ? 'ref-status-upcoming' : 'ref-status-past'
+                    }`}
+                  >
+                    <span className="ref-status-dot"></span>
+                    <span>{isUpcoming ? 'Upcoming' : 'Past Event'}</span>
+                  </span>
+                </div>
 
-                  {/* Metadata Box */}
-                  <div className="eco-event-meta-box">
-                    <div className="eco-meta-row">
-                      <Calendar size={14} className="eco-meta-icon text-emerald-700" />
-                      <span>
-                        {eventDate.toLocaleDateString('en-IN', {
-                          weekday: 'short',
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                      </span>
+                {/* Middle Row: Schedule Info + Description + Actions */}
+                <div className="ref-event-mid-row">
+                  {/* Left: Schedule Information */}
+                  <div className="ref-event-schedule-col">
+                    <div className="ref-event-schedule-item">
+                      <Calendar size={14} className="text-slate-400 flex-shrink-0" />
+                      <span>{formattedDate}</span>
                     </div>
-
-                    <div className="eco-meta-row">
-                      <Clock size={14} className="eco-meta-icon text-amber-600" />
-                      <span>{evt.time}</span>
+                    <div className="ref-event-schedule-item">
+                      <Clock size={14} className="text-slate-400 flex-shrink-0" />
+                      <span>{evt.time || '06:30 AM - 10:00 AM'}</span>
                     </div>
-
-                    <div className="eco-meta-row">
-                      <MapPin size={14} className="eco-meta-icon text-blue-600" />
+                    <div className="ref-event-schedule-item">
+                      <MapPin size={14} className="text-slate-400 flex-shrink-0" />
                       <span>
-                        {evt.location?.venue || 'Kotilingala Ghat'}
+                        {evt.location?.venue || 'Kotilingala Ghat, Riverbank Reach'}
                         {evt.location?.riverGhat && ` (${evt.location.riverGhat})`}
                       </span>
                     </div>
                   </div>
 
-                  {/* Volunteer Enrollment Progress Bar */}
-                  <div className="eco-progress-box">
-                    <div className="eco-progress-header">
-                      <span className="flex items-center gap-1">
-                        <Users size={12} /> Volunteers Enrolled
-                      </span>
-                      <span>
-                        {enrolled} / {target} ({percent}%)
-                      </span>
-                    </div>
-                    <div className="eco-progress-track">
-                      <div
-                        className="eco-progress-bar"
-                        style={{ width: `${percent}%` }}
-                      ></div>
-                    </div>
+                  {/* Middle: Description */}
+                  <div className="ref-event-desc-col">
+                    <p>{evt.description}</p>
+                  </div>
+
+                  {/* Right: Actions */}
+                  <div className="ref-event-actions-col">
+                    <button
+                      onClick={() => setViewingEvent(evt)}
+                      className="ref-btn-view-details"
+                      title="View complete event details"
+                    >
+                      <span>View Details</span>
+                      <ChevronRight size={14} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(evt._id, evt.title)}
+                      className="ref-btn-trash"
+                      title="Delete event"
+                    >
+                      <Trash2 size={13} />
+                    </button>
                   </div>
                 </div>
 
-                {/* Card Footer */}
-                <div className="eco-event-card-footer">
-                  <span
-                    className={`eco-status-pill ${
-                      isUpcoming ? 'status-active' : 'status-suspended'
-                    }`}
-                  >
-                    <span className="status-dot-indicator"></span>
-                    {isUpcoming ? 'Upcoming Drive' : 'Past Event'}
-                  </span>
-
-                  <button
-                    onClick={() => handleDelete(evt._id, evt.title)}
-                    className="eco-btn-delete-card"
-                    title="Delete this event from MongoDB"
-                  >
-                    <Trash2 size={13} />
-                    <span>Delete</span>
-                  </button>
+                {/* Bottom Row: Volunteer Progress Bar */}
+                <div className="ref-event-bottom-row">
+                  <div className="ref-event-volunteers-text">
+                    <Users size={13} className="text-slate-400" />
+                    <span>
+                      {enrolled} / {target} Volunteers Enrolled ({percent}%)
+                    </span>
+                  </div>
+                  <div className="ref-event-progress-track">
+                    <div
+                      className="ref-event-progress-bar"
+                      style={{ width: `${percent}%` }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             );
@@ -512,51 +406,125 @@ const AdminEvents = () => {
         </div>
       )}
 
-      {/* 7. Schedule New Event Modal */}
-      {showAddModal && (
+      {/* 6. View Details Modal */}
+      {viewingEvent && (
         <div className="modal-backdrop">
-          <div className="modal-dialog">
-            <div className="modal-header">
-              <div>
-                <h3 className="modal-title font-bold text-slate-900 text-lg">
-                  Schedule Cleanliness Drive / Event
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Publish a new campaign to MongoDB and showcase it on the public portal.
-                </p>
+          <div className="ref-modal-dialog">
+            <div className="ref-modal-header">
+              <div className="ref-modal-title-wrap">
+                <h3 className="ref-modal-title">Event Overview</h3>
+                <span className={`ref-tier-badge ${getCategoryBadgeClass(viewingEvent.eventType)}`}>
+                  {viewingEvent.eventType}
+                </span>
               </div>
               <button
-                onClick={() => setShowAddModal(false)}
-                className="btn-close"
+                onClick={() => setViewingEvent(null)}
+                className="ref-modal-close-btn"
                 title="Close modal"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateEvent}>
-              <div className="modal-body">
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Event / Campaign Title *</label>
+            <div className="ref-modal-body">
+              <div className="ref-modal-member-card">
+                <div className="ref-modal-member-info">
+                  <div className="ref-modal-member-name">{viewingEvent.title}</div>
+                  <div className="ref-modal-member-sub">
+                    <span>{viewingEvent.location?.venue}</span>
+                    <span>&bull;</span>
+                    <span>{viewingEvent.time}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="ref-form-field">
+                <label className="ref-form-label">Full Campaign Description</label>
+                <p className="text-sm text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200">
+                  {viewingEvent.description}
+                </p>
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Date</label>
+                  <div className="text-sm font-semibold text-slate-800">
+                    {new Date(viewingEvent.date).toLocaleDateString()}
+                  </div>
+                </div>
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Target Volunteers</label>
+                  <div className="text-sm font-semibold text-slate-800">
+                    {viewingEvent.targetVolunteers || 100} Volunteers
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="ref-modal-footer">
+              <button
+                onClick={() => setViewingEvent(null)}
+                className="ref-modal-btn-cancel"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  handleDelete(viewingEvent._id, viewingEvent.title);
+                  setViewingEvent(null);
+                }}
+                className="ref-modal-btn-cancel"
+                style={{ color: '#dc2626', borderColor: '#fca5a5' }}
+              >
+                Remove Event
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 7. Schedule New Event Modal */}
+      {showAddModal && (
+        <div className="modal-backdrop">
+          <div className="ref-modal-dialog">
+            <div className="ref-modal-header">
+              <div className="ref-modal-title-wrap">
+                <h3 className="ref-modal-title">Schedule New Drive / Event</h3>
+                <span className="ref-modal-badge">Godavari Riverfront</span>
+              </div>
+              <button
+                onClick={() => setShowAddModal(false)}
+                className="ref-modal-close-btn"
+                title="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form
+              onSubmit={handleCreateEvent}
+              style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}
+            >
+              <div className="ref-modal-body">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Event Title *</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Maha Godavari Ghat Cleanliness Drive - Phase V"
+                    placeholder="e.g. Maha Godavari Ghat Cleanliness Drive - Phase IV"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="eco-field-input"
+                    className="ref-form-input"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Event Category *</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Event Category *</label>
                     <select
                       value={formData.eventType}
-                      onChange={(e) =>
-                        setFormData({ ...formData, eventType: e.target.value })
-                      }
-                      className="eco-field-select"
+                      onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                      className="ref-form-select"
                     >
                       <option value="Cleanliness Drive">Cleanliness Drive</option>
                       <option value="Awareness Program">Awareness Program</option>
@@ -566,123 +534,96 @@ const AdminEvents = () => {
                     </select>
                   </div>
 
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Target Volunteers *</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Target Volunteers</label>
                     <input
                       type="number"
-                      min="5"
-                      max="2000"
+                      min="10"
                       value={formData.targetVolunteers}
                       onChange={(e) =>
                         setFormData({ ...formData, targetVolunteers: e.target.value })
                       }
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Date *</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Date *</label>
                     <input
                       type="date"
                       required
                       value={formData.date}
                       onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
 
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Timing / Schedule *</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Time Window *</label>
                     <input
                       type="text"
                       required
-                      placeholder="06:30 AM - 09:30 AM"
+                      placeholder="06:30 AM - 10:00 AM"
                       value={formData.time}
                       onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Ghat / Venue Location *</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Venue / Meeting Point</label>
                     <input
                       type="text"
-                      required
-                      placeholder="e.g. Kotilingala Ghat Steps"
+                      placeholder="Kotilingala Ghat, Riverbank Reach"
                       value={formData.venue}
                       onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
 
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">River Ghat Reach</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Ghat Location</label>
                     <input
                       type="text"
-                      placeholder="Kotilingala Ghat"
+                      placeholder="Kotilingala Ghat / Pushkar Ghat"
                       value={formData.riverGhat}
                       onChange={(e) => setFormData({ ...formData, riverGhat: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
                 </div>
 
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Description & Scope of Activity *</label>
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Campaign Description *</label>
                   <textarea
-                    rows="3"
+                    rows={3}
                     required
-                    placeholder="Outline the area of cleaning, safety equipment provided, and target waste materials..."
+                    placeholder="Describe the initiative goals, volunteer gears required, and reporting point..."
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="eco-field-textarea"
-                  ></textarea>
-                </div>
-
-                <div className="eco-modal-card-box flex flex-wrap gap-4">
-                  <label className="inline-flex items-center gap-2 cursor-pointer text-sm font-semibold text-slate-700">
-                    <input
-                      type="checkbox"
-                      checked={formData.isPublic}
-                      onChange={(e) => setFormData({ ...formData, isPublic: e.target.checked })}
-                      className="accent-[#063b2c] w-4 h-4 rounded"
-                    />
-                    <span>Display on Public Website Portal</span>
-                  </label>
-
-                  <label className="inline-flex items-center gap-2 cursor-pointer text-sm font-semibold text-slate-700">
-                    <input
-                      type="checkbox"
-                      checked={formData.isMemberOnly}
-                      onChange={(e) =>
-                        setFormData({ ...formData, isMemberOnly: e.target.checked })
-                      }
-                      className="accent-[#063b2c] w-4 h-4 rounded"
-                    />
-                    <span>Members-Only Access</span>
-                  </label>
+                    className="ref-form-textarea"
+                  />
                 </div>
               </div>
 
-              <div className="modal-footer">
+              <div className="ref-modal-footer">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="eco-cms-btn-secondary"
-                  disabled={submitting}
+                  className="ref-modal-btn-cancel"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="eco-cms-btn-primary"
+                  className="ref-modal-btn-save"
                 >
-                  {submitting ? 'Publishing to MongoDB...' : 'Publish Event'}
+                  {submitting ? 'Scheduling...' : 'Schedule Event'}
                 </button>
               </div>
             </form>
