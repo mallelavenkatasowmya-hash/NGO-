@@ -227,7 +227,11 @@ const Home = () => {
                             <span>{evt.time || '07:00 AM - 10:00 AM'}</span>
                             <span className="mx-1">•</span>
                             <MapPin size={13} />
-                            <span>{evt.location || 'Godhavari Ghat'}</span>
+                            <span>
+                              {typeof evt.location === 'object' && evt.location !== null
+                                ? evt.location.venue || evt.location.riverGhat || evt.location.city || 'Godhavari Ghat'
+                                : evt.location || 'Godhavari Ghat'}
+                            </span>
                           </p>
                         </div>
                       </div>

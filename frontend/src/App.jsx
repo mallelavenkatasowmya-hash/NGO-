@@ -51,7 +51,11 @@ const PublicLayout = () => {
   const { user, isAdmin, loading } = useAuth();
 
   if (loading) {
-    return null;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc' }}>
+        <div style={{ width: '36px', height: '36px', border: '3px solid #e2e8f0', borderTopColor: '#0f4a38', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+      </div>
+    );
   }
 
   // When admin is logged in, do not show public pages - redirect directly to Admin Dashboard
