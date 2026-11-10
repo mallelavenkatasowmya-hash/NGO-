@@ -156,19 +156,44 @@ export const updateMemberById = async (req, res, next) => {
       return res.status(404).json({ message: 'Member not found' });
     }
 
-    const { name, email, phone, role, designation, bloodGroup, isActive, address } = req.body;
+    const {
+      name,
+      email,
+      phone,
+      role,
+      designation,
+      bloodGroup,
+      isActive,
+      address,
+      membershipType,
+      status,
+    } = req.body;
 
     if (name) user.name = name;
     if (email) user.email = email.toLowerCase();
     if (phone) user.phone = phone;
     if (role) user.role = role;
-    if (designation) user.designation = designation;
+    if (designation !== undefined) user.designation = designation;
     if (bloodGroup) user.bloodGroup = bloodGroup;
     if (typeof isActive === 'boolean') user.isActive = isActive;
     if (address) user.address = address;
 
     const updatedUser = await user.save();
-    const membership = await Membership.findOne({ user: user._id });
+    let membership = await Membership.findOne({ user: user._id });
+
+    if (!membership && (membershipType || status)) {
+      membership = new Membership({
+        user: user._id,
+        membershipNumber: `MEM-${user.memberId || user._id.toString().slice(-6).toUpperCase()}`,
+        approvedBy: req.user?._id,
+      });
+    }
+
+    if (membership) {
+      if (membershipType) membership.membershipType = membershipType;
+      if (status) membership.status = status;
+      await membership.save();
+    }
 
     res.json({
       ...updatedUser.toObject(),

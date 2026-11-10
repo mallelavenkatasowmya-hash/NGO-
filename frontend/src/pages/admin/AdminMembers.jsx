@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 import {
   Users,
   Search,
@@ -14,22 +15,34 @@ import {
   Pause,
   ChevronLeft,
   ChevronRight,
+  Edit2,
+  Eye,
+  Shield,
+  MapPin,
+  Calendar,
+  AlertTriangle,
+  Award,
 } from 'lucide-react';
 
 const AdminMembers = () => {
+  const { user: currentUser } = useAuth();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [tierFilter, setTierFilter] = useState('All');
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [feedback, setFeedback] = useState({
-    type: 'success',
-    message: 'Member record for "Sri M. Ramu Naidu" removed',
-  });
 
-  // Form State for Adding New Member
+  // Modal States for Full CRUD Operations
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState({ type: '', message: '' });
+
+  // Form State for Adding New Member (Create)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -37,6 +50,20 @@ const AdminMembers = () => {
     role: 'member',
     designation: 'General Member',
     membershipType: 'Annual Member',
+    bloodGroup: 'B+',
+    street: '',
+    city: 'Rajahmundry',
+  });
+
+  // Form State for Editing Existing Member (Update)
+  const [editFormData, setEditFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    role: 'member',
+    designation: 'General Member',
+    membershipType: 'Annual Member',
+    status: 'Active',
     bloodGroup: 'B+',
     street: '',
     city: 'Rajahmundry',
@@ -58,6 +85,7 @@ const AdminMembers = () => {
     fetchMembers();
   }, []);
 
+  // 1. CREATE: Handle Enrolling a New Member
   const handleAddMember = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -99,30 +127,108 @@ const AdminMembers = () => {
     }
   };
 
-  const handleStatusToggle = async (userId, currentStatus) => {
+  // 2. READ: Open Full Details Modal
+  const openViewModal = (member) => {
+    setSelectedMember(member);
+    setShowViewModal(true);
+  };
+
+  // 3. UPDATE: Open Edit Modal with Pre-populated Data
+  const openEditModal = (member) => {
+    setSelectedMember(member);
+    setEditFormData({
+      name: member.name || '',
+      email: member.email || '',
+      phone: member.phone || '',
+      role: member.role || 'member',
+      designation: member.designation || 'General Member',
+      membershipType: member.membership?.membershipType || member.membershipType || 'Annual Member',
+      status: member.membership?.status || 'Active',
+      bloodGroup: member.bloodGroup || 'B+',
+      street: member.address?.street || '',
+      city: member.address?.city || 'Rajahmundry',
+    });
+    setShowEditModal(true);
+  };
+
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+    if (!selectedMember) return;
+
+    setSubmitting(true);
+    setFeedback({ type: '', message: '' });
+
+    try {
+      await API.patch(`/admin/members/${selectedMember._id}`, {
+        name: editFormData.name,
+        email: editFormData.email,
+        phone: editFormData.phone,
+        role: editFormData.role,
+        designation: editFormData.designation,
+        membershipType: editFormData.membershipType,
+        status: editFormData.status,
+        bloodGroup: editFormData.bloodGroup,
+        address: { street: editFormData.street, city: editFormData.city },
+      });
+
+      setFeedback({
+        type: 'success',
+        message: `Member record for "${editFormData.name}" successfully updated!`,
+      });
+      setShowEditModal(false);
+      setSelectedMember(null);
+      fetchMembers();
+    } catch (err) {
+      setFeedback({
+        type: 'error',
+        message: err.response?.data?.message || 'Failed to update member record',
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // 4. UPDATE (Quick): Suspend / Activate Toggle
+  const handleStatusToggle = async (userId, currentStatus, memberName) => {
     const nextStatus = currentStatus === 'Active' ? 'Suspended' : 'Active';
     try {
       await API.patch(`/admin/members/${userId}/membership`, { status: nextStatus });
-      setFeedback({ type: 'success', message: `Membership status updated to ${nextStatus}` });
+      setFeedback({
+        type: 'success',
+        message: `Membership status for "${memberName}" updated to ${nextStatus}`,
+      });
       fetchMembers();
     } catch (err) {
       setFeedback({ type: 'error', message: 'Failed to update membership status' });
     }
   };
 
-  const handleDeleteMember = async (userId, memberName) => {
-    if (!window.confirm(`Are you sure you want to remove member record for "${memberName}"?`)) {
-      return;
-    }
+  // 5. DELETE: Open Confirmation Modal and Confirm Delete
+  const openDeleteModal = (member) => {
+    setSelectedMember(member);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedMember) return;
+
+    setSubmitting(true);
     try {
-      await API.delete(`/admin/members/${userId}`);
-      setFeedback({ type: 'success', message: `Member record for "${memberName}" removed` });
+      await API.delete(`/admin/members/${selectedMember._id}`);
+      setFeedback({
+        type: 'success',
+        message: `Member record for "${selectedMember.name}" successfully removed.`,
+      });
+      setShowDeleteModal(false);
+      setSelectedMember(null);
       fetchMembers();
     } catch (err) {
       setFeedback({
         type: 'error',
         message: err.response?.data?.message || 'Failed to remove member record',
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -146,7 +252,7 @@ const AdminMembers = () => {
     return matchesSearch && matchesTier && matchesStatus;
   });
 
-  // Calculate dynamic stats
+  // Calculate dynamic stats matching reference
   const totalCount = members.length;
   const activeCount = members.filter((m) => (m.membership?.status || 'Active') === 'Active').length;
   const suspendedCount = members.filter((m) => (m.membership?.status || 'Active') === 'Suspended').length;
@@ -210,14 +316,19 @@ const AdminMembers = () => {
 
       {/* 2. Success Alert Banner */}
       {feedback.message && (
-        <div className="ref-alert-banner">
+        <div className={`ref-alert-banner ${feedback.type === 'error' ? 'ref-alert-error' : ''}`}>
           <div className="ref-alert-left">
-            <CheckCircle size={18} className="text-emerald-600 flex-shrink-0" />
+            {feedback.type === 'error' ? (
+              <AlertTriangle size={18} className="text-red-500 flex-shrink-0" />
+            ) : (
+              <CheckCircle size={18} className="text-emerald-600 flex-shrink-0" />
+            )}
             <span>{feedback.message}</span>
           </div>
           <button
             onClick={() => setFeedback({ type: '', message: '' })}
             className="ref-alert-dismiss"
+            title="Dismiss notification"
           >
             Dismiss &times;
           </button>
@@ -349,30 +460,37 @@ const AdminMembers = () => {
           <table className="ref-table">
             <thead>
               <tr>
-                <th style={{ width: '27%' }}>Member Details</th>
+                <th style={{ width: '25%' }}>Member Details</th>
                 <th style={{ width: '13%' }}>Member ID</th>
-                <th style={{ width: '23%' }}>Contact Information</th>
+                <th style={{ width: '20%' }}>Contact Information</th>
                 <th style={{ width: '14%' }}>Membership Tier</th>
-                <th style={{ width: '10%' }}>Status</th>
-                <th style={{ width: '13%', textAlign: 'center' }}>Actions</th>
+                <th style={{ width: '9%' }}>Status</th>
+                <th style={{ width: '19%', textAlign: 'center' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredMembers.map((m) => {
                 const status = m.membership?.status || 'Active';
                 const tier = m.membership?.membershipType || m.membershipType || 'Annual Member';
+                const isSelf = currentUser?._id && currentUser._id.toString() === m._id.toString();
 
                 return (
                   <tr key={m._id}>
                     {/* 1. Member Details */}
                     <td>
-                      <div className="ref-profile-cell">
+                      <div
+                        className="ref-profile-cell cursor-pointer"
+                        onClick={() => openViewModal(m)}
+                        title="Click to view full member card"
+                      >
                         <div className="ref-avatar-circle">
                           {getInitials(m.name)}
                         </div>
                         <div>
                           <div className="ref-name-row">
-                            <span className="ref-member-name">{m.name}</span>
+                            <span className="ref-member-name hover:text-emerald-700 transition">
+                              {m.name}
+                            </span>
                             {m.bloodGroup && (
                               <span className="ref-tag-pill">{m.bloodGroup}</span>
                             )}
@@ -425,27 +543,54 @@ const AdminMembers = () => {
                       </span>
                     </td>
 
-                    {/* 6. Actions */}
+                    {/* 6. Actions (Full CRUD Controls) */}
                     <td style={{ textAlign: 'center' }}>
                       <div className="ref-action-group" style={{ justifyContent: 'center' }}>
+                        {/* READ: View Button */}
                         <button
-                          onClick={() => handleStatusToggle(m._id, status)}
+                          onClick={() => openViewModal(m)}
+                          className="ref-btn-view"
+                          title="View Member ID Card & Details"
+                        >
+                          <Eye size={12} />
+                          <span>View</span>
+                        </button>
+
+                        {/* UPDATE: Edit Button */}
+                        <button
+                          onClick={() => openEditModal(m)}
+                          className="ref-btn-edit"
+                          title="Edit Member Profile"
+                        >
+                          <Edit2 size={12} />
+                          <span>Edit</span>
+                        </button>
+
+                        {/* UPDATE: Quick Status Toggle */}
+                        <button
+                          onClick={() => handleStatusToggle(m._id, status, m.name)}
                           className={status === 'Active' ? 'ref-btn-suspend' : 'ref-btn-activate'}
-                          title={status === 'Active' ? 'Suspend' : 'Activate'}
+                          title={status === 'Active' ? 'Suspend Membership' : 'Activate Membership'}
                         >
                           <Pause size={10} strokeWidth={3} />
                           <span>{status === 'Active' ? 'Suspend' : 'Activate'}</span>
                         </button>
-                        {m.role !== 'admin' ? (
+
+                        {/* DELETE: Remove Member Button */}
+                        {!isSelf ? (
                           <button
-                            onClick={() => handleDeleteMember(m._id, m.name)}
+                            onClick={() => openDeleteModal(m)}
                             className="ref-btn-trash"
                             title="Delete Member Record"
                           >
                             <Trash2 size={13} />
                           </button>
                         ) : (
-                          <span style={{ width: '32px', display: 'inline-block' }} aria-hidden="true" />
+                          <span
+                            style={{ width: '32px', display: 'inline-block' }}
+                            title="Cannot delete your current logged in account"
+                            aria-hidden="true"
+                          />
                         )}
                       </div>
                     </td>
@@ -468,102 +613,100 @@ const AdminMembers = () => {
         </div>
       </div>
 
-      {/* 8. Enroll New Member Modal */}
+      {/* =========================================================================
+          MODAL 1: CREATE (Enroll New Member)
+          ========================================================================= */}
       {showAddModal && (
         <div className="modal-backdrop">
-          <div className="modal-dialog">
-            <div className="modal-header">
-              <div>
-                <h3 className="modal-title font-bold text-slate-900 text-lg">
-                  Enroll New Member
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Register official profile details into the NGO database.
-                </p>
+          <div className="ref-modal-dialog">
+            <div className="ref-modal-header">
+              <div className="ref-modal-title-wrap">
+                <h3 className="ref-modal-title">Enroll New Member</h3>
+                <span className="ref-modal-badge">Registration</span>
               </div>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="btn-close"
+                className="ref-modal-close-btn"
                 title="Close modal"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handleAddMember}>
-              <div className="modal-body">
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Full Name *</label>
+              <div className="ref-modal-body">
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Full Name *</label>
                     <input
                       type="text"
                       required
                       placeholder="Sri / Smt. Full Name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Phone Number *</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Phone Number *</label>
                     <input
                       type="tel"
                       required
                       placeholder="+91 98480 12345"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
                 </div>
 
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Email Address *</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Email Address *</label>
                     <input
                       type="email"
                       required
                       placeholder="member@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Membership Category</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Membership Category</label>
                     <select
                       value={formData.membershipType}
                       onChange={(e) =>
                         setFormData({ ...formData, membershipType: e.target.value })
                       }
-                      className="eco-field-select"
+                      className="ref-form-select"
                     >
                       <option value="Annual Member">Annual Member (₹500/yr)</option>
                       <option value="Life Member">Life Member (₹5,000)</option>
-                      <option value="Volunteer Member">Volunteer Member</option>
+                      <option value="Volunteer Member">Volunteer Member (Free)</option>
                       <option value="Student Member">Student Member</option>
                       <option value="Patron">Patron</option>
                     </select>
                   </div>
                 </div>
 
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Official Designation</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Official Designation</label>
                     <input
                       type="text"
                       placeholder="e.g. Ghat Coordinator / Volunteer Lead"
                       value={formData.designation}
                       onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Blood Group</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Blood Group</label>
                     <select
                       value={formData.bloodGroup}
                       onChange={(e) => setFormData({ ...formData, bloodGroup: e.target.value })}
-                      className="eco-field-select"
+                      className="ref-form-select"
                     >
                       <option value="A+">A+</option>
                       <option value="B+">B+</option>
@@ -577,47 +720,433 @@ const AdminMembers = () => {
                   </div>
                 </div>
 
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">City / Region</label>
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">City / Region</label>
                     <input
                       type="text"
-                      placeholder="Rajahmundry / Kovvur / Godavari"
+                      placeholder="Rajahmundry / Kovvur"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Street / Location Address</label>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Street / Location Address</label>
                     <input
                       type="text"
                       placeholder="Pushkar Ghat Rd / Main St"
                       value={formData.street}
                       onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                      className="eco-field-input"
+                      className="ref-form-input"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="modal-footer">
+              <div className="ref-modal-footer">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="eco-cms-btn-secondary"
+                  className="ref-modal-btn-cancel"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="ref-btn-enroll"
+                  className="ref-modal-btn-save"
                 >
                   {submitting ? 'Enrolling...' : 'Enroll Member'}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL 2: UPDATE (Edit Member Details)
+          ========================================================================= */}
+      {showEditModal && selectedMember && (
+        <div className="modal-backdrop">
+          <div className="ref-modal-dialog">
+            <div className="ref-modal-header">
+              <div className="ref-modal-title-wrap">
+                <h3 className="ref-modal-title">Edit Member Profile</h3>
+                <span className="ref-modal-badge">{selectedMember.memberId || 'ID Pending'}</span>
+              </div>
+              <button
+                onClick={() => setShowEditModal(false)}
+                className="ref-modal-close-btn"
+                title="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEdit}>
+              <div className="ref-modal-body">
+                {/* Member Identity Summary Card */}
+                <div className="ref-modal-member-card">
+                  <div className="ref-modal-member-info">
+                    <span className="ref-modal-member-name">{selectedMember.name}</span>
+                    <span className="ref-modal-member-sub">
+                      <span>ID: {selectedMember.memberId || 'N/A'}</span>
+                      <span>&bull;</span>
+                      <span>{selectedMember.email}</span>
+                    </span>
+                  </div>
+                  <span className={`ref-tier-badge ${getTierBadgeClass(editFormData.membershipType)}`}>
+                    {editFormData.membershipType === 'Life Member' && <Star size={12} fill="#9333ea" />}
+                    {editFormData.membershipType}
+                  </span>
+                </div>
+
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={editFormData.name}
+                      onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
+                      className="ref-form-input"
+                    />
+                  </div>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Phone Number *</label>
+                    <input
+                      type="tel"
+                      required
+                      value={editFormData.phone}
+                      onChange={(e) => setEditFormData({ ...editFormData, phone: e.target.value })}
+                      className="ref-form-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      value={editFormData.email}
+                      onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                      className="ref-form-input"
+                    />
+                  </div>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Official Designation</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Ghat Coordinator / General Secretary"
+                      value={editFormData.designation}
+                      onChange={(e) =>
+                        setEditFormData({ ...editFormData, designation: e.target.value })
+                      }
+                      className="ref-form-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Membership Category (Tier)</label>
+                    <select
+                      value={editFormData.membershipType}
+                      onChange={(e) =>
+                        setEditFormData({ ...editFormData, membershipType: e.target.value })
+                      }
+                      className="ref-form-select"
+                    >
+                      <option value="Annual Member">Annual Member (₹500/yr)</option>
+                      <option value="Life Member">Life Member (₹5,000)</option>
+                      <option value="Volunteer Member">Volunteer Member (Free)</option>
+                      <option value="Student Member">Student Member</option>
+                      <option value="Patron">Patron</option>
+                    </select>
+                  </div>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Membership Status</label>
+                    <select
+                      value={editFormData.status}
+                      onChange={(e) =>
+                        setEditFormData({ ...editFormData, status: e.target.value })
+                      }
+                      className="ref-form-select"
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Suspended">Suspended</option>
+                      <option value="Pending Approval">Pending Approval</option>
+                      <option value="Expired">Expired</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="ref-form-grid-2">
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">Blood Group</label>
+                    <select
+                      value={editFormData.bloodGroup}
+                      onChange={(e) =>
+                        setEditFormData({ ...editFormData, bloodGroup: e.target.value })
+                      }
+                      className="ref-form-select"
+                    >
+                      <option value="A+">A+</option>
+                      <option value="B+">B+</option>
+                      <option value="O+">O+</option>
+                      <option value="AB+">AB+</option>
+                      <option value="A-">A-</option>
+                      <option value="B-">B-</option>
+                      <option value="O-">O-</option>
+                      <option value="AB-">AB-</option>
+                    </select>
+                  </div>
+                  <div className="ref-form-field">
+                    <label className="ref-form-label">City / Region</label>
+                    <input
+                      type="text"
+                      value={editFormData.city}
+                      onChange={(e) => setEditFormData({ ...editFormData, city: e.target.value })}
+                      className="ref-form-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Street / Location Address</label>
+                  <input
+                    type="text"
+                    value={editFormData.street}
+                    onChange={(e) => setEditFormData({ ...editFormData, street: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="ref-modal-footer">
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="ref-modal-btn-cancel"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="ref-modal-btn-save"
+                >
+                  {submitting ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL 3: READ (View Member ID Card & Full Profile)
+          ========================================================================= */}
+      {showViewModal && selectedMember && (
+        <div className="modal-backdrop">
+          <div className="ref-modal-dialog" style={{ maxWidth: '620px' }}>
+            <div className="ref-modal-header">
+              <div className="ref-modal-title-wrap">
+                <h3 className="ref-modal-title">Member Profile & Identification</h3>
+                <span className="ref-modal-badge">{selectedMember.memberId || 'ID Pending'}</span>
+              </div>
+              <button
+                onClick={() => setShowViewModal(false)}
+                className="ref-modal-close-btn"
+                title="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="ref-modal-body">
+              {/* Digital NGO ID Card Preview */}
+              <div className="ref-id-card-wrap">
+                <div className="ref-id-card-top">
+                  <div>
+                    <span className="ref-id-card-title">Official Member Identification</span>
+                    <div className="ref-id-card-org">Godhavari Nadhi Paryavarana Parishubratha</div>
+                  </div>
+                  <span className="bg-white/20 text-white text-xs px-2.5 py-1 rounded-full font-bold">
+                    {selectedMember.membership?.membershipType || selectedMember.membershipType || 'Member'}
+                  </span>
+                </div>
+
+                <div className="ref-id-card-mid">
+                  <div className="ref-id-card-avatar">
+                    {getInitials(selectedMember.name)}
+                  </div>
+                  <div className="ref-id-card-info">
+                    <span className="ref-id-card-name">{selectedMember.name}</span>
+                    <span className="ref-id-card-designation">
+                      {selectedMember.designation || 'General Member'}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="ref-id-card-bottom">
+                  <div className="ref-id-card-meta">
+                    <span className="ref-id-card-meta-lbl">Registration ID</span>
+                    <span className="ref-id-card-meta-val">{selectedMember.memberId || 'Pending'}</span>
+                  </div>
+                  <div className="ref-id-card-meta">
+                    <span className="ref-id-card-meta-lbl">Blood Group</span>
+                    <span className="ref-id-card-meta-val">{selectedMember.bloodGroup || 'N/A'}</span>
+                  </div>
+                  <div className="ref-id-card-meta">
+                    <span className="ref-id-card-meta-lbl">Status</span>
+                    <span className="ref-id-card-meta-val">
+                      {selectedMember.membership?.status || 'Active'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Comprehensive Details Grid */}
+              <div className="ref-details-grid">
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">Email Address</span>
+                  <span className="ref-detail-value">{selectedMember.email}</span>
+                </div>
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">Phone Number</span>
+                  <span className="ref-detail-value">{selectedMember.phone || 'Not provided'}</span>
+                </div>
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">Designation / Role</span>
+                  <span className="ref-detail-value">{selectedMember.designation || 'General Member'}</span>
+                </div>
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">Membership Category</span>
+                  <span className="ref-detail-value">
+                    {selectedMember.membership?.membershipType || selectedMember.membershipType || 'Annual Member'}
+                  </span>
+                </div>
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">City / Region</span>
+                  <span className="ref-detail-value">
+                    {selectedMember.address?.city || 'Rajahmundry'}
+                  </span>
+                </div>
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">Street Address</span>
+                  <span className="ref-detail-value">
+                    {selectedMember.address?.street || 'Not provided'}
+                  </span>
+                </div>
+                {selectedMember.membership?.validTo && (
+                  <div className="ref-detail-item">
+                    <span className="ref-detail-label">Valid Until</span>
+                    <span className="ref-detail-value">
+                      {new Date(selectedMember.membership.validTo).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
+                {selectedMember.membership?.feePaid !== undefined && (
+                  <div className="ref-detail-item">
+                    <span className="ref-detail-label">Fee Paid</span>
+                    <span className="ref-detail-value font-bold text-emerald-700">
+                      ₹{selectedMember.membership.feePaid.toLocaleString()} ({selectedMember.membership.paymentStatus || 'Paid'})
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="ref-modal-footer">
+              <button
+                type="button"
+                onClick={() => setShowViewModal(false)}
+                className="ref-modal-btn-cancel"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowViewModal(false);
+                  openEditModal(selectedMember);
+                }}
+                className="ref-modal-btn-save"
+              >
+                Edit Member Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL 4: DELETE (Confirmation Dialog)
+          ========================================================================= */}
+      {showDeleteModal && selectedMember && (
+        <div className="modal-backdrop">
+          <div className="ref-modal-dialog" style={{ maxWidth: '480px' }}>
+            <div className="ref-modal-header">
+              <div className="ref-modal-title-wrap">
+                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                  <AlertTriangle size={18} />
+                </div>
+                <h3 className="ref-modal-title text-red-600">Delete Member Record</h3>
+              </div>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="ref-modal-close-btn"
+                title="Close modal"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="ref-modal-body">
+              <p className="text-slate-700 text-sm leading-relaxed">
+                Are you sure you want to permanently remove the member record for:
+              </p>
+
+              <div className="bg-red-50/70 border border-red-200 rounded-xl p-3.5 flex items-center gap-3">
+                <div className="ref-avatar-circle" style={{ backgroundColor: '#dc2626' }}>
+                  {getInitials(selectedMember.name)}
+                </div>
+                <div>
+                  <div className="font-bold text-slate-900 text-sm">{selectedMember.name}</div>
+                  <div className="text-xs text-slate-500">
+                    ID: {selectedMember.memberId || 'N/A'} &bull; {selectedMember.email}
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-500">
+                This action will delete their login credentials, member registration history, and active membership record from the NGO database. This cannot be undone.
+              </p>
+            </div>
+
+            <div className="ref-modal-footer">
+              <button
+                type="button"
+                onClick={() => setShowDeleteModal(false)}
+                className="ref-modal-btn-cancel"
+                disabled={submitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                disabled={submitting}
+                className="ref-modal-btn-danger"
+              >
+                {submitting ? 'Removing...' : 'Delete Member'}
+              </button>
+            </div>
           </div>
         </div>
       )}
