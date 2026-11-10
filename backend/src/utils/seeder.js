@@ -65,28 +65,28 @@ export const seedDatabase = async () => {
       });
     }
 
-    let member2 = await User.findOne({ email: 'ramu@example.com' });
+    let member2 = await User.findOne({ email: 'satyanarayana@godhavari.org' });
     if (!member2) {
       member2 = await User.create({
-        memberId: 'GNPP-2026-1003',
-        name: 'Sri M. Ramu Naidu',
-        email: 'ramu@example.com',
-        phone: '+91 98850 34567',
+        memberId: 'GNPP-2026-0103',
+        name: 'Prof. K. Satyanarayana Murthy',
+        email: 'satyanarayana@godhavari.org',
+        phone: '+91 98480 77890',
         password: 'password123',
-        role: 'volunteer',
-        designation: 'Ghat Coordinator',
+        role: 'member',
+        designation: 'Senior River Conservation Advisor',
         bloodGroup: 'O+',
-        address: { city: 'Kovvur', state: 'Andhra Pradesh' },
+        address: { city: 'Rajahmundry', state: 'Andhra Pradesh' },
       });
 
       await Membership.create({
         user: member2._id,
-        membershipNumber: 'MEM-GNPP-1003',
-        membershipType: 'Volunteer Member',
+        membershipNumber: 'MEM-GNPP-2026-0103',
+        membershipType: 'Life Member',
         status: 'Active',
         validFrom: new Date('2026-01-01'),
-        validTo: new Date('2027-01-01'),
-        feePaid: 500,
+        validTo: new Date('2051-01-01'),
+        feePaid: 5000,
         paymentStatus: 'Paid',
         approvedBy: admin._id,
       });
