@@ -7,7 +7,6 @@ import {
   Lock,
   Eye,
   EyeOff,
-  Smartphone,
   AlertCircle,
   CheckCircle2,
   ArrowRight,
@@ -27,10 +26,6 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [otpMode, setOtpMode] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpCode, setOtpCode] = useState('');
-  const [resendCountdown, setResendCountdown] = useState(0);
 
   // Forgot Password Modal State
   const [forgotModalOpen, setForgotModalOpen] = useState(false);
@@ -51,15 +46,6 @@ const Login = () => {
       }
     }
   }, [user, isAdmin, isMember, navigate]);
-
-  // Resend Countdown Timer
-  useEffect(() => {
-    let timer;
-    if (otpSent && resendCountdown > 0) {
-      timer = setTimeout(() => setResendCountdown((c) => c - 1), 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [otpSent, resendCountdown]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,36 +108,6 @@ const Login = () => {
         err.response?.data?.message ||
           'Unable to connect to the authentication service. Please check your connection.'
       );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleOtpRequest = (e) => {
-    e.preventDefault();
-    if (!identifier.trim()) {
-      setError('Please enter your registered mobile number.');
-      return;
-    }
-    setError('');
-    setOtpSent(true);
-    setResendCountdown(30);
-  };
-
-  const handleOtpVerify = async (e) => {
-    e.preventDefault();
-    if (!otpCode || otpCode.trim().length < 4) {
-      setError('Please enter the 6-digit verification code.');
-      return;
-    }
-    try {
-      setLoading(true);
-      setError('');
-      // Authenticate member session
-      await memberLogin('lakshmi@example.com', 'password123');
-      navigate('/member', { replace: true });
-    } catch (err) {
-      setError('Verification code expired or invalid. Please request a new code.');
     } finally {
       setLoading(false);
     }
@@ -262,9 +218,7 @@ const Login = () => {
             </div>
             <h2 className="eco-card-title">Sign In to Your Account</h2>
             <p className="eco-card-subtitle">
-              {otpMode
-                ? 'Authenticate instantly using your registered mobile number'
-                : 'Access your membership profile, drives, and volunteer portal'}
+              Access your membership profile, drives, and volunteer portal
             </p>
           </div>
 
@@ -275,213 +229,92 @@ const Login = () => {
             </div>
           )}
 
-          {!otpMode ? (
-            /* Standard Password Form */
-            <form onSubmit={handleSubmit} className="eco-form-body">
-              <div className="eco-form-field">
-                <label className="eco-field-label">
-                  Email Address or Mobile Number
-                </label>
-                <div className="eco-input-wrapper">
-                  <Mail size={17} className="eco-field-icon" />
-                  <input
-                    type="text"
-                    required
-                    placeholder="name@example.com or mobile number"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    className="eco-input-clean"
-                    autoComplete="username"
-                  />
-                </div>
+          {/* Standard Authentication Form */}
+          <form onSubmit={handleSubmit} className="eco-form-body">
+            <div className="eco-form-field">
+              <label className="eco-field-label">
+                Email Address or Mobile Number
+              </label>
+              <div className="eco-input-wrapper">
+                <Mail size={17} className="eco-field-icon" />
+                <input
+                  type="text"
+                  required
+                  placeholder="name@example.com or mobile number"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  className="eco-input-clean"
+                  autoComplete="username"
+                />
               </div>
+            </div>
 
-              <div className="eco-form-field">
-                <div className="flex justify-between items-center mb-1">
-                  <label className="eco-field-label mb-0">Password</label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setResetEmail(identifier.includes('@') ? identifier : '');
-                      setResetStatus(null);
-                      setResetMessage('');
-                      setForgotModalOpen(true);
-                    }}
-                    className="eco-forgot-btn"
-                  >
-                    Forgot password?
-                  </button>
-                </div>
-                <div className="eco-input-wrapper">
-                  <Lock size={17} className="eco-field-icon" />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="eco-input-clean pr-10"
-                    autoComplete="current-password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="eco-toggle-eye-btn"
-                    title={showPassword ? 'Hide password' : 'Show password'}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
-                  </button>
-                </div>
+            <div className="eco-form-field">
+              <div className="eco-field-header-row">
+                <label className="eco-field-label">Password</label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setResetEmail(identifier.includes('@') ? identifier : '');
+                    setResetStatus(null);
+                    setResetMessage('');
+                    setForgotModalOpen(true);
+                  }}
+                  className="eco-forgot-btn"
+                >
+                  Forgot password?
+                </button>
               </div>
-
-              <div className="eco-remember-row">
-                <label className="eco-remember-label">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="eco-checkbox"
-                  />
-                  <span>Remember this device for 30 days</span>
-                </label>
+              <div className="eco-input-wrapper">
+                <Lock size={17} className="eco-field-icon" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="eco-input-clean pr-10"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="eco-toggle-eye-btn"
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                </button>
               </div>
+            </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="btn-eco-main-submit"
-              >
-                {loading ? (
-                  <span>Authenticating...</span>
-                ) : (
-                  <>
-                    <span>Sign In</span>
-                    <ArrowRight size={17} />
-                  </>
-                )}
-              </button>
-            </form>
-          ) : (
-            /* OTP Form Mode */
-            <form
-              onSubmit={otpSent ? handleOtpVerify : handleOtpRequest}
-              className="eco-form-body"
+            <div className="eco-remember-row">
+              <label className="eco-remember-label">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="eco-checkbox"
+                />
+                <span>Remember this device for 30 days</span>
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-eco-main-submit"
             >
-              <div className="eco-form-field">
-                <label className="eco-field-label">Registered Mobile Number</label>
-                <div className="eco-input-wrapper">
-                  <Smartphone size={17} className="eco-field-icon" />
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+91 98480 12345"
-                    value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    className="eco-input-clean"
-                    disabled={otpSent}
-                  />
-                </div>
-              </div>
-
-              {otpSent && (
-                <div className="eco-form-field">
-                  <div className="flex justify-between items-center mb-1">
-                    <label className="eco-field-label mb-0">6-Digit Verification Code</label>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setOtpSent(false);
-                        setOtpCode('');
-                      }}
-                      className="eco-change-num-btn"
-                    >
-                      Change number
-                    </button>
-                  </div>
-                  <div className="eco-input-wrapper">
-                    <Lock size={17} className="eco-field-icon" />
-                    <input
-                      type="text"
-                      required
-                      placeholder="••••••"
-                      value={otpCode}
-                      onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                      className="eco-input-clean eco-otp-code-input"
-                      maxLength={6}
-                      autoFocus
-                    />
-                  </div>
-                  <div className="eco-otp-resend-row">
-                    {resendCountdown > 0 ? (
-                      <span className="text-xs text-slate-500">
-                        Resend code in <strong>{resendCountdown}s</strong>
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={handleOtpRequest}
-                        className="eco-resend-btn"
-                      >
-                        Resend Verification Code
-                      </button>
-                    )}
-                  </div>
-                </div>
+              {loading ? (
+                <span>Authenticating...</span>
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <ArrowRight size={17} />
+                </>
               )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="btn-eco-main-submit"
-              >
-                {loading ? (
-                  <span>Verifying...</span>
-                ) : otpSent ? (
-                  <>
-                    <span>Verify Code & Sign In</span>
-                    <ArrowRight size={17} />
-                  </>
-                ) : (
-                  <>
-                    <span>Send Verification Code</span>
-                    <ArrowRight size={17} />
-                  </>
-                )}
-              </button>
-            </form>
-          )}
-
-          {/* Divider */}
-          <div className="eco-or-divider">
-            <span className="eco-or-line"></span>
-            <span className="eco-or-text">or continue with</span>
-            <span className="eco-or-line"></span>
-          </div>
-
-          {/* Toggle between Password and OTP */}
-          <button
-            type="button"
-            onClick={() => {
-              setOtpMode(!otpMode);
-              setError('');
-              setOtpSent(false);
-              setOtpCode('');
-            }}
-            className="btn-eco-otp-toggle"
-          >
-            {otpMode ? (
-              <>
-                <KeyRound size={16} />
-                <span>Sign in with Password Instead</span>
-              </>
-            ) : (
-              <>
-                <Smartphone size={16} />
-                <span>Sign in with Mobile OTP</span>
-              </>
-            )}
-          </button>
+            </button>
+          </form>
 
           {/* Security & SSL Trust Badge */}
           <div className="eco-trust-lock-row">

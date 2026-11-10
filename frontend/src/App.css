@@ -4349,21 +4349,16 @@ body::-webkit-scrollbar {
   flex-direction: column;
   justify-content: space-between;
   padding: 3.5rem 4rem;
-  background-image: url('/images/hero-banner.jpg');
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(145deg, #064e3b 0%, #065f46 45%, #022c22 100%);
   overflow: hidden;
 }
 
 .eco-visual-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    140deg,
-    rgba(6, 78, 59, 0.94) 0%,
-    rgba(4, 47, 46, 0.88) 55%,
-    rgba(15, 23, 42, 0.82) 100%
-  );
+  background: radial-gradient(circle at 15% 20%, rgba(52, 211, 153, 0.16) 0%, transparent 45%),
+              radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.14) 0%, transparent 50%);
+  pointer-events: none;
   z-index: 1;
 }
 
@@ -4522,7 +4517,7 @@ body::-webkit-scrollbar {
   border-radius: 20px;
   box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 20px 45px -10px rgba(15, 23, 42, 0.04);
   border: 1px solid #f1f5f9;
-  padding: 2.5rem 2.25rem;
+  padding: 2.75rem 2.25rem;
 }
 
 .eco-card-logo-center {
@@ -4586,7 +4581,7 @@ body::-webkit-scrollbar {
 .eco-form-body {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 1.2rem;
 }
 
 .eco-form-field {
@@ -4595,10 +4590,22 @@ body::-webkit-scrollbar {
 }
 
 .eco-field-label {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: #334155;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.45rem;
+}
+
+.eco-field-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+  width: 100%;
+}
+
+.eco-field-header-row .eco-field-label {
+  margin-bottom: 0;
 }
 
 .eco-input-wrapper {
@@ -4616,7 +4623,7 @@ body::-webkit-scrollbar {
 
 .eco-input-clean {
   width: 100%;
-  padding: 0.76rem 1rem 0.76rem 2.65rem;
+  padding: 0.78rem 1rem 0.78rem 2.65rem;
   border: 1.5px solid #e2e8f0;
   border-radius: 10px;
   font-size: 0.9rem;
@@ -4629,12 +4636,6 @@ body::-webkit-scrollbar {
 .eco-input-clean:focus {
   border-color: #059669;
   box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
-}
-
-.eco-input-clean:disabled {
-  background-color: #f8fafc;
-  color: #64748b;
-  cursor: not-allowed;
 }
 
 .eco-toggle-eye-btn {
@@ -4689,6 +4690,7 @@ body::-webkit-scrollbar {
   font-weight: 600;
   transition: color 0.15s ease;
   padding: 0;
+  white-space: nowrap;
 }
 
 .eco-forgot-btn:hover {
@@ -4702,8 +4704,8 @@ body::-webkit-scrollbar {
   color: #ffffff;
   border: none;
   border-radius: 10px;
-  padding: 0.82rem 1.25rem;
-  font-size: 0.94rem;
+  padding: 0.85rem 1.25rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -4727,92 +4729,6 @@ body::-webkit-scrollbar {
   box-shadow: none;
 }
 
-.eco-or-divider {
-  display: flex;
-  align-items: center;
-  margin: 1.35rem 0;
-  text-align: center;
-}
-
-.eco-or-line {
-  flex: 1;
-  height: 1px;
-  background-color: #f1f5f9;
-}
-
-.eco-or-text {
-  padding: 0 0.85rem;
-  font-size: 0.74rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #94a3b8;
-}
-
-.btn-eco-otp-toggle {
-  width: 100%;
-  background: #ffffff;
-  color: #1e293b;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 0.72rem 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: all 0.15s ease;
-}
-
-.btn-eco-otp-toggle:hover {
-  border-color: #059669;
-  color: #059669;
-  background-color: #f0fdf4;
-}
-
-.eco-otp-code-input {
-  letter-spacing: 0.35em;
-  font-size: 1.15rem !important;
-  font-weight: 700;
-  text-align: center;
-  padding-left: 2.75rem !important;
-}
-
-.eco-change-num-btn {
-  background: none;
-  border: none;
-  font-size: 0.75rem;
-  color: #059669;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-}
-
-.eco-change-num-btn:hover {
-  text-decoration: underline;
-}
-
-.eco-otp-resend-row {
-  margin-top: 0.45rem;
-  text-align: right;
-}
-
-.eco-resend-btn {
-  background: none;
-  border: none;
-  font-size: 0.75rem;
-  color: #059669;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-}
-
-.eco-resend-btn:hover {
-  text-decoration: underline;
-}
-
 .eco-trust-lock-row {
   display: flex;
   align-items: center;
@@ -4821,8 +4737,8 @@ body::-webkit-scrollbar {
   font-size: 0.74rem;
   font-weight: 500;
   color: #64748b;
-  margin-top: 1.35rem;
-  padding: 0.5rem 0.85rem;
+  margin-top: 1.5rem;
+  padding: 0.55rem 0.85rem;
   background: #f8fafc;
   border-radius: 8px;
   border: 1px solid #f1f5f9;
@@ -5018,7 +4934,6 @@ body::-webkit-scrollbar {
     padding: 1.5rem;
   }
 }
-
 
 
 /* Subpage Hero */
