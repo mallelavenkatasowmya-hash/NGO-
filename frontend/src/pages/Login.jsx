@@ -207,13 +207,13 @@ const Login = () => {
           {/* Card Organization Brand Lockup */}
           <div className="eco-card-logo-center">
             <Link to="/" title="Return to Home">
-              <Logo variant="dark" size={40} />
+              <Logo variant="dark" size={36} />
             </Link>
           </div>
 
           <div className="eco-card-text-header">
             <div className="eco-badge-pill">
-              <ShieldCheck size={13} className="text-emerald-700" />
+              <ShieldCheck size={11} className="text-emerald-700" />
               <span>Secure Authentication</span>
             </div>
             <h2 className="eco-card-title">Sign In to Your Account</h2>
@@ -224,7 +224,7 @@ const Login = () => {
 
           {error && (
             <div className="eco-alert-banner alert-danger">
-              <AlertCircle size={16} className="flex-shrink-0" />
+              <AlertCircle size={15} className="flex-shrink-0" />
               <span>{error}</span>
             </div>
           )}
@@ -236,7 +236,7 @@ const Login = () => {
                 Email Address or Mobile Number
               </label>
               <div className="eco-input-wrapper">
-                <Mail size={17} className="eco-field-icon" />
+                <Mail size={16} className="eco-field-icon" />
                 <input
                   type="text"
                   required
@@ -266,7 +266,7 @@ const Login = () => {
                 </button>
               </div>
               <div className="eco-input-wrapper">
-                <Lock size={17} className="eco-field-icon" />
+                <Lock size={16} className="eco-field-icon" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -283,7 +283,7 @@ const Login = () => {
                   title={showPassword ? 'Hide password' : 'Show password'}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
@@ -310,7 +310,7 @@ const Login = () => {
               ) : (
                 <>
                   <span>Sign In</span>
-                  <ArrowRight size={17} />
+                  <ArrowRight size={16} />
                 </>
               )}
             </button>
@@ -318,7 +318,7 @@ const Login = () => {
 
           {/* Security & SSL Trust Badge */}
           <div className="eco-trust-lock-row">
-            <ShieldCheck size={15} className="text-emerald-700 flex-shrink-0" />
+            <ShieldCheck size={14} className="text-emerald-700 flex-shrink-0" />
             <span>256-Bit SSL Encrypted • Official Non-Profit Portal</span>
           </div>
 
