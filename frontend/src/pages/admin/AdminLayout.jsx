@@ -16,12 +16,26 @@ import {
   ChevronDown,
   User,
   LogOut,
+  Menu,
 } from 'lucide-react';
 
 const AdminLayout = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem('ngo_admin_sidebar');
+    return saved !== null ? saved === 'true' : true;
+  });
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => {
+      const next = !prev;
+      localStorage.setItem('ngo_admin_sidebar', String(next));
+      return next;
+    });
+  };
 
   const handleLogout = () => {
     logout();
@@ -64,7 +78,7 @@ const AdminLayout = () => {
   return (
     <div className="eco-admin-wrapper">
       {/* Dark Forest Green Sidebar Navigation */}
-      <aside className="eco-admin-sidebar">
+      <aside className={`eco-admin-sidebar ${sidebarOpen ? '' : 'sidebar-collapsed'}`}>
         {/* Brand Lockup: Vector Emblem + 3-line Stacked Name */}
         <div className="eco-sidebar-brand">
           <Logo variant="light" size={32} showText={false} />
@@ -146,9 +160,20 @@ const AdminLayout = () => {
 
       {/* Main Administrative Container */}
       <div className="eco-admin-main-container">
-        {/* Top Header Bar */}
+        {/* Top Header Bar with Hamburger Menu Toggle */}
         <header className="eco-admin-topbar">
-          <h1 className="eco-admin-page-heading">{getPageTitle()}</h1>
+          <div className="eco-topbar-left">
+            <button
+              type="button"
+              onClick={toggleSidebar}
+              className="eco-menu-toggle-btn"
+              title={sidebarOpen ? 'Hide sidebar menu' : 'Show sidebar menu'}
+              aria-label="Toggle Navigation Menu"
+            >
+              <Menu size={20} />
+            </button>
+            <h1 className="eco-admin-page-heading">{getPageTitle()}</h1>
+          </div>
 
           <div className="eco-admin-topbar-actions">
             {/* Bell Notification with Red Badge Dot */}
