@@ -344,22 +344,26 @@ const AdminEvents = () => {
         </div>
 
         <div className="ref-header-actions">
-          <Link
-            to="/admin/meetings"
-            className="ref-toggle-tab inactive"
-            title="View Administrative Meetings"
-          >
-            <Video size={14} />
-            <span>Meetings</span>
-          </Link>
-          <Link
-            to="/admin/events"
-            className="ref-toggle-tab active"
-            title="Active: Riverfront Events & Drives"
-          >
-            <Calendar size={14} />
-            <span>Events</span>
-          </Link>
+          {/* Subnav switcher matching second image */}
+          <div className="eco-subnav-tabs">
+            <Link
+              to="/admin/events"
+              className="eco-subnav-tab active"
+              title="Active: Riverfront Drives & Events"
+            >
+              <Calendar size={15} />
+              <span>Drives & Events</span>
+            </Link>
+            <Link
+              to="/admin/meetings"
+              className="eco-subnav-tab"
+              title="Switch to Meetings & Sessions"
+            >
+              <Clock size={15} className="text-emerald-700" />
+              <span>Meetings</span>
+            </Link>
+          </div>
+
           <button
             onClick={fetchEvents}
             className="ref-btn-refresh"
