@@ -4338,6 +4338,10 @@ body::-webkit-scrollbar {
    GODHAVARI PLATFORM - PROFESSIONAL LOGIN PAGE (PERFECT FIT & ALIGNMENT)
    ========================================================================== */
 
+/* ==========================================================================
+   GODHAVARI PLATFORM - PROFESSIONAL MINIMALIST LOGIN PAGE
+   ========================================================================== */
+
 .eco-split-login-page {
   display: flex;
   height: 100vh;
@@ -4358,7 +4362,7 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2.25rem 3rem;
+  padding: 3rem 3.5rem;
   background: linear-gradient(145deg, #064e3b 0%, #065f46 45%, #022c22 100%);
   overflow: hidden;
   box-sizing: border-box;
@@ -4408,14 +4412,14 @@ body::-webkit-scrollbar {
   height: 3px;
   background-color: #34d399;
   border-radius: 2px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .eco-visual-heading {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   font-weight: 800;
   line-height: 1.22;
-  margin-bottom: 0.85rem;
+  margin-bottom: 1rem;
   letter-spacing: -0.02em;
   color: #ffffff;
 }
@@ -4425,18 +4429,18 @@ body::-webkit-scrollbar {
 }
 
 .eco-visual-subtext {
-  font-size: 0.94rem;
+  font-size: 0.98rem;
   color: #e2e8f0;
   max-width: 440px;
-  line-height: 1.55;
+  line-height: 1.6;
   font-weight: 400;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .eco-visual-metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
+  gap: 0.85rem;
   max-width: 480px;
 }
 
@@ -4445,10 +4449,10 @@ body::-webkit-scrollbar {
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
-  padding: 0.75rem 0.65rem;
+  padding: 0.85rem 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -4458,8 +4462,8 @@ body::-webkit-scrollbar {
 }
 
 .eco-metric-icon {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.12);
   display: flex;
@@ -4469,14 +4473,14 @@ body::-webkit-scrollbar {
 }
 
 .eco-metric-value {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: #ffffff;
   line-height: 1.1;
 }
 
 .eco-metric-label {
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   color: #cbd5e1;
   font-weight: 500;
   margin-top: 0.15rem;
@@ -4484,17 +4488,17 @@ body::-webkit-scrollbar {
 }
 
 .eco-visual-footer {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: #cbd5e1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 1rem;
+  padding-top: 1.25rem;
 }
 
 .eco-visual-reg {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   color: #94a3b8;
   font-weight: 500;
 }
@@ -4509,84 +4513,52 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem 2rem;
-  background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 100%);
+  padding: 2rem;
+  background-color: #f8fafc;
   position: relative;
-  overflow-y: auto;
+  overflow: hidden;
   box-sizing: border-box;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.eco-login-form-panel::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-.eco-bottom-wave-bg {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 320px;
-  height: 180px;
-  background: radial-gradient(circle at 100% 100%, rgba(209, 250, 229, 0.6) 0%, rgba(220, 252, 231, 0.2) 40%, transparent 70%);
-  pointer-events: none;
 }
 
 .eco-login-card {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 420px;
+  max-width: 410px;
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 16px 36px -4px rgba(15, 23, 42, 0.08);
-  border: 1px solid #e2e8f0;
-  padding: 2rem 2.25rem;
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.05),
+    0 10px 25px -5px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+  padding: 2.25rem 2.25rem 2rem 2.25rem;
   box-sizing: border-box;
 }
 
 .eco-card-logo-center {
   display: flex;
   justify-content: center;
-  margin-bottom: 0.85rem;
+  margin-bottom: 1.15rem;
 }
 
 .eco-card-text-header {
   text-align: center;
-  margin-bottom: 1.25rem;
-}
-
-.eco-badge-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  background-color: #ecfdf5;
-  border: 1px solid #d1fae5;
-  color: #047857;
-  padding: 0.2rem 0.65rem;
-  border-radius: 9999px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.55rem;
+  margin-bottom: 1.5rem;
 }
 
 .eco-card-title {
-  font-size: 1.45rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #0f172a;
-  margin-bottom: 0.25rem;
-  letter-spacing: -0.015em;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
 .eco-card-subtitle {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: #64748b;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .eco-alert-banner {
@@ -4609,7 +4581,7 @@ body::-webkit-scrollbar {
 .eco-form-body {
   display: flex;
   flex-direction: column;
-  gap: 0.95rem;
+  gap: 1.05rem;
 }
 
 .eco-form-field {
@@ -4618,17 +4590,17 @@ body::-webkit-scrollbar {
 }
 
 .eco-field-label {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #334155;
-  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 0.4rem;
 }
 
 .eco-field-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
   width: 100%;
 }
 
@@ -4652,7 +4624,7 @@ body::-webkit-scrollbar {
 .eco-input-clean {
   width: 100%;
   padding: 0.68rem 0.95rem 0.68rem 2.5rem;
-  border: 1.5px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: 0.88rem;
   color: #0f172a;
@@ -4660,6 +4632,10 @@ body::-webkit-scrollbar {
   background-color: #ffffff;
   transition: all 0.15s ease;
   box-sizing: border-box;
+}
+
+.eco-input-clean::placeholder {
+  color: #94a3b8;
 }
 
 .eco-input-clean:focus {
@@ -4689,22 +4665,22 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: -0.15rem;
+  margin-top: -0.1rem;
 }
 
 .eco-remember-label {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  font-size: 0.78rem;
+  gap: 0.5rem;
+  font-size: 0.8rem;
   color: #475569;
   cursor: pointer;
   user-select: none;
 }
 
 .eco-checkbox {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   accent-color: #059669;
   border-radius: 4px;
   cursor: pointer;
@@ -4714,9 +4690,9 @@ body::-webkit-scrollbar {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: #059669;
-  font-weight: 600;
+  font-weight: 500;
   transition: color 0.15s ease;
   padding: 0;
   white-space: nowrap;
@@ -4729,60 +4705,41 @@ body::-webkit-scrollbar {
 
 .btn-eco-main-submit {
   width: 100%;
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  background-color: #059669;
   color: #ffffff;
   border: none;
   border-radius: 8px;
-  padding: 0.75rem 1.25rem;
+  padding: 0.72rem 1rem;
   font-size: 0.92rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
-  margin-top: 0.25rem;
+  transition: background-color 0.15s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-top: 0.35rem;
 }
 
 .btn-eco-main-submit:hover:not(:disabled) {
-  background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.28);
-  transform: translateY(-1px);
+  background-color: #047857;
 }
 
 .btn-eco-main-submit:disabled {
   opacity: 0.65;
   cursor: not-allowed;
-  box-shadow: none;
-}
-
-.eco-trust-lock-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: #64748b;
-  margin-top: 1rem;
-  padding: 0.45rem 0.75rem;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #f1f5f9;
 }
 
 .eco-card-bottom-register {
-  margin-top: 0.95rem;
+  margin-top: 1.4rem;
   text-align: center;
-  font-size: 0.82rem;
-  color: #475569;
+  font-size: 0.84rem;
+  color: #64748b;
 }
 
 .eco-register-link {
   color: #059669;
-  font-weight: 700;
+  font-weight: 600;
   margin-left: 0.25rem;
   transition: color 0.15s ease;
 }
@@ -4790,26 +4747,6 @@ body::-webkit-scrollbar {
 .eco-register-link:hover {
   color: #047857;
   text-decoration: underline;
-}
-
-.eco-card-legal-links {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-top: 0.85rem;
-  font-size: 0.7rem;
-  color: #94a3b8;
-}
-
-.eco-card-legal-links a {
-  color: #94a3b8;
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.eco-card-legal-links a:hover {
-  color: #059669;
 }
 
 /* Modal styles for Forgot Password */
@@ -4829,7 +4766,7 @@ body::-webkit-scrollbar {
 .eco-modal-card {
   background: #ffffff;
   border-radius: 16px;
-  max-width: 460px;
+  max-width: 440px;
   width: 100%;
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
   border: 1px solid #f1f5f9;
@@ -4846,9 +4783,9 @@ body::-webkit-scrollbar {
 }
 
 .eco-modal-icon-wrap {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
   background-color: #ecfdf5;
   border: 1px solid #d1fae5;
   display: flex;
@@ -4858,14 +4795,14 @@ body::-webkit-scrollbar {
 }
 
 .eco-modal-title {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.15rem;
 }
 
 .eco-modal-desc {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #64748b;
   line-height: 1.4;
 }
@@ -4912,19 +4849,19 @@ body::-webkit-scrollbar {
 
 .eco-btn-secondary {
   background: #ffffff;
-  border: 1.5px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   color: #334155;
-  padding: 0.6rem 1.15rem;
+  padding: 0.58rem 1.1rem;
   border-radius: 8px;
   font-size: 0.84rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
 .eco-btn-secondary:hover {
   background: #f8fafc;
-  border-color: #cbd5e1;
+  border-color: #94a3b8;
 }
 
 .eco-reset-success-box {
@@ -4933,14 +4870,14 @@ body::-webkit-scrollbar {
 }
 
 .eco-reset-success-box h4 {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #0f172a;
   margin-bottom: 0.4rem;
 }
 
 .eco-reset-success-box p {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #475569;
   line-height: 1.5;
 }

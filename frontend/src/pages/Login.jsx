@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
-  User,
   Mail,
   Lock,
   Eye,
   EyeOff,
   AlertCircle,
   CheckCircle2,
-  ArrowRight,
   ShieldCheck,
   KeyRound,
   X,
@@ -99,7 +97,7 @@ const Login = () => {
           setError(
             adminErr.response?.data?.message ||
               memberErr.response?.data?.message ||
-              'Invalid credentials. Please verify your Mobile Number / Email and password.'
+              'Invalid credentials. Please verify your email / phone and password.'
           );
         }
       }
@@ -138,11 +136,11 @@ const Login = () => {
         {/* Top Organization Header */}
         <div className="eco-visual-header">
           <Link to="/" title="Return to Home" className="inline-block">
-            <Logo variant="light" size={44} />
+            <Logo variant="light" size={42} />
           </Link>
           <span className="eco-visual-badge">
-            <ShieldCheck size={14} className="text-emerald-300" />
-            Official Member Portal
+            <ShieldCheck size={13} className="text-emerald-300" />
+            Official Portal
           </span>
         </div>
 
@@ -155,38 +153,38 @@ const Login = () => {
             <span className="text-highlight-green">Godhavari</span>
           </h1>
           <p className="eco-visual-subtext">
-            Join thousands of passionate citizens, students, and community leaders protecting the sacred river and surrounding ecosystems.
+            A citizen-led initiative dedicated to river rejuvenation, ghat sanitation, and ecological conservation across the Godavari river basin.
           </p>
 
-          {/* Real-time Impact Metrics Badges */}
+          {/* Impact Metrics Badges */}
           <div className="eco-visual-metrics-grid">
             <div className="eco-visual-metric-card">
               <div className="eco-metric-icon">
-                <TreePine size={20} className="text-emerald-300" />
+                <TreePine size={18} className="text-emerald-300" />
               </div>
               <div>
                 <div className="eco-metric-value">50,000+</div>
-                <div className="eco-metric-label">Saplings Planted</div>
+                <div className="eco-metric-label">Trees Planted</div>
               </div>
             </div>
 
             <div className="eco-visual-metric-card">
               <div className="eco-metric-icon">
-                <Droplets size={20} className="text-sky-300" />
+                <Droplets size={18} className="text-sky-300" />
               </div>
               <div>
                 <div className="eco-metric-value">120+</div>
-                <div className="eco-metric-label">Riverbank Cleanups</div>
+                <div className="eco-metric-label">River Cleanups</div>
               </div>
             </div>
 
             <div className="eco-visual-metric-card">
               <div className="eco-metric-icon">
-                <Users2 size={20} className="text-teal-300" />
+                <Users2 size={18} className="text-teal-300" />
               </div>
               <div>
                 <div className="eco-metric-value">3,500+</div>
-                <div className="eco-metric-label">Active Volunteers</div>
+                <div className="eco-metric-label">Volunteers</div>
               </div>
             </div>
           </div>
@@ -194,31 +192,25 @@ const Login = () => {
 
         {/* Bottom subtle copyright / location */}
         <div className="eco-visual-footer">
-          <div>Rajahmundry, East Godavari District • Andhra Pradesh</div>
-          <div className="eco-visual-reg">Govt. Regd. Non-Profit Society #45/2018</div>
+          <div>Rajahmundry, Andhra Pradesh</div>
+          <div className="eco-visual-reg">Regd. Society #45/2018</div>
         </div>
       </div>
 
       {/* RIGHT SIDE: Centered Clean Professional Card */}
       <div className="eco-login-form-panel">
-        <div className="eco-bottom-wave-bg"></div>
-
         <div className="eco-login-card">
           {/* Card Organization Brand Lockup */}
           <div className="eco-card-logo-center">
             <Link to="/" title="Return to Home">
-              <Logo variant="dark" size={36} />
+              <Logo variant="dark" size={38} />
             </Link>
           </div>
 
           <div className="eco-card-text-header">
-            <div className="eco-badge-pill">
-              <ShieldCheck size={11} className="text-emerald-700" />
-              <span>Secure Authentication</span>
-            </div>
-            <h2 className="eco-card-title">Sign In to Your Account</h2>
+            <h2 className="eco-card-title">Welcome back</h2>
             <p className="eco-card-subtitle">
-              Access your membership profile, drives, and volunteer portal
+              Sign in to your Godhavari account to continue
             </p>
           </div>
 
@@ -229,18 +221,18 @@ const Login = () => {
             </div>
           )}
 
-          {/* Standard Authentication Form */}
+          {/* Clean Form */}
           <form onSubmit={handleSubmit} className="eco-form-body">
             <div className="eco-form-field">
               <label className="eco-field-label">
-                Email Address or Mobile Number
+                Email or Mobile Number
               </label>
               <div className="eco-input-wrapper">
                 <Mail size={16} className="eco-field-icon" />
                 <input
                   type="text"
                   required
-                  placeholder="name@example.com or mobile number"
+                  placeholder="Enter your email or phone"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   className="eco-input-clean"
@@ -296,7 +288,7 @@ const Login = () => {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="eco-checkbox"
                 />
-                <span>Remember this device for 30 days</span>
+                <span>Remember me</span>
               </label>
             </div>
 
@@ -305,43 +297,21 @@ const Login = () => {
               disabled={loading}
               className="btn-eco-main-submit"
             >
-              {loading ? (
-                <span>Authenticating...</span>
-              ) : (
-                <>
-                  <span>Sign In</span>
-                  <ArrowRight size={16} />
-                </>
-              )}
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
-          {/* Security & SSL Trust Badge */}
-          <div className="eco-trust-lock-row">
-            <ShieldCheck size={14} className="text-emerald-700 flex-shrink-0" />
-            <span>256-Bit SSL Encrypted • Official Non-Profit Portal</span>
-          </div>
-
           {/* Registration link */}
           <div className="eco-card-bottom-register">
-            <span>New member or volunteer?</span>{' '}
+            <span>Don't have an account?</span>{' '}
             <Link to="/register" className="eco-register-link">
-              Enroll / Join the Mission →
+              Register here
             </Link>
-          </div>
-
-          {/* Legal / Policy Footer */}
-          <div className="eco-card-legal-links">
-            <Link to="/about">About Us</Link>
-            <span>•</span>
-            <Link to="/contact">Contact Support</Link>
-            <span>•</span>
-            <Link to="/activities">Our Initiatives</Link>
           </div>
         </div>
       </div>
 
-      {/* Forgot Password Professional Modal */}
+      {/* Forgot Password Modal */}
       {forgotModalOpen && (
         <div className="eco-modal-backdrop" onClick={() => setForgotModalOpen(false)}>
           <div
@@ -351,12 +321,12 @@ const Login = () => {
             <div className="eco-modal-header">
               <div className="flex items-center gap-3">
                 <div className="eco-modal-icon-wrap">
-                  <KeyRound size={20} className="text-emerald-700" />
+                  <KeyRound size={18} className="text-emerald-700" />
                 </div>
                 <div>
                   <h3 className="eco-modal-title">Reset Your Password</h3>
                   <p className="eco-modal-desc">
-                    Enter your registered email address to receive secure reset instructions.
+                    Enter your registered email address to receive password reset instructions.
                   </p>
                 </div>
               </div>
@@ -391,7 +361,7 @@ const Login = () => {
               <form onSubmit={handleForgotPassword} className="eco-modal-body">
                 {resetStatus === 'error' && (
                   <div className="eco-alert-banner alert-danger mb-3">
-                    <AlertCircle size={16} className="flex-shrink-0" />
+                    <AlertCircle size={15} className="flex-shrink-0" />
                     <span>{resetMessage}</span>
                   </div>
                 )}
@@ -399,7 +369,7 @@ const Login = () => {
                 <div className="eco-form-field">
                   <label className="eco-field-label">Registered Email Address</label>
                   <div className="eco-input-wrapper">
-                    <Mail size={17} className="eco-field-icon" />
+                    <Mail size={16} className="eco-field-icon" />
                     <input
                       type="email"
                       required
@@ -413,7 +383,7 @@ const Login = () => {
                 </div>
 
                 <div className="eco-support-notice">
-                  <span>Need immediate help? Contact our coordinator at</span>{' '}
+                  <span>Need assistance? Contact our administrative coordinator at</span>{' '}
                   <a href="mailto:admin@godhavari.org" className="text-emerald-700 font-semibold underline">
                     admin@godhavari.org
                   </a>
@@ -431,7 +401,7 @@ const Login = () => {
                     type="submit"
                     disabled={resetStatus === 'sending'}
                     className="btn-eco-main-submit"
-                    style={{ width: 'auto', padding: '0.65rem 1.4rem' }}
+                    style={{ width: 'auto', padding: '0.6rem 1.25rem' }}
                   >
                     {resetStatus === 'sending' ? 'Sending...' : 'Send Reset Link'}
                   </button>
