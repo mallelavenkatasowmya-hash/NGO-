@@ -42,6 +42,16 @@ const AdminMembers = () => {
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState({ type: '', message: '' });
 
+  // Auto-dismiss feedback after 4.5 seconds
+  useEffect(() => {
+    if (feedback.message) {
+      const timer = setTimeout(() => {
+        setFeedback({ type: '', message: '' });
+      }, 4500);
+      return () => clearTimeout(timer);
+    }
+  }, [feedback]);
+
   // Form State for Adding New Member (Create)
   const [formData, setFormData] = useState({
     name: '',
@@ -437,12 +447,7 @@ const AdminMembers = () => {
         </div>
       </div>
 
-      {/* 5. Table Header Meta */}
-      <div className="ref-table-meta-text">
-        Showing {filteredMembers.length} of {members.length} registered members
-      </div>
-
-      {/* 6. Members Data Table Card */}
+      {/* 5. Members Data Table Card */}
       <div className="ref-table-card">
         {loading ? (
           <div className="p-12 text-center text-muted">
@@ -457,158 +462,176 @@ const AdminMembers = () => {
             </p>
           </div>
         ) : (
-          <table className="ref-table">
-            <thead>
-              <tr>
-                <th style={{ width: '25%' }}>Member Details</th>
-                <th style={{ width: '13%' }}>Member ID</th>
-                <th style={{ width: '20%' }}>Contact Information</th>
-                <th style={{ width: '14%' }}>Membership Tier</th>
-                <th style={{ width: '10%' }}>Status</th>
-                <th style={{ width: '18%', textAlign: 'center' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredMembers.map((m) => {
-                const status = m.membership?.status || 'Active';
-                const tier = m.membership?.membershipType || m.membershipType || 'Annual Member';
-                const isSelf = currentUser?._id && currentUser._id.toString() === m._id.toString();
+          <div className="ref-table-responsive">
+            <table className="ref-table">
+              <thead>
+                <tr>
+                  <th className="ref-col-details">Member Details</th>
+                  <th className="ref-col-id">Member ID</th>
+                  <th className="ref-col-contact">Contact Information</th>
+                  <th className="ref-col-tier">Membership Tier</th>
+                  <th className="ref-col-status">Status</th>
+                  <th className="ref-col-actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredMembers.map((m) => {
+                  const status = m.membership?.status || 'Active';
+                  const tier = m.membership?.membershipType || m.membershipType || 'Annual Member';
+                  const isSelf = currentUser?._id && currentUser._id.toString() === m._id.toString();
 
-                return (
-                  <tr key={m._id}>
-                    {/* 1. Member Details */}
-                    <td>
-                      <div
-                        className="ref-profile-cell cursor-pointer"
-                        onClick={() => openViewModal(m)}
-                        title="Click to view full member card"
-                      >
-                        <div className="ref-avatar-circle">
-                          {getInitials(m.name)}
-                        </div>
-                        <div>
-                          <div className="ref-name-row">
-                            <span className="ref-member-name hover:text-emerald-700 transition">
-                              {m.name}
-                            </span>
-                            {m.bloodGroup && (
-                              <span className="ref-tag-pill">{m.bloodGroup}</span>
-                            )}
-                          </div>
-                          <div className="ref-member-role">
-                            {m.designation || 'General Member'}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-
-                    {/* 2. Member ID */}
-                    <td>
-                      <span className="ref-id-pill">
-                        {m.memberId || 'N/A'}
-                      </span>
-                    </td>
-
-                    {/* 3. Contact Information */}
-                    <td>
-                      <div className="ref-contact-col">
-                        <div className="ref-contact-item">
-                          <Mail size={13} className="text-slate-400 flex-shrink-0" />
-                          <span>{m.email}</span>
-                        </div>
-                        <div className="ref-contact-item ref-contact-sub">
-                          <Phone size={13} className="text-slate-400 flex-shrink-0" />
-                          <span>{m.phone || 'No phone'}</span>
-                        </div>
-                      </div>
-                    </td>
-
-                    {/* 4. Membership Tier */}
-                    <td>
-                      <span className={`ref-tier-badge ${getTierBadgeClass(tier)}`}>
-                        {tier === 'Life Member' && <Star size={12} fill="#9333ea" />}
-                        {tier}
-                      </span>
-                    </td>
-
-                    {/* 5. Status */}
-                    <td>
-                      <span
-                        className={`ref-status-item ${
-                          status === 'Active' ? 'ref-status-active' : 'ref-status-suspended'
-                        }`}
-                      >
-                        <span className="ref-status-dot"></span>
-                        {status}
-                      </span>
-                    </td>
-
-                    {/* 6. Actions (Full CRUD Controls) */}
-                    <td style={{ textAlign: 'center' }}>
-                      <div className="ref-action-group" style={{ justifyContent: 'center' }}>
-                        {/* READ: View Button */}
-                        <button
+                  return (
+                    <tr key={m._id}>
+                      {/* 1. Member Details */}
+                      <td className="ref-col-details">
+                        <div
+                          className="ref-profile-cell cursor-pointer"
                           onClick={() => openViewModal(m)}
-                          className="ref-action-icon-btn view"
-                          title="View Member ID Card & Details"
+                          title="Click to view full member card"
                         >
-                          <Eye size={13} />
-                        </button>
+                          <div className="ref-avatar-circle">
+                            {getInitials(m.name)}
+                          </div>
+                          <div className="ref-profile-info">
+                            <div className="ref-name-row">
+                              <span className="ref-member-name hover:text-emerald-700 transition">
+                                {m.name}
+                              </span>
+                              {m.bloodGroup && (
+                                <span className="ref-tag-pill">{m.bloodGroup}</span>
+                              )}
+                            </div>
+                            <div className="ref-member-role">
+                              {m.designation || 'General Member'}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
 
-                        {/* UPDATE: Edit Button */}
-                        <button
-                          onClick={() => openEditModal(m)}
-                          className="ref-btn-edit"
-                          title="Edit Member Profile"
+                      {/* 2. Member ID */}
+                      <td className="ref-col-id">
+                        <span className="ref-id-pill">
+                          {m.memberId || 'N/A'}
+                        </span>
+                      </td>
+
+                      {/* 3. Contact Information */}
+                      <td className="ref-col-contact">
+                        <div className="ref-contact-col">
+                          <div className="ref-contact-item" title={m.email}>
+                            <Mail size={13} className="text-slate-400 flex-shrink-0" />
+                            <span>{m.email}</span>
+                          </div>
+                          <div className="ref-contact-item ref-contact-sub" title={m.phone || 'No phone'}>
+                            <Phone size={13} className="text-slate-400 flex-shrink-0" />
+                            <span>{m.phone || 'No phone'}</span>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* 4. Membership Tier */}
+                      <td className="ref-col-tier">
+                        <span className={`ref-tier-badge ${getTierBadgeClass(tier)}`}>
+                          {tier === 'Life Member' && <Star size={11} fill="#9333ea" />}
+                          {tier}
+                        </span>
+                      </td>
+
+                      {/* 5. Status */}
+                      <td className="ref-col-status">
+                        <span
+                          className={`ref-status-badge ${
+                            status === 'Active' ? 'active' : 'suspended'
+                          }`}
                         >
-                          <Edit2 size={12} />
-                          <span>Edit</span>
-                        </button>
+                          <span className="ref-status-dot-inner"></span>
+                          {status}
+                        </span>
+                      </td>
 
-                        {/* UPDATE: Quick Status Toggle */}
-                        <button
-                          onClick={() => handleStatusToggle(m._id, status, m.name)}
-                          className={status === 'Active' ? 'ref-btn-suspend' : 'ref-btn-activate'}
-                          title={status === 'Active' ? 'Suspend Membership' : 'Activate Membership'}
-                        >
-                          <Pause size={10} strokeWidth={3} />
-                          <span>{status === 'Active' ? 'Suspend' : 'Activate'}</span>
-                        </button>
-
-                        {/* DELETE: Remove Member Button */}
-                        {!isSelf ? (
+                      {/* 6. Actions (Full CRUD Controls - Clean, Pro Icons) */}
+                      <td className="ref-col-actions">
+                        <div className="ref-actions-container">
+                          {/* READ: View Details & ID Card */}
                           <button
-                            onClick={() => openDeleteModal(m)}
-                            className="ref-btn-trash"
-                            title="Delete Member Record"
+                            type="button"
+                            onClick={() => openViewModal(m)}
+                            className="ref-act-btn view"
+                            title="View Member Profile & ID Card"
+                            aria-label="View Details"
                           >
-                            <Trash2 size={13} />
+                            <Eye size={14} />
                           </button>
-                        ) : (
-                          <span
-                            style={{ width: '32px', display: 'inline-block' }}
-                            title="Cannot delete your current logged in account"
-                            aria-hidden="true"
-                          />
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+
+                          {/* UPDATE: Edit Profile */}
+                          <button
+                            type="button"
+                            onClick={() => openEditModal(m)}
+                            className="ref-act-btn edit"
+                            title="Edit Member Profile"
+                            aria-label="Edit Profile"
+                          >
+                            <Edit2 size={13} />
+                          </button>
+
+                          {/* UPDATE (Quick): Suspend or Activate Status */}
+                          <button
+                            type="button"
+                            onClick={() => handleStatusToggle(m._id, status, m.name)}
+                            className={`ref-act-btn ${status === 'Active' ? 'suspend' : 'activate'}`}
+                            title={status === 'Active' ? 'Suspend Membership' : 'Activate Membership'}
+                            aria-label={status === 'Active' ? 'Suspend' : 'Activate'}
+                          >
+                            {status === 'Active' ? (
+                              <Pause size={12} strokeWidth={2.6} />
+                            ) : (
+                              <CheckCircle size={13} strokeWidth={2.4} />
+                            )}
+                          </button>
+
+                          {/* DELETE: Remove Member Record */}
+                          {!isSelf ? (
+                            <button
+                              type="button"
+                              onClick={() => openDeleteModal(m)}
+                              className="ref-act-btn delete"
+                              title="Delete Member Record"
+                              aria-label="Delete Record"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          ) : (
+                            <span
+                              className="ref-act-placeholder"
+                              title="Current logged-in administrator account"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         )}
 
-        {/* 7. Pagination Footer */}
-        <div className="ref-table-pagination">
-          <button className="ref-page-btn" title="Previous Page">
-            <ChevronLeft size={14} />
-          </button>
-          <button className="ref-page-btn active">1</button>
-          <button className="ref-page-btn" title="Next Page">
-            <ChevronRight size={14} />
-          </button>
+        {/* 6. Table Card Footer: Meta Info & Pagination */}
+        <div className="ref-table-footer">
+          <div className="ref-table-meta-text">
+            Showing <span className="font-semibold">{filteredMembers.length}</span> of{' '}
+            <span className="font-semibold">{members.length}</span> registered members
+          </div>
+          <div className="ref-table-pagination">
+            <button className="ref-page-btn" title="Previous Page" disabled>
+              <ChevronLeft size={14} />
+            </button>
+            <button className="ref-page-btn active">1</button>
+            <button className="ref-page-btn" title="Next Page" disabled>
+              <ChevronRight size={14} />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1068,6 +1091,28 @@ const AdminMembers = () => {
                 className="ref-modal-btn-cancel"
               >
                 Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const curStatus = selectedMember.membership?.status || 'Active';
+                  handleStatusToggle(selectedMember._id, curStatus, selectedMember.name);
+                  setShowViewModal(false);
+                }}
+                className={
+                  (selectedMember.membership?.status || 'Active') === 'Active'
+                    ? 'ref-btn-suspend'
+                    : 'ref-btn-activate'
+                }
+                style={{ padding: '0.45rem 0.9rem' }}
+                title="Quick status toggle"
+              >
+                <Pause size={12} strokeWidth={2.5} />
+                <span>
+                  {(selectedMember.membership?.status || 'Active') === 'Active'
+                    ? 'Suspend Member'
+                    : 'Activate Member'}
+                </span>
               </button>
               <button
                 type="button"
