@@ -115,12 +115,12 @@ const Home = () => {
                 <Calendar size={24} className="eco-pcard-icon" />
               </div>
               <div className="eco-pcard-body">
-                <h3 className="eco-pcard-title">Upcoming Events</h3>
+                <h3 className="eco-pcard-title">Drives & Events</h3>
                 <p className="eco-pcard-desc">
-                  Be part of our events and community programs.
+                  Be part of our river cleanliness drives and community programs.
                 </p>
                 <Link to="/events" className="eco-pcard-link">
-                  <span>View Events</span>
+                  <span>View Drives & Events</span>
                   <ArrowRight size={14} />
                 </Link>
               </div>
@@ -157,7 +157,7 @@ const Home = () => {
                   <div className="eco-preview-header">
                     <div className="d-flex align-items-center gap-2">
                       <Calendar size={20} className="text-emerald-700" />
-                      <h3 className="eco-preview-title">Upcoming Events</h3>
+                      <h3 className="eco-preview-title">Upcoming Drives & Events</h3>
                     </div>
                     <Link to="/events" className="eco-preview-all">
                       View All →

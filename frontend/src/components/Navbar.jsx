@@ -94,12 +94,12 @@ const Navbar = () => {
       ],
     },
     {
-      label: 'Events & Meetings',
+      label: 'Drives & Events',
       path: '/events',
       hasDropdown: true,
       children: [
-        { label: 'Upcoming Events', path: '/events', icon: Calendar },
-        { label: 'Volunteer Meetings', path: '/events', icon: Users },
+        { label: 'Upcoming Drives & Events', path: '/events', icon: Calendar },
+        { label: 'Volunteer Drives & Meetings', path: '/events', icon: Users },
         { label: 'Past Drives & Reports', path: '/events', icon: Clock },
       ],
     },

@@ -137,7 +137,7 @@ const AdminDashboard = () => {
             <Calendar size={22} className="text-blue-icon" />
           </div>
           <div className="eco-stat-details">
-            <span className="eco-stat-label">Total Events</span>
+            <span className="eco-stat-label">Drives & Events</span>
             <div className="eco-stat-number">{totalEvents}</div>
             <span className="eco-stat-trend text-trend-green">↑ +3 This Month</span>
           </div>
@@ -185,7 +185,7 @@ const AdminDashboard = () => {
 
           <Link to="/admin/events" className="eco-quick-action-tile">
             <CalendarPlus size={22} className="tile-icon" />
-            <span className="tile-text">Create Event</span>
+            <span className="tile-text">Schedule Drive</span>
           </Link>
 
           <Link to="/admin/announcements" className="eco-quick-action-tile">
@@ -293,7 +293,7 @@ const AdminDashboard = () => {
           <div className="eco-card-header">
             <div className="eco-card-title-lockup">
               <Calendar size={18} className="text-emerald-icon" />
-              <h3>Upcoming Events</h3>
+              <h3>Upcoming Drives & Events</h3>
             </div>
             <Link to="/admin/events" className="eco-card-view-all-link">
               View All <ArrowRight size={14} />

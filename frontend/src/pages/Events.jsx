@@ -27,10 +27,9 @@ const Events = () => {
       <div className="clean-page-header">
         <div className="container">
           <span className="clean-badge">SCHEDULE</span>
-          <h1>Events & Meetings Calendar</h1>
+          <h1>Drives & Events Calendar</h1>
           <p className="clean-page-sub">
-            Public schedules for community cleanliness drives, riverfront marches, and general
-            gatherings.
+            Public schedules for community riverfront cleanliness drives, conservation marches, and environmental events.
           </p>
         </div>
       </div>
