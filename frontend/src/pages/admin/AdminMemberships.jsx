@@ -442,14 +442,14 @@ const AdminMemberships = () => {
             <table className="ref-table">
               <thead>
                 <tr>
-                  <th style={{ width: '22%' }}>MEMBER NAME</th>
-                  <th style={{ width: '13%' }}>MEMBER ID</th>
-                  <th style={{ width: '14%' }}>TIER / TYPE</th>
-                  <th style={{ width: '11%' }}>STATUS</th>
-                  <th style={{ width: '11%' }}>VALID UNTIL</th>
-                  <th style={{ width: '9%' }}>FEE PAID</th>
+                  <th style={{ width: '28%' }}>MEMBER NAME</th>
+                  <th style={{ width: '11%' }}>MEMBER ID</th>
+                  <th style={{ width: '12%' }}>TIER / TYPE</th>
+                  <th style={{ width: '8%' }}>STATUS</th>
+                  <th style={{ width: '9%' }}>VALID UNTIL</th>
+                  <th style={{ width: '7%' }}>FEE PAID</th>
                   <th style={{ width: '8%' }}>PAYMENT</th>
-                  <th style={{ width: '12%', textAlign: 'right' }}>ACTIONS</th>
+                  <th style={{ width: '17%', textAlign: 'right' }}>ACTIONS</th>
                 </tr>
               </thead>
               <tbody>

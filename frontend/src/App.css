@@ -7684,12 +7684,12 @@ body::-webkit-scrollbar {
 
 .ref-table th:first-child,
 .ref-table td:first-child {
-  padding-left: 1.1rem;
+  padding-left: 1rem;
 }
 
 .ref-table th:last-child,
 .ref-table td:last-child {
-  padding-right: 1.1rem;
+  padding-right: 0.75rem;
 }
 
 .ref-table tbody tr {
@@ -7707,32 +7707,32 @@ body::-webkit-scrollbar {
 /* Column Widths & Alignments - Proportional 100% Fit, Zero Horizontal Scroll */
 .ref-col-details {
   text-align: left;
-  width: 26%;
+  width: 28%;
 }
 
 .ref-col-id {
   text-align: left;
-  width: 13%;
+  width: 12%;
 }
 
 .ref-col-contact {
   text-align: left;
-  width: 24%;
+  width: 23%;
 }
 
 .ref-col-tier {
   text-align: left;
-  width: 13%;
+  width: 12%;
 }
 
 .ref-col-status {
   text-align: left;
-  width: 10%;
+  width: 9%;
 }
 
 .ref-col-actions {
   text-align: right;
-  width: 14%;
+  width: 16%;
 }
 
 /* Table Cells */
@@ -7941,13 +7941,13 @@ body::-webkit-scrollbar {
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.3rem;
+  gap: 0.25rem;
   white-space: nowrap;
 }
 
 .ref-act-btn {
-  width: 28px;
-  height: 28px;
+  width: 27px;
+  height: 27px;
   border-radius: 6px;
   display: inline-flex;
   align-items: center;
@@ -7980,16 +7980,16 @@ body::-webkit-scrollbar {
 
 /* Labeled Edit Button */
 .ref-btn-edit-action {
-  height: 28px;
+  height: 27px;
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0 0.55rem;
+  gap: 0.2rem;
+  padding: 0 0.5rem;
   border-radius: 6px;
   border: 1px solid #e2e8f0;
   background-color: #ffffff;
   color: #334155;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -8019,8 +8019,8 @@ body::-webkit-scrollbar {
 }
 
 .ref-act-placeholder {
-  width: 28px;
-  height: 28px;
+  width: 27px;
+  height: 27px;
   display: inline-block;
   flex-shrink: 0;
 }
