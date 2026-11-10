@@ -5023,40 +5023,182 @@ body::-webkit-scrollbar {
   align-items: center;
 }
 
-/* Eco Footer */
+/* ==========================================================================
+   GODHAVARI PLATFORM - PROPER, PROFESSIONAL & BALANCED FOOTER
+   ========================================================================== */
+
 .eco-footer {
-  background-color: #0a3d27;
-  color: #ffffff;
-  padding-top: 4rem;
+  background: linear-gradient(180deg, #063d2e 0%, #03231a 100%);
+  color: #e2e8f0;
+  padding-top: 3.5rem;
   margin-top: 4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .eco-footer a {
   color: #cbd5e1;
-  transition: color 0.15s ease;
+  text-decoration: none;
+  transition: all 0.15s ease;
 }
 
 .eco-footer a:hover {
-  color: #4ade80;
+  color: #34d399;
 }
 
-.eco-footer .footer-org-badge {
-  background: rgba(255, 255, 255, 0.1);
-  color: #dcfce7;
-  display: inline-block;
+.footer-main-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.35fr;
+  gap: 3rem;
+  padding-bottom: 2.75rem;
+}
+
+.footer-brand-title {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.footer-tagline {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #94a3b8;
+  margin-bottom: 1.25rem;
+  max-width: 360px;
+}
+
+.footer-org-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a7f3d0;
   padding: 0.35rem 0.75rem;
   border-radius: 6px;
-  font-size: 0.78rem;
-  margin-top: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
-.eco-footer .footer-bottom-bar {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem 0;
-  margin-top: 3rem;
+.footer-col-heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.15rem;
+}
+
+.footer-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer-link-list a {
+  color: #94a3b8;
+  font-size: 0.86rem;
+  display: inline-block;
+}
+
+.footer-link-list a:hover {
+  color: #34d399;
+  transform: translateX(3px);
+}
+
+.footer-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
   font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.footer-contact-icon {
+  color: #34d399;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.footer-contact-item a {
+  color: #cbd5e1;
+}
+
+.footer-contact-item a:hover {
+  color: #34d399;
+}
+
+.footer-bottom-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.25rem 0;
+  font-size: 0.8rem;
   color: #94a3b8;
 }
+
+.bottom-bar-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.footer-copyright {
+  margin: 0;
+  color: #94a3b8;
+}
+
+.footer-legal-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.footer-legal-row a {
+  color: #94a3b8;
+}
+
+.footer-legal-row a:hover {
+  color: #34d399;
+}
+
+.footer-dot {
+  color: #475569;
+}
+
+@media (max-width: 1024px) {
+  .footer-main-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.25rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-main-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .bottom-bar-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 1320px) {
