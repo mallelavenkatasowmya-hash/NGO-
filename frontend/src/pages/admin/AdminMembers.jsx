@@ -462,10 +462,10 @@ const AdminMembers = () => {
               <tr>
                 <th style={{ width: '25%' }}>Member Details</th>
                 <th style={{ width: '13%' }}>Member ID</th>
-                <th style={{ width: '19%' }}>Contact Information</th>
-                <th style={{ width: '13%' }}>Membership Tier</th>
-                <th style={{ width: '9%' }}>Status</th>
-                <th style={{ width: '21%', textAlign: 'center' }}>Actions</th>
+                <th style={{ width: '20%' }}>Contact Information</th>
+                <th style={{ width: '14%' }}>Membership Tier</th>
+                <th style={{ width: '10%' }}>Status</th>
+                <th style={{ width: '18%', textAlign: 'center' }}>Actions</th>
               </tr>
             </thead>
             <tbody>

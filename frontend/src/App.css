@@ -7193,7 +7193,7 @@ body::-webkit-scrollbar {
   background: #ffffff;
   border: 1px solid #f1f5f9;
   border-radius: 14px;
-  overflow-x: auto;
+  overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   width: 100%;
 }
@@ -7201,11 +7201,10 @@ body::-webkit-scrollbar {
 .ref-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 980px;
 }
 
 .ref-table th {
-  padding: 0.85rem 1.25rem;
+  padding: 0.85rem 0.75rem;
   background-color: #f8fafc;
   color: #1e293b;
   font-size: 0.78rem;
@@ -7215,7 +7214,7 @@ body::-webkit-scrollbar {
 }
 
 .ref-table td {
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 0.75rem;
   border-bottom: 1px solid #f8fafc;
   vertical-align: middle;
   font-size: 0.82rem;
@@ -7379,15 +7378,15 @@ body::-webkit-scrollbar {
 .ref-action-group {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.25rem;
   white-space: nowrap;
   flex-wrap: nowrap;
 }
 
 .ref-action-icon-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
   border: 1px solid #e2e8f0;
   background-color: #ffffff;
   color: #475569;
@@ -7414,10 +7413,10 @@ body::-webkit-scrollbar {
 .ref-btn-suspend {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.38rem 0.85rem;
-  border-radius: 8px;
-  font-size: 0.76rem;
+  gap: 0.25rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 7px;
+  font-size: 0.74rem;
   font-weight: 600;
   color: #c2410c;
   background-color: #fff7ed;
@@ -7425,6 +7424,7 @@ body::-webkit-scrollbar {
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .ref-btn-suspend:hover {
@@ -7435,10 +7435,10 @@ body::-webkit-scrollbar {
 .ref-btn-activate {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.38rem 0.85rem;
-  border-radius: 8px;
-  font-size: 0.76rem;
+  gap: 0.25rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 7px;
+  font-size: 0.74rem;
   font-weight: 600;
   color: #047857;
   background-color: #ecfdf5;
@@ -7446,6 +7446,7 @@ body::-webkit-scrollbar {
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .ref-btn-activate:hover {
@@ -7454,9 +7455,9 @@ body::-webkit-scrollbar {
 }
 
 .ref-btn-trash {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
   border: 1px solid #e2e8f0;
   background-color: #ffffff;
   color: #94a3b8;
@@ -7465,6 +7466,7 @@ body::-webkit-scrollbar {
   justify-content: center;
   cursor: pointer;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .ref-btn-trash:hover {
@@ -7687,18 +7689,19 @@ body::-webkit-scrollbar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.38rem 0.95rem;
-  border-radius: 8px;
+  gap: 0.25rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 7px;
   border: 1px solid #e2e8f0;
   background-color: #ffffff;
   color: #334155;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
 }
 
 .ref-btn-edit:hover {
