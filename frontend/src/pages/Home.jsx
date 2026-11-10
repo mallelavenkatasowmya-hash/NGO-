@@ -55,20 +55,17 @@ const Home = () => {
               loading="eager"
             />
 
-            {/* Seamless Interactive Overlay for CTAs */}
-            <div className="eco-hero-hotspots-layer">
-              <Link
-                to="/activities"
-                className="eco-hotspot-btn btn-explore-hotspot"
-                title="Explore Our Activities"
-                aria-label="Explore Our Activities"
-              />
-              <Link
-                to="/register"
-                className="eco-hotspot-btn btn-join-hotspot"
-                title="Join Our Mission"
-                aria-label="Join Our Mission"
-              />
+            {/* Live Vector CTAs (Crystal-Clear Text, Crisp Icons, Zero Blur) */}
+            <div className="eco-hero-buttons-overlay">
+              <Link to="/activities" className="btn-hero-primary-green">
+                <Leaf size={18} className="btn-hero-icon" />
+                <span>Explore Our Activities</span>
+                <ArrowRight size={16} className="btn-hero-arrow" />
+              </Link>
+              <Link to="/register" className="btn-hero-outline-green">
+                <Users size={18} className="btn-hero-icon" />
+                <span>Join Our Mission</span>
+              </Link>
             </div>
           </div>
         </div>
