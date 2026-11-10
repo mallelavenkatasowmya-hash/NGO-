@@ -9,6 +9,7 @@ import {
   deleteMemberById,
   getAllMemberships,
   updateMembershipById,
+  deleteMembershipById,
 } from '../controllers/memberController.js';
 import {
   createEvent,
@@ -63,7 +64,7 @@ router.patch('/members/:id/membership', updateMembershipStatus);
 
 // Memberships Management
 router.route('/memberships').get(getAllMemberships);
-router.route('/memberships/:id').patch(updateMembershipById);
+router.route('/memberships/:id').patch(updateMembershipById).delete(deleteMembershipById);
 
 // Events CRUD
 router.route('/events').get(getMemberEvents).post(createEvent);

@@ -317,6 +317,22 @@ export const updateMembershipById = async (req, res, next) => {
   }
 };
 
+// @desc    Delete membership record (Admin)
+// @route   DELETE /api/v1/admin/memberships/:id
+// @access  Private (Admin)
+export const deleteMembershipById = async (req, res, next) => {
+  try {
+    const membership = await Membership.findById(req.params.id);
+    if (!membership) {
+      return res.status(404).json({ message: 'Membership record not found' });
+    }
+    await Membership.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Membership record successfully removed' });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc    Get logged in member's membership details
 // @route   GET /api/v1/member/membership
 // @access  Private (Member)
