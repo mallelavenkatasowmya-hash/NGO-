@@ -338,7 +338,7 @@ const AdminEvents = () => {
             <Calendar size={22} />
           </div>
           <div className="ref-header-text">
-            <h2>Meetings & Events</h2>
+            <h2>Drives & Events</h2>
             <p>Schedule, manage, and coordinate community riverfront cleanliness drives and awareness events.</p>
           </div>
         </div>
@@ -509,7 +509,7 @@ const AdminEvents = () => {
       {/* 5. Section Header */}
       <div className="ref-section-header">
         <h3 className="ref-section-title">
-          Upcoming Meetings & Events ({filteredEvents.length})
+          Upcoming Drives & Events ({filteredEvents.length})
         </h3>
         {(search || filterType !== 'All' || filterStatus !== 'All') && (
           <button

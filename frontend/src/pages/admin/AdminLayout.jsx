@@ -47,7 +47,7 @@ const AdminLayout = () => {
     { label: 'Dashboard', path: '/admin', icon: Home, exact: true },
     { label: 'Members', path: '/admin/members', icon: Users },
     { label: 'Membership', path: '/admin/memberships', icon: CreditCard },
-    { label: 'Meetings & Events', path: '/admin/events', icon: Calendar },
+    { label: 'Drives & Events', path: '/admin/events', icon: Calendar },
     { label: 'Announcements', path: '/admin/announcements', icon: Megaphone },
     { label: 'Notifications', path: '/admin/notifications', icon: Bell },
     { label: 'Reports', path: '/admin/reports', icon: BarChart2 },
@@ -66,12 +66,13 @@ const AdminLayout = () => {
     if (location.pathname === '/admin' || location.pathname === '/admin/') {
       return 'Admin Dashboard';
     }
+    if (location.pathname.startsWith('/admin/meetings')) return 'Meetings & Sessions';
+    if (location.pathname.startsWith('/admin/events')) return 'Drives & Events';
     const current = navItems.find((item) => isActive(item));
     if (current) {
       if (current.label === 'Dashboard') return 'Admin Dashboard';
       return current.label;
     }
-    if (location.pathname.startsWith('/admin/meetings')) return 'Meetings & Events';
     return 'Admin Dashboard';
   };
 
