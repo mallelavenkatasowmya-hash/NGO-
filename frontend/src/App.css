@@ -8144,10 +8144,124 @@ body::-webkit-scrollbar {
   box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.3);
 }
 
+/* Green Header Banner ("The Green Button" with Perfect Text Alignment & Balanced Padding) */
+.ref-id-card-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  background: linear-gradient(135deg, #064e3b 0%, #047857 55%, #059669 100%);
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(6, 78, 59, 0.18);
+  min-height: 48px;
+}
+
+.ref-id-banner-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ref-id-banner-icon {
+  color: #6ee7b7;
+  flex-shrink: 0;
+}
+
+.ref-id-banner-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a7f3d0;
+  line-height: 1;
+}
+
+.ref-id-banner-tier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+.ref-id-banner-sparkle {
+  color: #fef08a;
+  flex-shrink: 0;
+}
+
+/* View Modal Member Identity Header */
+.ref-view-member-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.95rem 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.ref-view-member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.ref-view-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ref-view-member-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ref-view-member-sub {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: #64748b;
+  flex-wrap: wrap;
+}
+
+.ref-view-designation {
+  font-weight: 600;
+  color: #047857;
+}
+
+.ref-view-dot {
+  color: #cbd5e1;
+}
+
+.ref-view-org {
+  color: #64748b;
+}
+
+.ref-view-status-wrap {
+  flex-shrink: 0;
+}
+
 .ref-id-card-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 1.15rem;
 }
 
@@ -8232,31 +8346,33 @@ body::-webkit-scrollbar {
 .ref-details-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
+  row-gap: 1.15rem;
+  column-gap: 1.6rem;
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 1.15rem;
+  padding: 1.25rem 1.4rem;
 }
 
 .ref-detail-item {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
 
 .ref-detail-label {
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .ref-detail-value {
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: #0f172a;
+  word-break: break-word;
 }
 
 /* 6. Pagination Footer */
@@ -8510,7 +8626,11 @@ body::-webkit-scrollbar {
 }
 
 .ref-modal-btn-cancel {
-  padding: 0.55rem 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 1.25rem;
   border-radius: 8px;
   background-color: #ffffff;
   border: 1px solid #cbd5e1;
@@ -8519,6 +8639,7 @@ body::-webkit-scrollbar {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .ref-modal-btn-cancel:hover {
@@ -8527,8 +8648,61 @@ body::-webkit-scrollbar {
   border-color: #94a3b8;
 }
 
+.ref-btn-suspend-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  height: 38px;
+  padding: 0 1.15rem;
+  border-radius: 8px;
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #b45309;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.ref-btn-suspend-modal:hover {
+  background-color: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.ref-btn-activate-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  height: 38px;
+  padding: 0 1.15rem;
+  border-radius: 8px;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.ref-btn-activate-modal:hover {
+  background-color: #d1fae5;
+  border-color: #34d399;
+  color: #065f46;
+}
+
 .ref-modal-btn-save {
-  padding: 0.55rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  height: 38px;
+  padding: 0 1.35rem;
   border-radius: 8px;
   background-color: #2563eb;
   border: 1px solid #2563eb;
@@ -8538,6 +8712,7 @@ body::-webkit-scrollbar {
   cursor: pointer;
   transition: all 0.15s ease;
   box-shadow: 0 1px 3px rgba(37, 99, 235, 0.2);
+  white-space: nowrap;
 }
 
 .ref-modal-btn-save:hover:not(:disabled) {

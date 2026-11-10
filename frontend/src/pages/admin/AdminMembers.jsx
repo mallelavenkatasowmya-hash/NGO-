@@ -18,6 +18,8 @@ import {
   Edit2,
   Eye,
   Shield,
+  ShieldCheck,
+  Sparkles,
   MapPin,
   Calendar,
   AlertTriangle,
@@ -982,50 +984,57 @@ const AdminMembers = () => {
             </div>
 
             <div className="ref-modal-body">
-              {/* Digital NGO ID Card Preview */}
-              <div className="ref-id-card-wrap">
-                <div className="ref-id-card-top">
-                  <div>
-                    <span className="ref-id-card-title">Official Member Identification</span>
-                    <div className="ref-id-card-org">Godhavari Nadhi Paryavarana Parishubratha</div>
-                  </div>
-                  <span className="bg-white/20 text-white text-xs px-2.5 py-1 rounded-full font-bold">
-                    {selectedMember.membership?.membershipType || selectedMember.membershipType || 'Member'}
+              {/* Green Header Banner ("The Green Button" with Perfect Text Alignment & Padding) */}
+              <div className="ref-id-card-banner">
+                <div className="ref-id-banner-left">
+                  <ShieldCheck size={16} className="ref-id-banner-icon" />
+                  <span className="ref-id-banner-title">Official Member Identification</span>
+                </div>
+                <div className="ref-id-banner-tier-pill">
+                  <Sparkles size={12} className="ref-id-banner-sparkle" />
+                  <span>
+                    {selectedMember.membership?.membershipType || selectedMember.membershipType || 'Annual Member'}
                   </span>
-                </div>
-
-                <div className="ref-id-card-mid">
-                  <div className="ref-id-card-avatar">
-                    {getInitials(selectedMember.name)}
-                  </div>
-                  <div className="ref-id-card-info">
-                    <span className="ref-id-card-name">{selectedMember.name}</span>
-                    <span className="ref-id-card-designation">
-                      {selectedMember.designation || 'General Member'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="ref-id-card-bottom">
-                  <div className="ref-id-card-meta">
-                    <span className="ref-id-card-meta-lbl">Registration ID</span>
-                    <span className="ref-id-card-meta-val">{selectedMember.memberId || 'Pending'}</span>
-                  </div>
-                  <div className="ref-id-card-meta">
-                    <span className="ref-id-card-meta-lbl">Blood Group</span>
-                    <span className="ref-id-card-meta-val">{selectedMember.bloodGroup || 'N/A'}</span>
-                  </div>
-                  <div className="ref-id-card-meta">
-                    <span className="ref-id-card-meta-lbl">Status</span>
-                    <span className="ref-id-card-meta-val">
-                      {selectedMember.membership?.status || 'Active'}
-                    </span>
-                  </div>
                 </div>
               </div>
 
-              {/* Comprehensive Details Grid */}
+              {/* Member Profile Identity Header */}
+              <div className="ref-view-member-card">
+                <div className="ref-avatar-circle" style={{ width: '48px', height: '48px', fontSize: '1.1rem' }}>
+                  {getInitials(selectedMember.name)}
+                </div>
+                <div className="ref-view-member-info">
+                  <div className="ref-view-name-row">
+                    <span className="ref-view-member-name">{selectedMember.name}</span>
+                    {selectedMember.bloodGroup && (
+                      <span className="ref-tag-pill">{selectedMember.bloodGroup}</span>
+                    )}
+                  </div>
+                  <div className="ref-view-member-sub">
+                    <span className="ref-view-designation">
+                      {selectedMember.designation || 'General Member'}
+                    </span>
+                    <span className="ref-view-dot">&bull;</span>
+                    <span className="ref-view-org">Godhavari Nadhi Paryavarana Parishubratha</span>
+                  </div>
+                </div>
+                <div className="ref-view-status-wrap">
+                  <span
+                    className={`ref-status-badge ${
+                      (selectedMember.membership?.status || 'Active') === 'Active'
+                        ? 'active'
+                        : 'suspended'
+                    }`}
+                  >
+                    <span className="ref-status-dot-inner"></span>
+                    <span>{selectedMember.membership?.status || 'Active'}</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Comprehensive Details Grid - Perfectly Symmetrical 2-Column Pairs */}
               <div className="ref-details-grid">
+                {/* Pair 1: Contact Information */}
                 <div className="ref-detail-item">
                   <span className="ref-detail-label">Email Address</span>
                   <span className="ref-detail-value">{selectedMember.email}</span>
@@ -1034,6 +1043,8 @@ const AdminMembers = () => {
                   <span className="ref-detail-label">Phone Number</span>
                   <span className="ref-detail-value">{selectedMember.phone || 'Not provided'}</span>
                 </div>
+
+                {/* Pair 2: Role & Membership Tier */}
                 <div className="ref-detail-item">
                   <span className="ref-detail-label">Designation / Role</span>
                   <span className="ref-detail-value">{selectedMember.designation || 'General Member'}</span>
@@ -1044,6 +1055,8 @@ const AdminMembers = () => {
                     {selectedMember.membership?.membershipType || selectedMember.membershipType || 'Annual Member'}
                   </span>
                 </div>
+
+                {/* Pair 3: Location Details */}
                 <div className="ref-detail-item">
                   <span className="ref-detail-label">City / Region</span>
                   <span className="ref-detail-value">
@@ -1056,22 +1069,27 @@ const AdminMembers = () => {
                     {selectedMember.address?.street || 'Not provided'}
                   </span>
                 </div>
-                {selectedMember.membership?.validTo && (
-                  <div className="ref-detail-item">
-                    <span className="ref-detail-label">Valid Until</span>
-                    <span className="ref-detail-value">
-                      {new Date(selectedMember.membership.validTo).toLocaleDateString()}
+
+                {/* Pair 4: Financial & Validity Status - Always Balanced */}
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">Fee Paid</span>
+                  <span className="ref-detail-value font-bold text-emerald-700">
+                    ₹{((selectedMember.membership?.feePaid ?? 0)).toLocaleString()}{' '}
+                    <span className="text-xs font-normal text-emerald-600">
+                      ({selectedMember.membership?.paymentStatus || 'Paid'})
                     </span>
-                  </div>
-                )}
-                {selectedMember.membership?.feePaid !== undefined && (
-                  <div className="ref-detail-item">
-                    <span className="ref-detail-label">Fee Paid</span>
-                    <span className="ref-detail-value font-bold text-emerald-700">
-                      ₹{selectedMember.membership.feePaid.toLocaleString()} ({selectedMember.membership.paymentStatus || 'Paid'})
-                    </span>
-                  </div>
-                )}
+                  </span>
+                </div>
+                <div className="ref-detail-item">
+                  <span className="ref-detail-label">Membership Validity</span>
+                  <span className="ref-detail-value">
+                    {selectedMember.membership?.validTo
+                      ? new Date(selectedMember.membership.validTo).toLocaleDateString()
+                      : (selectedMember.membership?.membershipType || selectedMember.membershipType || '') === 'Life Member'
+                      ? 'Lifetime Membership'
+                      : 'Active (2026 - 2027)'}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -1092,18 +1110,22 @@ const AdminMembers = () => {
                 }}
                 className={
                   (selectedMember.membership?.status || 'Active') === 'Active'
-                    ? 'ref-btn-suspend'
-                    : 'ref-btn-activate'
+                    ? 'ref-btn-suspend-modal'
+                    : 'ref-btn-activate-modal'
                 }
-                style={{ padding: '0.45rem 0.9rem' }}
                 title="Quick status toggle"
               >
-                <Pause size={12} strokeWidth={2.5} />
-                <span>
-                  {(selectedMember.membership?.status || 'Active') === 'Active'
-                    ? 'Suspend Member'
-                    : 'Activate Member'}
-                </span>
+                {(selectedMember.membership?.status || 'Active') === 'Active' ? (
+                  <>
+                    <Pause size={13} strokeWidth={2.4} />
+                    <span>Suspend Member</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle size={13} strokeWidth={2.4} />
+                    <span>Activate Member</span>
+                  </>
+                )}
               </button>
               <button
                 type="button"
@@ -1113,7 +1135,8 @@ const AdminMembers = () => {
                 }}
                 className="ref-modal-btn-save"
               >
-                Edit Member Profile
+                <Edit2 size={13} />
+                <span>Edit Member Profile</span>
               </button>
             </div>
           </div>
