@@ -539,17 +539,22 @@ const AdminMembers = () => {
 
                       {/* 5. Status */}
                       <td className="ref-col-status">
-                        <span
+                        <button
+                          type="button"
+                          onClick={() => handleStatusToggle(m._id, status, m.name)}
                           className={`ref-status-badge ${
                             status === 'Active' ? 'active' : 'suspended'
                           }`}
+                          title={`Status is ${status}. Click to ${
+                            status === 'Active' ? 'Suspend' : 'Activate'
+                          }`}
                         >
                           <span className="ref-status-dot-inner"></span>
-                          {status}
-                        </span>
+                          <span>{status}</span>
+                        </button>
                       </td>
 
-                      {/* 6. Actions (Full CRUD Controls - Clean, Pro Icons) */}
+                      {/* 6. Actions (Full CRUD Controls - View, Labeled Edit, Delete) */}
                       <td className="ref-col-actions">
                         <div className="ref-actions-container">
                           {/* READ: View Details & ID Card */}
@@ -563,30 +568,16 @@ const AdminMembers = () => {
                             <Eye size={14} />
                           </button>
 
-                          {/* UPDATE: Edit Profile */}
+                          {/* UPDATE: Edit Profile (Labeled Edit Button) */}
                           <button
                             type="button"
                             onClick={() => openEditModal(m)}
-                            className="ref-act-btn edit"
+                            className="ref-btn-edit-action"
                             title="Edit Member Profile"
                             aria-label="Edit Profile"
                           >
-                            <Edit2 size={13} />
-                          </button>
-
-                          {/* UPDATE (Quick): Suspend or Activate Status */}
-                          <button
-                            type="button"
-                            onClick={() => handleStatusToggle(m._id, status, m.name)}
-                            className={`ref-act-btn ${status === 'Active' ? 'suspend' : 'activate'}`}
-                            title={status === 'Active' ? 'Suspend Membership' : 'Activate Membership'}
-                            aria-label={status === 'Active' ? 'Suspend' : 'Activate'}
-                          >
-                            {status === 'Active' ? (
-                              <Pause size={12} strokeWidth={2.6} />
-                            ) : (
-                              <CheckCircle size={13} strokeWidth={2.4} />
-                            )}
+                            <Edit2 size={12} />
+                            <span>Edit</span>
                           </button>
 
                           {/* DELETE: Remove Member Record */}
