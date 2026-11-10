@@ -610,12 +610,8 @@ const AdminMembers = () => {
           </div>
         )}
 
-        {/* 6. Table Card Footer: Meta Info & Pagination */}
+        {/* 6. Table Card Footer: Pagination */}
         <div className="ref-table-footer">
-          <div className="ref-table-meta-text">
-            Showing <span className="font-semibold">{filteredMembers.length}</span> of{' '}
-            <span className="font-semibold">{members.length}</span> registered members
-          </div>
           <div className="ref-table-pagination">
             <button className="ref-page-btn" title="Previous Page" disabled>
               <ChevronLeft size={14} />
