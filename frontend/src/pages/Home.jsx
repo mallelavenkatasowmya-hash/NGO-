@@ -44,10 +44,10 @@ const Home = () => {
 
   return (
     <div className="eco-home-wrapper">
-      {/* 1. HERO SECTION - Exact Match to Reference Image 2 */}
+      {/* 1. HERO SECTION - Ultra Sharp High-Res Godavari Panorama with Live Vector Typography */}
       <section className="eco-hero-master-section">
         <div className="eco-hero-canvas-wrapper">
-          <div className="eco-hero-canvas-inner">
+          <div className="eco-hero-banner-frame">
             <img
               src={heroBannerImg}
               alt="Together for a Cleaner and Greener Tomorrow - Godhavari NGO"
@@ -55,20 +55,36 @@ const Home = () => {
               loading="eager"
             />
 
-            {/* Seamless Interactive Overlay for CTAs */}
-            <div className="eco-hero-hotspots-layer">
-              <Link
-                to="/activities"
-                className="eco-hotspot-btn btn-explore-hotspot"
-                title="Explore Our Activities"
-                aria-label="Explore Our Activities"
-              />
-              <Link
-                to="/register"
-                className="eco-hotspot-btn btn-join-hotspot"
-                title="Join Our Mission"
-                aria-label="Join Our Mission"
-              />
+            {/* Live Vector Typography & CTAs (100% Vector Crisp, Zero Blur) */}
+            <div className="eco-hero-content-overlay">
+              <div className="eco-hero-text-card">
+                <h1 className="eco-hero-headline">
+                  Together for a<br />
+                  <span className="eco-headline-highlight">Cleaner and Greener Tomorrow</span>
+                </h1>
+
+                <p className="eco-hero-subtext">
+                  Working together to create awareness, promote cleanliness, protect our environment, and build a responsible community.
+                </p>
+
+                <div className="eco-hero-cta-group">
+                  <Link to="/activities" className="btn-hero-primary-green">
+                    <Leaf size={18} className="btn-hero-icon" />
+                    <span>Explore Our Activities</span>
+                    <ArrowRight size={16} className="btn-hero-arrow" />
+                  </Link>
+                  <Link to="/register" className="btn-hero-outline-green">
+                    <Users size={18} className="btn-hero-icon" />
+                    <span>Join Our Mission</span>
+                  </Link>
+                </div>
+
+                <div className="eco-hero-dots-row" aria-hidden="true">
+                  <span className="eco-carousel-dot active" />
+                  <span className="eco-carousel-dot" />
+                  <span className="eco-carousel-dot" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
