@@ -1372,18 +1372,11 @@ body::-webkit-scrollbar {
   border-right: 1px solid #042e22;
   user-select: none;
   z-index: 50;
-  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
 }
 
 .eco-admin-sidebar.sidebar-collapsed,
 .admin-sidebar.sidebar-collapsed {
-  width: 0 !important;
-  min-width: 0 !important;
-  margin-left: -232px !important;
-  padding: 0 !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  border-right: none !important;
+  display: none !important;
 }
 
 .eco-admin-sidebar::-webkit-scrollbar,
@@ -1667,8 +1660,8 @@ body::-webkit-scrollbar {
   justify-content: center;
   border-radius: 8px;
   background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  color: #334155;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
   cursor: pointer;
   transition: all 0.15s ease;
   flex-shrink: 0;
@@ -1681,6 +1674,37 @@ body::-webkit-scrollbar {
   color: #065f46;
   transform: translateY(-1px);
   box-shadow: 0 1px 3px rgba(6, 95, 70, 0.08);
+}
+
+.eco-menu-toggle-btn.sidebar-is-hidden {
+  background-color: #064e3b;
+  border-color: #064e3b;
+  color: #ffffff;
+}
+
+.eco-menu-toggle-btn.sidebar-is-hidden:hover {
+  background-color: #04382a;
+}
+
+.eco-sidebar-toggle-close {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.eco-sidebar-toggle-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 .eco-menu-toggle-btn:active {
@@ -8786,9 +8810,8 @@ body::-webkit-scrollbar {
 .ref-events-page {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.15rem;
   width: 100%;
-  padding-top: 0.5rem;
 }
 
 /* 1. Header with Tab Buttons & Schedule Button */

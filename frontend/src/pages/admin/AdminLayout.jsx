@@ -14,6 +14,7 @@ import {
   UserCheck,
   Settings,
   ChevronDown,
+  ChevronLeft,
   User,
   LogOut,
   Menu,
@@ -79,14 +80,25 @@ const AdminLayout = () => {
     <div className="eco-admin-wrapper">
       {/* Dark Forest Green Sidebar Navigation */}
       <aside className={`eco-admin-sidebar ${sidebarOpen ? '' : 'sidebar-collapsed'}`}>
-        {/* Brand Lockup: Vector Emblem + 3-line Stacked Name */}
+        {/* Brand Lockup: Vector Emblem + 3-line Stacked Name + Hide Button */}
         <div className="eco-sidebar-brand">
-          <Logo variant="light" size={32} showText={false} />
-          <div className="eco-sidebar-brand-text">
-            <span className="brand-title-primary">Godhavari Nadhi</span>
-            <span className="brand-title-sub">Paryavarana</span>
-            <span className="brand-title-sub">Parishubratha</span>
+          <div className="flex items-center gap-2.5 flex-1 min-w-0">
+            <Logo variant="light" size={32} showText={false} />
+            <div className="eco-sidebar-brand-text">
+              <span className="brand-title-primary">Godhavari Nadhi</span>
+              <span className="brand-title-sub">Paryavarana</span>
+              <span className="brand-title-sub">Parishubratha</span>
+            </div>
           </div>
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className="eco-sidebar-toggle-close"
+            title="Hide Sidebar Menu"
+            aria-label="Hide Sidebar Menu"
+          >
+            <ChevronLeft size={16} />
+          </button>
         </div>
 
         {/* Navigation Items with Equal Spacing */}
@@ -166,11 +178,11 @@ const AdminLayout = () => {
             <button
               type="button"
               onClick={toggleSidebar}
-              className="eco-menu-toggle-btn"
+              className={`eco-menu-toggle-btn ${!sidebarOpen ? 'sidebar-is-hidden' : ''}`}
               title={sidebarOpen ? 'Hide sidebar menu' : 'Show sidebar menu'}
               aria-label="Toggle Navigation Menu"
             >
-              <Menu size={20} />
+              <Menu size={19} />
             </button>
             <h1 className="eco-admin-page-heading">{getPageTitle()}</h1>
           </div>
