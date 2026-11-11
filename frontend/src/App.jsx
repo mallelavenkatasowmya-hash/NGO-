@@ -58,10 +58,6 @@ const PublicLayout = () => {
     );
   }
 
-  // When admin is logged in, do not show public pages - redirect directly to Admin Dashboard
-  if (user && isAdmin) {
-    return <Navigate to="/admin" replace />;
-  }
 
   return (
     <div className="site-wrapper">

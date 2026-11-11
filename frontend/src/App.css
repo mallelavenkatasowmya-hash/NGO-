@@ -1745,6 +1745,29 @@ body::-webkit-scrollbar {
   background-color: #10b981;
 }
 
+.eco-topbar-view-site-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.eco-topbar-view-site-btn:hover {
+  background-color: #f0fdf4;
+  border-color: #86efac;
+  color: #064e3b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
 .eco-topbar-bell-btn {
   position: relative;
   background: #f1f5f9;

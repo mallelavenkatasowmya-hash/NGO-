@@ -17,6 +17,7 @@ import {
   User,
   LogOut,
   Menu,
+  Globe,
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -82,14 +83,19 @@ const AdminLayout = () => {
       <aside className={`eco-admin-sidebar ${sidebarOpen ? '' : 'sidebar-collapsed'}`}>
         {/* Brand Lockup: Vector Emblem + 3-line Stacked Name + Hide Button */}
         <div className="eco-sidebar-brand">
-          <div className="flex items-center gap-2.5 flex-1 min-w-0">
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 flex-1 min-w-0"
+            title="View Public Website (Home & Navbar)"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
             <Logo variant="light" size={32} showText={false} />
             <div className="eco-sidebar-brand-text">
               <span className="brand-title-primary">Godhavari Nadhi</span>
               <span className="brand-title-sub">Paryavarana</span>
               <span className="brand-title-sub">Parishubratha</span>
             </div>
-          </div>
+          </Link>
           <button
             type="button"
             onClick={toggleSidebar}
@@ -185,6 +191,15 @@ const AdminLayout = () => {
           </div>
 
           <div className="eco-admin-topbar-actions">
+            <Link
+              to="/"
+              className="eco-topbar-view-site-btn"
+              title="View Public Website & Navbar"
+            >
+              <Globe size={15} />
+              <span>View Website</span>
+            </Link>
+
             {/* Bell Notification with Red Badge Dot */}
             <button className="eco-topbar-bell-btn" title="Notifications">
               <Bell size={20} />
