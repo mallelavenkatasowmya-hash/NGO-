@@ -4082,14 +4082,58 @@ body::-webkit-scrollbar {
   user-select: none;
 }
 
-.eco-hero-buttons-overlay {
+.eco-hero-content-overlay {
   position: absolute;
-  left: 46.5%;
-  top: 67%;
+  left: 44%;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 53%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+.eco-hero-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.eco-hero-main-title {
+  font-family: var(--font-display, 'Plus Jakarta Sans', system-ui, sans-serif);
+  font-size: clamp(1.35rem, 2.45vw, 2.55rem);
+  font-weight: 800;
+  color: #064e3b;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.7rem 0;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.85);
+}
+
+.eco-title-green {
+  color: #15803d;
+  font-weight: 800;
+}
+
+.eco-hero-subtitle {
+  font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+  font-size: clamp(0.76rem, 1vw, 0.98rem);
+  color: #1e293b;
+  line-height: 1.5;
+  font-weight: 500;
+  margin: 0 0 1.25rem 0;
+  max-width: 560px;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+.eco-hero-buttons-overlay {
   display: flex;
   align-items: center;
   gap: 1.15rem;
   z-index: 5;
+  flex-wrap: wrap;
 }
 
 .btn-hero-primary-green {
@@ -4099,9 +4143,9 @@ body::-webkit-scrollbar {
   background: #064e3b;
   color: #ffffff !important;
   font-family: var(--font-display, 'Plus Jakarta Sans', system-ui, sans-serif);
-  font-size: clamp(0.85rem, 1vw, 0.98rem);
+  font-size: clamp(0.82rem, 0.95vw, 0.95rem);
   font-weight: 600;
-  padding: 0.72rem 1.45rem;
+  padding: 0.68rem 1.4rem;
   border-radius: 9999px;
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(6, 78, 59, 0.35);
@@ -4132,9 +4176,9 @@ body::-webkit-scrollbar {
   background: #ffffff;
   color: #064e3b !important;
   font-family: var(--font-display, 'Plus Jakarta Sans', system-ui, sans-serif);
-  font-size: clamp(0.85rem, 1vw, 0.98rem);
+  font-size: clamp(0.82rem, 0.95vw, 0.95rem);
   font-weight: 600;
-  padding: 0.72rem 1.45rem;
+  padding: 0.68rem 1.4rem;
   border-radius: 9999px;
   text-decoration: none;
   border: 1.5px solid #064e3b;
@@ -4151,29 +4195,42 @@ body::-webkit-scrollbar {
   box-shadow: 0 6px 18px rgba(6, 78, 59, 0.18);
 }
 
-@media (max-width: 992px) {
-  .eco-hero-buttons-overlay {
-    left: 44%;
-    top: 66%;
-    gap: 0.85rem;
+@media (max-width: 1024px) {
+  .eco-hero-content-overlay {
+    left: 42%;
+    max-width: 56%;
   }
-  .btn-hero-primary-green,
-  .btn-hero-outline-green {
-    padding: 0.65rem 1.25rem;
-    font-size: 0.88rem;
+  .eco-hero-main-title {
+    margin-bottom: 0.5rem;
+  }
+  .eco-hero-subtitle {
+    margin-bottom: 0.9rem;
+  }
+  .eco-hero-buttons-overlay {
+    gap: 0.75rem;
   }
 }
 
 @media (max-width: 768px) {
-  .eco-hero-buttons-overlay {
-    left: 50%;
-    transform: translateX(-50%);
+  .eco-hero-content-overlay {
+    position: relative;
+    left: auto;
     top: auto;
-    bottom: 1.75rem;
-    width: 90%;
+    transform: none;
+    max-width: 100%;
+    padding: 1.5rem 1.25rem 2rem 1.25rem;
+    align-items: center;
+    text-align: center;
+    background: #f0f7f3;
+  }
+  .eco-hero-text-block {
+    align-items: center;
+  }
+  .eco-hero-subtitle {
+    text-align: center;
+  }
+  .eco-hero-buttons-overlay {
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.75rem;
   }
 }
 

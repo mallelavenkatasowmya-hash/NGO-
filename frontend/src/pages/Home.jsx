@@ -55,17 +55,29 @@ const Home = () => {
               loading="eager"
             />
 
-            {/* Live Vector CTAs (Crystal-Clear Text, Crisp Icons, Zero Blur) */}
-            <div className="eco-hero-buttons-overlay">
-              <Link to="/activities" className="btn-hero-primary-green">
-                <Leaf size={18} className="btn-hero-icon" />
-                <span>Explore Our Activities</span>
-                <ArrowRight size={16} className="btn-hero-arrow" />
-              </Link>
-              <Link to="/register" className="btn-hero-outline-green">
-                <Users size={18} className="btn-hero-icon" />
-                <span>Join Our Mission</span>
-              </Link>
+            {/* Live Vector Typography & CTAs (100% Crystal-Clear, Razor Sharp, Zero Blur) */}
+            <div className="eco-hero-content-overlay">
+              <div className="eco-hero-text-block">
+                <h1 className="eco-hero-main-title">
+                  Together for a <br />
+                  <span className="eco-title-green">Cleaner and Greener Tomorrow</span>
+                </h1>
+                <p className="eco-hero-subtitle">
+                  Working together to create awareness, promote cleanliness, protect our environment, and build a responsible community.
+                </p>
+
+                <div className="eco-hero-buttons-overlay">
+                  <Link to="/activities" className="btn-hero-primary-green">
+                    <Leaf size={18} className="btn-hero-icon" />
+                    <span>Explore Our Activities</span>
+                    <ArrowRight size={16} className="btn-hero-arrow" />
+                  </Link>
+                  <Link to="/register" className="btn-hero-outline-green">
+                    <Users size={18} className="btn-hero-icon" />
+                    <span>Join Our Mission</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
