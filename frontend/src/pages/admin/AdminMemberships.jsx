@@ -74,7 +74,7 @@ const AdminMemberships = () => {
     try {
       setLoading(true);
       const res = await api.get('/admin/memberships');
-      setMemberships(res.data);
+      setMemberships(Array.isArray(res.data) ? res.data : Array.isArray(res.data?.memberships) ? res.data.memberships : []);
     } catch (err) {
       setFeedback({
         type: 'danger',
@@ -99,9 +99,10 @@ const AdminMemberships = () => {
   const openAddModal = async () => {
     try {
       const res = await api.get('/admin/members');
-      setAllMembers(res.data);
-      if (res.data.length > 0) {
-        setAddFormData((prev) => ({ ...prev, userId: res.data[0]._id }));
+      const members = Array.isArray(res.data) ? res.data : Array.isArray(res.data?.members) ? res.data.members : [];
+      setAllMembers(members);
+      if (members.length > 0) {
+        setAddFormData((prev) => ({ ...prev, userId: members[0]._id }));
       }
     } catch (err) {
       console.error(err);

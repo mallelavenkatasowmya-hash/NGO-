@@ -30,8 +30,8 @@ const Home = () => {
         ]);
 
         setContent(contentRes.data);
-        setEvents(eventsRes.data ? eventsRes.data.slice(0, 3) : []);
-        setAnnouncements(announcementsRes.data ? announcementsRes.data.slice(0, 3) : []);
+        setEvents(Array.isArray(eventsRes.data) ? eventsRes.data.slice(0, 3) : Array.isArray(eventsRes.data?.events) ? eventsRes.data.events.slice(0, 3) : []);
+        setAnnouncements(Array.isArray(announcementsRes.data) ? announcementsRes.data.slice(0, 3) : Array.isArray(announcementsRes.data?.announcements) ? announcementsRes.data.announcements.slice(0, 3) : []);
       } catch (err) {
         console.error('Failed to load public website content:', err);
       } finally {
