@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Logo from '../../components/Logo';
@@ -6,18 +6,16 @@ import {
   Home,
   FileText,
   Users,
-  CreditCard,
   Calendar,
   Megaphone,
   Bell,
   BarChart2,
   UserCheck,
+  Key,
   Settings,
-  ChevronLeft,
   User,
   LogOut,
   Menu,
-  Globe,
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -29,6 +27,10 @@ const AdminLayout = () => {
     const saved = localStorage.getItem('ngo_admin_sidebar');
     return saved !== null ? saved === 'true' : true;
   });
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--admin-sidebar-w', sidebarOpen ? '232px' : '0px');
+  }, [sidebarOpen]);
 
   const toggleSidebar = () => {
     setSidebarOpen((prev) => {
@@ -47,7 +49,6 @@ const AdminLayout = () => {
   const navItems = [
     { label: 'Dashboard', path: '/admin', icon: Home, exact: true },
     { label: 'Members', path: '/admin/members', icon: Users },
-    { label: 'Membership', path: '/admin/memberships', icon: CreditCard },
     { label: 'Drives & Events', path: '/admin/events', icon: Calendar },
     { label: 'Announcements', path: '/admin/announcements', icon: Megaphone },
     { label: 'Notifications', path: '/admin/notifications', icon: Bell },
@@ -69,6 +70,7 @@ const AdminLayout = () => {
     }
     if (location.pathname.startsWith('/admin/meetings')) return 'Meetings & Sessions';
     if (location.pathname.startsWith('/admin/events')) return 'Drives & Events';
+    if (location.pathname.startsWith('/admin/members')) return 'Members & Membership';
     const current = navItems.find((item) => isActive(item));
     if (current) {
       if (current.label === 'Dashboard') return 'Admin Dashboard';
@@ -96,15 +98,6 @@ const AdminLayout = () => {
               <span className="brand-title-sub">Parishubratha</span>
             </div>
           </Link>
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            className="eco-sidebar-toggle-close"
-            title="Hide Sidebar Menu"
-            aria-label="Hide Sidebar Menu"
-          >
-            <ChevronLeft size={16} />
-          </button>
         </div>
 
         {/* Navigation Items with Equal Spacing */}
@@ -191,15 +184,6 @@ const AdminLayout = () => {
           </div>
 
           <div className="eco-admin-topbar-actions">
-            <Link
-              to="/"
-              className="eco-topbar-view-site-btn"
-              title="View Public Website & Navbar"
-            >
-              <Globe size={15} />
-              <span>View Website</span>
-            </Link>
-
             {/* Bell Notification with Red Badge Dot */}
             <button className="eco-topbar-bell-btn" title="Notifications">
               <Bell size={20} />

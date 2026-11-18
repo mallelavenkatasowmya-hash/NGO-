@@ -1,667 +1,2341 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import api from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+import {
+  recordAdminAction,
+  AUDIT_EVENT_NAME,
+} from '../../services/auditService';
 import {
   Users,
   ShieldCheck,
+  ShieldAlert,
+  UserCheck,
+  UserX,
   UserPlus,
   Search,
-  CheckCircle,
+  CheckCircle2,
+  XCircle,
   AlertTriangle,
-  RefreshCw,
   Key,
   Mail,
   Phone,
   X,
-  Award,
   Lock,
-  Copy,
+  Calendar,
+  Save,
+  Clock,
+  Crown,
+  ChevronRight,
+  Filter,
+  RefreshCw,
+  Info,
   Check,
+  Eye,
+  Edit2,
+  Trash2,
+  Ban,
+  Activity,
   Layers,
-  History,
-  CheckCircle2,
-  XCircle,
   Sparkles,
+  HeartHandshake,
+  CheckCircle,
+  AlertCircle,
+  Plus,
+  Pause,
+  Star,
+  User,
+  Sliders,
+  RotateCcw,
+  Database,
+  Globe,
+  Bell,
+  ClipboardCheck,
+  BarChart3,
+  LifeBuoy,
+  Minus,
+  Compass,
 } from 'lucide-react';
 
-const AdminUsers = () => {
-  const [activeTab, setActiveTab] = useState('directory'); // 'directory' | 'matrix' | 'audit'
-  const [adminUsers, setAdminUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [roleFilter, setRoleFilter] = useState('All');
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [feedback, setFeedback] = useState({ type: '', message: '' });
-  const [copiedLink, setCopiedLink] = useState(false);
+// Capability Metadata Helper: maps category and name to domain colors and icon
+const getCapabilityMeta = (cap) => {
+  switch (cap.category) {
+    case 'System & DB':
+      return {
+        icon: <Database size={16} />,
+        iconColor: '#2563eb',
+        iconBg: '#eff6ff',
+        badgeBg: '#eff6ff',
+        badgeColor: '#1d4ed8',
+        badgeBorder: '#bfdbfe',
+      };
+    case 'Access Control':
+      return {
+        icon: <ShieldAlert size={16} />,
+        iconColor: '#9333ea',
+        iconBg: '#faf5ff',
+        badgeBg: '#faf5ff',
+        badgeColor: '#7e22ce',
+        badgeBorder: '#e9d5ff',
+      };
+    case 'Drives & Events':
+      return {
+        icon: <Calendar size={16} />,
+        iconColor: '#059669',
+        iconBg: '#ecfdf5',
+        badgeBg: '#ecfdf5',
+        badgeColor: '#047857',
+        badgeBorder: '#a7f3d0',
+      };
+    case 'Membership':
+      return {
+        icon: <UserCheck size={16} />,
+        iconColor: '#0284c7',
+        iconBg: '#f0f9ff',
+        badgeBg: '#f0f9ff',
+        badgeColor: '#0369a1',
+        badgeBorder: '#bae6fd',
+      };
+    case 'Public CMS':
+      return {
+        icon: <Globe size={16} />,
+        iconColor: '#4f46e5',
+        iconBg: '#eef2ff',
+        badgeBg: '#eef2ff',
+        badgeColor: '#4338ca',
+        badgeBorder: '#c7d2fe',
+      };
+    case 'Broadcasts':
+      return {
+        icon: <Bell size={16} />,
+        iconColor: '#d97706',
+        iconBg: '#fffbeb',
+        badgeBg: '#fffbeb',
+        badgeColor: '#b45309',
+        badgeBorder: '#fde68a',
+      };
+    case 'Field Operations':
+      return {
+        icon: <ClipboardCheck size={16} />,
+        iconColor: '#0d9488',
+        iconBg: '#f0fdfa',
+        badgeBg: '#f0fdfa',
+        badgeColor: '#0f766e',
+        badgeBorder: '#99f6e4',
+      };
+    case 'Public Access':
+      return {
+        icon: <Compass size={16} />,
+        iconColor: '#475569',
+        iconBg: '#f8fafc',
+        badgeBg: '#f8fafc',
+        badgeColor: '#475569',
+        badgeBorder: '#e2e8f0',
+      };
+    case 'Analytics & Audit':
+      return {
+        icon: <BarChart3 size={16} />,
+        iconColor: '#7c3aed',
+        iconBg: '#f5f3ff',
+        badgeBg: '#f5f3ff',
+        badgeColor: '#6d28d9',
+        badgeBorder: '#ddd6fe',
+      };
+    case 'Emergency Dispatch':
+      return {
+        icon: <LifeBuoy size={16} />,
+        iconColor: '#e11d48',
+        iconBg: '#fff1f2',
+        badgeBg: '#fff1f2',
+        badgeColor: '#be123c',
+        badgeBorder: '#fecdd3',
+      };
+    default:
+      return {
+        icon: <Sliders size={16} />,
+        iconColor: '#475569',
+        iconBg: '#f8fafc',
+        badgeBg: '#f1f5f9',
+        badgeColor: '#475569',
+        badgeBorder: '#e2e8f0',
+      };
+  }
+};
 
-  const [formData, setFormData] = useState({
+// Standard 4 User Roles
+export const ROLES = {
+  SUPER_ADMIN: 'Super Admin',
+  ADMIN: 'Admin',
+  STAFF_COORDINATOR: 'Staff Coordinator',
+  GENERAL_VOLUNTEER: 'General Volunteer',
+};
+
+// Initial Operational Capabilities Matrix matching the user's reference design
+const defaultRbacCapabilities = [
+  {
+    id: 1,
+    name: 'Database Direct Write & Backup Restores',
+    category: 'System & DB',
+    super: true,
+    admin: false,
+    staff: false,
+    vol: false,
+    desc: 'Root administrative privilege to execute direct database transactions and trigger recovery points.',
+  },
+  {
+    id: 2,
+    name: 'Manage Administrator Users & Roles',
+    category: 'Access Control',
+    super: true,
+    admin: false,
+    staff: false,
+    vol: false,
+    desc: 'Enroll, promote, demote, or revoke administrative access privileges across the management suite.',
+  },
+  {
+    id: 3,
+    name: 'Schedule Cleanliness Drives & Ghat Events',
+    category: 'Drives & Events',
+    super: true,
+    admin: true,
+    staff: false,
+    vol: false,
+    desc: 'Organize riverbank cleanups, configure volunteer capacities, and dispatch official drive circulars.',
+  },
+  {
+    id: 4,
+    name: 'Approve & Verify Member Registrations',
+    category: 'Membership',
+    super: true,
+    admin: true,
+    staff: false,
+    vol: false,
+    desc: 'Validate government photo identification, verify fee payments, and issue official NGO ID cards.',
+  },
+  {
+    id: 5,
+    name: 'Publish Website CMS & Impact Statistics',
+    category: 'Public CMS',
+    super: true,
+    admin: true,
+    staff: false,
+    vol: false,
+    desc: 'Update river water cleanliness metrics, press releases, homepage banners, and leadership contacts.',
+  },
+  {
+    id: 6,
+    name: 'Send In-App & Push Notifications',
+    category: 'Broadcasts',
+    super: true,
+    admin: true,
+    staff: true,
+    vol: false,
+    desc: 'Dispatch broadcast safety alerts and drive reminders to registered volunteers.',
+  },
+  {
+    id: 7,
+    name: 'Take Ghat Cleanliness Attendance',
+    category: 'Field Operations',
+    super: true,
+    admin: true,
+    staff: true,
+    vol: false,
+    desc: 'Record real-time on-site volunteer attendance at Godavari ghat environmental drives.',
+  },
+  {
+    id: 8,
+    name: 'View Public Portal & Volunteer Signup',
+    category: 'Public Access',
+    super: true,
+    admin: true,
+    staff: true,
+    vol: true,
+    desc: 'Access public announcements, donation portals, and registration forms.',
+  },
+  {
+    id: 9,
+    name: 'Generate & Export Analytics Reports',
+    category: 'Analytics & Audit',
+    super: true,
+    admin: true,
+    staff: false,
+    vol: false,
+    desc: 'Export official environmental metrics and financial contribution spreadsheets.',
+  },
+  {
+    id: 10,
+    name: 'Emergency Godavari River Helpline Dispatch',
+    category: 'Emergency Dispatch',
+    super: true,
+    admin: true,
+    staff: true,
+    vol: false,
+    desc: 'Coordinate with local emergency helplines for pollution interception and distress calls.',
+  },
+];
+
+// Available Module Permissions for individual user assignment
+export const MODULE_PERMISSIONS = [
+  { id: 'members_view', label: 'View Members Directory', category: 'Members', desc: 'Browse registered members, donors, and patrons.' },
+  { id: 'members_manage', label: 'Enroll & Manage Members', category: 'Members', desc: 'Verify IDs, update member tiers, and edit records.' },
+  { id: 'events_view', label: 'View Cleanup Drives & Events', category: 'Drives & Events', desc: 'Review scheduled Godavari cleanliness campaigns.' },
+  { id: 'events_manage', label: 'Schedule & Manage River Drives', category: 'Drives & Events', desc: 'Create new cleanup drives and assign ghat teams.' },
+  { id: 'announcements_view', label: 'View Circulars & Bulletins', category: 'Announcements', desc: 'Access public announcements and guidelines.' },
+  { id: 'announcements_manage', label: 'Publish Broadcast Announcements', category: 'Announcements', desc: 'Post urgent notifications and media notices.' },
+  { id: 'notifications_send', label: 'Dispatch Push Alerts & SMS', category: 'Notifications', desc: 'Send emergency push broadcasts to members.' },
+  { id: 'reports_export', label: 'View & Export Analytical Reports', category: 'Reports', desc: 'Download river cleanliness and finance spreadsheets.' },
+  { id: 'website_cms', label: 'Update Website CMS & Live Counters', category: 'Website Content', desc: 'Configure hero banners, metrics, and contacts.' },
+  { id: 'rbac_manage', label: 'Manage Roles & Access Control', category: 'Access Control', desc: 'Super Admin authority to assign roles and revoke access.' },
+];
+
+const getDefaultPermissionsForRole = (role) => {
+  switch (role) {
+    case ROLES.SUPER_ADMIN:
+      return MODULE_PERMISSIONS.map((p) => p.id);
+    case ROLES.ADMIN:
+      return [
+        'members_view',
+        'members_manage',
+        'events_view',
+        'events_manage',
+        'announcements_view',
+        'announcements_manage',
+        'notifications_send',
+        'reports_export',
+        'website_cms',
+      ];
+    case ROLES.STAFF_COORDINATOR:
+      return ['events_view', 'events_manage', 'announcements_view', 'announcements_manage', 'notifications_send', 'members_view'];
+    case ROLES.GENERAL_VOLUNTEER:
+    default:
+      return ['events_view', 'announcements_view'];
+  }
+};
+
+const initialDefaultUsers = [
+  {
+    _id: 'usr-01',
+    memberId: 'GNPP-2026-0001',
+    name: 'Dr. K. V. Subba Rao',
+    email: 'admin@gmail.com',
+    phone: '+91 944 012 3456',
+    role: ROLES.SUPER_ADMIN,
+    designation: 'President & Executive Trustee',
+    permissions: MODULE_PERMISSIONS.map((p) => p.id),
+    assignedBy: { name: 'Root Genesis', email: 'system@godhavari.org', role: ROLES.SUPER_ADMIN },
+    accessGrantedDate: '2026-01-01T09:00:00Z',
+    accessExpiryDate: null,
+    accountStatus: 'Active',
+    accessReason: 'Chief NGO Executive & Founding Trustee (Root Administrator)',
+  },
+  {
+    _id: 'usr-02',
+    memberId: 'GNPP-2026-0104',
+    name: 'Smt. P. Lakshmi Devi',
+    email: 'lakshmi.trustee@godhavari.org',
+    phone: '+91 883 245 7891',
+    role: ROLES.ADMIN,
+    designation: 'Riverfront Operations Lead',
+    permissions: ['members_view', 'members_manage', 'events_view', 'events_manage', 'announcements_view', 'announcements_manage', 'website_cms', 'reports_export'],
+    assignedBy: { name: 'Dr. K. V. Subba Rao', email: 'admin@gmail.com', role: ROLES.SUPER_ADMIN },
+    accessGrantedDate: '2026-02-15T10:30:00Z',
+    accessExpiryDate: null,
+    accountStatus: 'Active',
+    accessReason: 'Oversees Godavari river cleanliness and operational drives',
+  },
+  {
+    _id: 'usr-03',
+    memberId: 'GNPP-2026-0205',
+    name: 'Sri M. Ramu Naidu',
+    email: 'ramu.coordinator@godhavari.org',
+    phone: '+91 984 801 2345',
+    role: ROLES.STAFF_COORDINATOR,
+    designation: 'Volunteer Mobilization Officer',
+    permissions: ['events_view', 'events_manage', 'announcements_view', 'notifications_send'],
+    assignedBy: { name: 'Smt. P. Lakshmi Devi', email: 'lakshmi.trustee@godhavari.org', role: ROLES.ADMIN },
+    accessGrantedDate: '2026-03-01T08:00:00Z',
+    accessExpiryDate: '2026-12-31T23:59:59Z',
+    accountStatus: 'Active',
+    accessReason: 'Manages weekend ghat cleanup volunteers and notices',
+  },
+  {
+    _id: 'usr-04',
+    memberId: 'GNPP-2026-0310',
+    name: 'Prof. K. Satyanarayana',
+    email: 'it.audit@godhavari.org',
+    phone: '+91 944 112 2334',
+    role: ROLES.ADMIN,
+    designation: 'IT Systems & Database Auditor',
+    permissions: ['members_view', 'reports_export', 'website_cms', 'events_view'],
+    assignedBy: { name: 'Dr. K. V. Subba Rao', email: 'admin@gmail.com', role: ROLES.SUPER_ADMIN },
+    accessGrantedDate: '2026-04-10T11:00:00Z',
+    accessExpiryDate: null,
+    accountStatus: 'Active',
+    accessReason: 'Technical auditing and analytics verification',
+  },
+  {
+    _id: 'usr-05',
+    memberId: 'GNPP-2026-0422',
+    name: 'Ananya Sharma',
+    email: 'ananya.volunteer@godhavari.org',
+    phone: '+91 984 911 2233',
+    role: ROLES.GENERAL_VOLUNTEER,
+    designation: 'Community Green Steward',
+    permissions: ['events_view', 'announcements_view'],
+    assignedBy: { name: 'Sri M. Ramu Naidu', email: 'ramu.coordinator@godhavari.org', role: ROLES.STAFF_COORDINATOR },
+    accessGrantedDate: '2026-05-18T14:15:00Z',
+    accessExpiryDate: '2026-11-30T23:59:59Z',
+    accountStatus: 'Active',
+    accessReason: 'Field cleanup volunteer for Kotilingala and Pushkar ghats',
+  },
+  {
+    _id: 'usr-06',
+    memberId: 'GNPP-2026-0518',
+    name: 'V. Rajesh Kumar',
+    email: 'rajesh.volunteer@godhavari.org',
+    phone: '+91 998 877 6655',
+    role: ROLES.GENERAL_VOLUNTEER,
+    designation: 'River Water Sampling Volunteer',
+    permissions: ['events_view', 'announcements_view'],
+    assignedBy: { name: 'Dr. K. V. Subba Rao', email: 'admin@gmail.com', role: ROLES.SUPER_ADMIN },
+    accessGrantedDate: '2026-06-01T09:30:00Z',
+    accessExpiryDate: null,
+    accountStatus: 'Pending',
+    accessReason: 'Requested volunteer portal access for river water testing',
+  },
+  {
+    _id: 'usr-07',
+    memberId: 'GNPP-2026-0629',
+    name: 'D. Suresh Varma',
+    email: 'suresh.varma@godhavari.org',
+    phone: '+91 970 123 4567',
+    role: ROLES.STAFF_COORDINATOR,
+    designation: 'Logistics Supervisor (Former)',
+    permissions: ['events_view', 'announcements_view'],
+    assignedBy: { name: 'Smt. P. Lakshmi Devi', email: 'lakshmi.trustee@godhavari.org', role: ROLES.ADMIN },
+    accessGrantedDate: '2026-01-10T10:00:00Z',
+    accessExpiryDate: '2026-06-30T23:59:59Z',
+    accountStatus: 'Inactive',
+    accessReason: 'Temporary logistics assignment concluded',
+  },
+];
+
+const AdminUsers = () => {
+  const { user: authUser } = useAuth();
+
+  // Active View Tab: 'matrix' (Operational Capability Matrix) | 'directory' (User Directory) | 'audit' (Security Audit Trail)
+  const [activeTab, setActiveTab] = useState('matrix');
+
+  // RBAC Capabilities Matrix State
+  const [capabilities, setCapabilities] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ngo_operational_capabilities_matrix_v1');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return defaultRbacCapabilities;
+  });
+
+  // Users and Loading state
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [feedback, setFeedback] = useState({ type: '', message: '' });
+
+  // Filtering & Search
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [matrixSearch, setMatrixSearch] = useState('');
+  const [matrixCategoryFilter, setMatrixCategoryFilter] = useState('All');
+  const [selectedRoleFilter, setSelectedRoleFilter] = useState('All');
+  const [selectedStatusFilter, setSelectedStatusFilter] = useState('All');
+  const [selectedExpiryFilter, setSelectedExpiryFilter] = useState('All');
+
+  const handleResetMatrixDefaults = () => {
+    if (!window.confirm('Reset Operational Capabilities Matrix back to official system recommended defaults?')) return;
+    setCapabilities(defaultRbacCapabilities);
+    setMatrixCategoryFilter('All');
+    setMatrixSearch('');
+    try {
+      localStorage.setItem('ngo_operational_capabilities_matrix_v1', JSON.stringify(defaultRbacCapabilities));
+    } catch (e) {}
+    recordAdminAction('Reset Operational Capabilities Matrix to system defaults', 'Security');
+    setFeedback({ type: 'success', message: 'Operational Capabilities Matrix reset to recommended defaults.' });
+  };
+
+  const filteredCapabilities = useMemo(() => {
+    return capabilities.filter((c) => {
+      const matchesCategory =
+        matrixCategoryFilter === 'All' || c.category === matrixCategoryFilter;
+      if (!matchesCategory) return false;
+
+      if (!matrixSearch.trim()) return true;
+      const q = matrixSearch.toLowerCase();
+      return (
+        c.name.toLowerCase().includes(q) ||
+        (c.desc && c.desc.toLowerCase().includes(q)) ||
+        (c.category && c.category.toLowerCase().includes(q))
+      );
+    });
+  }, [capabilities, matrixSearch, matrixCategoryFilter]);
+
+  // Authority Simulator: allows testing the UI as Super Admin, Admin, Staff Coordinator, or General Volunteer
+  const [simulatedRole, setSimulatedRole] = useState(ROLES.SUPER_ADMIN);
+
+  // Dynamic Authority Calculation based on logged-in or simulated role
+  const effectiveRole = simulatedRole;
+  const isSuperAdmin = effectiveRole === ROLES.SUPER_ADMIN;
+  const isAdmin = effectiveRole === ROLES.ADMIN;
+
+  // Modals & Panels
+  const [showAssignModal, setShowAssignModal] = useState(false);
+  const [selectedUserForAssign, setSelectedUserForAssign] = useState(null);
+  const [viewingUser, setViewingUser] = useState(null);
+  const [confirmRevokeModal, setConfirmRevokeModal] = useState({ open: false, user: null });
+  const [submitting, setSubmitting] = useState(false);
+
+  // Assign Access Form State
+  const [assignForm, setAssignForm] = useState({
+    userId: '',
     name: '',
     email: '',
     phone: '',
-    role: 'admin',
-    designation: 'Staff Coordinator',
-    password: '',
+    role: ROLES.STAFF_COORDINATOR,
+    permissions: getDefaultPermissionsForRole(ROLES.STAFF_COORDINATOR),
+    isPermanent: true,
+    startDate: new Date().toISOString().split('T')[0],
+    expiryDate: '',
+    reason: '',
+    accountStatus: 'Active',
   });
 
-  const defaultAdmins = [
-    {
-      _id: 'adm-01',
-      name: 'Dr. K. V. Subba Rao',
-      email: 'admin@gmail.com',
-      phone: '+91 944 012 3456',
-      role: 'Super Admin',
-      designation: 'President & Executive Trustee',
-      accessLevel: 'Full Executive Access',
-      status: 'Online Now',
-      presence: 'online',
-      joinedDate: 'Jan 2018',
-      permissions: ['Manage Admins', 'Database Direct Write', 'Ghat Cleanups', 'Financial Dues', 'Emergency Broadcasts', 'Publish CMS'],
-    },
-    {
-      _id: 'adm-02',
-      name: 'Smt. P. Lakshmi Devi',
-      email: 'lakshmi.trustee@godhavari.org',
-      phone: '+91 883 245 7891',
-      role: 'Admin',
-      designation: 'Riverfront Operations Lead',
-      accessLevel: 'Drives, Events & Members',
-      status: 'Online Now',
-      presence: 'online',
-      joinedDate: 'Mar 2020',
-      permissions: ['Ghat Cleanups', 'Publish CMS', 'Emergency Broadcasts', 'Volunteer Verification'],
-    },
-    {
-      _id: 'adm-03',
-      name: 'Sri M. Ramu Naidu',
-      email: 'ramu.coordinator@godhavari.org',
-      phone: '+91 984 801 2345',
-      role: 'Staff Coordinator',
-      designation: 'Volunteer Mobilization Officer',
-      accessLevel: 'Announcements & Notifications',
-      status: 'Active Today (10:15 AM)',
-      presence: 'away',
-      joinedDate: 'Aug 2022',
-      permissions: ['Volunteer Verification', 'Post Announcements', 'Send Member Reminders'],
-    },
-    {
-      _id: 'adm-04',
-      name: 'K. Satyanarayana',
-      email: 'it.audit@godhavari.org',
-      phone: '+91 944 112 2334',
-      role: 'Admin',
-      designation: 'IT Systems & Database Auditor',
-      accessLevel: 'Reports & Infrastructure',
-      status: 'Active Yesterday',
-      presence: 'away',
-      joinedDate: 'Feb 2024',
-      permissions: ['Database Direct Write', 'Export CSV Reports', 'Audit Logs Access'],
-    },
-  ];
+  // Security Audit Logs
+  const [auditLogs, setAuditLogs] = useState([]);
 
-  const auditTrailLogs = [
-    { id: 1, admin: 'Dr. K. V. Subba Rao', action: 'Authorized Life Membership for MEM-GNPP-1002', time: '12 mins ago', ip: '106.51.24.18 (Rajahmundry)' },
-    { id: 2, admin: 'Dr. K. V. Subba Rao', action: 'Published single-use plastic ban circular to homepage', time: '34 mins ago', ip: '106.51.24.18 (Rajahmundry)' },
-    { id: 3, admin: 'Smt. P. Lakshmi Devi', action: 'Created Cleanliness Drive Phase V at Kotilingala Ghat', time: '2 hours ago', ip: '49.207.182.90 (Kakinada)' },
-    { id: 4, admin: 'Sri M. Ramu Naidu', action: 'Dispatched push reminder to 88 volunteers', time: '5 hours ago', ip: '157.48.91.12 (Rajahmundry)' },
-    { id: 5, admin: 'K. Satyanarayana', action: 'Exported environmental impact audit CSV spreadsheet', time: 'Yesterday at 05:40 PM', ip: '117.216.32.75 (Vijayawada)' },
-  ];
-
-  const fetchAdminUsers = async () => {
+  // Fetch Users & Audit Logs
+  const fetchRbacData = async () => {
     setLoading(true);
     try {
-      const res = await api.get('/admin/members');
-      if (Array.isArray(res.data)) {
-        const admins = res.data.filter((u) => u.role === 'admin' || u.role === 'staff');
-        if (admins.length > 0) {
-          const formatted = admins.map((u, i) => ({
-            _id: u._id,
-            name: u.name,
-            email: u.email,
-            phone: u.phone || 'N/A',
-            role: i === 0 ? 'Super Admin' : u.role === 'admin' ? 'Admin' : 'Staff Coordinator',
-            designation: u.designation || (i === 0 ? 'President & Executive Trustee' : 'Operations Officer'),
-            accessLevel: i === 0 ? 'Full Executive Access' : 'Drives, Events & Members',
-            status: i === 0 ? 'Online Now' : 'Active Today',
-            presence: i === 0 ? 'online' : 'away',
-            joinedDate: new Date(u.createdAt || Date.now()).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }),
-            permissions: i === 0
-              ? ['Manage Admins', 'Database Direct Write', 'Ghat Cleanups', 'Financial Dues', 'Emergency Broadcasts', 'Publish CMS']
-              : ['Ghat Cleanups', 'Publish CMS', 'Emergency Broadcasts', 'Volunteer Verification'],
-          }));
-          setAdminUsers(formatted);
-        } else {
-          setAdminUsers(defaultAdmins);
-        }
+      const res = await api.get('/admin/rbac/overview');
+      if (res.data?.users && Array.isArray(res.data.users) && res.data.users.length > 0) {
+        setUsers(res.data.users);
       } else {
-        setAdminUsers(defaultAdmins);
+        const saved = localStorage.getItem('ngo_rbac_users_v3');
+        if (saved) {
+          setUsers(JSON.parse(saved));
+        } else {
+          setUsers(initialDefaultUsers);
+          localStorage.setItem('ngo_rbac_users_v3', JSON.stringify(initialDefaultUsers));
+        }
       }
     } catch (err) {
-      setAdminUsers(defaultAdmins);
+      const saved = localStorage.getItem('ngo_rbac_users_v3');
+      if (saved) {
+        setUsers(JSON.parse(saved));
+      } else {
+        setUsers(initialDefaultUsers);
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchAdminUsers();
-  }, []);
-
-  const handleCopyInviteLink = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/register?invite=gnpp-admin-2026`);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2500);
+  const fetchAuditLogs = async () => {
+    try {
+      const res = await api.get('/admin/audit-logs');
+      if (res.data?.logs && Array.isArray(res.data.logs)) {
+        setAuditLogs(res.data.logs);
+      }
+    } catch (e) {}
   };
 
-  const handleCreateAdminUser = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setFeedback({ type: '', message: '' });
+  useEffect(() => {
+    fetchRbacData();
+    fetchAuditLogs();
 
+    const handleAuditEvent = (e) => {
+      if (e.detail) {
+        setAuditLogs((prev) => [e.detail, ...prev]);
+      }
+    };
+    window.addEventListener(AUDIT_EVENT_NAME, handleAuditEvent);
+    return () => window.removeEventListener(AUDIT_EVENT_NAME, handleAuditEvent);
+  }, []);
+
+  const persistUsers = (newUsers) => {
+    setUsers(newUsers);
     try {
-      await api.post('/admin/members', {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        role: 'admin',
-        designation: formData.designation,
-        password: formData.password || 'admin123',
+      localStorage.setItem('ngo_rbac_users_v3', JSON.stringify(newUsers));
+    } catch (e) {}
+  };
+
+  // Toggle Capability Permission on Matrix table
+  const handleToggleCapability = (capId, roleKey) => {
+    if (!isSuperAdmin && !isAdmin) {
+      setFeedback({
+        type: 'warning',
+        message: 'Security Notice: Only Super Admin and Admin can modify operational permissions.',
+      });
+      return;
+    }
+
+    if (roleKey === 'super' && !isSuperAdmin) {
+      setFeedback({
+        type: 'danger',
+        message: 'Security Block: Only Super Admin can modify root operational permissions.',
+      });
+      return;
+    }
+
+    if (isAdmin && (roleKey === 'super' || roleKey === 'admin')) {
+      setFeedback({
+        type: 'danger',
+        message: 'Authority Limit: Administrators cannot alter Super Admin or Admin role capabilities.',
+      });
+      return;
+    }
+
+    setCapabilities((prev) => {
+      const updated = prev.map((item) => {
+        if (item.id === capId) {
+          const newVal = !item[roleKey];
+          const roleLabel =
+            roleKey === 'super'
+              ? 'Super Admin'
+              : roleKey === 'admin'
+              ? 'Admin'
+              : roleKey === 'staff'
+              ? 'Staff Coordinator'
+              : 'General Volunteer';
+
+          recordAdminAction(
+            `${newVal ? 'Granted' : 'Revoked'} "${item.name}" operational capability for ${roleLabel}.`,
+            'Security'
+          );
+
+          setFeedback({
+            type: 'success',
+            message: `${newVal ? 'Granted' : 'Revoked'} "${item.name}" capability for ${roleLabel}.`,
+          });
+
+          return { ...item, [roleKey]: newVal };
+        }
+        return item;
       });
 
+      try {
+        localStorage.setItem('ngo_operational_capabilities_matrix_v1', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+  };
+
+  // Helper for User Initials
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    const parts = name.trim().split(' ');
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
+  // Helper for Role Badge Classes
+  const getRoleBadgeClass = (role) => {
+    switch (role) {
+      case ROLES.SUPER_ADMIN:
+        return 'ref-tier-life';
+      case ROLES.ADMIN:
+        return 'ref-tier-annual';
+      case ROLES.STAFF_COORDINATOR:
+        return 'ref-tier-volunteer';
+      case ROLES.GENERAL_VOLUNTEER:
+      default:
+        return 'ref-tier-annual';
+    }
+  };
+
+  const getAvatarBg = (role) => {
+    switch (role) {
+      case ROLES.SUPER_ADMIN:
+        return '#6d28d9';
+      case ROLES.ADMIN:
+        return '#0284c7';
+      case ROLES.STAFF_COORDINATOR:
+        return '#d97706';
+      case ROLES.GENERAL_VOLUNTEER:
+      default:
+        return '#059669';
+    }
+  };
+
+  // KPI Calculations
+  const kpis = useMemo(() => {
+    const totalUsers = users.length;
+    const superAdminCount = users.filter((u) => u.role === ROLES.SUPER_ADMIN).length;
+    const adminCount = users.filter((u) => u.role === ROLES.ADMIN).length;
+    const staffCoordinatorCount = users.filter((u) => u.role === ROLES.STAFF_COORDINATOR).length;
+    const generalVolunteerCount = users.filter((u) => u.role === ROLES.GENERAL_VOLUNTEER).length;
+    const activeUsers = users.filter((u) => u.accountStatus === 'Active').length;
+    const pendingRequests = users.filter((u) => u.accountStatus === 'Pending').length;
+
+    return {
+      totalUsers,
+      superAdminCount,
+      adminCount,
+      staffCoordinatorCount,
+      generalVolunteerCount,
+      activeUsers,
+      pendingRequests,
+    };
+  }, [users]);
+
+  // Filtered Users List
+  const filteredUsers = useMemo(() => {
+    return users.filter((u) => {
+      const matchSearch =
+        searchKeyword === '' ||
+        u.name?.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        u.email?.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        u.phone?.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        u.designation?.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        u.memberId?.toLowerCase().includes(searchKeyword.toLowerCase());
+
+      const matchRole =
+        selectedRoleFilter === 'All' || u.role === selectedRoleFilter;
+
+      const matchStatus =
+        selectedStatusFilter === 'All' || u.accountStatus === selectedStatusFilter;
+
+      let matchExpiry = true;
+      if (selectedExpiryFilter === 'Permanent') {
+        matchExpiry = !u.accessExpiryDate;
+      } else if (selectedExpiryFilter === 'Temporary') {
+        matchExpiry = Boolean(u.accessExpiryDate);
+      } else if (selectedExpiryFilter === 'Expired') {
+        matchExpiry = Boolean(u.accessExpiryDate && new Date(u.accessExpiryDate) < new Date());
+      }
+
+      return matchSearch && matchRole && matchStatus && matchExpiry;
+    });
+  }, [users, searchKeyword, selectedRoleFilter, selectedStatusFilter, selectedExpiryFilter]);
+
+  // Available Roles for Assigning depending dynamically on logged-in user's authority
+  const assignableRoles = useMemo(() => {
+    if (isSuperAdmin) {
+      return [
+        { role: ROLES.SUPER_ADMIN, desc: 'Full application & system root control', badgeClass: 'ref-tier-life' },
+        { role: ROLES.ADMIN, desc: 'Administrative operations & staff management', badgeClass: 'ref-tier-annual' },
+        { role: ROLES.STAFF_COORDINATOR, desc: 'Event coordination & volunteer dispatch', badgeClass: 'ref-tier-volunteer' },
+        { role: ROLES.GENERAL_VOLUNTEER, desc: 'Assigned community cleanup activities', badgeClass: 'ref-tier-annual' },
+      ];
+    }
+    if (isAdmin) {
+      return [
+        { role: ROLES.STAFF_COORDINATOR, desc: 'Event coordination & volunteer dispatch', badgeClass: 'ref-tier-volunteer' },
+        { role: ROLES.GENERAL_VOLUNTEER, desc: 'Assigned community cleanup activities', badgeClass: 'ref-tier-annual' },
+      ];
+    }
+    return [];
+  }, [isSuperAdmin, isAdmin]);
+
+  const handleOpenAssignModal = (targetUser = null) => {
+    if (!isSuperAdmin && !isAdmin) {
       setFeedback({
-        type: 'success',
-        message: `Admin user "${formData.name}" added successfully with role "${formData.role}"!`,
+        type: 'warning',
+        message: 'Security Notice: Only Super Admin and Admin can assign or modify roles.',
       });
-      setShowAddModal(false);
-      setFormData({
+      return;
+    }
+
+    if (targetUser) {
+      if (isAdmin && targetUser.role === ROLES.SUPER_ADMIN) {
+        setFeedback({
+          type: 'danger',
+          message: 'Permission Denied: Administrators cannot modify Super Admin accounts.',
+        });
+        return;
+      }
+
+      setSelectedUserForAssign(targetUser);
+      setAssignForm({
+        userId: targetUser._id,
+        name: targetUser.name,
+        email: targetUser.email,
+        phone: targetUser.phone || '',
+        role: targetUser.role,
+        permissions: targetUser.permissions || getDefaultPermissionsForRole(targetUser.role),
+        isPermanent: !targetUser.accessExpiryDate,
+        startDate: targetUser.accessGrantedDate ? new Date(targetUser.accessGrantedDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+        expiryDate: targetUser.accessExpiryDate ? new Date(targetUser.accessExpiryDate).toISOString().split('T')[0] : '',
+        reason: targetUser.accessReason || '',
+        accountStatus: targetUser.accountStatus || 'Active',
+      });
+    } else {
+      const defaultRole = isSuperAdmin ? ROLES.ADMIN : ROLES.STAFF_COORDINATOR;
+      setSelectedUserForAssign(null);
+      setAssignForm({
+        userId: '',
         name: '',
         email: '',
         phone: '',
-        role: 'admin',
-        designation: 'Staff Coordinator',
-        password: '',
+        role: defaultRole,
+        permissions: getDefaultPermissionsForRole(defaultRole),
+        isPermanent: true,
+        startDate: new Date().toISOString().split('T')[0],
+        expiryDate: '',
+        reason: '',
+        accountStatus: 'Active',
       });
-      fetchAdminUsers();
-    } catch (err) {
-      const newUser = {
-        _id: 'adm-' + Date.now(),
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        role: formData.role === 'Super Admin' ? 'Super Admin' : 'Admin',
-        designation: formData.designation,
-        accessLevel: 'Drives, Events & Content',
-        status: 'Online Now',
-        presence: 'online',
-        joinedDate: 'Just now',
-        permissions: ['Ghat Cleanups', 'Publish CMS', 'Volunteer Verification'],
+    }
+    setShowAssignModal(true);
+  };
+
+  const handleRoleSelectionInModal = (newRole) => {
+    setAssignForm((prev) => ({
+      ...prev,
+      role: newRole,
+      permissions: getDefaultPermissionsForRole(newRole),
+    }));
+  };
+
+  const handleTogglePermission = (permId) => {
+    setAssignForm((prev) => {
+      const exists = prev.permissions.includes(permId);
+      const updated = exists
+        ? prev.permissions.filter((p) => p !== permId)
+        : [...prev.permissions, permId];
+      return { ...prev, permissions: updated };
+    });
+  };
+
+  const handleSubmitAssign = async (e) => {
+    e.preventDefault();
+
+    if (!assignForm.name.trim() || !assignForm.email.trim()) {
+      setFeedback({ type: 'danger', message: 'Please provide full name and valid email.' });
+      return;
+    }
+
+    if (isAdmin && (assignForm.role === ROLES.SUPER_ADMIN || assignForm.role === ROLES.ADMIN)) {
+      setFeedback({
+        type: 'danger',
+        message: 'Security Violation: Administrators are authorized to grant Staff Coordinator and General Volunteer roles only.',
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const payload = {
+        userId: assignForm.userId || undefined,
+        name: assignForm.name.trim(),
+        email: assignForm.email.toLowerCase().trim(),
+        phone: assignForm.phone.trim(),
+        role: assignForm.role,
+        permissions: assignForm.permissions,
+        accessStartDate: assignForm.startDate,
+        accessExpiryDate: assignForm.isPermanent ? null : assignForm.expiryDate,
+        accessReason: assignForm.reason.trim() || 'Role assigned via Access Management Dashboard',
+        accountStatus: assignForm.accountStatus,
       };
-      setAdminUsers((prev) => [newUser, ...prev]);
+
+      try {
+        await api.post('/admin/rbac/assign', payload);
+      } catch (apiErr) {}
+
+      const nowUser = {
+        _id: assignForm.userId || `usr-${Date.now().toString().slice(-4)}`,
+        name: assignForm.name.trim(),
+        email: assignForm.email.toLowerCase().trim(),
+        phone: assignForm.phone.trim() || '+91 944 000 0000',
+        role: assignForm.role,
+        designation: assignForm.role === ROLES.SUPER_ADMIN ? 'Executive Trustee' : assignForm.role === ROLES.ADMIN ? 'Administrator' : assignForm.role === ROLES.STAFF_COORDINATOR ? 'Staff Coordinator' : 'General Volunteer',
+        permissions: assignForm.permissions,
+        assignedBy: {
+          name: authUser?.name || 'Dr. K. V. Subba Rao',
+          email: authUser?.email || 'admin@gmail.com',
+          role: effectiveRole,
+        },
+        accessGrantedDate: assignForm.startDate,
+        accessExpiryDate: assignForm.isPermanent ? null : assignForm.expiryDate,
+        accountStatus: assignForm.accountStatus,
+        accessReason: assignForm.reason.trim() || 'Assigned via RBAC management interface',
+      };
+
+      const userExists = users.some((u) => u._id === nowUser._id || u.email === nowUser.email);
+      let updatedList = [];
+      if (userExists) {
+        updatedList = users.map((u) =>
+          u._id === nowUser._id || u.email === nowUser.email ? { ...u, ...nowUser } : u
+        );
+      } else {
+        updatedList = [nowUser, ...users];
+      }
+
+      persistUsers(updatedList);
+
+      recordAdminAction(
+        `Granted "${assignForm.role}" access to ${nowUser.name} (${nowUser.email}) with ${assignForm.permissions.length} module permissions. [${assignForm.isPermanent ? 'Permanent' : `Expires: ${assignForm.expiryDate}`}]`,
+        'Security'
+      );
+
       setFeedback({
         type: 'success',
-        message: `Admin user "${formData.name}" enrolled into administrative roster!`,
+        message: `Access successfully granted: ${nowUser.name} is now assigned as "${nowUser.role}".`,
       });
-      setShowAddModal(false);
+      setShowAssignModal(false);
+    } catch (err) {
+      setFeedback({
+        type: 'danger',
+        message: err.response?.data?.message || 'Failed to assign access permissions.',
+      });
     } finally {
       setSubmitting(false);
     }
   };
 
-  const filteredUsers = adminUsers.filter((u) => {
-    const matchesSearch =
-      !search ||
-      u.name?.toLowerCase().includes(search.toLowerCase()) ||
-      u.email?.toLowerCase().includes(search.toLowerCase()) ||
-      u.designation?.toLowerCase().includes(search.toLowerCase());
+  const handleToggleStatus = async (user) => {
+    if (!isSuperAdmin && !isAdmin) {
+      setFeedback({ type: 'warning', message: 'Only Super Admin or Admin can toggle account status.' });
+      return;
+    }
 
-    const matchesRole = roleFilter === 'All' || u.role === roleFilter;
+    if (isAdmin && user.role === ROLES.SUPER_ADMIN) {
+      setFeedback({ type: 'danger', message: 'Administrators cannot alter Super Admin status.' });
+      return;
+    }
 
-    return matchesSearch && matchesRole;
-  });
+    const nextStatus = user.accountStatus === 'Active' ? 'Inactive' : 'Active';
+
+    try {
+      try {
+        await api.patch(`/admin/rbac/users/${user._id}/status`, { status: nextStatus });
+      } catch (e) {}
+
+      const updated = users.map((u) =>
+        u._id === user._id ? { ...u, accountStatus: nextStatus } : u
+      );
+      persistUsers(updated);
+
+      recordAdminAction(
+        `${nextStatus === 'Active' ? 'Activated' : 'Deactivated'} platform access for ${user.name} (${user.email}).`,
+        'Security'
+      );
+
+      setFeedback({
+        type: 'success',
+        message: `Account status for ${user.name} set to ${nextStatus}.`,
+      });
+    } catch (err) {
+      setFeedback({ type: 'danger', message: 'Could not update status.' });
+    }
+  };
+
+  const handleConfirmRevoke = async () => {
+    const user = confirmRevokeModal.user;
+    if (!user) return;
+
+    try {
+      try {
+        await api.patch(`/admin/rbac/users/${user._id}/status`, {
+          status: 'Inactive',
+          reason: 'Access permanently revoked by Administrator',
+        });
+      } catch (e) {}
+
+      const updated = users.map((u) =>
+        u._id === user._id
+          ? {
+              ...u,
+              accountStatus: 'Inactive',
+              role: ROLES.GENERAL_VOLUNTEER,
+              permissions: ['events_view', 'announcements_view'],
+              accessReason: 'Administrative access revoked',
+            }
+          : u
+      );
+      persistUsers(updated);
+
+      recordAdminAction(
+        `Revoked administrative permissions for ${user.name} (${user.email}). Downgraded to General Volunteer (Inactive).`,
+        'Security'
+      );
+
+      setFeedback({
+        type: 'success',
+        message: `Access revoked for ${user.name}. Role reset to General Volunteer and status marked Inactive.`,
+      });
+      setConfirmRevokeModal({ open: false, user: null });
+    } catch (err) {
+      setFeedback({ type: 'danger', message: 'Failed to revoke user access.' });
+    }
+  };
 
   return (
-    <div className="eco-cms-page">
-      {/* 1. Header Row */}
-      <div className="eco-cms-header-row">
-        <div className="eco-cms-header-info">
-          <div className="eco-cms-badge-row">
-            <span className="eco-cms-live-badge">
-              <span className="live-dot-pulse"></span>
-              Administrative Access Directory &bull; Real-Time Presence
-            </span>
+    <div className="ref-members-page" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}>
+      {/* 1. Header Row - Explicitly "Admin Users" as Requested */}
+      <div className="ref-members-header no-print" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', flexWrap: 'nowrap', marginBottom: '0.25rem' }}>
+        <div className="ref-header-left" style={{ minWidth: 0 }}>
+          <div className="ref-header-icon-box" style={{ background: '#eff6ff', color: '#1d4ed8' }}>
+            <UserCheck size={24} />
           </div>
-          <h1 className="eco-cms-main-title">Admin Users & Access Control</h1>
-          <p className="eco-cms-sub-title">
-            Oversee administrative personnel, manage multi-tier RBAC access permissions, monitor live sessions, and track security audit logs.
-          </p>
+          <div className="ref-header-text">
+            <h2>Admin Users</h2>
+            <p>Role-Based Access Control (RBAC) governance: manage platform administrators, coordinators, and volunteers.</p>
+          </div>
         </div>
 
-        <div className="eco-cms-header-actions">
-          <button
-            onClick={handleCopyInviteLink}
-            className="eco-cms-btn-secondary"
-            title="Copy portal invitation link"
-          >
-            {copiedLink ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
-            <span>{copiedLink ? 'Copied Invite Link!' : 'Invite Staff Link'}</span>
-          </button>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="eco-cms-btn-primary"
-          >
-            <UserPlus size={16} />
-            <span>Add Admin User</span>
-          </button>
+        <div className="ref-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'nowrap', flexShrink: 0 }}>
+          {/* Authority Simulator Role Switcher */}
+          <div className="rbac-simulator-bar" title="Simulate different role perspectives to preview dynamic permission boundaries">
+            <ShieldCheck size={14} className="text-blue-600 flex-shrink-0" />
+            <span style={{ fontWeight: 600 }}>Viewing As:</span>
+            <select
+              value={simulatedRole}
+              onChange={(e) => setSimulatedRole(e.target.value)}
+              className="rbac-sim-select"
+            >
+              <option value={ROLES.SUPER_ADMIN}>👑 Super Admin</option>
+              <option value={ROLES.ADMIN}>🛡️ Admin</option>
+              <option value={ROLES.STAFF_COORDINATOR}>📋 Staff Coordinator</option>
+              <option value={ROLES.GENERAL_VOLUNTEER}>🌱 General Volunteer</option>
+            </select>
+          </div>
+
+          {(isSuperAdmin || isAdmin) ? (
+            <button
+              type="button"
+              onClick={() => handleOpenAssignModal(null)}
+              className="ref-btn-enroll"
+              title="Assign role and permissions to a user"
+            >
+              <Plus size={16} />
+              <span>Assign Access</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              disabled
+              className="ref-btn-enroll"
+              style={{ opacity: 0.5, cursor: 'not-allowed' }}
+              title="Only Super Admin and Admin can assign roles"
+            >
+              <Lock size={15} />
+              <span>Assign Access (Restricted)</span>
+            </button>
+          )}
         </div>
       </div>
 
-      {/* 2. Interactive Navigation Tabs (Directory vs Permissions Matrix vs Audit Trail) */}
-      <div className="eco-subnav-tabs">
-        <button
-          onClick={() => setActiveTab('directory')}
-          className={`eco-subnav-tab ${activeTab === 'directory' ? 'active' : ''}`}
-        >
-          <Users size={14} />
-          <span>Team Directory ({adminUsers.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('matrix')}
-          className={`eco-subnav-tab ${activeTab === 'matrix' ? 'active' : ''}`}
-        >
-          <Lock size={14} />
-          <span>RBAC Permissions Matrix</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('audit')}
-          className={`eco-subnav-tab ${activeTab === 'audit' ? 'active' : ''}`}
-        >
-          <History size={14} />
-          <span>Security Audit Trail</span>
-        </button>
-      </div>
-
-      {/* 3. Feedback Banner */}
+      {/* 2. Feedback Alert Banner */}
       {feedback.message && (
-        <div
-          className={`eco-cms-alert-banner ${
-            feedback.type === 'danger' ? 'alert-danger' : 'alert-success'
-          }`}
-        >
-          <div className="flex items-center gap-2">
+        <div className={`ref-alert-banner ${feedback.type === 'danger' ? 'ref-alert-error' : feedback.type === 'warning' ? 'ref-alert-warning' : ''}`}>
+          <div className="ref-alert-left">
             {feedback.type === 'danger' ? (
-              <AlertTriangle size={18} className="text-red-600 flex-shrink-0" />
+              <AlertTriangle size={18} className="text-red-500 flex-shrink-0" />
+            ) : feedback.type === 'warning' ? (
+              <AlertCircle size={18} className="text-amber-500 flex-shrink-0" />
             ) : (
-              <CheckCircle size={18} className="text-green-600 flex-shrink-0" />
+              <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
             )}
             <span>{feedback.message}</span>
           </div>
           <button
+            type="button"
             onClick={() => setFeedback({ type: '', message: '' })}
-            className="text-xs opacity-70 hover:opacity-100 font-semibold cursor-pointer border-none bg-transparent"
+            className="ref-alert-dismiss"
+            title="Dismiss notification"
           >
-            Dismiss
+            &times;
           </button>
         </div>
       )}
 
-      {/* TAB 1: TEAM DIRECTORY (Cards Grid) */}
-      {activeTab === 'directory' && (
+      {/* 3. 7-Card Professional KPI Metric Strip - 1 Single Row, Zero Orphan Wrap */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '0.55rem', width: '100%' }}>
+        <div className="ref-kpi-card" style={{ padding: '0.7rem 0.65rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.35rem', minWidth: 0, borderRadius: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div className="ref-kpi-icon-bubble ref-bubble-blue" style={{ width: '32px', height: '32px', minWidth: '32px' }}>
+              <Users size={16} className="text-blue-600" />
+            </div>
+            <span className="ref-kpi-value" style={{ fontSize: '1.25rem', fontWeight: 800 }}>{kpis.totalUsers}</span>
+          </div>
+          <span className="ref-kpi-label" style={{ fontSize: '0.71rem', fontWeight: 600, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: 0, letterSpacing: '-0.01em' }}>
+            Total Users
+          </span>
+        </div>
+
+        <div className="ref-kpi-card" style={{ padding: '0.7rem 0.65rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.35rem', minWidth: 0, borderRadius: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div className="ref-kpi-icon-bubble ref-bubble-purple" style={{ width: '32px', height: '32px', minWidth: '32px' }}>
+              <Crown size={16} className="text-purple-600" />
+            </div>
+            <span className="ref-kpi-value" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#6d28d9' }}>{kpis.superAdminCount}</span>
+          </div>
+          <span className="ref-kpi-label" style={{ fontSize: '0.71rem', fontWeight: 600, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: 0, letterSpacing: '-0.01em' }}>
+            Super Admins
+          </span>
+        </div>
+
+        <div className="ref-kpi-card" style={{ padding: '0.7rem 0.65rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.35rem', minWidth: 0, borderRadius: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div className="ref-kpi-icon-bubble ref-bubble-blue" style={{ width: '32px', height: '32px', minWidth: '32px' }}>
+              <ShieldCheck size={16} className="text-blue-600" />
+            </div>
+            <span className="ref-kpi-value" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1d4ed8' }}>{kpis.adminCount}</span>
+          </div>
+          <span className="ref-kpi-label" style={{ fontSize: '0.71rem', fontWeight: 600, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: 0, letterSpacing: '-0.01em' }}>
+            Admins
+          </span>
+        </div>
+
+        <div className="ref-kpi-card" style={{ padding: '0.7rem 0.65rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.35rem', minWidth: 0, borderRadius: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div className="ref-kpi-icon-bubble ref-bubble-orange" style={{ width: '32px', height: '32px', minWidth: '32px' }}>
+              <UserCheck size={16} className="text-amber-600" />
+            </div>
+            <span className="ref-kpi-value" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#b45309' }}>{kpis.staffCoordinatorCount}</span>
+          </div>
+          <span className="ref-kpi-label" style={{ fontSize: '0.71rem', fontWeight: 600, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: 0, letterSpacing: '-0.01em' }}>
+            Coordinators
+          </span>
+        </div>
+
+        <div className="ref-kpi-card" style={{ padding: '0.7rem 0.65rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.35rem', minWidth: 0, borderRadius: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div className="ref-kpi-icon-bubble ref-bubble-green" style={{ width: '32px', height: '32px', minWidth: '32px' }}>
+              <HeartHandshake size={16} className="text-emerald-600" />
+            </div>
+            <span className="ref-kpi-value" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#047857' }}>{kpis.generalVolunteerCount}</span>
+          </div>
+          <span className="ref-kpi-label" style={{ fontSize: '0.71rem', fontWeight: 600, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: 0, letterSpacing: '-0.01em' }}>
+            Volunteers
+          </span>
+        </div>
+
+        <div className="ref-kpi-card" style={{ padding: '0.7rem 0.65rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.35rem', minWidth: 0, borderRadius: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div className="ref-kpi-icon-bubble ref-bubble-green" style={{ width: '32px', height: '32px', minWidth: '32px' }}>
+              <CheckCircle size={16} className="text-emerald-600" />
+            </div>
+            <span className="ref-kpi-value" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#15803d' }}>{kpis.activeUsers}</span>
+          </div>
+          <span className="ref-kpi-label" style={{ fontSize: '0.71rem', fontWeight: 600, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: 0, letterSpacing: '-0.01em' }}>
+            Active Users
+          </span>
+        </div>
+
+        <div className="ref-kpi-card" style={{ padding: '0.7rem 0.65rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '0.35rem', minWidth: 0, borderRadius: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div className="ref-kpi-icon-bubble ref-bubble-orange" style={{ width: '32px', height: '32px', minWidth: '32px' }}>
+              <Clock size={16} className="text-amber-600" />
+            </div>
+            <span className="ref-kpi-value" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#c2410c' }}>{kpis.pendingRequests}</span>
+          </div>
+          <span className="ref-kpi-label" style={{ fontSize: '0.71rem', fontWeight: 600, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: 0, letterSpacing: '-0.01em' }}>
+            Pending
+          </span>
+        </div>
+      </div>
+
+      {/* 4. Tab Navigation - Operational Capabilities Matrix (Default) + Directory + Audit */}
+      <div className="ref-tab-nav no-print">
+        <button
+          type="button"
+          onClick={() => setActiveTab('matrix')}
+          className={`ref-tab-btn ${activeTab === 'matrix' ? 'active' : ''}`}
+        >
+          <Sliders size={14} />
+          <span>Operational Capabilities Matrix</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('directory')}
+          className={`ref-tab-btn ${activeTab === 'directory' ? 'active' : ''}`}
+        >
+          <Users size={14} />
+          <span>Admin Users Directory ({filteredUsers.length})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('audit')}
+          className={`ref-tab-btn ${activeTab === 'audit' ? 'active' : ''}`}
+        >
+          <Activity size={14} />
+          <span>Security Audit Trail ({auditLogs.length})</span>
+        </button>
+      </div>
+
+      {/* =========================================================================
+          TAB 1: OPERATIONAL CAPABILITIES MATRIX TABLE
+          ========================================================================= */}
+      {activeTab === 'matrix' && (
         <>
-          {/* Filter Bar */}
-          <section className="eco-memberships-filter-card">
-            <div className="eco-filter-left">
-              <div className="eco-search-bar">
-                <Search size={16} className="eco-search-icon" />
+          {/* Matrix Search, Category Pills & Governance Toolbar */}
+          <div className="ref-filter-card no-print" style={{ marginBottom: '1.25rem', padding: '1.1rem 1.4rem', borderRadius: '14px', display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '0.85rem', width: '100%', boxSizing: 'border-box' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap', width: '100%' }}>
+              <div className="ref-search-wrap" style={{ flex: '0 1 440px', maxWidth: '440px', minWidth: '240px', margin: 0 }}>
+                <Search size={16} className="ref-search-icon" />
                 <input
                   type="text"
-                  placeholder="Search personnel by name, email, or designation..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="eco-search-input"
+                  placeholder="Search capabilities..."
+                  value={matrixSearch}
+                  onChange={(e) => setMatrixSearch(e.target.value)}
+                  style={{ width: '100%' }}
                 />
-                {search && (
+                {matrixSearch && (
                   <button
-                    onClick={() => setSearch('')}
-                    className="eco-search-clear-btn"
+                    type="button"
+                    onClick={() => setMatrixSearch('')}
+                    className="ref-search-clear"
+                    title="Clear search"
                   >
                     <X size={14} />
                   </button>
                 )}
               </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginLeft: 'auto' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.74rem', color: '#047857', backgroundColor: '#ecfdf5', border: '1px solid #a7f3d0', padding: '0.38rem 0.8rem', borderRadius: '8px', fontWeight: 600 }}>
+                  <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#10b981', display: 'inline-block' }}></span>
+                  <span>Live RBAC Matrix &bull; Real-time Persistence</span>
+                </div>
+              </div>
             </div>
 
-            <div className="eco-filter-right">
-              <div className="eco-filter-group">
-                <label className="eco-filter-label">Filter Role:</label>
-                <select
-                  value={roleFilter}
-                  onChange={(e) => setRoleFilter(e.target.value)}
-                  className="eco-filter-select"
+            {/* Category Filter Pills */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap', paddingTop: '0.35rem', borderTop: '1px solid #f1f5f9', width: '100%' }}>
+              <span style={{ fontSize: '0.71rem', fontWeight: 700, color: '#64748b', marginRight: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Category:
+              </span>
+              {['All', 'System & DB', 'Access Control', 'Drives & Events', 'Membership', 'Public CMS', 'Broadcasts', 'Field Operations', 'Analytics & Audit', 'Emergency Dispatch'].map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setMatrixCategoryFilter(cat)}
+                  style={{
+                    padding: '0.2rem 0.6rem',
+                    fontSize: '0.71rem',
+                    fontWeight: matrixCategoryFilter === cat ? 700 : 500,
+                    borderRadius: '9999px',
+                    border: `1px solid ${matrixCategoryFilter === cat ? '#2563eb' : '#e2e8f0'}`,
+                    backgroundColor: matrixCategoryFilter === cat ? '#eff6ff' : '#ffffff',
+                    color: matrixCategoryFilter === cat ? '#1d4ed8' : '#64748b',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
                 >
-                  <option value="All">All Roles</option>
-                  <option value="Super Admin">Super Admin</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Staff Coordinator">Staff Coordinator</option>
-                </select>
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="ref-table-card" style={{ borderRadius: '14px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)' }}>
+            <div className="rbac-table-wrap">
+              <table className="rbac-directory-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: '40%', textAlign: 'left', paddingLeft: '1.25rem', paddingRight: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                        <Sliders size={14} className="text-slate-500" />
+                        <span>OPERATIONAL CAPABILITY</span>
+                      </div>
+                    </th>
+                    <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#fdfbff', padding: '0.75rem 0.4rem', borderLeft: '1px solid #e2e8f0' }}>
+                      <div className="matrix-role-th">
+                        <span className="matrix-role-pill" style={{ backgroundColor: '#faf5ff', color: '#6d28d9', border: '1px solid #ddd6fe' }}>
+                          <Crown size={12} fill="#9333ea" />
+                          <span>Super Admin</span>
+                        </span>
+                        <span className="matrix-role-sub" style={{ color: '#7e22ce' }}>Root Authority</span>
+                      </div>
+                    </th>
+                    <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#f8fbff', padding: '0.75rem 0.4rem', borderLeft: '1px solid #e2e8f0' }}>
+                      <div className="matrix-role-th">
+                        <span className="matrix-role-pill" style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe' }}>
+                          <ShieldCheck size={12} />
+                          <span>Admin</span>
+                        </span>
+                        <span className="matrix-role-sub" style={{ color: '#1d4ed8' }}>Delegated Ops</span>
+                      </div>
+                    </th>
+                    <th style={{ width: '15%', textAlign: 'center', backgroundColor: '#fffdf7', padding: '0.75rem 0.4rem', borderLeft: '1px solid #e2e8f0' }}>
+                      <div className="matrix-role-th">
+                        <span className="matrix-role-pill" style={{ backgroundColor: '#fffbeb', color: '#b45309', border: '1px solid #fde68a' }}>
+                          <UserCheck size={12} />
+                          <span>Coordinator</span>
+                        </span>
+                        <span className="matrix-role-sub" style={{ color: '#b45309' }}>Field Operations</span>
+                      </div>
+                    </th>
+                    <th style={{ width: '15%', textAlign: 'center', paddingRight: '1.25rem', backgroundColor: '#f7fdfa', padding: '0.75rem 0.4rem', borderLeft: '1px solid #e2e8f0' }}>
+                      <div className="matrix-role-th">
+                        <span className="matrix-role-pill" style={{ backgroundColor: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
+                          <HeartHandshake size={12} />
+                          <span>Volunteer</span>
+                        </span>
+                        <span className="matrix-role-sub" style={{ color: '#047857' }}>Community Access</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredCapabilities.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} style={{ textAlign: 'center', padding: '3.5rem', color: '#64748b' }}>
+                        <Sliders size={28} style={{ margin: '0 auto 0.5rem', opacity: 0.4 }} />
+                        <p style={{ margin: 0, fontWeight: 600, color: '#334155' }}>No capabilities match &ldquo;{matrixSearch}&rdquo;</p>
+                        <p style={{ margin: '0.25rem 0 0', fontSize: '0.75rem', color: '#94a3b8' }}>Try adjusting your search keyword or selected category filter.</p>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredCapabilities.map((row) => {
+                      const meta = getCapabilityMeta(row);
+
+                      return (
+                        <tr key={row.id}>
+                          {/* Capability Icon Box, Title, Category Badge, and Subtitle */}
+                          <td style={{ paddingLeft: '1.25rem', paddingRight: '1rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                              <div
+                                className="matrix-cap-icon-box"
+                                style={{
+                                  backgroundColor: meta.iconBg,
+                                  color: meta.iconColor,
+                                }}
+                              >
+                                {meta.icon}
+                              </div>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem', minWidth: 0 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
+                                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a' }}>
+                                    {row.name}
+                                  </span>
+                                  {row.category && (
+                                    <span
+                                      className="matrix-cat-tag"
+                                      style={{
+                                        backgroundColor: meta.badgeBg,
+                                        color: meta.badgeColor,
+                                        border: `1px solid ${meta.badgeBorder}`,
+                                      }}
+                                    >
+                                      {row.category}
+                                    </span>
+                                  )}
+                                </div>
+                                <span style={{ fontSize: '0.73rem', color: '#64748b', lineHeight: 1.35 }}>
+                                  {row.desc}
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* 1. SUPER ADMIN (Root Immunity) */}
+                          <td style={{ textAlign: 'center', borderLeft: '1px solid #f1f5f9' }}>
+                            <div
+                              className="matrix-status-pill allowed root-badge"
+                              title="Super Admin root capability (Immunity: Always Granted)"
+                            >
+                              <Check size={12} strokeWidth={3} />
+                              <span>Allowed</span>
+                            </div>
+                          </td>
+
+                          {/* 2. ADMIN */}
+                          <td style={{ textAlign: 'center', borderLeft: '1px solid #f1f5f9' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleToggleCapability(row.id, 'admin')}
+                              disabled={!isSuperAdmin}
+                              className={`matrix-status-pill ${row.admin ? 'allowed' : 'restricted'} ${isSuperAdmin ? 'interactive' : ''}`}
+                              title={
+                                isSuperAdmin
+                                  ? (row.admin ? 'Admin: Granted. Click to revoke.' : 'Admin: Restricted. Click to grant.')
+                                  : (row.admin ? 'Granted to Administrator' : 'Restricted for Administrator')
+                              }
+                            >
+                              {row.admin ? (
+                                <>
+                                  <Check size={12} strokeWidth={3} />
+                                  <span>Allowed</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Minus size={12} strokeWidth={2.5} />
+                                  <span>No Access</span>
+                                </>
+                              )}
+                            </button>
+                          </td>
+
+                          {/* 3. STAFF COORDINATOR */}
+                          <td style={{ textAlign: 'center', borderLeft: '1px solid #f1f5f9' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleToggleCapability(row.id, 'staff')}
+                              disabled={!isSuperAdmin && !isAdmin}
+                              className={`matrix-status-pill ${row.staff ? 'allowed' : 'restricted'} ${(isSuperAdmin || isAdmin) ? 'interactive' : ''}`}
+                              title={
+                                (isSuperAdmin || isAdmin)
+                                  ? (row.staff ? 'Coordinator: Granted. Click to revoke.' : 'Coordinator: Restricted. Click to grant.')
+                                  : (row.staff ? 'Granted to Coordinator' : 'Restricted for Coordinator')
+                              }
+                            >
+                              {row.staff ? (
+                                <>
+                                  <Check size={12} strokeWidth={3} />
+                                  <span>Allowed</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Minus size={12} strokeWidth={2.5} />
+                                  <span>No Access</span>
+                                </>
+                              )}
+                            </button>
+                          </td>
+
+                          {/* 4. GENERAL VOLUNTEER */}
+                          <td style={{ textAlign: 'center', paddingRight: '1.25rem', borderLeft: '1px solid #f1f5f9' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleToggleCapability(row.id, 'vol')}
+                              disabled={!isSuperAdmin && !isAdmin}
+                              className={`matrix-status-pill ${row.vol ? 'allowed' : 'restricted'} ${(isSuperAdmin || isAdmin) ? 'interactive' : ''}`}
+                              title={
+                                (isSuperAdmin || isAdmin)
+                                  ? (row.vol ? 'Volunteer: Granted. Click to revoke.' : 'Volunteer: Restricted. Click to grant.')
+                                  : (row.vol ? 'Granted to Volunteer' : 'Restricted for Volunteer')
+                              }
+                            >
+                              {row.vol ? (
+                                <>
+                                  <Check size={12} strokeWidth={3} />
+                                  <span>Allowed</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Minus size={12} strokeWidth={2.5} />
+                                  <span>No Access</span>
+                                </>
+                              )}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="ref-table-footer no-print" style={{ padding: '1rem 1.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+              <span className="ref-table-count" style={{ fontSize: '0.78rem', color: '#475569' }}>
+                Showing <strong>{filteredCapabilities.length}</strong> of <strong>{capabilities.length}</strong> operational capabilities &bull; Changes persist in real-time.
+              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.72rem', color: '#64748b' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981' }}></span>
+                  <span style={{ fontWeight: 600, color: '#047857' }}>Allowed (Active)</span>
+                </span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#94a3b8' }}></span>
+                  <span>No Access (Restricted)</span>
+                </span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <Crown size={12} className="text-purple-600" />
+                  <span>Super Admin Root Immutable</span>
+                </span>
               </div>
             </div>
-          </section>
-
-          {/* Real-Time Team Grid */}
-          <div className="eco-team-grid">
-            {filteredUsers.map((u) => (
-              <div key={u._id} className="eco-team-card">
-                <div>
-                  {/* Card Header: Role & Presence Indicator */}
-                  <div className="eco-user-card-header">
-                    <span
-                      className={`eco-tier-pill ${
-                        u.role === 'Super Admin'
-                          ? 'eco-tier-life'
-                          : u.role === 'Admin'
-                          ? 'eco-tier-annual'
-                          : 'eco-tier-volunteer'
-                      }`}
-                    >
-                      {u.role === 'Super Admin' && <ShieldCheck size={11} />}
-                      {u.role}
-                    </span>
-
-                    <span
-                      className={`eco-presence-badge ${
-                        u.presence === 'online'
-                          ? 'eco-presence-online'
-                          : 'eco-presence-away'
-                      }`}
-                    >
-                      <span className="dot"></span>
-                      <span>{u.status}</span>
-                    </span>
-                  </div>
-
-                  {/* User Profile Lockup */}
-                  <div className="eco-user-profile-lockup">
-                    <div className="eco-user-avatar">
-                      {u.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="eco-user-identity">
-                      <h3 className="eco-user-name">
-                        {u.name}
-                      </h3>
-                      <p className="eco-user-designation">
-                        {u.designation}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Contact Info Box */}
-                  <div className="eco-user-contact-box">
-                    <div className="eco-user-contact-row">
-                      <Mail size={12} className="text-emerald-700 flex-shrink-0" />
-                      <span className="eco-user-contact-text">{u.email}</span>
-                    </div>
-                    <div className="eco-user-contact-row">
-                      <Phone size={12} className="text-emerald-700 flex-shrink-0" />
-                      <span className="eco-user-contact-text">{u.phone}</span>
-                    </div>
-                  </div>
-
-                  {/* Access Scopes Tags */}
-                  <div className="eco-user-scopes-wrap">
-                    <div className="eco-user-scopes-label">
-                      Assigned Scopes:
-                    </div>
-                    <div className="eco-user-scopes-list">
-                      {u.permissions?.slice(0, 3).map((p) => (
-                        <span key={p} className="eco-user-scope-tag">
-                          {p}
-                        </span>
-                      ))}
-                      {(u.permissions?.length || 0) > 3 && (
-                        <span className="eco-user-scope-more">
-                          +{u.permissions.length - 3} more
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card Bottom Meta */}
-                <div className="eco-user-card-footer">
-                  <span>Joined: {u.joinedDate}</span>
-                  <button
-                    onClick={() => alert(`Permissions for ${u.name}:\n${u.permissions?.join(', ')}`)}
-                    className="eco-user-scope-link"
-                  >
-                    <span>View Scopes</span>
-                    <span>&rarr;</span>
-                  </button>
-                </div>
-              </div>
-            ))}
           </div>
         </>
       )}
 
-      {/* TAB 2: RBAC PERMISSIONS MATRIX */}
-      {activeTab === 'matrix' && (
-        <div className="eco-table-card">
-          <div className="eco-card-header-bar">
-            <div className="eco-card-header-title-wrap">
-              <h3 className="eco-card-header-title">
-                <Lock size={16} className="text-emerald-700" />
-                <span>Role-Based Access Control (RBAC) Permissions Matrix</span>
-              </h3>
-              <p className="eco-card-header-desc">
-                Overview of privileges granted to each tier across the Godhavari NGO ecosystem.
-              </p>
+      {/* =========================================================================
+          TAB 2: ADMIN USERS DIRECTORY TABLE
+          ========================================================================= */}
+      {activeTab === 'directory' && (
+        <>
+          <div className="ref-filter-card no-print">
+            <div className="ref-search-wrap">
+              <Search size={16} className="ref-search-icon" />
+              <input
+                type="text"
+                placeholder="Search by user name, email, phone, or title..."
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              {searchKeyword && (
+                <button
+                  type="button"
+                  onClick={() => setSearchKeyword('')}
+                  className="ref-search-clear"
+                  title="Clear search"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            <div className="ref-filter-actions">
+              <div className="ref-select-item">
+                <span className="ref-select-label">Role:</span>
+                <select
+                  value={selectedRoleFilter}
+                  onChange={(e) => setSelectedRoleFilter(e.target.value)}
+                  className="ref-select-input"
+                >
+                  <option value="All">All Roles</option>
+                  <option value={ROLES.SUPER_ADMIN}>Super Admin</option>
+                  <option value={ROLES.ADMIN}>Admin</option>
+                  <option value={ROLES.STAFF_COORDINATOR}>Staff Coordinator</option>
+                  <option value={ROLES.GENERAL_VOLUNTEER}>General Volunteer</option>
+                </select>
+              </div>
+
+              <div className="ref-select-item">
+                <span className="ref-select-label">Status:</span>
+                <select
+                  value={selectedStatusFilter}
+                  onChange={(e) => setSelectedStatusFilter(e.target.value)}
+                  className="ref-select-input"
+                >
+                  <option value="All">All Statuses</option>
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+
+              <div className="ref-select-item">
+                <span className="ref-select-label">Expiry:</span>
+                <select
+                  value={selectedExpiryFilter}
+                  onChange={(e) => setSelectedExpiryFilter(e.target.value)}
+                  className="ref-select-input"
+                >
+                  <option value="All">All Durations</option>
+                  <option value="Permanent">Permanent</option>
+                  <option value="Temporary">Temporary</option>
+                  <option value="Expired">Expired</option>
+                </select>
+              </div>
             </div>
           </div>
 
-          <div className="eco-table-scroll">
-            <table className="eco-data-table">
+          <div className="ref-table-card" style={{ borderRadius: '14px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)' }}>
+            <div className="rbac-table-wrap">
+              <table className="rbac-directory-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: '18.5%', textAlign: 'left' }}>USER NAME</th>
+                    <th style={{ width: '17%', textAlign: 'left' }}>EMAIL ADDRESS</th>
+                    <th style={{ width: '14%', textAlign: 'center' }}>CURRENT ROLE</th>
+                    <th style={{ width: '11%', textAlign: 'center' }}>PERMISSIONS</th>
+                    <th style={{ width: '11%', textAlign: 'left' }}>ASSIGNED BY</th>
+                    <th style={{ width: '10%', textAlign: 'center' }}>EXPIRY DATE</th>
+                    <th style={{ width: '7.5%', textAlign: 'center' }}>STATUS</th>
+                    <th style={{ width: '11%', textAlign: 'center' }}>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={8} style={{ textAlign: 'center', padding: '3.5rem', color: '#64748b' }}>
+                        <RefreshCw size={26} className="animate-spin inline mb-2 text-emerald-700" />
+                        <p style={{ fontWeight: 600, color: '#334155', fontSize: '0.85rem', margin: 0 }}>
+                          Loading access records...
+                        </p>
+                      </td>
+                    </tr>
+                  ) : filteredUsers.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} style={{ textAlign: 'center', padding: '3.5rem', color: '#64748b' }}>
+                        <Users size={32} style={{ margin: '0 auto 0.5rem', opacity: 0.4, color: '#64748b' }} />
+                        <p style={{ fontWeight: 600, fontSize: '0.86rem', color: '#334155', margin: 0 }}>
+                          No users match the selected filters.
+                        </p>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredUsers.map((user) => {
+                      const isExpired = user.accessExpiryDate && new Date(user.accessExpiryDate) < new Date();
+                      const isSuper = user.role === ROLES.SUPER_ADMIN;
+                      const status = user.accountStatus || 'Active';
+
+                      const canEditThisUser =
+                        (isSuperAdmin && !isSuper) || (isSuperAdmin && user.email === authUser?.email) || (isAdmin && (user.role === ROLES.STAFF_COORDINATOR || user.role === ROLES.GENERAL_VOLUNTEER));
+
+                      const canRevokeThisUser =
+                        (isSuperAdmin && user.email !== 'admin@gmail.com') || (isAdmin && (user.role === ROLES.STAFF_COORDINATOR || user.role === ROLES.GENERAL_VOLUNTEER));
+
+                      return (
+                        <tr key={user._id}>
+                          <td style={{ paddingLeft: '1.15rem' }}>
+                            <div
+                              className="ref-profile-cell cursor-pointer"
+                              onClick={() => setViewingUser(user)}
+                              title="Click to view details"
+                              style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', minWidth: 0 }}
+                            >
+                              <div
+                                className="ref-avatar-circle"
+                                style={{ backgroundColor: getAvatarBg(user.role), width: '30px', height: '30px', minWidth: '30px', fontSize: '0.72rem', fontWeight: 700, flexShrink: 0 }}
+                              >
+                                {isSuper ? <Crown size={14} /> : getInitials(user.name)}
+                              </div>
+                              <div className="ref-profile-info" style={{ minWidth: 0, overflow: 'hidden' }}>
+                                <div className="ref-name-row" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                  <span className="hover:text-emerald-700 transition" style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0f172a' }}>
+                                    {user.name}
+                                  </span>
+                                </div>
+                                <div style={{ fontSize: '0.70rem', color: '#059669', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: '0.05rem' }}>
+                                  {user.designation || user.memberId || 'NGO Steward'}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td>
+                            <div className="ref-contact-col" style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', minWidth: 0, justifyContent: 'center' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.76rem', fontWeight: 550, color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.35 }} title={user.email}>
+                                <Mail size={12} className="text-slate-400 flex-shrink-0" />
+                                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.email}</span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.72rem', color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.35 }} title={user.phone || 'No phone'}>
+                                <Phone size={12} className="text-slate-400 flex-shrink-0" />
+                                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.phone || 'Not provided'}</span>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            <span className={`rbac-role-badge ${
+                              user.role === ROLES.SUPER_ADMIN ? 'super' :
+                              user.role === ROLES.ADMIN ? 'admin' :
+                              user.role === ROLES.STAFF_COORDINATOR ? 'staff' : 'volunteer'
+                            }`} style={{ whiteSpace: 'nowrap', fontSize: '0.70rem', padding: '0.18rem 0.5rem' }}>
+                              {user.role === ROLES.SUPER_ADMIN ? (
+                                <Crown size={11} fill="#9333ea" />
+                              ) : user.role === ROLES.ADMIN ? (
+                                <ShieldCheck size={11} />
+                              ) : user.role === ROLES.STAFF_COORDINATOR ? (
+                                <UserCheck size={11} />
+                              ) : (
+                                <HeartHandshake size={11} />
+                              )}
+                              <span>{user.role}</span>
+                            </span>
+                          </td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            <span
+                              className="rbac-perm-pill"
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', padding: '0.18rem 0.5rem', fontSize: '0.70rem', whiteSpace: 'nowrap', cursor: 'pointer' }}
+                              onClick={() => setViewingUser(user)}
+                              title="Click to view all granted permissions"
+                            >
+                              <Key size={11} className="text-emerald-600 flex-shrink-0" />
+                              <span>{user.permissions?.length || 0} Permissions</span>
+                            </span>
+                          </td>
+
+                          <td>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem', minWidth: 0, paddingLeft: '0.25rem' }}>
+                              <span style={{ fontSize: '0.80rem', fontWeight: 600, color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {user.assignedBy?.name || 'Dr. K. V. Subba Rao'}
+                              </span>
+                              <span style={{ fontSize: '0.70rem', color: '#64748b', whiteSpace: 'nowrap' }}>
+                                {user.accessGrantedDate ? new Date(user.accessGrantedDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '18 Nov 2026'}
+                              </span>
+                            </div>
+                          </td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            {user.accessExpiryDate ? (
+                              <span
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '0.3rem',
+                                  padding: '0.2rem 0.55rem',
+                                  fontSize: '0.70rem',
+                                  fontWeight: 600,
+                                  borderRadius: '9999px',
+                                  backgroundColor: isExpired ? '#fef2f2' : '#fffbeb',
+                                  color: isExpired ? '#b91c1c' : '#b45309',
+                                  border: `1px solid ${isExpired ? '#fecaca' : '#fde68a'}`,
+                                  whiteSpace: 'nowrap',
+                                }}
+                                title={new Date(user.accessExpiryDate).toLocaleString()}
+                              >
+                                <Calendar size={11} className="flex-shrink-0" />
+                                <span>{isExpired ? 'Expired' : new Date(user.accessExpiryDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                              </span>
+                            ) : (
+                              <span
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  gap: '0.3rem',
+                                  color: '#047857',
+                                  backgroundColor: '#ecfdf5',
+                                  border: '1px solid #a7f3d0',
+                                  padding: '0.2rem 0.55rem',
+                                  borderRadius: '9999px',
+                                  fontSize: '0.70rem',
+                                  fontWeight: 600,
+                                  whiteSpace: 'nowrap',
+                                }}
+                              >
+                                <ShieldCheck size={11} className="flex-shrink-0" />
+                                <span>Permanent</span>
+                              </span>
+                            )}
+                          </td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            <button
+                              type="button"
+                              onClick={() => canEditThisUser && handleToggleStatus(user)}
+                              disabled={!canEditThisUser}
+                              className={`rbac-status-badge ${status === 'Active' ? 'active' : 'inactive'}`}
+                              style={{
+                                cursor: canEditThisUser ? 'pointer' : 'default',
+                                padding: '0.2rem 0.55rem',
+                                fontSize: '0.70rem',
+                                fontWeight: 600,
+                                whiteSpace: 'nowrap',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '0.3rem',
+                                borderRadius: '9999px',
+                              }}
+                              title={canEditThisUser ? `Status is ${status}. Click to toggle.` : `Status is ${status}`}
+                            >
+                              <span className={`rbac-status-dot ${status === 'Active' ? 'active' : 'inactive'}`}></span>
+                              <span>{status}</span>
+                            </button>
+                          </td>
+
+                          <td style={{ textAlign: 'center', whiteSpace: 'nowrap' }}>
+                            <div className="ref-actions-cell" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', flexWrap: 'nowrap', whiteSpace: 'nowrap' }}>
+                              <button
+                                type="button"
+                                onClick={() => setViewingUser(user)}
+                                className="ref-act-btn view"
+                                style={{ width: '24px', height: '24px' }}
+                                title="View Details"
+                              >
+                                <Eye size={12} />
+                              </button>
+
+                              {canEditThisUser ? (
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenAssignModal(user)}
+                                  className="ref-act-btn edit"
+                                  style={{ width: '24px', height: '24px' }}
+                                  title="Edit Permissions"
+                                >
+                                  <Edit2 size={12} />
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  disabled
+                                  className="ref-act-btn"
+                                  style={{ width: '24px', height: '24px', opacity: 0.35, cursor: 'not-allowed' }}
+                                >
+                                  <Lock size={11} />
+                                </button>
+                              )}
+
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (user.email === 'admin@gmail.com' && isSuperAdmin) {
+                                    setFeedback({ type: 'warning', message: 'Root Genesis Administrator account cannot be revoked for system safety.' });
+                                    return;
+                                  }
+                                  if (!canRevokeThisUser) {
+                                    setFeedback({ type: 'danger', message: 'You do not have administrative authority to revoke this role.' });
+                                    return;
+                                  }
+                                  setConfirmRevokeModal({ open: true, user });
+                                }}
+                                className="ref-act-btn delete"
+                                style={{ width: '24px', height: '24px' }}
+                                title="Revoke / Delete Access"
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="ref-table-footer no-print">
+              <span className="ref-table-count">
+                Showing <strong>{filteredUsers.length}</strong> of <strong>{users.length}</strong> accounts
+              </span>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* =========================================================================
+          TAB 3: LIVE SECURITY AUDIT LOG
+          ========================================================================= */}
+      {activeTab === 'audit' && (
+        <div className="ref-table-card">
+          <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid #f1f5f9' }}>
+            <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>Live Security & RBAC Audit Trail</h3>
+            <p style={{ margin: '0.2rem 0 0', fontSize: '0.78rem', color: '#64748b' }}>Immutable record of user access delegations, revocations, and role modifications.</p>
+          </div>
+
+          <div className="ref-table-wrap">
+            <table className="ref-table">
               <thead>
                 <tr>
-                  <th style={{ fontSize: '0.74rem' }}>Operational Capability</th>
-                  <th className="text-center" style={{ fontSize: '0.74rem' }}>Super Admin</th>
-                  <th className="text-center" style={{ fontSize: '0.74rem' }}>Admin</th>
-                  <th className="text-center" style={{ fontSize: '0.74rem' }}>Staff Coordinator</th>
-                  <th className="text-center" style={{ fontSize: '0.74rem' }}>General Volunteer</th>
+                  <th style={{ width: '22%' }}>TIMESTAMP</th>
+                  <th style={{ width: '22%' }}>AUTHORIZING ADMIN</th>
+                  <th style={{ width: '42%' }}>SECURITY ACTION & ACCESS DETAIL</th>
+                  <th style={{ width: '14%' }}>IP & CONTEXT</th>
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { name: 'Database Direct Write & Backup Restores', super: true, admin: false, staff: false, vol: false },
-                  { name: 'Manage Administrator Users & Roles', super: true, admin: false, staff: false, vol: false },
-                  { name: 'Schedule Cleanliness Drives & Ghat Events', super: true, admin: true, staff: false, vol: false },
-                  { name: 'Approve & Verify Member Registrations', super: true, admin: true, staff: false, vol: false },
-                  { name: 'Publish Website CMS & Impact Statistics', super: true, admin: true, staff: false, vol: false },
-                  { name: 'Send In-App & Push Notifications', super: true, admin: true, staff: true, vol: false },
-                  { name: 'Take Ghat Cleanliness Attendance', super: true, admin: true, staff: true, vol: false },
-                  { name: 'View Public Portal & Volunteer Signup', super: true, admin: true, staff: true, vol: true },
-                ].map((row) => (
-                  <tr key={row.name}>
-                    <td style={{ fontSize: '0.76rem', fontWeight: 600, color: '#1e293b' }}>{row.name}</td>
-                    <td className="text-center">
-                      {row.super ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
-                    </td>
-                    <td className="text-center">
-                      {row.admin ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
-                    </td>
-                    <td className="text-center">
-                      {row.staff ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
-                    </td>
-                    <td className="text-center">
-                      {row.vol ? <CheckCircle2 size={16} className="text-emerald-600 inline" /> : <XCircle size={16} className="text-slate-300 inline" />}
+                {auditLogs.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} style={{ textAlign: 'center', padding: '2.5rem', color: '#64748b' }}>
+                      <Activity size={24} style={{ margin: '0 auto 0.5rem', color: '#cbd5e1' }} />
+                      <p style={{ margin: 0, fontWeight: 600 }}>No security audit entries recorded yet.</p>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  auditLogs.slice(0, 30).map((log) => (
+                    <tr key={log._id}>
+                      <td style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <Clock size={12} className="text-slate-400" />
+                          <span>{new Date(log.createdAt || Date.now()).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                          <ShieldCheck size={14} className="text-blue-600" />
+                          <span style={{ fontWeight: 600, color: '#1e293b', fontSize: '0.84rem' }}>{log.admin}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span style={{ fontSize: '0.83rem', color: '#0f172a', fontWeight: 500, lineHeight: 1.4 }}>
+                          {log.action}
+                        </span>
+                      </td>
+                      <td>
+                        <span style={{ fontSize: '0.72rem', color: '#64748b', fontFamily: 'monospace' }}>
+                          {log.ip || '106.51.24.18 (Rajahmundry)'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
         </div>
       )}
 
-      {/* TAB 3: SECURITY AUDIT TRAIL */}
-      {activeTab === 'audit' && (
-        <div className="eco-table-card">
-          <div className="eco-card-header-bar">
-            <div className="eco-card-header-title-wrap">
-              <h3 className="eco-card-header-title">
-                <History size={16} className="text-emerald-700" />
-                <span>Live Administrative Action Audit Log</span>
-              </h3>
-              <p className="eco-card-header-desc">
-                Immutable, real-time logging of administrative changes for compliance and safety.
-              </p>
-            </div>
-            <span className="eco-status-pill status-active text-xs">
-              <span className="status-dot-indicator"></span>
-              Live Logging
-            </span>
-          </div>
-
-          <div style={{ padding: '0.95rem', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
-            {auditTrailLogs.map((log) => (
-              <div key={log.id} className="eco-audit-log-row">
-                <div>
-                  <div className="eco-audit-action-title">
-                    <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#059669', display: 'inline-block' }}></span>
-                    <span>{log.action}</span>
-                  </div>
-                  <div className="eco-audit-meta-text">
-                    Performed by <strong style={{ color: '#334155' }}>{log.admin}</strong> &bull; Origin: {log.ip}
-                  </div>
+      {/* =========================================================================
+          MODAL: Assign / Edit Access Interface
+          ========================================================================= */}
+      {showAssignModal && (
+        <div className="rbac-modal-backdrop" onClick={() => setShowAssignModal(false)}>
+          <div className="rbac-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="rbac-modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#eff6ff', color: '#1d4ed8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Key size={18} />
                 </div>
-                <span className="eco-audit-time-badge">
-                  {log.time}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Add Admin User Modal */}
-      {showAddModal && (
-        <div className="modal-backdrop">
-          <div className="modal-dialog">
-            <div className="modal-header">
-              <div>
-                <h3 className="modal-title font-bold text-slate-900 text-base">
-                  Add Administrator / Staff
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Grant administrative access to Godhavari NGO management dashboard.
-                </p>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, color: '#0f172a' }}>
+                    {selectedUserForAssign ? `Edit Access: ${selectedUserForAssign.name}` : 'Assign Role & Access Permissions'}
+                  </h3>
+                  <p style={{ margin: '0.15rem 0 0', fontSize: '0.75rem', color: '#64748b' }}>
+                    Authority: {effectiveRole} ({isSuperAdmin ? 'Full 4-tier delegation' : 'Staff/Volunteer delegation only'})
+                  </p>
+                </div>
               </div>
               <button
-                onClick={() => setShowAddModal(false)}
-                className="btn-close"
+                type="button"
+                onClick={() => setShowAssignModal(false)}
+                className="ref-alert-dismiss"
+                style={{ fontSize: '1.3rem' }}
               >
-                <X size={18} />
+                &times;
               </button>
             </div>
 
-            <form onSubmit={handleCreateAdminUser}>
-              <div className="modal-body">
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Full Name *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Smt. P. Lakshmi Devi"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="eco-field-input"
-                  />
-                </div>
-
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Official Email Address *</label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="e.g. lakshmi@godhavari.org"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="eco-field-input"
-                    />
-                  </div>
-
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Contact Phone Number *</label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="+91 98480 12345"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="eco-field-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="eco-form-grid-2">
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Administrative Role *</label>
-                    <select
-                      value={formData.role}
-                      onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                      className="eco-field-select"
-                    >
-                      <option value="admin">Admin (Operational Control)</option>
-                      <option value="staff">Staff Coordinator (Field & Events)</option>
-                      <option value="Super Admin">Super Admin (Full Access)</option>
-                    </select>
-                  </div>
-
-                  <div className="eco-form-field">
-                    <label className="eco-field-label">Official Designation / Title *</label>
+            <form onSubmit={handleSubmitAssign}>
+              <div className="rbac-modal-body">
+                <div className="rbac-user-inputs-grid">
+                  <div className="cms-field">
+                    <label className="cms-label">
+                      <Users size={13} className="text-blue-700" />
+                      <span>Full Name</span>
+                      <span className="required-star">*</span>
+                    </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Riverfront Operations Officer"
-                      value={formData.designation}
-                      onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
-                      className="eco-field-input"
+                      value={assignForm.name}
+                      onChange={(e) => setAssignForm({ ...assignForm, name: e.target.value })}
+                      placeholder="e.g. Srikanth Varma"
+                      className="cms-input"
+                    />
+                  </div>
+
+                  <div className="cms-field">
+                    <label className="cms-label">
+                      <Mail size={13} className="text-blue-700" />
+                      <span>Email Address</span>
+                      <span className="required-star">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={assignForm.email}
+                      onChange={(e) => setAssignForm({ ...assignForm, email: e.target.value })}
+                      placeholder="e.g. srikanth@godhavari.org"
+                      className="cms-input"
+                    />
+                  </div>
+
+                  <div className="cms-field">
+                    <label className="cms-label">
+                      <Phone size={13} className="text-blue-700" />
+                      <span>Phone Number</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={assignForm.phone}
+                      onChange={(e) => setAssignForm({ ...assignForm, phone: e.target.value })}
+                      placeholder="e.g. +91 944 123 4567"
+                      className="cms-input"
                     />
                   </div>
                 </div>
 
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Initial Password *</label>
-                  <input
-                    type="password"
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
+                    <label className="cms-label" style={{ margin: 0 }}>
+                      <Crown size={13} className="text-purple-700" />
+                      <span>Select Role</span>
+                      <span className="required-star">*</span>
+                    </label>
+                    <span style={{ fontSize: '0.72rem', color: '#64748b' }}>
+                      {isAdmin ? 'Admins can delegate Staff & Volunteer roles' : 'Super Admins can delegate all roles'}
+                    </span>
+                  </div>
+
+                  <div className="rbac-role-card-grid">
+                    {assignableRoles.map((item) => {
+                      const isSelected = assignForm.role === item.role;
+                      return (
+                        <div
+                          key={item.role}
+                          onClick={() => handleRoleSelectionInModal(item.role)}
+                          className={`rbac-role-radio-card ${isSelected ? 'active' : ''}`}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span className={`ref-tier-badge ${item.badgeClass}`} style={{ fontSize: '0.68rem', padding: '0.15rem 0.45rem' }}>
+                              {item.role}
+                            </span>
+                            <input
+                              type="radio"
+                              name="roleSelection"
+                              checked={isSelected}
+                              onChange={() => handleRoleSelectionInModal(item.role)}
+                              style={{ cursor: 'pointer' }}
+                            />
+                          </div>
+                          <span style={{ fontSize: '0.7rem', color: '#64748b', lineHeight: 1.3, marginTop: '0.2rem' }}>
+                            {item.desc}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
+                    <label className="cms-label" style={{ margin: 0 }}>
+                      <Key size={13} className="text-emerald-700" />
+                      <span>Assigned Module Permissions ({assignForm.permissions.length} selected)</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setAssignForm((prev) => ({
+                          ...prev,
+                          permissions: getDefaultPermissionsForRole(prev.role),
+                        }))
+                      }
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#059669',
+                        fontSize: '0.72rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.25rem',
+                      }}
+                    >
+                      <RefreshCw size={11} />
+                      <span>Reset to Role Defaults</span>
+                    </button>
+                  </div>
+
+                  <div className="rbac-perm-grid">
+                    {MODULE_PERMISSIONS.map((perm) => {
+                      const isChecked = assignForm.permissions.includes(perm.id);
+                      const isRbacModule = perm.id === 'rbac_manage';
+                      const isDisabled = isRbacModule && !isSuperAdmin;
+
+                      return (
+                        <div
+                          key={perm.id}
+                          onClick={() => !isDisabled && handleTogglePermission(perm.id)}
+                          className={`rbac-perm-item ${isChecked ? 'selected' : ''}`}
+                          style={{ opacity: isDisabled ? 0.4 : 1, cursor: isDisabled ? 'not-allowed' : 'pointer' }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            disabled={isDisabled}
+                            onChange={() => !isDisabled && handleTogglePermission(perm.id)}
+                            style={{ marginTop: '0.15rem', cursor: isDisabled ? 'not-allowed' : 'pointer' }}
+                          />
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+                            <span style={{ fontSize: '0.78rem', fontWeight: 600, color: isChecked ? '#065f46' : '#1e293b' }}>
+                              {perm.label}
+                            </span>
+                            <span style={{ fontSize: '0.68rem', color: '#64748b', lineHeight: 1.25 }}>
+                              {perm.desc}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '0.9rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.65rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                      <Calendar size={14} className="text-blue-600" />
+                      <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b' }}>Access Validity & Duration</span>
+                    </div>
+
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.76rem', fontWeight: 600, color: '#334155', cursor: 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        checked={assignForm.isPermanent}
+                        onChange={(e) => setAssignForm({ ...assignForm, isPermanent: e.target.checked })}
+                      />
+                      <span>Permanent Access (No Expiry)</span>
+                    </label>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
+                    <div className="cms-field">
+                      <label className="cms-label">
+                        <span>Access Start Date</span>
+                      </label>
+                      <input
+                        type="date"
+                        value={assignForm.startDate}
+                        onChange={(e) => setAssignForm({ ...assignForm, startDate: e.target.value })}
+                        className="cms-input"
+                      />
+                    </div>
+
+                    <div className="cms-field">
+                      <label className="cms-label">
+                        <span>Access Expiry Date</span>
+                        {!assignForm.isPermanent && <span className="required-star">*</span>}
+                      </label>
+                      <input
+                        type="date"
+                        disabled={assignForm.isPermanent}
+                        required={!assignForm.isPermanent}
+                        value={assignForm.expiryDate}
+                        onChange={(e) => setAssignForm({ ...assignForm, expiryDate: e.target.value })}
+                        className="cms-input"
+                        style={{ opacity: assignForm.isPermanent ? 0.5 : 1 }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="cms-field">
+                  <label className="cms-label">
+                    <Info size={13} className="text-slate-600" />
+                    <span>Operational Justification / Reason for Access</span>
+                    <span className="required-star">*</span>
+                  </label>
+                  <textarea
+                    rows={2}
                     required
-                    placeholder="Minimum 6 characters"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="eco-field-input"
+                    value={assignForm.reason}
+                    onChange={(e) => setAssignForm({ ...assignForm, reason: e.target.value })}
+                    placeholder="e.g. Authorized to oversee weekend river cleanup drives and manage volunteer circulars."
+                    className="cms-textarea"
                   />
                 </div>
               </div>
 
-              <div className="modal-footer">
+              <div className="rbac-modal-footer">
                 <button
                   type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="eco-cms-btn-secondary"
-                  disabled={submitting}
+                  onClick={() => setShowAssignModal(false)}
+                  className="ref-btn-refresh"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="eco-cms-btn-primary"
+                  className="ref-btn-enroll"
                 >
-                  {submitting ? 'Creating Account...' : 'Enroll Administrator'}
+                  <Save size={14} />
+                  <span>{submitting ? 'Assigning...' : 'Assign Access'}</span>
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL: View User Details & Permissions Matrix
+          ========================================================================= */}
+      {viewingUser && (
+        <div className="rbac-modal-backdrop" onClick={() => setViewingUser(null)}>
+          <div className="rbac-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="rbac-modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: '#f5f3ff', color: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Crown size={20} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 700, color: '#0f172a' }}>
+                    {viewingUser.name}
+                  </h3>
+                  <p style={{ margin: '0.15rem 0 0', fontSize: '0.75rem', color: '#64748b' }}>
+                    Member ID: {viewingUser.memberId || 'GNPP-2026'} | {viewingUser.email}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setViewingUser(null)}
+                className="ref-alert-dismiss"
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className="rbac-modal-body">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem', background: '#f8fafc', padding: '1rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                <div>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Assigned Role</span>
+                  <div style={{ marginTop: '0.25rem' }}>
+                    <span className={`ref-tier-badge ${getRoleBadgeClass(viewingUser.role)}`}>
+                      {viewingUser.role}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Account Status</span>
+                  <div style={{ marginTop: '0.25rem' }}>
+                    <span className={`ref-status-badge ${viewingUser.accountStatus === 'Active' ? 'active' : 'suspended'}`}>
+                      <span className="ref-status-dot-inner"></span>
+                      <span>{viewingUser.accountStatus || 'Active'}</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Granted By</span>
+                  <p style={{ margin: '0.2rem 0 0', fontSize: '0.82rem', fontWeight: 600, color: '#1e293b' }}>
+                    {viewingUser.assignedBy?.name || 'Dr. K. V. Subba Rao'} ({viewingUser.assignedBy?.role || 'Super Admin'})
+                  </p>
+                </div>
+
+                <div>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Access Expiry</span>
+                  <p style={{ margin: '0.2rem 0 0', fontSize: '0.82rem', fontWeight: 600, color: viewingUser.accessExpiryDate ? '#b45309' : '#047857' }}>
+                    {viewingUser.accessExpiryDate ? new Date(viewingUser.accessExpiryDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Permanent (No Expiry)'}
+                  </p>
+                </div>
+
+                <div style={{ gridColumn: 'span 2' }}>
+                  <span style={{ fontSize: '0.72rem', color: '#64748b', textTransform: 'uppercase', fontWeight: 700 }}>Access Justification</span>
+                  <p style={{ margin: '0.2rem 0 0', fontSize: '0.82rem', color: '#334155', lineHeight: 1.45 }}>
+                    "{viewingUser.accessReason || 'Standard administrative operational access'}"
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h4 style={{ margin: '0 0 0.55rem', fontSize: '0.88rem', fontWeight: 700, color: '#1e293b', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                  <Key size={14} className="text-emerald-600" />
+                  <span>Module Permissions Audit ({viewingUser.permissions?.length || 0} of {MODULE_PERMISSIONS.length} active)</span>
+                </h4>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.45rem' }}>
+                  {MODULE_PERMISSIONS.map((perm) => {
+                    const hasPerm = viewingUser.permissions?.includes(perm.id);
+                    return (
+                      <div
+                        key={perm.id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.45rem',
+                          padding: '0.45rem 0.65rem',
+                          borderRadius: '6px',
+                          border: '1px solid',
+                          borderColor: hasPerm ? '#bbf7d0' : '#f1f5f9',
+                          backgroundColor: hasPerm ? '#f0fdf4' : '#fafafa',
+                          color: hasPerm ? '#065f46' : '#94a3b8',
+                          fontSize: '0.75rem',
+                          fontWeight: hasPerm ? 600 : 400,
+                        }}
+                      >
+                        {hasPerm ? <CheckCircle2 size={13} className="text-emerald-600 flex-shrink-0" /> : <X size={13} className="text-slate-300 flex-shrink-0" />}
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{perm.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="rbac-modal-footer">
+              {(isSuperAdmin || (isAdmin && viewingUser.role !== ROLES.SUPER_ADMIN)) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewingUser(null);
+                    handleOpenAssignModal(viewingUser);
+                  }}
+                  className="ref-btn-enroll"
+                >
+                  <Edit2 size={14} />
+                  <span>Edit Access</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setViewingUser(null)}
+                className="ref-btn-refresh"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          CONFIRMATION MODAL: Revoke Access Safety Check
+          ========================================================================= */}
+      {confirmRevokeModal.open && (
+        <div className="rbac-confirm-backdrop" onClick={() => setConfirmRevokeModal({ open: false, user: null })}>
+          <div className="rbac-confirm-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="rbac-modal-header" style={{ backgroundColor: '#fef2f2', borderBottom: '1px solid #fee2e2' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#fee2e2', color: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <AlertTriangle size={20} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#991b1b' }}>
+                    Confirm Access Revocation
+                  </h3>
+                  <p style={{ margin: '0.15rem 0 0', fontSize: '0.74rem', color: '#b91c1c' }}>
+                    Irreversible administrative governance action
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setConfirmRevokeModal({ open: false, user: null })}
+                className="ref-alert-dismiss"
+              >
+                &times;
+              </button>
+            </div>
+
+            <div style={{ padding: '1.25rem 1.5rem' }}>
+              <p style={{ margin: 0, fontSize: '0.86rem', color: '#1e293b', lineHeight: 1.5 }}>
+                Are you sure you want to permanently revoke administrative permissions for:
+              </p>
+              <div style={{ background: '#f8fafc', padding: '0.75rem', borderRadius: '8px', border: '1px solid #e2e8f0', margin: '0.75rem 0' }}>
+                <p style={{ margin: 0, fontWeight: 700, color: '#0f172a' }}>{confirmRevokeModal.user?.name}</p>
+                <p style={{ margin: '0.15rem 0 0', fontSize: '0.76rem', color: '#64748b' }}>
+                  {confirmRevokeModal.user?.email} | Current Role: <strong>{confirmRevokeModal.user?.role}</strong>
+                </p>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.78rem', color: '#64748b', lineHeight: 1.4 }}>
+                This user's administrative privileges will be terminated immediately. Their account role will be downgraded to <strong>General Volunteer</strong> and marked Inactive.
+              </p>
+            </div>
+
+            <div className="rbac-modal-footer">
+              <button
+                type="button"
+                onClick={() => setConfirmRevokeModal({ open: false, user: null })}
+                className="ref-btn-refresh"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmRevoke}
+                style={{
+                  height: '34px',
+                  padding: '0 1rem',
+                  borderRadius: '6px',
+                  backgroundColor: '#dc2626',
+                  color: '#ffffff',
+                  border: 'none',
+                  fontWeight: 600,
+                  fontSize: '0.8rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  cursor: 'pointer',
+                }}
+              >
+                <Trash2 size={14} />
+                <span>Yes, Revoke Access</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../services/api';
+import { recordAdminAction } from '../../services/auditService';
 import {
   Calendar,
   Clock,
@@ -25,6 +26,7 @@ import {
   Save,
   Globe,
   Lock,
+  ArrowLeft,
 } from 'lucide-react';
 
 const AdminEvents = () => {
@@ -188,6 +190,10 @@ const AdminEvents = () => {
         text: `Event "${formData.title}" scheduled successfully!`
       });
       setShowAddModal(false);
+      recordAdminAction({
+        action: `Scheduled new drive/event "${formData.title}" at ${formData.venue || 'Ghat'}`,
+        category: 'Events',
+      });
       fetchEvents();
     } catch (err) {
       setFeedback({
@@ -259,6 +265,10 @@ const AdminEvents = () => {
         text: `Event "${editFormData.title}" updated successfully!`
       });
       setEditingEvent(null);
+      recordAdminAction({
+        action: `Updated event schedule and location for "${editFormData.title}"`,
+        category: 'Events',
+      });
       fetchEvents();
     } catch (err) {
       setFeedback({
@@ -285,6 +295,11 @@ const AdminEvents = () => {
       setFeedback({
         type: 'success',
         text: `Event "${deletingEvent.title}" removed successfully.`
+      });
+      recordAdminAction({
+        action: `Removed event record "${deletingEvent.title}"`,
+        category: 'Events',
+        severity: 'warning',
       });
       setDeletingEvent(null);
       fetchEvents();
@@ -329,6 +344,821 @@ const AdminEvents = () => {
   ).length;
   const totalTargetVolunteers = events.reduce((acc, cur) => acc + (cur.targetVolunteers || 0), 0);
 
+  // =========================================================================
+  // FULL PAGE VIEW 1: COMPLETE EDIT EVENT (WITH SIDEBAR VISIBLE)
+  // =========================================================================
+  if (editingEvent) {
+    return (
+      <div className="ref-events-page">
+        {/* Top Back Navigation Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+          <button
+            type="button"
+            onClick={() => setEditingEvent(null)}
+            className="ref-btn-enroll"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              backgroundColor: '#ffffff',
+              color: '#334155',
+              border: '1px solid #cbd5e1',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+              padding: '0.55rem 1.15rem',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.85rem',
+            }}
+          >
+            <ArrowLeft size={16} />
+            <span>Return to Drives & Events</span>
+          </button>
+
+          <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+            Drives & Events Directory &bull; Edit Campaign Details
+          </span>
+        </div>
+
+        {/* Full-Width Form Card */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          }}
+        >
+          <div
+            style={{
+              padding: '1.5rem 1.75rem',
+              borderBottom: '1px solid #f1f5f9',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.4rem' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                  Edit Event / Drive Details
+                </h3>
+                <span className={`ref-tier-badge ${getCategoryBadgeClass(editFormData.eventType)}`}>
+                  {editFormData.eventType}
+                </span>
+              </div>
+              <p style={{ fontSize: '0.84rem', color: '#64748b', margin: 0 }}>
+                Update scheduled timings, ghat location, volunteer thresholds, and campaign agenda.
+              </p>
+            </div>
+          </div>
+
+          <form onSubmit={handleUpdateEvent}>
+            <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div className="ref-form-field">
+                <label className="ref-form-label">Event Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={editFormData.title}
+                  onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
+                  className="ref-form-input"
+                />
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Event Category *</label>
+                  <select
+                    value={editFormData.eventType}
+                    onChange={(e) => setEditFormData({ ...editFormData, eventType: e.target.value })}
+                    className="ref-form-select"
+                  >
+                    <option value="Cleanliness Drive">Cleanliness Drive</option>
+                    <option value="Awareness Program">Awareness Program</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Tree Plantation">Tree Plantation</option>
+                    <option value="Riverfront Rally">Riverfront Rally</option>
+                  </select>
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Status</label>
+                  <select
+                    value={editFormData.status}
+                    onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
+                    className="ref-form-select"
+                  >
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Date *</label>
+                  <input
+                    type="date"
+                    required
+                    value={editFormData.date}
+                    onChange={(e) => setEditFormData({ ...editFormData, date: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Time Window *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.time}
+                    onChange={(e) => setEditFormData({ ...editFormData, time: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Venue / Meeting Point</label>
+                  <input
+                    type="text"
+                    value={editFormData.venue}
+                    onChange={(e) => setEditFormData({ ...editFormData, venue: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Ghat Location</label>
+                  <input
+                    type="text"
+                    value={editFormData.riverGhat}
+                    onChange={(e) => setEditFormData({ ...editFormData, riverGhat: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Target Volunteers</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={editFormData.targetVolunteers}
+                    onChange={(e) =>
+                      setEditFormData({ ...editFormData, targetVolunteers: e.target.value })
+                    }
+                    className="ref-form-input"
+                  />
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Enrolled Volunteers</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={editFormData.enrolledVolunteersCount}
+                    onChange={(e) =>
+                      setEditFormData({ ...editFormData, enrolledVolunteersCount: e.target.value })
+                    }
+                    className="ref-form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="ref-form-field">
+                <label className="ref-form-label">Campaign Description *</label>
+                <textarea
+                  rows={4}
+                  required
+                  value={editFormData.description}
+                  onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
+                  className="ref-form-textarea"
+                />
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: '1.25rem 1.75rem',
+                borderTop: '1px solid #f1f5f9',
+                backgroundColor: '#f8fafc',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                gap: '0.75rem',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setEditingEvent(null)}
+                className="eco-cms-btn-secondary"
+                disabled={submitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="ref-btn-enroll"
+                style={{ padding: '0.6rem 1.4rem' }}
+              >
+                {submitting ? 'Saving Changes...' : 'Save Changes'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // FULL PAGE VIEW 2: COMPLETE EVENT DOSSIER (WITH SIDEBAR VISIBLE)
+  // =========================================================================
+  if (viewingEvent) {
+    return (
+      <div className="ref-events-page">
+        {/* Top Back Navigation Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+          <button
+            type="button"
+            onClick={() => setViewingEvent(null)}
+            className="ref-btn-enroll"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              backgroundColor: '#ffffff',
+              color: '#334155',
+              border: '1px solid #cbd5e1',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+              padding: '0.55rem 1.15rem',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.85rem',
+            }}
+          >
+            <ArrowLeft size={16} />
+            <span>Return to Drives & Events</span>
+          </button>
+
+          <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+            Drives & Events Directory &bull; Event Overview & Schedule
+          </span>
+        </div>
+
+        {/* Full-Width Dossier Card */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          }}
+        >
+          {/* Header Strip */}
+          <div
+            style={{
+              padding: '1.5rem 1.75rem',
+              borderBottom: '1px solid #f1f5f9',
+              display: 'flex',
+              alignItems: 'flex-start',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.65rem' }}>
+                <span className={`ref-tier-badge ${getCategoryBadgeClass(viewingEvent.eventType)}`}>
+                  {getCategoryIcon(viewingEvent.eventType)}
+                  <span>{viewingEvent.eventType}</span>
+                </span>
+                <span className="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full font-semibold border border-slate-200">
+                  {new Date(viewingEvent.date) >= new Date() ? 'Upcoming Event' : 'Past Event'}
+                </span>
+              </div>
+              <h2 style={{ fontSize: '1.45rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.35rem 0' }}>
+                {viewingEvent.title}
+              </h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.84rem', color: '#64748b' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <MapPin size={14} className="text-emerald-600" />
+                  {viewingEvent.location?.venue || 'Kotilingala Ghat'}
+                </span>
+                <span>&bull;</span>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <Clock size={14} className="text-blue-600" />
+                  {viewingEvent.time}
+                </span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const target = viewingEvent;
+                  setViewingEvent(null);
+                  openEditModal(target);
+                }}
+                className="ref-btn-enroll"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  padding: '0.55rem 1.15rem',
+                  fontSize: '0.84rem',
+                }}
+              >
+                <Edit2 size={15} />
+                <span>Edit Event Details</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const target = viewingEvent;
+                  setViewingEvent(null);
+                  openDeleteModal(target);
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  padding: '0.55rem 1.15rem',
+                  borderRadius: '9px',
+                  backgroundColor: '#fee2e2',
+                  border: '1px solid #fca5a5',
+                  color: '#dc2626',
+                  fontWeight: 600,
+                  fontSize: '0.84rem',
+                  cursor: 'pointer',
+                }}
+              >
+                <Trash2 size={15} />
+                <span>Delete Event</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Details Body */}
+          <div style={{ padding: '2rem 1.75rem', display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+            {/* 4-Grid Stats Card */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '1rem',
+              }}
+            >
+              <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+                <span style={{ fontSize: '0.74rem', fontWeight: 600, color: '#64748b', display: 'block' }}>Date of Event</span>
+                <span style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginTop: '0.2rem', display: 'block' }}>
+                  {new Date(viewingEvent.date).toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+              <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+                <span style={{ fontSize: '0.74rem', fontWeight: 600, color: '#64748b', display: 'block' }}>Time Window</span>
+                <span style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginTop: '0.2rem', display: 'block' }}>
+                  {viewingEvent.time || '06:30 AM - 10:00 AM'}
+                </span>
+              </div>
+              <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+                <span style={{ fontSize: '0.74rem', fontWeight: 600, color: '#64748b', display: 'block' }}>River Ghat</span>
+                <span style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginTop: '0.2rem', display: 'block' }}>
+                  {viewingEvent.location?.riverGhat || 'Kotilingala Ghat'}
+                </span>
+              </div>
+              <div style={{ padding: '1rem', backgroundColor: '#f8fafc', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+                <span style={{ fontSize: '0.74rem', fontWeight: 600, color: '#64748b', display: 'block' }}>Volunteer Mobilization</span>
+                <span style={{ fontSize: '0.92rem', fontWeight: 700, color: '#059669', marginTop: '0.2rem', display: 'block' }}>
+                  {viewingEvent.enrolledVolunteersCount || 0} Enrolled / {viewingEvent.targetVolunteers || 100} Target
+                </span>
+              </div>
+            </div>
+
+            {/* Campaign Description Box */}
+            <div>
+              <h4 style={{ fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', marginBottom: '0.65rem' }}>
+                Full Campaign Agenda & Field Guidelines
+              </h4>
+              <div
+                style={{
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '12px',
+                  padding: '1.5rem',
+                  fontSize: '0.96rem',
+                  lineHeight: 1.7,
+                  color: '#1e293b',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {viewingEvent.description}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // FULL PAGE VIEW 3: COMPLETE DELETE CONFIRMATION (WITH SIDEBAR VISIBLE)
+  // =========================================================================
+  if (deletingEvent) {
+    return (
+      <div className="ref-events-page">
+        {/* Top Back Navigation Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+          <button
+            type="button"
+            onClick={() => setDeletingEvent(null)}
+            className="ref-btn-enroll"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              backgroundColor: '#ffffff',
+              color: '#334155',
+              border: '1px solid #cbd5e1',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+              padding: '0.55rem 1.15rem',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.85rem',
+            }}
+          >
+            <ArrowLeft size={16} />
+            <span>Return to Drives & Events</span>
+          </button>
+
+          <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+            Drives & Events Directory &bull; Permanent Removal Confirmation
+          </span>
+        </div>
+
+        {/* Full-Width Danger Removal Card */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #fee2e2',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 4px 6px -1px rgba(220, 38, 38, 0.05)',
+          }}
+        >
+          {/* Header Strip */}
+          <div
+            style={{
+              padding: '1.5rem 1.75rem',
+              borderBottom: '1px solid #fee2e2',
+              backgroundColor: '#fef2f2',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1rem',
+            }}
+          >
+            <div
+              style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '12px',
+                backgroundColor: '#fee2e2',
+                color: '#dc2626',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <AlertTriangle size={24} />
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#991b1b', margin: 0 }}>
+                Delete Event Record
+              </h3>
+              <p style={{ fontSize: '0.85rem', color: '#b91c1c', margin: '0.2rem 0 0 0' }}>
+                Please review this scheduled event carefully before confirming permanent removal.
+              </p>
+            </div>
+          </div>
+
+          {/* Details Body */}
+          <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div
+              style={{
+                backgroundColor: '#ffffff',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+                padding: '1.25rem 1.5rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.75rem' }}>
+                <span className={`ref-tier-badge ${getCategoryBadgeClass(deletingEvent.eventType)}`}>
+                  {getCategoryIcon(deletingEvent.eventType)}
+                  <span>{deletingEvent.eventType}</span>
+                </span>
+                <span className="text-xs text-slate-500 font-medium">
+                  {new Date(deletingEvent.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
+                </span>
+              </div>
+
+              <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.5rem 0' }}>
+                {deletingEvent.title}
+              </h4>
+
+              <p style={{ fontSize: '0.92rem', color: '#475569', lineHeight: 1.6, margin: '0 0 1rem 0' }}>
+                {deletingEvent.description}
+              </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', fontSize: '0.78rem', color: '#64748b', borderTop: '1px solid #f1f5f9', paddingTop: '0.75rem' }}>
+                <span>Venue: {deletingEvent.location?.venue || 'Kotilingala Ghat'}</span>
+                <span>&bull;</span>
+                <span>Time: {deletingEvent.time}</span>
+                <span>&bull;</span>
+                <span>Volunteers: {deletingEvent.enrolledVolunteersCount || 0} / {deletingEvent.targetVolunteers || 100}</span>
+              </div>
+            </div>
+
+            {/* Red Warning Box */}
+            <div
+              style={{
+                backgroundColor: '#fef2f2',
+                border: '1px solid #fecaca',
+                borderRadius: '10px',
+                padding: '1rem 1.25rem',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '0.75rem',
+              }}
+            >
+              <AlertTriangle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
+              <div style={{ fontSize: '0.85rem', color: '#991b1b', lineHeight: 1.5 }}>
+                <strong>Permanent Removal Warning:</strong> This will permanently delete the event record, volunteer enrolment lists, and attendance rosters from MongoDB Atlas.
+              </div>
+            </div>
+          </div>
+
+          {/* Action Footer */}
+          <div
+            style={{
+              padding: '1.25rem 1.75rem',
+              borderTop: '1px solid #f1f5f9',
+              backgroundColor: '#f8fafc',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              gap: '0.75rem',
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setDeletingEvent(null)}
+              className="eco-cms-btn-secondary"
+              disabled={submitting}
+              style={{ padding: '0.6rem 1.25rem' }}
+            >
+              Cancel & Keep Event
+            </button>
+            <button
+              type="button"
+              onClick={handleConfirmDelete}
+              disabled={submitting}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '0.6rem 1.4rem',
+                borderRadius: '9px',
+                backgroundColor: '#dc2626',
+                border: '1px solid #dc2626',
+                color: '#ffffff',
+                fontWeight: 600,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                boxShadow: '0 1px 3px rgba(220, 38, 38, 0.3)',
+              }}
+            >
+              <Trash2 size={16} />
+              <span>{submitting ? 'Removing...' : 'Delete Event Record'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // FULL PAGE VIEW 4: COMPLETE SCHEDULE EVENT (WITH SIDEBAR VISIBLE)
+  // =========================================================================
+  if (showAddModal) {
+    return (
+      <div className="ref-events-page">
+        {/* Top Back Navigation Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+          <button
+            type="button"
+            onClick={() => setShowAddModal(false)}
+            className="ref-btn-enroll"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              backgroundColor: '#ffffff',
+              color: '#334155',
+              border: '1px solid #cbd5e1',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+              padding: '0.55rem 1.15rem',
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.85rem',
+            }}
+          >
+            <ArrowLeft size={16} />
+            <span>Return to Drives & Events</span>
+          </button>
+
+          <span style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+            Drives & Events Directory &bull; Schedule New Campaign
+          </span>
+        </div>
+
+        {/* Full-Width Form Card */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          }}
+        >
+          <div
+            style={{
+              padding: '1.5rem 1.75rem',
+              borderBottom: '1px solid #f1f5f9',
+            }}
+          >
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+              Schedule New Drive / Event
+            </h3>
+            <p style={{ fontSize: '0.84rem', color: '#64748b', margin: '0.2rem 0 0 0' }}>
+              Create a riverfront cleanup drive, awareness rally, or educational workshop for volunteers.
+            </p>
+          </div>
+
+          <form onSubmit={handleCreateEvent}>
+            <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div className="ref-form-field">
+                <label className="ref-form-label">Event Title *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Maha Godavari Ghat Cleanliness Drive - Phase IV"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="ref-form-input"
+                />
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Event Category *</label>
+                  <select
+                    value={formData.eventType}
+                    onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                    className="ref-form-select"
+                  >
+                    <option value="Cleanliness Drive">Cleanliness Drive</option>
+                    <option value="Awareness Program">Awareness Program</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Tree Plantation">Tree Plantation</option>
+                    <option value="Riverfront Rally">Riverfront Rally</option>
+                  </select>
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Target Volunteers</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formData.targetVolunteers}
+                    onChange={(e) => setFormData({ ...formData, targetVolunteers: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Date *</label>
+                  <input
+                    type="date"
+                    required
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Time Window *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. 06:30 AM - 10:00 AM"
+                    value={formData.time}
+                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="ref-form-grid-2">
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Venue / Meeting Point</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Kotilingala Ghat, Riverbank Reach"
+                    value={formData.venue}
+                    onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+
+                <div className="ref-form-field">
+                  <label className="ref-form-label">Ghat Location</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Kotilingala Ghat"
+                    value={formData.riverGhat}
+                    onChange={(e) => setFormData({ ...formData, riverGhat: e.target.value })}
+                    className="ref-form-input"
+                  />
+                </div>
+              </div>
+
+              <div className="ref-form-field">
+                <label className="ref-form-label">Campaign Description *</label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Outline key cleanup zones, volunteer assembly instructions, safety protocols..."
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="ref-form-textarea"
+                />
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: '1.25rem 1.75rem',
+                borderTop: '1px solid #f1f5f9',
+                backgroundColor: '#f8fafc',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                gap: '0.75rem',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setShowAddModal(false)}
+                className="eco-cms-btn-secondary"
+                disabled={submitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="ref-btn-enroll"
+                style={{ padding: '0.6rem 1.4rem' }}
+              >
+                {submitting ? 'Scheduling...' : 'Schedule Event'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="ref-events-page">
       {/* 1. Header Row */}
@@ -338,7 +1168,7 @@ const AdminEvents = () => {
             <Calendar size={22} />
           </div>
           <div className="ref-header-text">
-            <h2>Drives & Events</h2>
+            <h2>Cleanliness Drives & Activities</h2>
             <p>Schedule, manage, and coordinate community riverfront cleanliness drives and awareness events.</p>
           </div>
         </div>
@@ -364,15 +1194,6 @@ const AdminEvents = () => {
             </Link>
           </div>
 
-          <button
-            onClick={fetchEvents}
-            className="ref-btn-refresh"
-            disabled={loading}
-            title="Reload latest records from database"
-          >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Refresh</span>
-          </button>
           <button
             onClick={openAddModal}
             className="ref-btn-enroll"
@@ -611,20 +1432,8 @@ const AdminEvents = () => {
                     <p>{evt.description}</p>
                   </div>
 
-                  {/* Right: Actions (View Details, Labeled Edit, Delete) */}
+                  {/* Right: Actions (Labeled Edit, Delete) */}
                   <div className="ref-event-actions-col">
-                    {/* READ */}
-                    <button
-                      type="button"
-                      onClick={() => openViewModal(evt)}
-                      className="ref-btn-view-action"
-                      title="View complete event details"
-                    >
-                      <Eye size={12} />
-                      <span>View Details</span>
-                      <ChevronRight size={12} className="text-slate-400" />
-                    </button>
-
                     {/* UPDATE */}
                     <button
                       type="button"
@@ -666,534 +1475,6 @@ const AdminEvents = () => {
               </div>
             );
           })}
-        </div>
-      )}
-
-      {/* =========================================================================
-          MODAL 1: SCHEDULE NEW EVENT (CREATE)
-          ========================================================================= */}
-      {showAddModal && (
-        <div className="modal-backdrop">
-          <div className="ref-modal-dialog">
-            <div className="ref-modal-header">
-              <div className="ref-modal-title-wrap">
-                <h3 className="ref-modal-title">Schedule New Drive / Event</h3>
-                <span className="ref-modal-badge">Godavari Riverfront</span>
-              </div>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="ref-modal-close-btn"
-                title="Close modal"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <form
-              onSubmit={handleCreateEvent}
-              style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}
-            >
-              <div className="ref-modal-body">
-                <div className="ref-form-field">
-                  <label className="ref-form-label">Event Title *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Maha Godavari Ghat Cleanliness Drive - Phase IV"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="ref-form-input"
-                  />
-                </div>
-
-                <div className="ref-form-grid-2">
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Event Category *</label>
-                    <select
-                      value={formData.eventType}
-                      onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                      className="ref-form-select"
-                    >
-                      <option value="Cleanliness Drive">Cleanliness Drive</option>
-                      <option value="Awareness Program">Awareness Program</option>
-                      <option value="Workshop">Workshop</option>
-                      <option value="Tree Plantation">Tree Plantation</option>
-                      <option value="Riverfront Rally">Riverfront Rally</option>
-                    </select>
-                  </div>
-
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Target Volunteers</label>
-                    <input
-                      type="number"
-                      min="10"
-                      value={formData.targetVolunteers}
-                      onChange={(e) =>
-                        setFormData({ ...formData, targetVolunteers: e.target.value })
-                      }
-                      className="ref-form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="ref-form-grid-2">
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Date *</label>
-                    <input
-                      type="date"
-                      required
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Time Window *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="06:30 AM - 10:00 AM"
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="ref-form-grid-2">
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Venue / Meeting Point</label>
-                    <input
-                      type="text"
-                      placeholder="Kotilingala Ghat, Riverbank Reach"
-                      value={formData.venue}
-                      onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Ghat Location</label>
-                    <input
-                      type="text"
-                      placeholder="Kotilingala Ghat / Pushkar Ghat"
-                      value={formData.riverGhat}
-                      onChange={(e) => setFormData({ ...formData, riverGhat: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="ref-form-field">
-                  <label className="ref-form-label">Campaign Description *</label>
-                  <textarea
-                    rows={3}
-                    required
-                    placeholder="Describe initiative goals, volunteer equipment required, reporting point, and briefing details..."
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="ref-form-textarea"
-                  />
-                </div>
-              </div>
-
-              <div className="ref-modal-footer">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="ref-modal-btn-cancel"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="ref-modal-btn-save"
-                >
-                  {submitting ? 'Scheduling...' : 'Schedule Event'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* =========================================================================
-          MODAL 2: VIEW EVENT DETAILS (READ)
-          ========================================================================= */}
-      {viewingEvent && (
-        <div className="modal-backdrop">
-          <div className="ref-modal-dialog" style={{ maxWidth: '640px' }}>
-            <div className="ref-modal-header">
-              <div className="ref-modal-title-wrap">
-                <h3 className="ref-modal-title">Event Overview & Schedule</h3>
-                <span className={`ref-tier-badge ${getCategoryBadgeClass(viewingEvent.eventType)}`}>
-                  {getCategoryIcon(viewingEvent.eventType)}
-                  <span>{viewingEvent.eventType}</span>
-                </span>
-              </div>
-              <button
-                onClick={() => setViewingEvent(null)}
-                className="ref-modal-close-btn"
-                title="Close modal"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className="ref-modal-body">
-              {/* Event Official Banner Card */}
-              <div className="ref-id-card-wrap">
-                <div className="ref-id-card-header">
-                  <div className="ref-id-card-title">
-                    <Droplet size={14} className="text-emerald-400" />
-                    <span>GODAVARI RIVERFRONT INITIATIVE</span>
-                  </div>
-                  <span className="ref-id-card-cat">{viewingEvent.eventType}</span>
-                </div>
-                <div className="p-3 bg-white border border-t-0 border-slate-200 rounded-b-xl">
-                  <h4 className="font-bold text-slate-900 text-base mb-1">{viewingEvent.title}</h4>
-                  <div className="text-xs text-slate-500 flex items-center gap-2">
-                    <span>{viewingEvent.location?.venue || 'Kotilingala Ghat'}</span>
-                    <span>&bull;</span>
-                    <span>{viewingEvent.time}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Comprehensive Details Grid */}
-              <div className="ref-details-grid">
-                <div className="ref-detail-item">
-                  <span className="ref-detail-label">Date of Event</span>
-                  <span className="ref-detail-value">
-                    {new Date(viewingEvent.date).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </span>
-                </div>
-                <div className="ref-detail-item">
-                  <span className="ref-detail-label">Time Window</span>
-                  <span className="ref-detail-value">{viewingEvent.time || '06:30 AM - 10:00 AM'}</span>
-                </div>
-
-                <div className="ref-detail-item">
-                  <span className="ref-detail-label">Venue / Meeting Point</span>
-                  <span className="ref-detail-value">{viewingEvent.location?.venue || 'Kotilingala Ghat'}</span>
-                </div>
-                <div className="ref-detail-item">
-                  <span className="ref-detail-label">River Ghat Location</span>
-                  <span className="ref-detail-value">{viewingEvent.location?.riverGhat || 'Kotilingala Ghat'}</span>
-                </div>
-
-                <div className="ref-detail-item">
-                  <span className="ref-detail-label">Volunteer Capacity</span>
-                  <span className="ref-detail-value font-semibold text-emerald-700">
-                    {viewingEvent.enrolledVolunteersCount || 0} Enrolled / {viewingEvent.targetVolunteers || 100} Target
-                  </span>
-                </div>
-                <div className="ref-detail-item">
-                  <span className="ref-detail-label">Event Status</span>
-                  <span className="ref-detail-value">
-                    {new Date(viewingEvent.date) >= new Date() ? 'Upcoming' : 'Past Event'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Full Description Callout */}
-              <div className="ref-form-field mt-3">
-                <label className="ref-form-label">Full Campaign Description</label>
-                <p className="text-sm text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200">
-                  {viewingEvent.description}
-                </p>
-              </div>
-            </div>
-
-            <div className="ref-modal-footer">
-              <button
-                type="button"
-                onClick={() => setViewingEvent(null)}
-                className="ref-modal-btn-cancel"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  const target = viewingEvent;
-                  setViewingEvent(null);
-                  openDeleteModal(target);
-                }}
-                className="ref-modal-btn-cancel"
-                style={{ color: '#dc2626', borderColor: '#fca5a5' }}
-              >
-                <Trash2 size={13} />
-                <span>Delete Event</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  const target = viewingEvent;
-                  setViewingEvent(null);
-                  openEditModal(target);
-                }}
-                className="ref-modal-btn-save"
-              >
-                <Edit2 size={13} />
-                <span>Edit Event Details</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* =========================================================================
-          MODAL 3: EDIT EVENT (UPDATE)
-          ========================================================================= */}
-      {editingEvent && (
-        <div className="modal-backdrop">
-          <div className="ref-modal-dialog">
-            <div className="ref-modal-header">
-              <div className="ref-modal-title-wrap">
-                <h3 className="ref-modal-title">Edit Event / Drive Details</h3>
-                <span className={`ref-tier-badge ${getCategoryBadgeClass(editFormData.eventType)}`}>
-                  {editFormData.eventType}
-                </span>
-              </div>
-              <button
-                onClick={() => setEditingEvent(null)}
-                className="ref-modal-close-btn"
-                title="Close modal"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <form
-              onSubmit={handleUpdateEvent}
-              style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}
-            >
-              <div className="ref-modal-body">
-                <div className="ref-form-field">
-                  <label className="ref-form-label">Event Title *</label>
-                  <input
-                    type="text"
-                    required
-                    value={editFormData.title}
-                    onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
-                    className="ref-form-input"
-                  />
-                </div>
-
-                <div className="ref-form-grid-2">
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Event Category *</label>
-                    <select
-                      value={editFormData.eventType}
-                      onChange={(e) => setEditFormData({ ...editFormData, eventType: e.target.value })}
-                      className="ref-form-select"
-                    >
-                      <option value="Cleanliness Drive">Cleanliness Drive</option>
-                      <option value="Awareness Program">Awareness Program</option>
-                      <option value="Workshop">Workshop</option>
-                      <option value="Tree Plantation">Tree Plantation</option>
-                      <option value="Riverfront Rally">Riverfront Rally</option>
-                    </select>
-                  </div>
-
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Status</label>
-                    <select
-                      value={editFormData.status}
-                      onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
-                      className="ref-form-select"
-                    >
-                      <option value="Upcoming">Upcoming</option>
-                      <option value="Ongoing">Ongoing</option>
-                      <option value="Completed">Completed</option>
-                      <option value="Cancelled">Cancelled</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="ref-form-grid-2">
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Date *</label>
-                    <input
-                      type="date"
-                      required
-                      value={editFormData.date}
-                      onChange={(e) => setEditFormData({ ...editFormData, date: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Time Window *</label>
-                    <input
-                      type="text"
-                      required
-                      value={editFormData.time}
-                      onChange={(e) => setEditFormData({ ...editFormData, time: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="ref-form-grid-2">
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Venue / Meeting Point</label>
-                    <input
-                      type="text"
-                      value={editFormData.venue}
-                      onChange={(e) => setEditFormData({ ...editFormData, venue: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Ghat Location</label>
-                    <input
-                      type="text"
-                      value={editFormData.riverGhat}
-                      onChange={(e) => setEditFormData({ ...editFormData, riverGhat: e.target.value })}
-                      className="ref-form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="ref-form-grid-2">
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Target Volunteers</label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={editFormData.targetVolunteers}
-                      onChange={(e) =>
-                        setEditFormData({ ...editFormData, targetVolunteers: e.target.value })
-                      }
-                      className="ref-form-input"
-                    />
-                  </div>
-
-                  <div className="ref-form-field">
-                    <label className="ref-form-label">Enrolled Volunteers</label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={editFormData.enrolledVolunteersCount}
-                      onChange={(e) =>
-                        setEditFormData({ ...editFormData, enrolledVolunteersCount: e.target.value })
-                      }
-                      className="ref-form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="ref-form-field">
-                  <label className="ref-form-label">Campaign Description *</label>
-                  <textarea
-                    rows={3}
-                    required
-                    value={editFormData.description}
-                    onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
-                    className="ref-form-textarea"
-                  />
-                </div>
-              </div>
-
-              <div className="ref-modal-footer">
-                <button
-                  type="button"
-                  onClick={() => setEditingEvent(null)}
-                  className="ref-modal-btn-cancel"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="ref-modal-btn-save"
-                >
-                  {submitting ? 'Saving...' : 'Save Changes'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* =========================================================================
-          MODAL 4: DELETE CONFIRMATION (DELETE)
-          ========================================================================= */}
-      {deletingEvent && (
-        <div className="modal-backdrop">
-          <div className="ref-modal-dialog" style={{ maxWidth: '480px' }}>
-            <div className="ref-modal-header">
-              <div className="ref-modal-title-wrap">
-                <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
-                  <AlertTriangle size={18} />
-                </div>
-                <h3 className="ref-modal-title text-red-600">Delete Event Record</h3>
-              </div>
-              <button
-                onClick={() => setDeletingEvent(null)}
-                className="ref-modal-close-btn"
-                title="Close modal"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className="ref-modal-body">
-              <p className="text-slate-700 text-sm leading-relaxed">
-                Are you sure you want to permanently delete the following scheduled event?
-              </p>
-
-              <div className="bg-red-50/70 border border-red-200 rounded-xl p-3.5 flex items-start gap-3 mt-2">
-                <div className="w-9 h-9 rounded-lg bg-red-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Trash2 size={16} />
-                </div>
-                <div>
-                  <div className="font-bold text-slate-900 text-sm">
-                    {deletingEvent.title}
-                  </div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {deletingEvent.eventType} &bull; {new Date(deletingEvent.date).toLocaleDateString()}
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    {deletingEvent.location?.venue || 'Kotilingala Ghat'}
-                  </div>
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-500 mt-2">
-                This will remove the event, scheduled agenda, and volunteer enrollment records from MongoDB.
-              </p>
-            </div>
-
-            <div className="ref-modal-footer">
-              <button
-                type="button"
-                onClick={() => setDeletingEvent(null)}
-                className="ref-modal-btn-cancel"
-                disabled={submitting}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmDelete}
-                disabled={submitting}
-                className="ref-modal-btn-danger"
-              >
-                {submitting ? 'Removing...' : 'Delete Event'}
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

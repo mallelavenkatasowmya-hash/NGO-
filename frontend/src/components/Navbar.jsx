@@ -130,7 +130,7 @@ const Navbar = () => {
         {/* Brand Logo with Vertical Divider */}
         <div className="eco-brand-wrap">
           <Link to="/" className="eco-brand-link" onClick={() => setMobileMenuOpen(false)}>
-            <Logo variant="dark" size={38} />
+            <Logo variant="dark" size={32} />
           </Link>
           <span className="eco-nav-divider"></span>
         </div>
@@ -146,7 +146,7 @@ const Navbar = () => {
                   to="/"
                   className={`eco-nav-home-pill ${active ? 'active' : ''}`}
                 >
-                  <Home size={15} />
+                  <Home size={13} />
                   <span>Home</span>
                 </Link>
               );
@@ -171,7 +171,7 @@ const Navbar = () => {
                     }}
                   >
                     <span>{item.label}</span>
-                    <ChevronDown size={13} className={`eco-nav-chevron ${isOpen ? 'rotated' : ''}`} />
+                    <ChevronDown size={11} className={`eco-nav-chevron ${isOpen ? 'rotated' : ''}`} />
                   </Link>
 
                   {/* Dropdown Card */}
@@ -186,7 +186,7 @@ const Navbar = () => {
                           onClick={() => setActiveDropdown(null)}
                         >
                           <span className="eco-drop-icon-wrap">
-                            <SubIcon size={14} />
+                            <SubIcon size={13} />
                           </span>
                           <span className="eco-drop-item-text">{sub.label}</span>
                         </Link>
@@ -216,7 +216,7 @@ const Navbar = () => {
           {user && isAdmin ? (
             <div className="eco-user-actions">
               <Link to="/admin" className="btn-eco-join-pill" title="Go to Admin Dashboard">
-                <Shield size={16} />
+                <Shield size={14} />
                 <span>Admin Dashboard</span>
               </Link>
               <button
@@ -224,13 +224,13 @@ const Navbar = () => {
                 className="btn-eco-logout"
                 title="Sign Out"
               >
-                <LogOut size={15} />
+                <LogOut size={13} />
               </button>
             </div>
           ) : user && isMember ? (
             <div className="eco-user-actions">
               <Link to="/member" className="btn-eco-join-pill" title="Member Portal">
-                <User size={16} />
+                <User size={14} />
                 <span>Member Portal</span>
               </Link>
               <button
@@ -238,13 +238,13 @@ const Navbar = () => {
                 className="btn-eco-logout"
                 title="Sign Out"
               >
-                <LogOut size={15} />
+                <LogOut size={13} />
               </button>
             </div>
           ) : (
             <div className="eco-guest-actions">
               <Link to="/register" className="btn-eco-join-pill">
-                <Users size={16} />
+                <Users size={14} />
                 <span>Join Us</span>
               </Link>
             </div>

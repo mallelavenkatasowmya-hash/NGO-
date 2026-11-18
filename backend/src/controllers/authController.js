@@ -38,7 +38,18 @@ export const adminLogin = async (req, res, next) => {
       return res.status(401).json({ message: 'No administrator account found with this email or ID' });
     }
 
-    if (user.role !== 'admin') {
+    const allowedAdminRoles = [
+      'admin',
+      'super_admin',
+      'staff_coordinator',
+      'staff',
+      'Super Admin',
+      'Admin',
+      'Staff Coordinator',
+      'General Volunteer',
+    ];
+
+    if (!allowedAdminRoles.includes(user.role)) {
       return res.status(403).json({ message: 'Access denied: Account does not have administrator privileges' });
     }
 
@@ -208,11 +219,14 @@ export const updateAdminSettings = async (req, res, next) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const { name, email, phone, currentPassword, newPassword } = req.body;
+    const { name, email, phone, designation, bio, officeLocation, currentPassword, newPassword } = req.body;
 
     if (name) user.name = name.trim();
     if (email) user.email = email.trim().toLowerCase();
     if (phone) user.phone = phone.trim();
+    if (designation !== undefined) user.designation = designation.trim();
+    if (bio !== undefined) user.bio = bio.trim();
+    if (officeLocation !== undefined) user.officeLocation = officeLocation.trim();
 
     if (newPassword) {
       if (!currentPassword) {
@@ -235,6 +249,9 @@ export const updateAdminSettings = async (req, res, next) => {
         email: user.email,
         phone: user.phone,
         role: user.role,
+        designation: user.designation,
+        bio: user.bio,
+        officeLocation: user.officeLocation,
       },
     });
   } catch (error) {

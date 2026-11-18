@@ -73,6 +73,10 @@ export const createMemberByAdmin = async (req, res, next) => {
       role = 'member',
       designation = 'General Member',
       membershipType = 'Annual Member',
+      status = 'Active',
+      validTo,
+      feePaid,
+      paymentStatus = 'Paid',
       bloodGroup,
       address,
       password = 'password123',
@@ -101,18 +105,20 @@ export const createMemberByAdmin = async (req, res, next) => {
       address: address || { city: 'Rajahmundry', state: 'Andhra Pradesh' },
     });
 
-    const validUntil = new Date();
-    validUntil.setFullYear(validUntil.getFullYear() + (membershipType === 'Life Member' ? 25 : 1));
+    const defaultValidUntil = new Date();
+    defaultValidUntil.setFullYear(defaultValidUntil.getFullYear() + (membershipType === 'Life Member' ? 25 : 1));
+
+    const defaultFee = membershipType === 'Life Member' ? 5000 : (membershipType === 'Volunteer Member' ? 0 : 500);
 
     const membership = await Membership.create({
       user: user._id,
       membershipNumber: `MEM-${memberId}`,
       membershipType,
-      status: 'Active',
+      status: status || 'Active',
       validFrom: new Date(),
-      validTo: validUntil,
-      feePaid: membershipType === 'Life Member' ? 5000 : 500,
-      paymentStatus: 'Paid',
+      validTo: validTo ? new Date(validTo) : defaultValidUntil,
+      feePaid: feePaid !== undefined ? Number(feePaid) : defaultFee,
+      paymentStatus: paymentStatus || 'Paid',
       approvedBy: req.user._id,
     });
 
@@ -167,6 +173,9 @@ export const updateMemberById = async (req, res, next) => {
       address,
       membershipType,
       status,
+      validTo,
+      feePaid,
+      paymentStatus,
     } = req.body;
 
     if (name) user.name = name;
@@ -192,6 +201,9 @@ export const updateMemberById = async (req, res, next) => {
     if (membership) {
       if (membershipType) membership.membershipType = membershipType;
       if (status) membership.status = status;
+      if (validTo) membership.validTo = new Date(validTo);
+      if (feePaid !== undefined) membership.feePaid = Number(feePaid);
+      if (paymentStatus) membership.paymentStatus = paymentStatus;
       await membership.save();
     }
 

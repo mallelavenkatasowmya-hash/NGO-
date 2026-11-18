@@ -15,18 +15,22 @@ import {
   FileText,
   DollarSign,
   Users,
-  RefreshCw,
   MapPin,
   ArrowUpRight,
   Activity,
   Layers,
   Sparkles,
+  CheckCircle,
+  PieChart,
 } from 'lucide-react';
 
 const AdminReports = () => {
   const [loading, setLoading] = useState(true);
-  const [timeframe, setTimeframe] = useState('All Time');
+  const [timeframe, setTimeframe] = useState('Last 6 Months');
   const [metricFocus, setMetricFocus] = useState('All');
+  const [hoveredPoint, setHoveredPoint] = useState(null);
+  const [activeMaterial, setActiveMaterial] = useState(null);
+
   const [websiteStats, setWebsiteStats] = useState({
     cleanlinessDrives: 148,
     volunteersActive: 1280,
@@ -134,25 +138,54 @@ const AdminReports = () => {
 
   // Material composition breakdown
   const materialComposition = [
-    { label: 'Single-Use Plastic Bottles & Bags', percentage: 46, tons: 42.3, color: '#064e3b' },
+    { label: 'Single-Use Plastic Bottles & Bags', percentage: 46, tons: 42.3, color: '#047857' },
     { label: 'Pilgrim Ritual Puja Floral Waste', percentage: 28, tons: 25.7, color: '#10b981' },
     { label: 'Textile Clothes & Sacred Threads', percentage: 16, tons: 14.7, color: '#f59e0b' },
     { label: 'Glass, Metal & Construction Rubble', percentage: 10, tons: 9.2, color: '#6366f1' },
   ];
 
-  // Monthly trends (May - Oct 2026)
+  // Monthly impact trend data with SVG coordinates for dynamic charting
   const monthlyImpactTrend = [
-    { month: 'May 2026', wasteTons: 11.2, volunteers: 160, trees: 450 },
-    { month: 'Jun 2026', wasteTons: 13.5, volunteers: 195, trees: 600 },
-    { month: 'Jul 2026', wasteTons: 15.0, volunteers: 230, trees: 750 },
-    { month: 'Aug 2026', wasteTons: 16.8, volunteers: 260, trees: 820 },
-    { month: 'Sep 2026', wasteTons: 17.2, volunteers: 280, trees: 880 },
-    { month: 'Oct 2026', wasteTons: 18.3, volunteers: 310, trees: 950 },
+    { month: 'May', wasteTons: 11.2, volunteers: 160, trees: 450, x: 65, y: 145 },
+    { month: 'Jun', wasteTons: 13.5, volunteers: 195, trees: 600, x: 155, y: 125 },
+    { month: 'Jul', wasteTons: 15.0, volunteers: 230, trees: 750, x: 245, y: 108 },
+    { month: 'Aug', wasteTons: 16.8, volunteers: 260, trees: 820, x: 335, y: 82 },
+    { month: 'Sep', wasteTons: 17.2, volunteers: 280, trees: 880, x: 425, y: 72 },
+    { month: 'Oct', wasteTons: 18.3, volunteers: 310, trees: 950, x: 515, y: 50 },
   ];
+
+  // SVG Spline curve calculation
+  const svgLinePath = 'M 65 145 C 110 135, 120 128, 155 125 C 200 120, 210 110, 245 108 C 290 102, 300 86, 335 82 C 380 78, 390 74, 425 72 C 470 68, 485 52, 515 50';
+  const svgAreaPath = `${svgLinePath} L 515 190 L 65 190 Z`;
+
+  // Circumference for Donut Chart (Radius = 65)
+  const donutRadius = 65;
+  const donutCircumference = 2 * Math.PI * donutRadius; // ~408.4
+
+  let cumulativePercent = 0;
+  const donutSegments = materialComposition.map((item) => {
+    const strokeDasharray = `${(donutCircumference * item.percentage) / 100} ${donutCircumference}`;
+    const strokeDashoffset = -((donutCircumference * cumulativePercent) / 100);
+    cumulativePercent += item.percentage;
+    return {
+      ...item,
+      strokeDasharray,
+      strokeDashoffset,
+    };
+  });
 
   // CSV Export feature
   const exportToCSV = () => {
-    const headers = ['Ghat Name', 'Location', 'Waste Removed (Tons)', 'Drives Conducted', 'Volunteers Mobilized', 'Cleanliness Score (%)', 'Audit Status', 'Last Audit Date'];
+    const headers = [
+      'Ghat Name',
+      'Location',
+      'Waste Removed (Tons)',
+      'Drives Conducted',
+      'Volunteers Mobilized',
+      'Cleanliness Score (%)',
+      'Audit Status',
+      'Last Audit Date',
+    ];
     const rows = ghatAuditData.map((g) => [
       `"${g.name}"`,
       `"${g.location}"`,
@@ -164,11 +197,12 @@ const AdminReports = () => {
       `"${g.lastAudit}"`,
     ]);
 
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const csvContent =
+      'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `Godhavari_NGO_Ghat_Cleanliness_Report_${new Date().getFullYear()}.csv`);
+    link.setAttribute('download', `Godhavari_NGO_Environmental_Report_${new Date().getFullYear()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -179,43 +213,31 @@ const AdminReports = () => {
   };
 
   return (
-    <div className="eco-cms-page eco-reports-print-container">
-      {/* 1. Header Row */}
-      <div className="eco-cms-header-row no-print">
-        <div className="eco-cms-header-info">
-          <div className="eco-cms-badge-row">
-            <span className="eco-cms-live-badge">
-              <span className="live-dot-pulse"></span>
-              Audited Environmental & Impact Analytics &bull; MongoDB Synced
-            </span>
+    <div className="reports-page">
+      {/* 1. Header Matching Admin Theme */}
+      <div className="ref-members-header no-print">
+        <div className="ref-header-left">
+          <div className="ref-header-icon-box">
+            <BarChart3 size={24} />
           </div>
-          <h1 className="eco-cms-main-title">Reports & Environmental Impact Analytics</h1>
-          <p className="eco-cms-sub-title">
-            Comprehensive audit reports tracking river plastic eradication tonnage, ghat restorations, volunteer turnout, and membership contributions.
-          </p>
+          <div className="ref-header-text">
+            <h2>Environmental Impact Analytics</h2>
+            <p>Real-time audited riverfront performance, plastic extraction tonnage, and reforestation trends.</p>
+          </div>
         </div>
 
-        <div className="eco-cms-header-actions">
-          <button
-            onClick={fetchData}
-            className="eco-cms-btn-secondary"
-            disabled={loading}
-            title="Reload reports data"
-          >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Refresh</span>
-          </button>
+        <div className="ref-header-actions">
           <button
             onClick={handlePrint}
-            className="eco-cms-btn-secondary"
-            title="Print this analytical report"
+            className="ref-btn-refresh"
+            title="Print or save as PDF report"
           >
             <Printer size={15} />
             <span>Print Report</span>
           </button>
           <button
             onClick={exportToCSV}
-            className="eco-cms-btn-primary"
+            className="ref-btn-enroll"
             title="Export full dataset to CSV spreadsheet"
           >
             <Download size={15} />
@@ -224,329 +246,495 @@ const AdminReports = () => {
         </div>
       </div>
 
-      {/* 2. Interactive Filter Bar */}
+      {/* 2. Interactive Analytical Filter Bar */}
       <section className="eco-memberships-filter-card no-print">
         <div className="eco-filter-left">
-          <span className="font-bold text-slate-800 text-sm flex items-center gap-1.5">
+          <span style={{ fontWeight: 700, color: '#0f172a', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
             <Activity size={16} className="text-emerald-700" />
-            <span>Analytical Filter:</span>
+            <span>Reporting Interval:</span>
           </span>
           <div className="eco-filter-group">
-            <label className="eco-filter-label">Reporting Period:</label>
             <select
               value={timeframe}
               onChange={(e) => setTimeframe(e.target.value)}
               className="eco-filter-select"
             >
+              <option value="Last 6 Months">Last 6 Months (May - Oct 2026)</option>
+              <option value="Year 2026">Year 2026 (Annual)</option>
               <option value="All Time">All-Time Cumulative</option>
-              <option value="Year 2026">Year 2026 (YTD)</option>
-              <option value="Current Quarter">Q4 2026 (Oct - Dec)</option>
-              <option value="Last 30 Days">Last 30 Days</option>
             </select>
           </div>
         </div>
 
         <div className="eco-filter-right">
           <div className="eco-filter-group">
-            <label className="eco-filter-label">Dimension Focus:</label>
+            <label className="eco-filter-label">Focus Area:</label>
             <select
               value={metricFocus}
               onChange={(e) => setMetricFocus(e.target.value)}
               className="eco-filter-select"
             >
               <option value="All">All Impact Dimensions</option>
-              <option value="Ghats">Ghat Restoration Audits</option>
-              <option value="Waste">Waste Material Composition</option>
-              <option value="Membership">Membership & Financials</option>
+              <option value="Ghats">River Ghat Audits</option>
+              <option value="Waste">Waste Material Analytics</option>
+              <option value="Membership">Financial Stewardship</option>
             </select>
           </div>
         </div>
       </section>
 
-      {/* 3. Executive KPI Impact Strip (5 Horizontal Cards) */}
-      <section className="eco-kpi-5-strip">
-        {/* Card 1: Solid Waste Removed */}
-        <div className="eco-stat-card eco-stat-green">
-          <div className="eco-stat-icon-bubble bg-green-bubble">
-            <Recycle size={22} className="text-green-icon" />
+      {/* 3. 5 KPI Executive Cards */}
+      <div className="reports-kpi-grid">
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-green">
+            <Recycle size={20} />
           </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Waste Eradicated</span>
-            <div className="eco-stat-number">{websiteStats.wasteRemovedTons} Tons</div>
-            <span className="eco-stat-trend text-trend-green">↑ 184,000 lbs Intercepted</span>
-          </div>
-        </div>
-
-        {/* Card 2: Ghats Cleaned & Restored */}
-        <div className="eco-stat-card eco-stat-blue">
-          <div className="eco-stat-icon-bubble bg-blue-bubble">
-            <Waves size={22} className="text-blue-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Ghats Restored</span>
-            <div className="eco-stat-number">{websiteStats.ghatsCleaned} Ghats</div>
-            <span className="eco-stat-trend text-blue-icon">100% Monitored</span>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{websiteStats.wasteRemovedTons} Tons</span>
+            <span className="ref-kpi-label">Waste Eradicated</span>
+            <span style={{ fontSize: '0.72rem', color: '#059669', fontWeight: 600, marginTop: '2px' }}>
+              ↑ 184,000 lbs Intercepted
+            </span>
           </div>
         </div>
 
-        {/* Card 3: Trees Planted */}
-        <div className="eco-stat-card eco-stat-teal">
-          <div className="eco-stat-icon-bubble bg-teal-bubble">
-            <TreePine size={22} className="text-teal-icon" />
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-blue">
+            <Waves size={20} />
           </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Trees Planted</span>
-            <div className="eco-stat-number">{websiteStats.treesPlanted.toLocaleString()}</div>
-            <span className="eco-stat-trend text-teal-icon">Riparian Buffer Zone</span>
-          </div>
-        </div>
-
-        {/* Card 4: Cleanliness Drives */}
-        <div className="eco-stat-card eco-stat-orange">
-          <div className="eco-stat-icon-bubble bg-orange-bubble">
-            <ShieldCheck size={22} className="text-orange-icon" />
-          </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Cleanliness Drives</span>
-            <div className="eco-stat-number">{websiteStats.cleanlinessDrives}</div>
-            <span className="eco-stat-trend text-orange-icon">Completed Successfully</span>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{websiteStats.ghatsCleaned} Ghats</span>
+            <span className="ref-kpi-label">Ghats Restored</span>
+            <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: 600, marginTop: '2px' }}>
+              100% Monitored
+            </span>
           </div>
         </div>
 
-        {/* Card 5: Membership Revenue */}
-        <div className="eco-stat-card eco-stat-purple">
-          <div className="eco-stat-icon-bubble bg-purple-bubble">
-            <DollarSign size={22} className="text-purple-icon" />
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-green">
+            <TreePine size={20} />
           </div>
-          <div className="eco-stat-details">
-            <span className="eco-stat-label">Fees & Support</span>
-            <div className="eco-stat-number">₹{totalFees.toLocaleString()}</div>
-            <span className="eco-stat-trend text-purple-icon">{activeMembers} Active Members</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Two-Column Analytics Section: Ghat Performance Audit & Waste Composition */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {/* Left Column (2 spans): Ghat Cleanliness Audit Cards */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="eco-table-card">
-            <div className="eco-card-header-bar">
-              <div>
-                <h3 className="eco-card-header-title">
-                  <Waves size={18} className="text-emerald-700" />
-                  <span>River Ghat Cleanliness & Environmental Audit</span>
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Field evaluations across major pilgrim ghats along the Godavari riverbank.
-                </p>
-              </div>
-              <span className="eco-id-tag">5 Strategic Reaches</span>
-            </div>
-
-            <div className="p-4 space-y-4">
-              {ghatAuditData.map((ghat) => (
-                <div
-                  key={ghat.name}
-                  className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-xl hover:bg-white hover:shadow-sm transition-all"
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <div>
-                      <div className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
-                        <MapPin size={13} className="text-emerald-700" />
-                        <span>{ghat.name}</span>
-                      </div>
-                      <span className="text-xs text-slate-500">{ghat.location}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <span className="eco-tier-pill eco-tier-volunteer">
-                        {ghat.status}
-                      </span>
-                      <span className="font-bold text-emerald-800 text-sm bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                        {ghat.cleanlinessScore}% Clean
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Progress Score Bar */}
-                  <div className="eco-progress-track mb-2.5">
-                    <div
-                      className="eco-progress-bar"
-                      style={{ width: `${ghat.cleanlinessScore}%` }}
-                    ></div>
-                  </div>
-
-                  {/* Metrics Row */}
-                  <div className="flex flex-wrap items-center justify-between text-xs text-slate-600 gap-y-1">
-                    <span>
-                      <strong>Waste Removed:</strong> {ghat.wasteTons} Tons
-                    </span>
-                    <span>&bull;</span>
-                    <span>
-                      <strong>Cleanliness Drives:</strong> {ghat.drivesConducted}
-                    </span>
-                    <span>&bull;</span>
-                    <span>
-                      <strong>Volunteers Mobilized:</strong> {ghat.volunteersMobilized}
-                    </span>
-                    <span>&bull;</span>
-                    <span className="text-slate-400">
-                      Audit: {ghat.lastAudit}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Monthly Waste Interception & Volunteer Growth Bar Visualizer */}
-          <div className="eco-table-card">
-            <div className="eco-card-header-bar">
-              <div>
-                <h3 className="eco-card-header-title">
-                  <TrendingUp size={18} className="text-emerald-700" />
-                  <span>Monthly Waste Interception & Reforestation Progress</span>
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Consolidated monthly statistics of waste extraction vs trees planted (May - Oct 2026).
-                </p>
-              </div>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
-                +63.4% Growth Rate
-              </span>
-            </div>
-
-            <div className="p-5">
-              <div className="grid grid-cols-2 sm:grid-cols-6 gap-3 text-center">
-                {monthlyImpactTrend.map((m) => (
-                  <div key={m.month} className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <span className="text-xs font-bold text-slate-500 block mb-1">
-                      {m.month.split(' ')[0]}
-                    </span>
-                    <div className="text-lg font-black text-slate-800">
-                      {m.wasteTons}T
-                    </div>
-                    <span className="text-xs text-emerald-700 font-semibold block">
-                      +{m.trees} Trees
-                    </span>
-                    <span className="text-[11px] text-slate-400 block mt-0.5">
-                      {m.volunteers} Vol.
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{websiteStats.treesPlanted.toLocaleString()}</span>
+            <span className="ref-kpi-label">Trees Planted</span>
+            <span style={{ fontSize: '0.72rem', color: '#059669', fontWeight: 600, marginTop: '2px' }}>
+              Riparian Buffer Zone
+            </span>
           </div>
         </div>
 
-        {/* Right Column (1 span): Waste Composition & Membership Breakdown */}
-        <div className="space-y-4">
-          {/* Waste Composition Breakdown */}
-          <div className="eco-table-card">
-            <div className="eco-card-header-bar">
-              <div>
-                <h3 className="eco-card-header-title">
-                  <Recycle size={18} className="text-emerald-700" />
-                  <span>Waste Material Profile</span>
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Categorized breakdown of 92 Tons removed from river ghats.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-5 space-y-4">
-              {/* Stacked Percentage Visual Bar */}
-              <div className="w-full h-4 rounded-full overflow-hidden flex bg-slate-100 shadow-inner">
-                {materialComposition.map((item) => (
-                  <div
-                    key={item.label}
-                    style={{
-                      width: `${item.percentage}%`,
-                      backgroundColor: item.color,
-                    }}
-                    title={`${item.label}: ${item.percentage}% (${item.tons} Tons)`}
-                  ></div>
-                ))}
-              </div>
-
-              {/* Legend List */}
-              <div className="space-y-3 pt-2">
-                {materialComposition.map((item) => (
-                  <div key={item.label} className="flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="w-3 h-3 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: item.color }}
-                      ></span>
-                      <span className="font-semibold text-slate-700">{item.label}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-bold text-slate-900">{item.percentage}%</span>
-                      <span className="text-slate-400 ml-1.5 font-medium">({item.tons}T)</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="p-3 bg-emerald-50/70 border border-emerald-200 rounded-lg text-xs text-emerald-800 flex items-start gap-2">
-                <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0 mt-0.5" />
-                <span>
-                  <strong>100% Eco-Compliance:</strong> All segregated plastics are baled and transferred to certified municipal recycling plants in Rajahmundry.
-                </span>
-              </div>
-            </div>
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-orange">
+            <ShieldCheck size={20} />
           </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">{websiteStats.cleanlinessDrives}</span>
+            <span className="ref-kpi-label">Cleanliness Drives</span>
+            <span style={{ fontSize: '0.72rem', color: '#d97706', fontWeight: 600, marginTop: '2px' }}>
+              Completed Successfully
+            </span>
+          </div>
+        </div>
 
-          {/* Membership & Financial Stewardship Card */}
-          <div className="eco-table-card">
-            <div className="eco-card-header-bar">
-              <div>
-                <h3 className="eco-card-header-title">
-                  <DollarSign size={18} className="text-emerald-700" />
-                  <span>Financial Stewardship</span>
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Membership subscription fees & fund deployment.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-5 space-y-3.5 text-xs">
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Total Registered Members:</span>
-                <span className="font-bold text-slate-900">{totalMembers} Members</span>
-              </div>
-
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Active Membership Standing:</span>
-                <span className="font-bold text-emerald-700">{activeMembers} Active (100%)</span>
-              </div>
-
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Total Subscription Collected:</span>
-                <span className="font-bold text-slate-900 text-sm">₹{totalFees.toLocaleString()}</span>
-              </div>
-
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">River Safety Gear Utilization:</span>
-                <span className="font-bold text-slate-900">82% Budget Deployed</span>
-              </div>
-
-              <div className="flex justify-between py-1.5">
-                <span className="text-slate-600">External Regulatory Audit:</span>
-                <span className="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
-                  Passed / Clean
-                </span>
-              </div>
-            </div>
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-purple">
+            <DollarSign size={20} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">₹{totalFees.toLocaleString()}</span>
+            <span className="ref-kpi-label">Fees & Support</span>
+            <span style={{ fontSize: '0.72rem', color: '#9333ea', fontWeight: 600, marginTop: '2px' }}>
+              {activeMembers} Active Members
+            </span>
           </div>
         </div>
       </div>
+
+      {/* 4. REAL-TIME INTERACTIVE GRAPHS SECTION */}
+      {(metricFocus === 'All' || metricFocus === 'Waste') && (
+        <div className="reports-two-col">
+          {/* GRAPH 1: Dual-Axis Area & Volume Chart */}
+          <div className="reports-card">
+            <div className="reports-card-header">
+              <div className="reports-card-title-wrap">
+                <h3 className="reports-card-title">
+                  <TrendingUp size={18} className="text-emerald-700" />
+                  <span>Monthly Waste Interception & Volunteer Mobilization</span>
+                </h3>
+                <p className="reports-card-subtitle">
+                  Real-time trend analysis comparing extracted waste tonnage against active volunteer turnout.
+                </p>
+              </div>
+
+              {/* Chart Legend */}
+              <div className="reports-chart-legend">
+                <span className="reports-legend-pill">
+                  <span className="reports-legend-color-dot" style={{ backgroundColor: '#059669' }}></span>
+                  <span>Waste (Tons)</span>
+                </span>
+                <span className="reports-legend-pill">
+                  <span className="reports-legend-color-dot" style={{ backgroundColor: '#93c5fd' }}></span>
+                  <span>Volunteers</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="reports-card-body">
+              <div className="reports-chart-wrap">
+                {/* Active Tooltip Callout */}
+                {hoveredPoint && (
+                  <div className="reports-chart-tooltip">
+                    <strong>{hoveredPoint.month} 2026 Audit</strong>
+                    <span>🗑️ Waste Removed: <strong>{hoveredPoint.wasteTons} Tons</strong></span>
+                    <span>👥 Volunteers: <strong>{hoveredPoint.volunteers} Active</strong></span>
+                    <span>🌱 Trees Planted: <strong>+{hoveredPoint.trees} Saplings</strong></span>
+                  </div>
+                )}
+
+                <svg
+                  className="reports-area-chart-svg"
+                  viewBox="0 0 580 220"
+                  preserveAspectRatio="none"
+                >
+                  <defs>
+                    <linearGradient id="reportsAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" stopOpacity="0.38" />
+                      <stop offset="60%" stopColor="#10b981" stopOpacity="0.10" />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Horizontal Grid lines */}
+                  <line x1="45" y1="50" x2="550" y2="50" stroke="#f1f5f9" strokeDasharray="3 3" />
+                  <line x1="45" y1="85" x2="550" y2="85" stroke="#f1f5f9" strokeDasharray="3 3" />
+                  <line x1="45" y1="120" x2="550" y2="120" stroke="#f1f5f9" strokeDasharray="3 3" />
+                  <line x1="45" y1="155" x2="550" y2="155" stroke="#f1f5f9" strokeDasharray="3 3" />
+                  <line x1="45" y1="190" x2="550" y2="190" stroke="#e2e8f0" />
+
+                  {/* Y Axis Labels */}
+                  <text x="36" y="54" className="chart-axis-label" textAnchor="end">20T</text>
+                  <text x="36" y="89" className="chart-axis-label" textAnchor="end">15T</text>
+                  <text x="36" y="124" className="chart-axis-label" textAnchor="end">10T</text>
+                  <text x="36" y="159" className="chart-axis-label" textAnchor="end">5T</text>
+                  <text x="36" y="193" className="chart-axis-label" textAnchor="end">0T</text>
+
+                  {/* Dual Bar: Volunteer volume bars behind the area */}
+                  {monthlyImpactTrend.map((m) => {
+                    const barHeight = (m.volunteers / 350) * 120;
+                    return (
+                      <rect
+                        key={m.month + '-bar'}
+                        x={m.x - 14}
+                        y={190 - barHeight}
+                        width="28"
+                        height={barHeight}
+                        rx="4"
+                        fill="#e0f2fe"
+                        style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
+                        onMouseEnter={() => setHoveredPoint(m)}
+                        onMouseLeave={() => setHoveredPoint(null)}
+                      />
+                    );
+                  })}
+
+                  {/* Filled Area Gradient */}
+                  <path d={svgAreaPath} fill="url(#reportsAreaGradient)" />
+
+                  {/* Smooth Spline Curve Line */}
+                  <path
+                    d={svgLinePath}
+                    fill="none"
+                    stroke="#059669"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+
+                  {/* Data Points */}
+                  {monthlyImpactTrend.map((pt) => {
+                    const isHovered = hoveredPoint?.month === pt.month;
+                    return (
+                      <g
+                        key={pt.month}
+                        style={{ cursor: 'pointer' }}
+                        onMouseEnter={() => setHoveredPoint(pt)}
+                        onMouseLeave={() => setHoveredPoint(null)}
+                      >
+                        <circle
+                          cx={pt.x}
+                          cy={pt.y}
+                          r={isHovered ? '7' : '4.5'}
+                          fill={isHovered ? '#047857' : '#10b981'}
+                          stroke="#ffffff"
+                          strokeWidth={isHovered ? '3' : '2'}
+                          style={{ transition: 'all 0.15s ease' }}
+                        />
+                        <text
+                          x={pt.x}
+                          y="207"
+                          textAnchor="middle"
+                          className="chart-month-label"
+                          style={{ fontWeight: isHovered ? '700' : '600', fill: isHovered ? '#0f172a' : '#64748b' }}
+                        >
+                          {pt.month}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              </div>
+
+              {/* Monthly Stats Strip */}
+              <div className="reports-monthly-grid" style={{ marginTop: '0.75rem' }}>
+                {monthlyImpactTrend.map((m) => (
+                  <div
+                    key={m.month}
+                    className="reports-monthly-cell"
+                    style={{
+                      borderColor: hoveredPoint?.month === m.month ? '#10b981' : '#e2e8f0',
+                      backgroundColor: hoveredPoint?.month === m.month ? '#f0fdf4' : '#f8fafc',
+                      cursor: 'pointer',
+                    }}
+                    onMouseEnter={() => setHoveredPoint(m)}
+                    onMouseLeave={() => setHoveredPoint(null)}
+                  >
+                    <div className="reports-monthly-month">{m.month}</div>
+                    <div className="reports-monthly-tons">{m.wasteTons}T</div>
+                    <div className="reports-monthly-trees">+{m.trees} Trees</div>
+                    <div className="reports-monthly-vol">{m.volunteers} Vol.</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* GRAPH 2: SVG Donut Chart for Waste Material Composition */}
+          <div className="reports-card">
+            <div className="reports-card-header">
+              <div className="reports-card-title-wrap">
+                <h3 className="reports-card-title">
+                  <PieChart size={18} className="text-emerald-700" />
+                  <span>Waste Material Composition Breakdown</span>
+                </h3>
+                <p className="reports-card-subtitle">
+                  Audited material characterization across 92 extracted tons.
+                </p>
+              </div>
+              <span className="text-xs font-semibold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+                100% Segregated
+              </span>
+            </div>
+
+            <div className="reports-card-body">
+              {/* Circular SVG Donut Visualizer */}
+              <div className="reports-donut-wrap">
+                <svg className="reports-donut-svg" viewBox="0 0 180 180">
+                  <g transform="rotate(-90 90 90)">
+                    {donutSegments.map((seg) => {
+                      const isHovered = activeMaterial?.label === seg.label;
+                      return (
+                        <circle
+                          key={seg.label}
+                          cx="90"
+                          cy="90"
+                          r={donutRadius}
+                          fill="none"
+                          stroke={seg.color}
+                          strokeWidth={isHovered ? '24' : '18'}
+                          strokeDasharray={seg.strokeDasharray}
+                          strokeDashoffset={seg.strokeDashoffset}
+                          style={{
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                          }}
+                          onMouseEnter={() => setActiveMaterial(seg)}
+                          onMouseLeave={() => setActiveMaterial(null)}
+                        />
+                      );
+                    })}
+                  </g>
+
+                  {/* Donut Center Display */}
+                  <text x="90" y="86" className="reports-donut-center-num">
+                    {activeMaterial ? `${activeMaterial.percentage}%` : '92T'}
+                  </text>
+                  <text x="90" y="102" className="reports-donut-center-lbl">
+                    {activeMaterial ? activeMaterial.tons + ' Tons' : 'Total Intercepted'}
+                  </text>
+                </svg>
+
+                {/* Legend List */}
+                <div className="reports-material-list" style={{ flex: 1, minWidth: '180px' }}>
+                  {materialComposition.map((item) => (
+                    <div
+                      key={item.label}
+                      className="reports-material-item"
+                      style={{
+                        padding: '0.35rem 0.5rem',
+                        borderRadius: '6px',
+                        backgroundColor: activeMaterial?.label === item.label ? '#f8fafc' : 'transparent',
+                        cursor: 'pointer',
+                      }}
+                      onMouseEnter={() => setActiveMaterial(item)}
+                      onMouseLeave={() => setActiveMaterial(null)}
+                    >
+                      <div className="reports-material-label">
+                        <span
+                          className="reports-material-dot"
+                          style={{ backgroundColor: item.color }}
+                        ></span>
+                        <span style={{ fontSize: '0.78rem' }}>{item.label}</span>
+                      </div>
+                      <div style={{ whiteSpace: 'nowrap' }}>
+                        <span className="reports-material-val">{item.percentage}%</span>
+                        <span className="reports-material-tons">({item.tons}T)</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Eco-Compliance Badge */}
+              <div className="reports-compliance-banner">
+                <CheckCircle size={16} className="text-emerald-600" style={{ flexShrink: 0, marginTop: '1px' }} />
+                <span>
+                  <strong>100% Eco-Compliance:</strong> All segregated plastics are baled and transferred to certified municipal recycling facilities in Rajahmundry.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. Section 2: Riverfront Ghat Cleanliness & Environmental Audit Table */}
+      {(metricFocus === 'All' || metricFocus === 'Ghats') && (
+        <div className="reports-card">
+          <div className="reports-card-header">
+            <div className="reports-card-title-wrap">
+              <h3 className="reports-card-title">
+                <Waves size={18} className="text-emerald-700" />
+                <span>Riverfront Ghat Cleanliness & Environmental Audits</span>
+              </h3>
+              <p className="reports-card-subtitle">
+                Field evaluations and plastic eradication metrics across major pilgrim ghats along the Godavari riverbank.
+              </p>
+            </div>
+            <span className="eco-tier-pill eco-tier-volunteer">
+              5 Strategic Reaches Audited
+            </span>
+          </div>
+
+          <div className="ref-table-responsive">
+            <table className="ref-table">
+              <thead>
+                <tr>
+                  <th style={{ width: '28%' }}>Ghat Reach & Location</th>
+                  <th style={{ width: '18%' }}>Cleanliness Score</th>
+                  <th style={{ width: '16%' }}>Audit Status</th>
+                  <th style={{ width: '13%' }}>Waste Removed</th>
+                  <th style={{ width: '12%' }}>Drives Held</th>
+                  <th style={{ width: '13%' }}>Volunteers</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ghatAuditData.map((ghat) => (
+                  <tr key={ghat.name}>
+                    <td>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <strong style={{ fontSize: '0.84rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                          <MapPin size={13} className="text-emerald-700" />
+                          {ghat.name}
+                        </strong>
+                        <span style={{ fontSize: '0.74rem', color: '#64748b', marginTop: '2px' }}>
+                          {ghat.location}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="reports-score-pill">
+                        <span style={{ fontWeight: 700, color: '#047857', fontSize: '0.82rem', minWidth: '32px' }}>
+                          {ghat.cleanlinessScore}%
+                        </span>
+                        <div className="reports-score-track">
+                          <div
+                            className="reports-score-bar"
+                            style={{ width: `${ghat.cleanlinessScore}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="eco-tier-pill eco-tier-annual">
+                        {ghat.status}
+                      </span>
+                    </td>
+                    <td>
+                      <span style={{ fontWeight: 600, color: '#0f172a' }}>{ghat.wasteTons} Tons</span>
+                    </td>
+                    <td>
+                      <span style={{ color: '#475569' }}>{ghat.drivesConducted} Drives</span>
+                    </td>
+                    <td>
+                      <span style={{ color: '#475569' }}>{ghat.volunteersMobilized} Vol.</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* 6. Section 3: Financial & Operational Stewardship Summary */}
+      {(metricFocus === 'All' || metricFocus === 'Membership') && (
+        <div className="reports-card">
+          <div className="reports-card-header">
+            <div className="reports-card-title-wrap">
+              <h3 className="reports-card-title">
+                <DollarSign size={18} className="text-emerald-700" />
+                <span>Financial & Operational Stewardship</span>
+              </h3>
+              <p className="reports-card-subtitle">
+                Membership subscription fee deployment, riverfront safety gear procurement, and external audit clearance.
+              </p>
+            </div>
+            <span className="eco-tier-pill eco-tier-patron">
+              Audited FY 2026
+            </span>
+          </div>
+
+          <div className="reports-card-body">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Total Subscriptions Collected</span>
+                <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', display: 'block', marginTop: '0.25rem' }}>₹{totalFees.toLocaleString()}</span>
+                <span style={{ fontSize: '0.72rem', color: '#059669', fontWeight: 600 }}>100% Reinvested into River Cleanliness</span>
+              </div>
+
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Active Members in Good Standing</span>
+                <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', display: 'block', marginTop: '0.25rem' }}>{activeMembers} / {totalMembers}</span>
+                <span style={{ fontSize: '0.72rem', color: '#2563eb', fontWeight: 600 }}>100% Verified Profiles</span>
+              </div>
+
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Safety Gear & Vessel Allocation</span>
+                <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', display: 'block', marginTop: '0.25rem' }}>82%</span>
+                <span style={{ fontSize: '0.72rem', color: '#d97706', fontWeight: 600 }}>Lifejackets, Netting, Gloves & Boats</span>
+              </div>
+
+              <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600, display: 'block' }}>Municipal Regulatory Compliance</span>
+                <span style={{ fontSize: '1.15rem', fontWeight: 800, color: '#047857', display: 'block', marginTop: '0.45rem' }}>Passed / Certified Clean</span>
+                <span style={{ fontSize: '0.72rem', color: '#64748b' }}>Municipal Corporation of Rajahmundry</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default AdminReports;
-

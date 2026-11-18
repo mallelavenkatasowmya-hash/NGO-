@@ -44,7 +44,7 @@ const Home = () => {
 
   return (
     <div className="eco-home-wrapper">
-      {/* 1. HERO SECTION - High-Res Godavari Panorama with Female Hands */}
+      {/* 1. HERO SECTION - Ultra-HD Godavari Panorama with Live Vector Typography */}
       <section className="eco-hero-master-section">
         <div className="eco-hero-canvas-wrapper">
           <div className="eco-hero-canvas-inner">
@@ -55,7 +55,7 @@ const Home = () => {
               loading="eager"
             />
 
-            {/* Live Vector Typography & CTAs (100% Crystal-Clear, Razor Sharp, Zero Blur) */}
+            {/* Live Vector Typography & CTAs (100% Vector Crisp, Zero Blur) */}
             <div className="eco-hero-content-overlay">
               <div className="eco-hero-text-block">
                 <h1 className="eco-hero-main-title">
@@ -68,12 +68,12 @@ const Home = () => {
 
                 <div className="eco-hero-buttons-overlay">
                   <Link to="/activities" className="btn-hero-primary-green">
-                    <Leaf size={18} className="btn-hero-icon" />
+                    <Leaf size={17} className="btn-hero-icon" />
                     <span>Explore Our Activities</span>
-                    <ArrowRight size={16} className="btn-hero-arrow" />
+                    <ArrowRight size={15} className="btn-hero-arrow" />
                   </Link>
                   <Link to="/register" className="btn-hero-outline-green">
-                    <Users size={18} className="btn-hero-icon" />
+                    <Users size={17} className="btn-hero-icon" />
                     <span>Join Our Mission</span>
                   </Link>
                 </div>

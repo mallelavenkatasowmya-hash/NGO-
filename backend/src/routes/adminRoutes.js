@@ -34,6 +34,15 @@ import {
   getAllNotifications,
 } from '../controllers/notificationController.js';
 import {
+  getAuditLogs,
+  createAuditLog,
+} from '../controllers/auditController.js';
+import {
+  getRbacOverview,
+  assignUserAccess,
+  updateUserStatus,
+} from '../controllers/rbacController.js';
+import {
   getAdminStats,
   getWebsiteContent,
   updateWebsiteContent,
@@ -58,6 +67,7 @@ router.route('/members').get(getAllMembers).post(createMemberByAdmin);
 router
   .route('/members/:id')
   .get(getMemberById)
+  .put(updateMemberById)
   .patch(updateMemberById)
   .delete(deleteMemberById);
 router.patch('/members/:id/membership', updateMembershipStatus);
@@ -76,9 +86,17 @@ router.route('/meetings/:id').patch(updateMeeting).delete(deleteMeeting);
 
 // Announcements CRUD
 router.route('/announcements').get(getAllAnnouncements).post(createAnnouncement);
-router.route('/announcements/:id').patch(updateAnnouncement).delete(deleteAnnouncement);
+router.route('/announcements/:id').patch(updateAnnouncement).put(updateAnnouncement).delete(deleteAnnouncement);
 
 // Notifications
 router.route('/notifications').get(getAllNotifications).post(sendNotification);
+
+// Live Audit Logs (Real-time admin actions)
+router.route('/audit-logs').get(getAuditLogs).post(createAuditLog);
+
+// Role-Based Access Control (RBAC) System
+router.get('/rbac/overview', getRbacOverview);
+router.post('/rbac/assign', assignUserAccess);
+router.patch('/rbac/users/:id/status', updateUserStatus);
 
 export default router;

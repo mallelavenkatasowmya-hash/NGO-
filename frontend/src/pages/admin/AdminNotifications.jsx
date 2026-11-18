@@ -109,31 +109,19 @@ const AdminNotifications = () => {
 
   return (
     <div className="eco-cms-page">
-      {/* 1. Header Row */}
+      {/* 1. Header Row (No Refresh Button) */}
       <div className="eco-cms-header-row">
         <div className="eco-cms-header-info">
           <div className="eco-cms-badge-row">
             <span className="eco-cms-live-badge">
               <span className="live-dot-pulse"></span>
-              Real-Time Member Broadcast Engine &bull; MongoDB Live
+              Live Dispatch Channel &bull; Member Communications
             </span>
           </div>
-          <h1 className="eco-cms-main-title">Member Notifications Dispatcher</h1>
+          <h1 className="eco-cms-main-title">Broadcasts & Member Alerts</h1>
           <p className="eco-cms-sub-title">
-            Send real-time alerts, cleanup drive assembly reminders, and circular updates directly to registered member devices.
+            Dispatch real-time announcements, cleanup drive assembly reminders, and urgent community circulars directly to registered members.
           </p>
-        </div>
-
-        <div className="eco-cms-header-actions">
-          <button
-            onClick={fetchNotifications}
-            className="eco-cms-btn-secondary"
-            disabled={loading}
-            title="Reload notification history"
-          >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Refresh Log</span>
-          </button>
         </div>
       </div>
 

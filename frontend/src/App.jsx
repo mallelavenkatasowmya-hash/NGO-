@@ -104,7 +104,7 @@ function App() {
           >
             <Route index element={<AdminDashboard />} />
             <Route path="members" element={<AdminMembers />} />
-            <Route path="memberships" element={<AdminMemberships />} />
+            <Route path="memberships" element={<Navigate to="/admin/members" replace />} />
             <Route path="events" element={<AdminEvents />} />
             <Route path="meetings" element={<AdminMeetings />} />
             <Route path="announcements" element={<AdminAnnouncements />} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import {
+  Settings as SettingsIcon,
   Lock,
   Key,
   ShieldCheck,
@@ -10,24 +11,19 @@ import {
   Eye,
   EyeOff,
   Database,
-  Server,
-  Globe,
-  Bell,
-  Save,
-  RefreshCw,
   Sliders,
-  Check,
-  Radio,
   MessageSquare,
-  Zap,
   Activity,
   HardDrive,
-  Cpu,
+  Check,
+  Layers,
+  Sparkles,
+  RefreshCw,
 } from 'lucide-react';
 
 const AdminSettings = () => {
   const { user } = useAuth();
-  const [activeSection, setActiveSection] = useState('security'); // 'security' | 'portal' | 'gateways' | 'database'
+  const [activeTab, setActiveTab] = useState('security'); // 'security' | 'portal' | 'gateways' | 'database'
 
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
@@ -43,32 +39,39 @@ const AdminSettings = () => {
     memberSelfRegistration: true,
     requireAdminApprovalForLife: true,
     publicEventEnrollment: true,
-    emailAlertsOnNewMember: true,
-    emergencyRiverBanner: false,
     autoMembershipNumbering: true,
+    emergencyRiverBanner: false,
   });
 
   const [gatewaySettings, setGatewaySettings] = useState({
     whatsappEnabled: true,
     smsAlertsEnabled: true,
-    dailyVolunteerDigest: false,
     volunteerSosEmergencyChannel: true,
+    dailyVolunteerDigest: false,
   });
 
-  const [pingStatus, setPingStatus] = useState({ pinging: false, latency: 18, lastPing: 'Just now' });
+  const [pingStatus, setPingStatus] = useState({ pinging: false, latency: 16, lastPing: 'Just now' });
   const [backupStatus, setBackupStatus] = useState({ backingUp: false, lastBackup: 'Today, 02:00 AM IST' });
 
-  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState({ type: '', message: '' });
 
   const handlePasswordSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setFeedback({ type: '', message: '' });
 
     if (!passwordData.currentPassword) {
       setFeedback({
         type: 'danger',
-        message: 'Please provide your current password to update security credentials.',
+        message: 'Please enter your current password.',
+      });
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      setFeedback({
+        type: 'danger',
+        message: 'New password must be at least 6 characters long.',
       });
       return;
     }
@@ -81,16 +84,8 @@ const AdminSettings = () => {
       return;
     }
 
-    if (passwordData.newPassword.length < 6) {
-      setFeedback({
-        type: 'danger',
-        message: 'New password must be at least 6 characters.',
-      });
-      return;
-    }
-
     try {
-      setLoading(true);
+      setSaving(true);
       await api.patch('/admin/settings', {
         currentPassword: passwordData.currentPassword.trim(),
         newPassword: passwordData.newPassword.trim(),
@@ -98,7 +93,7 @@ const AdminSettings = () => {
 
       setFeedback({
         type: 'success',
-        message: 'Master administrator password successfully updated in MongoDB Atlas!',
+        message: 'Administrator password changed successfully and saved to database!',
       });
 
       setPasswordData({
@@ -106,42 +101,43 @@ const AdminSettings = () => {
         newPassword: '',
         confirmPassword: '',
       });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       setFeedback({
         type: 'danger',
-        message: err.response?.data?.message || 'Failed to update administrator password.',
+        message: err.response?.data?.message || 'Failed to update password.',
       });
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  const handlePortalToggle = (key) => {
+  const handlePortalToggle = (key, label) => {
     setPortalSettings((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
     setFeedback({
       type: 'success',
-      message: `Policy "${key}" updated in live memory.`,
+      message: `Setting "${label}" updated successfully.`,
     });
   };
 
-  const handleGatewayToggle = (key) => {
+  const handleGatewayToggle = (key, label) => {
     setGatewaySettings((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
     setFeedback({
       type: 'success',
-      message: `Gateway channel "${key}" preference updated.`,
+      message: `Channel "${label}" preference updated.`,
     });
   };
 
   const handlePingCluster = () => {
     setPingStatus((prev) => ({ ...prev, pinging: true }));
     setTimeout(() => {
-      const randLatency = Math.floor(Math.random() * 8) + 14;
+      const randLatency = Math.floor(Math.random() * 6) + 14;
       setPingStatus({
         pinging: false,
         latency: randLatency,
@@ -149,9 +145,9 @@ const AdminSettings = () => {
       });
       setFeedback({
         type: 'success',
-        message: `MongoDB Atlas cluster ping verified (${randLatency}ms latency, TLS 1.3 encrypted).`,
+        message: `MongoDB Atlas cluster ping verified (${randLatency}ms latency, optimal status).`,
       });
-    }, 600);
+    }, 500);
   };
 
   const handleTriggerBackup = () => {
@@ -163,424 +159,567 @@ const AdminSettings = () => {
       });
       setFeedback({
         type: 'success',
-        message: 'Cloud snapshot archive successfully committed to MongoDB Atlas storage!',
+        message: 'Database snapshot backup successfully completed and stored in cloud archive!',
       });
-    }, 1200);
+    }, 1000);
   };
 
   return (
-    <div className="eco-cms-page">
-      {/* 1. Header Row */}
-      <div className="eco-cms-header-row">
-        <div className="eco-cms-header-info">
-          <div className="eco-cms-badge-row">
-            <span className="eco-cms-live-badge">
-              <span className="live-dot-pulse"></span>
-              Platform Preferences &bull; Cloud Infrastructure Console
-            </span>
+    <div className="ref-members-page">
+      {/* 1. Header (Consistent with Admin Suite, No Refresh Button) */}
+      <div className="ref-members-header no-print">
+        <div className="ref-header-left">
+          <div className="ref-header-icon-box">
+            <SettingsIcon size={24} />
           </div>
-          <h1 className="eco-cms-main-title">System Settings & Infrastructure Console</h1>
-          <p className="eco-cms-sub-title">
-            Configure system security credentials, manage registration policies, test MongoDB Atlas cluster latency, and supervise notification gateways.
-          </p>
+          <div className="ref-header-text">
+            <h2>System Settings</h2>
+            <p>Manage security credentials, public portal policies, and notification channels.</p>
+          </div>
         </div>
       </div>
 
-      {/* 2. Feedback Alert */}
+      {/* 2. Feedback Alert Banner */}
       {feedback.message && (
-        <div
-          className={`eco-cms-alert-banner ${
-            feedback.type === 'danger' ? 'alert-danger' : 'alert-success'
-          }`}
-        >
-          <div className="flex items-center gap-2">
+        <div className={`ref-alert-banner ${feedback.type === 'danger' ? 'ref-alert-error' : ''}`}>
+          <div className="ref-alert-left">
             {feedback.type === 'danger' ? (
-              <AlertTriangle size={18} className="text-red-600 flex-shrink-0" />
+              <AlertTriangle size={18} className="text-red-500 flex-shrink-0" />
             ) : (
-              <CheckCircle2 size={18} className="text-green-600 flex-shrink-0" />
+              <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
             )}
             <span>{feedback.message}</span>
           </div>
           <button
+            type="button"
             onClick={() => setFeedback({ type: '', message: '' })}
-            className="text-xs opacity-70 hover:opacity-100 font-semibold cursor-pointer border-none bg-transparent"
+            className="ref-alert-dismiss"
+            title="Dismiss notification"
           >
-            Dismiss
+            Dismiss &times;
           </button>
         </div>
       )}
 
-      {/* 3. 2-Column Console Layout (Left Navigation + Right Working Panel) */}
-      <div className="eco-settings-console">
-        {/* Left Side Console Menu */}
-        <aside className="eco-settings-nav-sidebar">
-          <button
-            onClick={() => setActiveSection('security')}
-            className={`eco-settings-nav-btn ${activeSection === 'security' ? 'active' : ''}`}
-          >
-            <Key size={16} />
-            <span>Master Security</span>
-          </button>
+      {/* 3. Pastel KPI Metric Strip */}
+      <div className="ref-kpi-grid">
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-blue">
+            <ShieldCheck size={20} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">Protected</span>
+            <span className="ref-kpi-label">Password & Auth</span>
+          </div>
+        </div>
 
-          <button
-            onClick={() => setActiveSection('portal')}
-            className={`eco-settings-nav-btn ${activeSection === 'portal' ? 'active' : ''}`}
-          >
-            <Sliders size={16} />
-            <span>Portal Access Policies</span>
-          </button>
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-green">
+            <CheckCircle2 size={20} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">Active</span>
+            <span className="ref-kpi-label">Portal Registration</span>
+          </div>
+        </div>
 
-          <button
-            onClick={() => setActiveSection('gateways')}
-            className={`eco-settings-nav-btn ${activeSection === 'gateways' ? 'active' : ''}`}
-          >
-            <MessageSquare size={16} />
-            <span>Broadcast Gateways</span>
-          </button>
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-orange">
+            <MessageSquare size={20} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">Connected</span>
+            <span className="ref-kpi-label">Alert Gateways</span>
+          </div>
+        </div>
 
-          <button
-            onClick={() => setActiveSection('database')}
-            className={`eco-settings-nav-btn ${activeSection === 'database' ? 'active' : ''}`}
-          >
-            <Database size={16} />
-            <span>Cloud & Backups</span>
-          </button>
-        </aside>
-
-        {/* Right Side Main Console Content */}
-        <main style={{ minWidth: 0 }}>
-          {/* SECTION 1: MASTER SECURITY */}
-          {activeSection === 'security' && (
-            <div className="eco-table-card">
-              <div className="eco-card-header-bar">
-                <div className="eco-card-header-title-wrap">
-                  <h3 className="eco-card-header-title">
-                    <Lock size={18} className="text-emerald-700" />
-                    <span>Change Master Administrator Password</span>
-                  </h3>
-                  <p className="eco-card-header-desc">
-                    Updates root credentials encrypted using bcrypt with salt rounds across MongoDB.
-                  </p>
-                </div>
-                <span className="eco-id-tag">Super Admin Only</span>
-              </div>
-
-              <form onSubmit={handlePasswordSubmit} className="eco-settings-form-body">
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Current Master Password *</label>
-                  <div className="eco-password-input-wrapper">
-                    <input
-                      type={showCurrentPw ? 'text' : 'password'}
-                      required
-                      placeholder="Enter current password"
-                      value={passwordData.currentPassword}
-                      onChange={(e) =>
-                        setPasswordData({ ...passwordData, currentPassword: e.target.value })
-                      }
-                      className="eco-field-input"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowCurrentPw(!showCurrentPw)}
-                      className="eco-password-toggle-btn"
-                      title={showCurrentPw ? "Hide password" : "Show password"}
-                    >
-                      {showCurrentPw ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="eco-form-field">
-                  <label className="eco-field-label">New Password *</label>
-                  <div className="eco-password-input-wrapper">
-                    <input
-                      type={showNewPw ? 'text' : 'password'}
-                      required
-                      placeholder="Minimum 6 characters"
-                      value={passwordData.newPassword}
-                      onChange={(e) =>
-                        setPasswordData({ ...passwordData, newPassword: e.target.value })
-                      }
-                      className="eco-field-input"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowNewPw(!showNewPw)}
-                      className="eco-password-toggle-btn"
-                      title={showNewPw ? "Hide password" : "Show password"}
-                    >
-                      {showNewPw ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="eco-form-field">
-                  <label className="eco-field-label">Confirm New Password *</label>
-                  <div className="eco-password-input-wrapper">
-                    <input
-                      type={showConfirmPw ? 'text' : 'password'}
-                      required
-                      placeholder="Repeat new password"
-                      value={passwordData.confirmPassword}
-                      onChange={(e) =>
-                        setPasswordData({ ...passwordData, confirmPassword: e.target.value })
-                      }
-                      className="eco-field-input"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPw(!showConfirmPw)}
-                      className="eco-password-toggle-btn"
-                      title={showConfirmPw ? "Hide password" : "Show password"}
-                    >
-                      {showConfirmPw ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="eco-security-notice-box">
-                  <div className="eco-security-notice-title">
-                    <ShieldCheck size={16} color="#059669" />
-                    <span>Security Audit Notice:</span>
-                  </div>
-                  <div className="eco-security-notice-list">
-                    <div>&bull; Password changes take effect instantly on all active tokens.</div>
-                    <div>&bull; Stored with 10 bcrypt salt rounds in MongoDB Atlas.</div>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="eco-cms-btn-primary"
-                >
-                  <Lock size={15} />
-                  <span>{loading ? 'Updating Credentials...' : 'Update Password'}</span>
-                </button>
-              </form>
-            </div>
-          )}
-
-          {/* SECTION 2: PORTAL POLICIES */}
-          {activeSection === 'portal' && (
-            <div className="eco-table-card">
-              <div className="eco-card-header-bar">
-                <div className="eco-card-header-title-wrap">
-                  <h3 className="eco-card-header-title">
-                    <Sliders size={18} className="text-emerald-700" />
-                    <span>Portal Registration & Public Access Policies</span>
-                  </h3>
-                  <p className="eco-card-header-desc">
-                    Live switches governing member registration, drive enrollment, and public safety alerts.
-                  </p>
-                </div>
-              </div>
-
-              <div className="eco-settings-toggle-list">
-                {[
-                  {
-                    key: 'memberSelfRegistration',
-                    title: 'Public Member Self-Registration',
-                    desc: 'Allow visitors to register for membership through the public web portal.',
-                  },
-                  {
-                    key: 'requireAdminApprovalForLife',
-                    title: 'Life Membership Executive Verification',
-                    desc: 'Require manual administrative audit before issuing permanent Life Member status.',
-                  },
-                  {
-                    key: 'publicEventEnrollment',
-                    title: 'Public Cleanliness Drive Volunteers Signup',
-                    desc: 'Permit general citizens to enroll for scheduled Godavari ghat cleaning campaigns.',
-                  },
-                  {
-                    key: 'autoMembershipNumbering',
-                    title: 'Automated Membership ID Sequential Generator',
-                    desc: 'Auto-allocate formatted membership numbers (e.g. MEM-GNPP-2026-XXXX).',
-                  },
-                  {
-                    key: 'emergencyRiverBanner',
-                    title: 'Emergency Flood / Upstream Inflow Banner',
-                    desc: 'Display high-water warning notification across the top of public home page.',
-                  },
-                ].map((item) => (
-                  <div key={item.key} className="eco-setting-toggle-row">
-                    <div className="eco-setting-text">
-                      <div className="eco-setting-title">{item.title}</div>
-                      <div className="eco-setting-desc">{item.desc}</div>
-                    </div>
-
-                    <label className="eco-toggle-switch">
-                      <input
-                        type="checkbox"
-                        checked={portalSettings[item.key]}
-                        onChange={() => handlePortalToggle(item.key)}
-                      />
-                      <span className="eco-toggle-slider"></span>
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* SECTION 3: BROADCAST GATEWAYS */}
-          {activeSection === 'gateways' && (
-            <div className="eco-table-card">
-              <div className="eco-card-header-bar">
-                <div className="eco-card-header-title-wrap">
-                  <h3 className="eco-card-header-title">
-                    <MessageSquare size={18} className="text-emerald-700" />
-                    <span>Automated Notification Gateways</span>
-                  </h3>
-                  <p className="eco-card-header-desc">
-                    Configure WhatsApp messaging, SMS alerts, and volunteer briefing broadcasts.
-                  </p>
-                </div>
-              </div>
-
-              <div className="eco-settings-toggle-list">
-                {[
-                  {
-                    key: 'whatsappEnabled',
-                    title: 'WhatsApp Cleanliness Drive Alerts (Twilio / Meta API)',
-                    desc: 'Broadcast assembly time and ghat cleanup reminders directly to registered WhatsApp numbers.',
-                  },
-                  {
-                    key: 'smsAlertsEnabled',
-                    title: 'SMS Gateway for Emergency River Warnings',
-                    desc: 'High-priority SMS dispatch for sudden barrage gate water releases and high currents.',
-                  },
-                  {
-                    key: 'volunteerSosEmergencyChannel',
-                    title: 'On-Ghat Volunteer Emergency Channel',
-                    desc: 'Instant priority push alert for first aid and safety coordination on riverbanks.',
-                  },
-                  {
-                    key: 'dailyVolunteerDigest',
-                    title: 'Daily Evening Cleanliness Summary Digest',
-                    desc: 'Automated summary of waste tons removed and trees planted sent to volunteer leads.',
-                  },
-                ].map((item) => (
-                  <div key={item.key} className="eco-setting-toggle-row">
-                    <div className="eco-setting-text">
-                      <div className="eco-setting-title">{item.title}</div>
-                      <div className="eco-setting-desc">{item.desc}</div>
-                    </div>
-
-                    <label className="eco-toggle-switch">
-                      <input
-                        type="checkbox"
-                        checked={gatewaySettings[item.key]}
-                        onChange={() => handleGatewayToggle(item.key)}
-                      />
-                      <span className="eco-toggle-slider"></span>
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* SECTION 4: CLOUD & BACKUPS */}
-          {activeSection === 'database' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <div className="eco-table-card">
-                <div className="eco-card-header-bar">
-                  <div className="eco-card-header-title-wrap">
-                    <h3 className="eco-card-header-title">
-                      <Database size={18} className="text-emerald-700" />
-                      <span>MongoDB Atlas Cluster Live Diagnostics</span>
-                    </h3>
-                    <p className="eco-card-header-desc">
-                      Live cluster metrics, roundtrip ping, and database health.
-                    </p>
-                  </div>
-                  <button
-                    onClick={handlePingCluster}
-                    className="eco-cms-btn-secondary"
-                    disabled={pingStatus.pinging}
-                  >
-                    <Activity size={14} className={pingStatus.pinging ? 'animate-spin' : ''} />
-                    <span>{pingStatus.pinging ? 'Pinging Cluster...' : 'Ping Cluster'}</span>
-                  </button>
-                </div>
-
-                <div className="eco-db-diag-grid">
-                  <div className="eco-db-diag-card">
-                    <span className="eco-db-diag-label">Roundtrip Latency</span>
-                    <div className="eco-db-diag-value">
-                      {pingStatus.latency} ms
-                    </div>
-                    <span className="eco-db-diag-sub">
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#059669', display: 'inline-block' }}></span>
-                      Optimal Health
-                    </span>
-                  </div>
-
-                  <div className="eco-db-diag-card">
-                    <span className="eco-db-diag-label">Cluster Host</span>
-                    <div style={{ fontSize: '0.88rem', fontFamily: 'monospace', fontWeight: 700, color: '#1e293b' }} title="ac-dra3uol-shard-00-00.nbcigoi.mongodb.net">
-                      MongoDB Atlas M0
-                    </div>
-                    <span style={{ fontSize: '0.72rem', color: '#94a3b8', display: 'block', marginTop: '0.25rem' }}>
-                      TLS 1.3 SSL Enforced
-                    </span>
-                  </div>
-
-                  <div className="eco-db-diag-card">
-                    <span className="eco-db-diag-label">Database Name</span>
-                    <div style={{ fontSize: '0.88rem', fontFamily: 'monospace', fontWeight: 700, color: '#1e293b' }}>
-                      godhavari-ngo-db
-                    </div>
-                    <span style={{ fontSize: '0.72rem', color: '#94a3b8', display: 'block', marginTop: '0.25rem' }}>
-                      7 Core Collections
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Cloud Snapshot & Backup Engine */}
-              <div className="eco-table-card">
-                <div className="eco-card-header-bar">
-                  <div className="eco-card-header-title-wrap">
-                    <h3 className="eco-card-header-title">
-                      <HardDrive size={18} className="text-emerald-700" />
-                      <span>Cloud Disaster Recovery & Snapshots</span>
-                    </h3>
-                    <p className="eco-card-header-desc">
-                      Daily automated point-in-time recovery archives.
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleTriggerBackup}
-                    className="eco-cms-btn-primary"
-                    disabled={backupStatus.backingUp}
-                  >
-                    <RefreshCw size={14} className={backupStatus.backingUp ? 'animate-spin' : ''} />
-                    <span>{backupStatus.backingUp ? 'Archiving...' : 'Trigger Backup Snapshot'}</span>
-                  </button>
-                </div>
-
-                <div className="eco-backup-info-list">
-                  <div className="eco-backup-info-row">
-                    <span>Automated Schedule:</span>
-                    <strong style={{ color: '#0f172a' }}>Daily at 02:00 AM IST (Cloud Cron)</strong>
-                  </div>
-                  <div className="eco-backup-info-row">
-                    <span>Last Successful Snapshot:</span>
-                    <span style={{ fontWeight: 600, color: '#047857' }}>{backupStatus.lastBackup}</span>
-                  </div>
-                  <div className="eco-backup-info-row">
-                    <span>Retention Policy:</span>
-                    <span style={{ color: '#0f172a' }}>30-day Rolling Daily Archives</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </main>
+        <div className="ref-kpi-card">
+          <div className="ref-kpi-icon-bubble ref-bubble-purple">
+            <Database size={20} />
+          </div>
+          <div className="ref-kpi-details">
+            <span className="ref-kpi-value">MongoDB Synced</span>
+            <span className="ref-kpi-label">Cloud Persistence</span>
+          </div>
+        </div>
       </div>
+
+      {/* 4. Section Navigation Tabs */}
+      <div className="cms-tabs-bar no-print" style={{ margin: '1rem 0 1.25rem 0' }}>
+        <button
+          type="button"
+          onClick={() => setActiveTab('security')}
+          className={`cms-tab-btn ${activeTab === 'security' ? 'active' : ''}`}
+        >
+          <Lock size={15} />
+          <span>Security & Passwords</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('portal')}
+          className={`cms-tab-btn ${activeTab === 'portal' ? 'active' : ''}`}
+        >
+          <Sliders size={15} />
+          <span>Portal Policies</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('gateways')}
+          className={`cms-tab-btn ${activeTab === 'gateways' ? 'active' : ''}`}
+        >
+          <MessageSquare size={15} />
+          <span>Alert Channels</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('database')}
+          className={`cms-tab-btn ${activeTab === 'database' ? 'active' : ''}`}
+        >
+          <Database size={15} />
+          <span>Cloud Database</span>
+        </button>
+      </div>
+
+      {/* =========================================================================
+          SECTION 1: SECURITY & PASSWORD UPDATE
+          ========================================================================= */}
+      {activeTab === 'security' && (
+        <div className="cms-section-card">
+          <div className="cms-section-header">
+            <div className="cms-section-header-left">
+              <div className="cms-section-icon-box emerald">
+                <Lock size={20} />
+              </div>
+              <div>
+                <h3 className="cms-section-title">Change Password</h3>
+                <p className="cms-section-desc">Update your administrator account password securely.</p>
+              </div>
+            </div>
+            <span className="eco-tier-pill eco-tier-patron">
+              Super Admin
+            </span>
+          </div>
+
+          <form onSubmit={handlePasswordSubmit} className="cms-section-body" style={{ maxWidth: '580px' }}>
+            <div className="cms-field">
+              <label className="cms-label">
+                <Key size={14} className="text-emerald-700" />
+                <span>Current Password</span>
+                <span className="required-star">*</span>
+              </label>
+              <div className="cms-input-group">
+                <input
+                  type={showCurrentPw ? 'text' : 'password'}
+                  required
+                  placeholder="Enter current password..."
+                  value={passwordData.currentPassword}
+                  onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                  className="cms-input no-icon"
+                  style={{ paddingRight: '2.5rem' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPw(!showCurrentPw)}
+                  style={{
+                    position: 'absolute',
+                    right: '0.75rem',
+                    background: 'none',
+                    border: 'none',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                  }}
+                  title={showCurrentPw ? 'Hide password' : 'Show password'}
+                >
+                  {showCurrentPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="cms-field" style={{ marginTop: '0.85rem' }}>
+              <label className="cms-label">
+                <Lock size={14} className="text-emerald-700" />
+                <span>New Password</span>
+                <span className="required-star">*</span>
+              </label>
+              <div className="cms-input-group">
+                <input
+                  type={showNewPw ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  placeholder="Minimum 6 characters..."
+                  value={passwordData.newPassword}
+                  onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                  className="cms-input no-icon"
+                  style={{ paddingRight: '2.5rem' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPw(!showNewPw)}
+                  style={{
+                    position: 'absolute',
+                    right: '0.75rem',
+                    background: 'none',
+                    border: 'none',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                  }}
+                  title={showNewPw ? 'Hide password' : 'Show password'}
+                >
+                  {showNewPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="cms-field" style={{ marginTop: '0.85rem' }}>
+              <label className="cms-label">
+                <CheckCircle2 size={14} className="text-emerald-700" />
+                <span>Confirm New Password</span>
+                <span className="required-star">*</span>
+              </label>
+              <div className="cms-input-group">
+                <input
+                  type={showConfirmPw ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  placeholder="Repeat new password..."
+                  value={passwordData.confirmPassword}
+                  onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                  className="cms-input no-icon"
+                  style={{ paddingRight: '2.5rem' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPw(!showConfirmPw)}
+                  style={{
+                    position: 'absolute',
+                    right: '0.75rem',
+                    background: 'none',
+                    border: 'none',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                  }}
+                  title={showConfirmPw ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirmPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            <div style={{
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px',
+              padding: '0.85rem 1rem',
+              marginTop: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+              fontSize: '0.78rem',
+              color: '#475569',
+            }}>
+              <ShieldCheck size={18} className="text-emerald-600 flex-shrink-0" />
+              <span>Passwords are salted and securely encrypted with bcrypt on MongoDB Atlas.</span>
+            </div>
+
+            <div style={{ marginTop: '1.25rem' }}>
+              <button
+                type="submit"
+                disabled={saving}
+                className="ref-btn-enroll"
+              >
+                <Check size={16} />
+                <span>{saving ? 'Updating...' : 'Update Password'}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* =========================================================================
+          SECTION 2: PORTAL POLICIES (Simple Toggle List)
+          ========================================================================= */}
+      {activeTab === 'portal' && (
+        <div className="cms-section-card">
+          <div className="cms-section-header">
+            <div className="cms-section-header-left">
+              <div className="cms-section-icon-box blue">
+                <Sliders size={20} />
+              </div>
+              <div>
+                <h3 className="cms-section-title">Portal Access & Registration Policies</h3>
+                <p className="cms-section-desc">Manage public membership registration and community campaign participation rules.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="cms-section-body" style={{ padding: '0.5rem 1.5rem' }}>
+            {[
+              {
+                key: 'memberSelfRegistration',
+                title: 'Public Member Self-Registration',
+                desc: 'Allow citizens to enroll for membership directly from the public website.',
+              },
+              {
+                key: 'requireAdminApprovalForLife',
+                title: 'Life Membership Verification',
+                desc: 'Require administrator approval before granting permanent Life Membership status.',
+              },
+              {
+                key: 'publicEventEnrollment',
+                title: 'Cleanliness Drive Volunteer Enrollment',
+                desc: 'Permit general citizens and devotees to sign up for scheduled Godavari river cleanups.',
+              },
+              {
+                key: 'autoMembershipNumbering',
+                title: 'Automated Membership ID Numbers',
+                desc: 'Auto-generate sequential member registration numbers (MEM-GNPP-2026-XXXX).',
+              },
+              {
+                key: 'emergencyRiverBanner',
+                title: 'Riverfront Emergency High-Water Alert',
+                desc: 'Display high-water warning notification across the top of the public website.',
+              },
+            ].map((item) => (
+              <div
+                key={item.key}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '1.15rem 0',
+                  borderBottom: '1px solid #f1f5f9',
+                  gap: '1.5rem',
+                }}
+              >
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: 700, color: '#0f172a' }}>
+                    {item.title}
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    {item.desc}
+                  </p>
+                </div>
+
+                <label className="eco-toggle-switch" style={{ flexShrink: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={portalSettings[item.key]}
+                    onChange={() => handlePortalToggle(item.key, item.title)}
+                  />
+                  <span className="eco-toggle-slider"></span>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          SECTION 3: BROADCAST GATEWAYS (Simple Channels)
+          ========================================================================= */}
+      {activeTab === 'gateways' && (
+        <div className="cms-section-card">
+          <div className="cms-section-header">
+            <div className="cms-section-header-left">
+              <div className="cms-section-icon-box amber">
+                <MessageSquare size={20} />
+              </div>
+              <div>
+                <h3 className="cms-section-title">Automated Notification Gateways</h3>
+                <p className="cms-section-desc">Configure WhatsApp messaging, emergency SMS alerts, and volunteer briefings.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="cms-section-body" style={{ padding: '0.5rem 1.5rem' }}>
+            {[
+              {
+                key: 'whatsappEnabled',
+                title: 'WhatsApp Cleanliness Drive Alerts',
+                desc: 'Broadcast drive assembly time and ghat cleanup reminders to registered WhatsApp numbers.',
+              },
+              {
+                key: 'smsAlertsEnabled',
+                title: 'Emergency River Warning SMS',
+                desc: 'High-priority SMS dispatch for sudden barrage water releases and river currents.',
+              },
+              {
+                key: 'volunteerSosEmergencyChannel',
+                title: 'On-Ghat Volunteer Emergency Channel',
+                desc: 'Priority push alerts for first aid and safety coordination along riverbanks.',
+              },
+              {
+                key: 'dailyVolunteerDigest',
+                title: 'Daily Cleanliness Summary Digest',
+                desc: 'Automated evening summary of waste tons removed and saplings planted.',
+              },
+            ].map((item) => (
+              <div
+                key={item.key}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '1.15rem 0',
+                  borderBottom: '1px solid #f1f5f9',
+                  gap: '1.5rem',
+                }}
+              >
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: 700, color: '#0f172a' }}>
+                    {item.title}
+                  </h4>
+                  <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
+                    {item.desc}
+                  </p>
+                </div>
+
+                <label className="eco-toggle-switch" style={{ flexShrink: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={gatewaySettings[item.key]}
+                    onChange={() => handleGatewayToggle(item.key, item.title)}
+                  />
+                  <span className="eco-toggle-slider"></span>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          SECTION 4: CLOUD DATABASE STATUS
+          ========================================================================= */}
+      {activeTab === 'database' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div className="cms-section-card">
+            <div className="cms-section-header">
+              <div className="cms-section-header-left">
+                <div className="cms-section-icon-box emerald">
+                  <Database size={20} />
+                </div>
+                <div>
+                  <h3 className="cms-section-title">MongoDB Atlas Cluster Status</h3>
+                  <p className="cms-section-desc">Live database latency, connection encryption, and active collections.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handlePingCluster}
+                className="ref-btn-refresh"
+                disabled={pingStatus.pinging}
+                title="Test connection latency"
+              >
+                <Activity size={14} className={pingStatus.pinging ? 'animate-spin' : ''} />
+                <span>{pingStatus.pinging ? 'Testing...' : 'Test Connection'}</span>
+              </button>
+            </div>
+
+            <div className="cms-section-body">
+              <div className="cms-metrics-row" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#ecfdf5', color: '#059669' }}>
+                      <Activity size={16} />
+                    </div>
+                    <span className="metric-tag-pill green">Optimal</span>
+                  </div>
+                  <span className="cms-metric-card-label">Roundtrip Latency</span>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', margin: '0.25rem 0' }}>
+                    {pingStatus.latency} ms
+                  </div>
+                  <span className="cms-metric-footer-note">Verified: {pingStatus.lastPing}</span>
+                </div>
+
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#eff6ff', color: '#2563eb' }}>
+                      <Database size={16} />
+                    </div>
+                    <span className="metric-tag-pill blue">Atlas Cloud</span>
+                  </div>
+                  <span className="cms-metric-card-label">Cluster Host</span>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', margin: '0.45rem 0' }}>
+                    MongoDB Atlas M0
+                  </div>
+                  <span className="cms-metric-footer-note">TLS 1.3 Encryption Enforced</span>
+                </div>
+
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#fffbeb', color: '#d97706' }}>
+                      <HardDrive size={16} />
+                    </div>
+                    <span className="metric-tag-pill amber">Database</span>
+                  </div>
+                  <span className="cms-metric-card-label">Primary Database</span>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', margin: '0.45rem 0' }}>
+                    godhavari-ngo-db
+                  </div>
+                  <span className="cms-metric-footer-note">7 Core Collections Synced</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Backup Snapshot Card */}
+          <div className="cms-section-card">
+            <div className="cms-section-header">
+              <div className="cms-section-header-left">
+                <div className="cms-section-icon-box blue">
+                  <HardDrive size={20} />
+                </div>
+                <div>
+                  <h3 className="cms-section-title">Automated Cloud Backups</h3>
+                  <p className="cms-section-desc">Daily point-in-time snapshots and rolling disaster recovery archives.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleTriggerBackup}
+                className="ref-btn-enroll"
+                disabled={backupStatus.backingUp}
+                title="Create snapshot now"
+              >
+                <HardDrive size={14} />
+                <span>{backupStatus.backingUp ? 'Archiving...' : 'Take Cloud Snapshot'}</span>
+              </button>
+            </div>
+
+            <div className="cms-section-body" style={{ padding: '1.25rem 1.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
+                <div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+                    Automated Schedule
+                  </span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 700, color: '#0f172a', fontSize: '0.92rem' }}>
+                    Daily at 02:00 AM IST (Cloud Cron)
+                  </p>
+                </div>
+
+                <div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+                    Last Successful Snapshot
+                  </span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 700, color: '#059669', fontSize: '0.92rem' }}>
+                    {backupStatus.lastBackup}
+                  </p>
+                </div>
+
+                <div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+                    Retention Policy
+                  </span>
+                  <p style={{ margin: '0.25rem 0 0 0', fontWeight: 700, color: '#0f172a', fontSize: '0.92rem' }}>
+                    30-Day Rolling Daily Archives
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

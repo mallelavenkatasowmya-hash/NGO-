@@ -272,21 +272,12 @@ const AdminMemberships = () => {
             <Users size={24} />
           </div>
           <div className="ref-header-text">
-            <h2>Membership Management</h2>
-            <p>Oversee membership tiers, validity dates, renewal status, and fee records.</p>
+            <h2>Tiers & Renewals</h2>
+            <p>Oversee tier levels, validity dates, renewal status, and fee records.</p>
           </div>
         </div>
 
         <div className="ref-header-actions">
-          <button
-            onClick={fetchMemberships}
-            className="ref-btn-refresh"
-            disabled={loading}
-            title="Reload latest records from MongoDB"
-          >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Refresh</span>
-          </button>
           <button
             onClick={openAddModal}
             className="ref-btn-enroll"
@@ -442,14 +433,14 @@ const AdminMemberships = () => {
             <table className="ref-table">
               <thead>
                 <tr>
-                  <th style={{ width: '28%' }}>MEMBER NAME</th>
+                  <th style={{ width: '23%' }}>MEMBER NAME</th>
                   <th style={{ width: '11%' }}>MEMBER ID</th>
-                  <th style={{ width: '12%' }}>TIER / TYPE</th>
-                  <th style={{ width: '8%' }}>STATUS</th>
-                  <th style={{ width: '9%' }}>VALID UNTIL</th>
-                  <th style={{ width: '7%' }}>FEE PAID</th>
+                  <th style={{ width: '13%' }}>TIER / TYPE</th>
+                  <th style={{ width: '12%' }}>STATUS</th>
+                  <th style={{ width: '8%' }}>VALID UNTIL</th>
+                  <th style={{ width: '6%' }}>FEE PAID</th>
                   <th style={{ width: '8%' }}>PAYMENT</th>
-                  <th style={{ width: '17%', textAlign: 'right' }}>ACTIONS</th>
+                  <th style={{ width: '19%', textAlign: 'right' }}>ACTIONS</th>
                 </tr>
               </thead>
               <tbody>
@@ -519,7 +510,7 @@ const AdminMemberships = () => {
 
                     {/* 5. Valid Until */}
                     <td>
-                      <span className="text-xs font-semibold text-slate-700">
+                      <span className="text-xs font-semibold text-slate-700 whitespace-nowrap">
                         {item.validTo
                           ? new Date(item.validTo).toLocaleDateString()
                           : item.membershipType === 'Life Member'
@@ -530,7 +521,7 @@ const AdminMemberships = () => {
 
                     {/* 6. Fee Paid */}
                     <td>
-                      <span className="font-bold text-slate-900 text-xs">
+                      <span className="font-bold text-slate-900 text-xs whitespace-nowrap">
                         ₹{(item.feePaid || 0).toLocaleString()}
                       </span>
                     </td>
@@ -569,7 +560,7 @@ const AdminMemberships = () => {
                           <span>Edit</span>
                         </button>
 
-                        {/* DELETE: Remove Membership Record */}
+                        {/* DELETE: Remove Membership Record (Icon Only) */}
                         <button
                           type="button"
                           onClick={() => openDeleteModal(item)}

@@ -34,13 +34,61 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'member', 'volunteer', 'staff'],
+      enum: [
+        'super_admin',
+        'admin',
+        'staff_coordinator',
+        'general_volunteer',
+        'Super Admin',
+        'Admin',
+        'Staff Coordinator',
+        'General Volunteer',
+        'staff',
+        'volunteer',
+        'member',
+      ],
       default: 'member',
+    },
+    permissions: {
+      type: [String],
+      default: [],
+    },
+    assignedBy: {
+      name: { type: String, default: 'System Root' },
+      email: { type: String, default: 'admin@gmail.com' },
+      role: { type: String, default: 'Super Admin' },
+    },
+    accessGrantedDate: {
+      type: Date,
+      default: Date.now,
+    },
+    accessExpiryDate: {
+      type: Date,
+      default: null, // null represents Permanent access
+    },
+    accessReason: {
+      type: String,
+      default: 'Initial operational onboarding',
+    },
+    accountStatus: {
+      type: String,
+      enum: ['Active', 'Inactive', 'Pending', 'active', 'inactive', 'pending'],
+      default: 'Active',
     },
     designation: {
       type: String,
       default: 'General Member',
       trim: true,
+    },
+    bio: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    officeLocation: {
+      type: String,
+      trim: true,
+      default: '',
     },
     bloodGroup: {
       type: String,

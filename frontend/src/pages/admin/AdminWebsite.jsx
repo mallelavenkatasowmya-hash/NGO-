@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { recordAdminAction } from '../../services/auditService';
 import {
   Building2,
   Target,
@@ -15,80 +16,143 @@ import {
   Waves,
   TreePine,
   Save,
-  RefreshCw,
   CheckCircle2,
   AlertTriangle,
   Landmark,
   ShieldCheck,
   ExternalLink,
   Info,
+  Globe,
+  Layers,
+  Edit2,
 } from 'lucide-react';
 
+const defaultWebsiteData = {
+  orgName: 'Godhavari Nadhi Paryavarana Parishubratha',
+  tagline: 'Dedicated to the cleanliness, ecological revival, and purity of the sacred River Godavari',
+  mission: 'To restore and protect the sacred Godavari River through sustained community cleanliness drives, riverbed desiltation, plastic pollution prevention, and widespread environmental awareness.',
+  vision: 'A pristine, free-flowing, and vibrant River Godavari cherished and guarded by every riverbank community for generations to come.',
+  statistics: {
+    cleanlinessDrives: 142,
+    volunteersActive: 1250,
+    wasteRemovedTons: 85,
+    ghatsCleaned: 18,
+    treesPlanted: 3500,
+  },
+  contactInfo: {
+    email: 'contact@godhavarinadhiorg.in',
+    phone: '+91 883 245 7890',
+    helpline: '+91 944 012 3456',
+    address: 'Godavari Bund Road, Near Kotilingala Ghat, Rajahmundry, Andhra Pradesh - 533101',
+    officeHours: 'Monday - Saturday: 9:00 AM - 6:00 PM',
+  },
+};
+
 const AdminWebsite = () => {
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState('branding'); // 'branding' | 'metrics' | 'contact' | 'all'
   const [feedback, setFeedback] = useState({ type: '', message: '' });
 
-  const [formData, setFormData] = useState({
-    orgName: 'Godhavari Nadhi Paryavarana Parishubratha',
-    tagline: 'Dedicated to the cleanliness, ecological revival, and purity of the sacred River Godavari',
-    mission: 'To restore and protect the sacred Godavari River through sustained community cleanliness drives, riverbed desiltation, plastic pollution prevention, and widespread environmental awareness.',
-    vision: 'A pristine, free-flowing, and vibrant River Godavari cherished and guarded by every riverbank community for generations to come.',
-    statistics: {
-      cleanlinessDrives: 142,
-      volunteersActive: 1250,
-      wasteRemovedTons: 85,
-      ghatsCleaned: 18,
-      treesPlanted: 3500,
-    },
-    contactInfo: {
-      email: 'contact@godhavarinadhiorg.in',
-      phone: '+91 883 245 7890',
-      helpline: '+91 944 012 3456',
-      address: 'Godavari Bund Road, Near Kotilingala Ghat, Rajahmundry, Andhra Pradesh - 533101',
-      officeHours: 'Monday - Saturday: 9:00 AM - 6:00 PM',
-    },
+  // Pre-filled with authentic NGO details by default so boxes are never empty
+  const [formData, setFormData] = useState(defaultWebsiteData);
+
+  // Per-section Edit Toggle (Branding, Metrics, Contact)
+  const [editingSections, setEditingSections] = useState({
+    branding: false,
+    metrics: false,
+    contact: false,
   });
 
-  const fetchWebsiteData = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get('/admin/website');
-      if (res.data) {
-        setFormData({
-          orgName: res.data.orgName || 'Godhavari Nadhi Paryavarana Parishubratha',
-          tagline: res.data.tagline || '',
-          mission: res.data.mission || '',
-          vision: res.data.vision || '',
-          statistics: {
-            cleanlinessDrives: res.data.statistics?.cleanlinessDrives ?? 142,
-            volunteersActive: res.data.statistics?.volunteersActive ?? 1250,
-            wasteRemovedTons: res.data.statistics?.wasteRemovedTons ?? 85,
-            ghatsCleaned: res.data.statistics?.ghatsCleaned ?? 18,
-            treesPlanted: res.data.statistics?.treesPlanted ?? 3500,
-          },
-          contactInfo: {
-            email: res.data.contactInfo?.email || 'contact@godhavarinadhiorg.in',
-            phone: res.data.contactInfo?.phone || '+91 883 245 7890',
-            helpline: res.data.contactInfo?.helpline || '+91 944 012 3456',
-            address: res.data.contactInfo?.address || 'Godavari Bund Road, Rajahmundry, AP',
-            officeHours: res.data.contactInfo?.officeHours || 'Monday - Saturday: 9:00 AM - 6:00 PM',
-          },
-        });
-      }
-    } catch (err) {
-      setFeedback({
-        type: 'danger',
-        message: 'Could not load existing website CMS data from MongoDB.',
-      });
-    } finally {
-      setLoading(false);
-    }
+  const toggleSectionEdit = (sectionKey) => {
+    setEditingSections((prev) => ({
+      ...prev,
+      [sectionKey]: !prev[sectionKey],
+    }));
   };
 
+  // Fetch saved content from backend on mount
   useEffect(() => {
+    const fetchWebsiteData = async () => {
+      try {
+        const res = await api.get('/admin/website');
+        if (res.data) {
+          setFormData({
+            orgName: res.data.orgName || defaultWebsiteData.orgName,
+            tagline: res.data.tagline || defaultWebsiteData.tagline,
+            mission: res.data.mission || defaultWebsiteData.mission,
+            vision: res.data.vision || defaultWebsiteData.vision,
+            statistics: {
+              cleanlinessDrives:
+                res.data.statistics?.cleanlinessDrives ??
+                defaultWebsiteData.statistics.cleanlinessDrives,
+              volunteersActive:
+                res.data.statistics?.volunteersActive ??
+                defaultWebsiteData.statistics.volunteersActive,
+              wasteRemovedTons:
+                res.data.statistics?.wasteRemovedTons ??
+                defaultWebsiteData.statistics.wasteRemovedTons,
+              ghatsCleaned:
+                res.data.statistics?.ghatsCleaned ??
+                defaultWebsiteData.statistics.ghatsCleaned,
+              treesPlanted:
+                res.data.statistics?.treesPlanted ??
+                defaultWebsiteData.statistics.treesPlanted,
+            },
+            contactInfo: {
+              email: res.data.contactInfo?.email || defaultWebsiteData.contactInfo.email,
+              phone: res.data.contactInfo?.phone || defaultWebsiteData.contactInfo.phone,
+              helpline:
+                res.data.contactInfo?.helpline || defaultWebsiteData.contactInfo.helpline,
+              address:
+                res.data.contactInfo?.address || defaultWebsiteData.contactInfo.address,
+              officeHours:
+                res.data.contactInfo?.officeHours || defaultWebsiteData.contactInfo.officeHours,
+            },
+          });
+        }
+      } catch (err) {
+        // Fallback to default NGO details so boxes are always pre-populated
+        setFormData(defaultWebsiteData);
+      }
+    };
+
     fetchWebsiteData();
   }, []);
+
+  const handleResetDefaults = () => {
+    setFormData(defaultWebsiteData);
+    setFeedback({
+      type: 'info',
+      message: 'Restored authentic Godhavari NGO organization details into all boxes.',
+    });
+  };
+
+  const handleClearAll = () => {
+    setFormData({
+      orgName: '',
+      tagline: '',
+      mission: '',
+      vision: '',
+      statistics: {
+        cleanlinessDrives: '',
+        volunteersActive: '',
+        wasteRemovedTons: '',
+        ghatsCleaned: '',
+        treesPlanted: '',
+      },
+      contactInfo: {
+        email: '',
+        phone: '',
+        helpline: '',
+        address: '',
+        officeHours: '',
+      },
+    });
+    setFeedback({
+      type: 'info',
+      message: 'All boxes cleared. You can type custom details or click "Restore Defaults".',
+    });
+  };
 
   const handleSubmit = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
@@ -99,14 +163,17 @@ const AdminWebsite = () => {
       await api.patch('/admin/website', formData);
       setFeedback({
         type: 'success',
-        message: 'Website CMS details successfully saved and updated in MongoDB database!',
+        message: 'Organization content & live statistics successfully saved and published!',
       });
-      // Scroll smoothly to top notification
+      recordAdminAction({
+        action: 'Published updated homepage identity, mission & live impact statistics',
+        category: 'CMS',
+      });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       setFeedback({
         type: 'danger',
-        message: err.response?.data?.message || 'Failed to persist website updates to database.',
+        message: err.response?.data?.message || 'Failed to save content.',
       });
     } finally {
       setSaving(false);
@@ -135,143 +202,212 @@ const AdminWebsite = () => {
   };
 
   return (
-    <div className="eco-cms-page">
-      {/* CMS Header Section with Actions */}
-      <div className="eco-cms-header-row">
-        <div className="eco-cms-header-info">
-          <div className="eco-cms-badge-row">
-            <span className="eco-cms-live-badge">
-              <span className="live-dot-pulse"></span>
-              Live CMS &bull; MongoDB Atlas Connected
-            </span>
-            <a
-              href="/"
-              target="_blank"
-              rel="noreferrer"
-              className="eco-cms-preview-link"
-              title="View live website"
-            >
-              <span>View Public Portal</span>
-              <ExternalLink size={12} />
-            </a>
+    <div className="ref-members-page">
+      {/* 1. Header Row */}
+      <div className="ref-members-header no-print">
+        <div className="ref-header-left">
+          <div className="ref-header-icon-box">
+            <Globe size={24} />
           </div>
-          <h1 className="eco-cms-main-title">Website Content Management</h1>
-          <p className="eco-cms-sub-title">
-            Configure organization mission, vision statements, public impact metrics, and emergency helplines stored in MongoDB.
-          </p>
+          <div className="ref-header-text">
+            <h2>Website Content & Organization Identity</h2>
+            <p>Configure homepage branding, dynamic impact counters, and official contact helplines.</p>
+          </div>
         </div>
 
-        <div className="eco-cms-header-actions">
-          <button
-            type="button"
-            onClick={fetchWebsiteData}
-            className="eco-cms-btn-secondary"
-            disabled={loading}
-            title="Reload live content from database"
+        <div className="ref-header-actions">
+          <a
+            href="/"
+            target="_blank"
+            rel="noreferrer"
+            className="ref-btn-refresh"
+            style={{ textDecoration: 'none' }}
+            title="View public website portal"
           >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-            <span>Reload Live Content</span>
-          </button>
+            <ExternalLink size={14} />
+            <span>View Public Site</span>
+          </a>
+
           <button
             type="button"
             onClick={handleSubmit}
-            className="eco-cms-btn-primary"
-            disabled={saving || loading}
+            className="ref-btn-enroll"
+            disabled={saving}
+            title="Save and publish content"
           >
-            <Save size={14} />
-            <span>{saving ? 'Publishing...' : 'Save & Publish'}</span>
+            <Save size={15} />
+            <span>{saving ? 'Saving...' : 'Save & Publish'}</span>
           </button>
         </div>
       </div>
 
-      {/* Alert / Feedback Notification */}
+      {/* 2. Feedback Alert Banner */}
       {feedback.message && (
-        <div className={`eco-cms-alert-banner alert-${feedback.type}`}>
-          <div className="eco-cms-alert-content">
-            {feedback.type === 'success' ? (
-              <CheckCircle2 size={18} className="text-emerald-700" />
+        <div className={`ref-alert-banner ${feedback.type === 'danger' ? 'ref-alert-error' : ''}`}>
+          <div className="ref-alert-left">
+            {feedback.type === 'danger' ? (
+              <AlertTriangle size={18} className="text-red-500 flex-shrink-0" />
+            ) : feedback.type === 'info' ? (
+              <Info size={18} className="text-blue-500 flex-shrink-0" />
             ) : (
-              <AlertTriangle size={18} className="text-red-700" />
+              <CheckCircle2 size={18} className="text-emerald-600 flex-shrink-0" />
             )}
-            <span className="font-medium text-sm">{feedback.message}</span>
+            <span>{feedback.message}</span>
           </div>
           <button
             type="button"
             onClick={() => setFeedback({ type: '', message: '' })}
-            className="eco-cms-alert-dismiss"
+            className="ref-alert-dismiss"
+            title="Dismiss notification"
           >
             &times;
           </button>
         </div>
       )}
 
-      {loading ? (
-        <div className="eco-cms-loading-box">
-          <RefreshCw size={28} className="animate-spin text-emerald-800 mb-3" />
-          <p className="font-semibold text-gray-800">Loading website configuration from MongoDB...</p>
-          <span className="text-xs text-gray-500">Retrieving official organization profile & metrics</span>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="eco-cms-form-flow">
-          {/* Card 1: Organization Branding & Core Statements */}
-          <div className="eco-cms-card">
-            <div className="eco-cms-card-header">
-              <div className="eco-cms-card-icon-tile green">
-                <Building2 size={20} />
+      {/* 3. Section Navigation Tabs */}
+      <div className="ref-filter-tabs no-print">
+        <button
+          type="button"
+          onClick={() => setActiveTab('branding')}
+          className={`ref-tab-btn ${activeTab === 'branding' ? 'active' : ''}`}
+        >
+          <Building2 size={15} />
+          <span>Branding & Identity</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('metrics')}
+          className={`ref-tab-btn ${activeTab === 'metrics' ? 'active' : ''}`}
+        >
+          <BarChart3 size={15} />
+          <span>Impact Numbers (5)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('contact')}
+          className={`ref-tab-btn ${activeTab === 'contact' ? 'active' : ''}`}
+        >
+          <Phone size={15} />
+          <span>Contact & Helplines</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('all')}
+          className={`ref-tab-btn ${activeTab === 'all' ? 'active' : ''}`}
+        >
+          <Layers size={15} />
+          <span>All Sections</span>
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        {/* =========================================================================
+            SECTION 1: Organization Branding & Core Identity
+            ========================================================================= */}
+        {(activeTab === 'all' || activeTab === 'branding') && (
+          <div className="cms-section-card">
+            <div className="cms-section-header">
+              <div className="cms-section-header-left">
+                <div className="cms-section-icon-box emerald">
+                  <Building2 size={20} />
+                </div>
+                <div>
+                  <h3 className="cms-section-title">Organization Identity & Branding</h3>
+                  <p className="cms-section-desc">Official legal organization identity, hero title, and core mission/vision statements.</p>
+                </div>
               </div>
-              <div>
-                <h2 className="eco-cms-card-title">Organization Identity &amp; Branding</h2>
-                <p className="eco-cms-card-subtitle">
-                  Configure legal NGO identity, hero title, and official mission/vision statements.
-                </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionEdit('branding')}
+                  className="ref-btn-edit-action"
+                  style={{
+                    height: '28px',
+                    padding: '0 0.65rem',
+                    gap: '0.35rem',
+                    backgroundColor: editingSections.branding ? '#ecfdf5' : '#ffffff',
+                    borderColor: editingSections.branding ? '#059669' : '#e2e8f0',
+                    color: editingSections.branding ? '#065f46' : '#334155',
+                  }}
+                  title="Toggle edit mode for Organization Identity"
+                >
+                  <Edit2 size={13} />
+                  <span>{editingSections.branding ? 'Done' : 'Edit'}</span>
+                </button>
+
+                <span className="eco-tier-pill eco-tier-volunteer">
+                  Core Profile
+                </span>
               </div>
             </div>
 
-            <div className="eco-cms-card-body">
-              {/* Official Name */}
-              <div className="eco-form-field-group">
-                <label className="eco-form-label">
-                  <Landmark size={14} className="text-emerald-700" />
-                  <span>Organization Official Name</span>
-                  <span className="required-star">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.orgName}
-                  onChange={(e) => setFormData({ ...formData, orgName: e.target.value })}
-                  placeholder="e.g. Godhavari Nadhi Paryavarana Parishubratha"
-                  className="eco-form-input"
-                />
-                <span className="eco-form-help-text">
-                  This official name appears on the navbar brand, public footer, and membership ID cards.
-                </span>
+            <div className="cms-section-body">
+              {/* 2-Column: Official Name & Tagline */}
+              <div className="ref-form-grid-2">
+                <div className="cms-field">
+                  <label className="cms-label">
+                    <Landmark size={14} className="text-emerald-700" />
+                    <span>Organization Official Name</span>
+                    <span className="required-star">*</span>
+                  </label>
+                  <div className="cms-input-group">
+                    <Landmark size={16} className="cms-input-icon" />
+                    <input
+                      type="text"
+                      required
+                      value={formData.orgName}
+                      onChange={(e) => setFormData({ ...formData, orgName: e.target.value })}
+                      readOnly={!editingSections.branding}
+                      placeholder="e.g. Godhavari Nadhi Paryavarana Parishubratha"
+                      className="cms-input"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        borderColor: editingSections.branding ? '#059669' : '#e2e8f0',
+                        boxShadow: editingSections.branding ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                        color: '#0f172a',
+                        fontWeight: 600,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="cms-field">
+                  <label className="cms-label">
+                    <Sparkles size={14} className="text-emerald-700" />
+                    <span>Header / Hero Tagline</span>
+                    <span className="required-star">*</span>
+                  </label>
+                  <textarea
+                    rows={2}
+                    required
+                    value={formData.tagline}
+                    onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
+                    readOnly={!editingSections.branding}
+                    placeholder="e.g. Dedicated to the cleanliness, ecological revival, and purity of the sacred River Godavari"
+                    className="cms-textarea"
+                    style={{
+                      minHeight: '44px',
+                      resize: 'vertical',
+                      backgroundColor: '#ffffff',
+                      borderColor: editingSections.branding ? '#059669' : '#e2e8f0',
+                      boxShadow: editingSections.branding ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                      color: '#0f172a',
+                      fontWeight: 500,
+                      lineHeight: '1.45',
+                    }}
+                  />
+                </div>
               </div>
 
-              {/* Tagline */}
-              <div className="eco-form-field-group">
-                <label className="eco-form-label">
-                  <Sparkles size={14} className="text-emerald-700" />
-                  <span>Header / Hero Tagline</span>
-                  <span className="required-star">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.tagline}
-                  onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
-                  placeholder="e.g. Preserving the Purity, Ecological Splendor, and Spiritual Heritage of the Sacred Godavari River"
-                  className="eco-form-input"
-                />
-                <span className="eco-form-help-text">
-                  Hero tagline shown prominently beneath the main homepage heading.
-                </span>
-              </div>
-
-              {/* Mission & Vision Side-by-Side Grid */}
-              <div className="eco-cms-grid-2">
-                <div className="eco-form-field-group">
-                  <label className="eco-form-label">
+              {/* 2-Column: Mission & Vision */}
+              <div className="ref-form-grid-2" style={{ marginTop: '0.75rem' }}>
+                <div className="cms-field">
+                  <label className="cms-label">
                     <Target size={14} className="text-emerald-700" />
                     <span>Mission Statement</span>
                     <span className="required-star">*</span>
@@ -281,16 +417,21 @@ const AdminWebsite = () => {
                     required
                     value={formData.mission}
                     onChange={(e) => setFormData({ ...formData, mission: e.target.value })}
-                    placeholder="Enter the primary mission statement..."
-                    className="eco-form-textarea"
+                    readOnly={!editingSections.branding}
+                    placeholder="Enter organization mission statement..."
+                    className="cms-textarea"
+                    style={{
+                      backgroundColor: '#ffffff',
+                      borderColor: editingSections.branding ? '#059669' : '#e2e8f0',
+                      boxShadow: editingSections.branding ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                      color: '#0f172a',
+                      lineHeight: '1.55',
+                    }}
                   />
-                  <span className="eco-form-help-text">
-                    Defines the core operational objectives of our river cleanliness movement.
-                  </span>
                 </div>
 
-                <div className="eco-form-field-group">
-                  <label className="eco-form-label">
+                <div className="cms-field">
+                  <label className="cms-label">
                     <Eye size={14} className="text-emerald-700" />
                     <span>Vision Statement</span>
                     <span className="required-star">*</span>
@@ -300,295 +441,399 @@ const AdminWebsite = () => {
                     required
                     value={formData.vision}
                     onChange={(e) => setFormData({ ...formData, vision: e.target.value })}
-                    placeholder="Enter the long-term vision statement..."
-                    className="eco-form-textarea"
+                    readOnly={!editingSections.branding}
+                    placeholder="Enter organization vision statement..."
+                    className="cms-textarea"
+                    style={{
+                      backgroundColor: '#ffffff',
+                      borderColor: editingSections.branding ? '#059669' : '#e2e8f0',
+                      boxShadow: editingSections.branding ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                      color: '#0f172a',
+                      lineHeight: '1.55',
+                    }}
                   />
-                  <span className="eco-form-help-text">
-                    Outlines the ecological future we strive to realize along the Godavari.
-                  </span>
                 </div>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Card 2: Public Impact Metrics (Balanced 5-Column Executive Editor) */}
-          <div className="eco-cms-card">
-            <div className="eco-cms-card-header">
-              <div className="eco-cms-card-icon-tile teal">
-                <BarChart3 size={20} />
+        {/* =========================================================================
+            SECTION 2: Public Impact Metrics (5 Counters)
+            ========================================================================= */}
+        {(activeTab === 'all' || activeTab === 'metrics') && (
+          <div className="cms-section-card">
+            <div className="cms-section-header">
+              <div className="cms-section-header-left">
+                <div className="cms-section-icon-box blue">
+                  <BarChart3 size={20} />
+                </div>
+                <div>
+                  <h3 className="cms-section-title">Public Impact Metrics</h3>
+                  <p className="cms-section-desc">These 5 counters update across the public homepage and awareness displays.</p>
+                </div>
               </div>
-              <div>
-                <h2 className="eco-cms-card-title">Public Impact Metrics</h2>
-                <p className="eco-cms-card-subtitle">
-                  These verified numbers highlight the collective achievements on the home and awareness pages.
-                </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionEdit('metrics')}
+                  className="ref-btn-edit-action"
+                  style={{
+                    height: '28px',
+                    padding: '0 0.65rem',
+                    gap: '0.35rem',
+                    backgroundColor: editingSections.metrics ? '#eff6ff' : '#ffffff',
+                    borderColor: editingSections.metrics ? '#2563eb' : '#e2e8f0',
+                    color: editingSections.metrics ? '#1d4ed8' : '#334155',
+                  }}
+                  title="Toggle edit mode for Impact Metrics"
+                >
+                  <Edit2 size={13} />
+                  <span>{editingSections.metrics ? 'Done' : 'Edit'}</span>
+                </button>
+
+                <span className="eco-tier-pill eco-tier-patron">
+                  5 Live Counters
+                </span>
               </div>
             </div>
 
-            <div className="eco-cms-card-body">
-              <div className="eco-metric-editor-grid">
+            <div className="cms-section-body">
+              <div className="cms-metrics-row">
                 {/* Metric 1: Cleanliness Drives */}
-                <div className="eco-metric-input-card card-green">
-                  <div className="metric-tile-header">
-                    <div className="metric-tile-icon-bubble green">
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#ecfdf5', color: '#059669' }}>
                       <Sparkles size={16} />
                     </div>
                     <span className="metric-tag-pill green">Drives</span>
                   </div>
-                  <div className="metric-tile-label">Cleanliness Drives</div>
-                  <div className="metric-input-wrapper">
+                  <span className="cms-metric-card-label">Cleanliness Drives</span>
+                  <div className="cms-metric-input-container">
                     <input
                       type="number"
                       min="0"
                       value={formData.statistics.cleanlinessDrives}
                       onChange={(e) => handleStatChange('cleanlinessDrives', e.target.value)}
-                      className="eco-metric-number-field"
+                      readOnly={!editingSections.metrics}
+                      placeholder="142"
+                      className="cms-metric-val-input"
                     />
+                    <span className="cms-metric-suffix">Drives</span>
                   </div>
-                  <span className="metric-tile-footnote">Drives Completed</span>
+                  <span className="cms-metric-footer-note">Total Drives Completed</span>
                 </div>
 
                 {/* Metric 2: Volunteers Engaged */}
-                <div className="eco-metric-input-card card-blue">
-                  <div className="metric-tile-header">
-                    <div className="metric-tile-icon-bubble blue">
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#eff6ff', color: '#2563eb' }}>
                       <Users size={16} />
                     </div>
                     <span className="metric-tag-pill blue">Volunteers</span>
                   </div>
-                  <div className="metric-tile-label">Active Volunteers</div>
-                  <div className="metric-input-wrapper">
+                  <span className="cms-metric-card-label">Active Volunteers</span>
+                  <div className="cms-metric-input-container">
                     <input
                       type="number"
                       min="0"
                       value={formData.statistics.volunteersActive}
                       onChange={(e) => handleStatChange('volunteersActive', e.target.value)}
-                      className="eco-metric-number-field"
+                      readOnly={!editingSections.metrics}
+                      placeholder="1250"
+                      className="cms-metric-val-input"
                     />
+                    <span className="cms-metric-suffix">Active</span>
                   </div>
-                  <span className="metric-tile-footnote">Members Engaged</span>
+                  <span className="cms-metric-footer-note">Registered Stewards</span>
                 </div>
 
                 {/* Metric 3: Waste Removed (Tons) */}
-                <div className="eco-metric-input-card card-amber">
-                  <div className="metric-tile-header">
-                    <div className="metric-tile-icon-bubble amber">
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#fffbeb', color: '#d97706' }}>
                       <Recycle size={16} />
                     </div>
                     <span className="metric-tag-pill amber">Tons</span>
                   </div>
-                  <div className="metric-tile-label">Waste Removed</div>
-                  <div className="metric-input-wrapper">
+                  <span className="cms-metric-card-label">Waste Removed</span>
+                  <div className="cms-metric-input-container">
                     <input
                       type="number"
                       min="0"
                       value={formData.statistics.wasteRemovedTons}
                       onChange={(e) => handleStatChange('wasteRemovedTons', e.target.value)}
-                      className="eco-metric-number-field"
+                      readOnly={!editingSections.metrics}
+                      placeholder="85"
+                      className="cms-metric-val-input"
                     />
+                    <span className="cms-metric-suffix">Tons</span>
                   </div>
-                  <span className="metric-tile-footnote">Metric Tons Lifted</span>
+                  <span className="cms-metric-footer-note">Metric Tons Intercepted</span>
                 </div>
 
                 {/* Metric 4: River Ghats Cleaned */}
-                <div className="eco-metric-input-card card-cyan">
-                  <div className="metric-tile-header">
-                    <div className="metric-tile-icon-bubble cyan">
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#ecfeff', color: '#0891b2' }}>
                       <Waves size={16} />
                     </div>
                     <span className="metric-tag-pill cyan">Ghats</span>
                   </div>
-                  <div className="metric-tile-label">Ghats Restored</div>
-                  <div className="metric-input-wrapper">
+                  <span className="cms-metric-card-label">Ghats Restored</span>
+                  <div className="cms-metric-input-container">
                     <input
                       type="number"
                       min="0"
                       value={formData.statistics.ghatsCleaned}
                       onChange={(e) => handleStatChange('ghatsCleaned', e.target.value)}
-                      className="eco-metric-number-field"
+                      readOnly={!editingSections.metrics}
+                      placeholder="18"
+                      className="cms-metric-val-input"
                     />
+                    <span className="cms-metric-suffix">Ghats</span>
                   </div>
-                  <span className="metric-tile-footnote">Riverfront Ghats</span>
+                  <span className="cms-metric-footer-note">Protected Riverfront Ghats</span>
                 </div>
 
                 {/* Metric 5: Trees Planted */}
-                <div className="eco-metric-input-card card-emerald">
-                  <div className="metric-tile-header">
-                    <div className="metric-tile-icon-bubble emerald">
+                <div className="cms-metric-card">
+                  <div className="cms-metric-card-top">
+                    <div className="cms-metric-bubble" style={{ backgroundColor: '#ecfdf5', color: '#047857' }}>
                       <TreePine size={16} />
                     </div>
-                    <span className="metric-tag-pill emerald">Plantation</span>
+                    <span className="metric-tag-pill emerald">Trees</span>
                   </div>
-                  <div className="metric-tile-label">Trees Planted</div>
-                  <div className="metric-input-wrapper">
+                  <span className="cms-metric-card-label">Trees Planted</span>
+                  <div className="cms-metric-input-container">
                     <input
                       type="number"
                       min="0"
                       value={formData.statistics.treesPlanted}
                       onChange={(e) => handleStatChange('treesPlanted', e.target.value)}
-                      className="eco-metric-number-field"
+                      readOnly={!editingSections.metrics}
+                      placeholder="3500"
+                      className="cms-metric-val-input"
                     />
+                    <span className="cms-metric-suffix">Trees</span>
                   </div>
-                  <span className="metric-tile-footnote">Riparian Saplings</span>
+                  <span className="cms-metric-footer-note">Riparian Buffer Saplings</span>
                 </div>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Card 3: Contact, Helplines & Physical Secretariat */}
-          <div className="eco-cms-card">
-            <div className="eco-cms-card-header">
-              <div className="eco-cms-card-icon-tile amber">
-                <Phone size={20} />
+        {/* =========================================================================
+            SECTION 3: Official Contact & Helplines
+            ========================================================================= */}
+        {(activeTab === 'all' || activeTab === 'contact') && (
+          <div className="cms-section-card">
+            <div className="cms-section-header">
+              <div className="cms-section-header-left">
+                <div className="cms-section-icon-box amber">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <h3 className="cms-section-title">Secretariat Contact & Helplines</h3>
+                  <p className="cms-section-desc">Public helpline channels, secretariat headquarters address, and operating schedule.</p>
+                </div>
               </div>
-              <div>
-                <h2 className="eco-cms-card-title">Contact &amp; Helpline Information</h2>
-                <p className="eco-cms-card-subtitle">
-                  Public contact points for citizens, volunteers, media inquiries, and 24/7 river emergency support.
-                </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <button
+                  type="button"
+                  onClick={() => toggleSectionEdit('contact')}
+                  className="ref-btn-edit-action"
+                  style={{
+                    height: '28px',
+                    padding: '0 0.65rem',
+                    gap: '0.35rem',
+                    backgroundColor: editingSections.contact ? '#ecfdf5' : '#ffffff',
+                    borderColor: editingSections.contact ? '#059669' : '#e2e8f0',
+                    color: editingSections.contact ? '#065f46' : '#334155',
+                  }}
+                  title="Toggle edit mode for Contact & Helplines"
+                >
+                  <Edit2 size={13} />
+                  <span>{editingSections.contact ? 'Done' : 'Edit'}</span>
+                </button>
+
+                <span className="eco-tier-pill eco-tier-annual">
+                  Public Helplines
+                </span>
               </div>
             </div>
 
-            <div className="eco-cms-card-body">
-              {/* Row 1: 3 Communication Channels */}
-              <div className="eco-cms-grid-3">
-                {/* Email Address */}
-                <div className="eco-form-field-group">
-                  <label className="eco-form-label">
+            <div className="cms-section-body">
+              {/* 3-Column: Email, Phone, Helpline */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem' }}>
+                <div className="cms-field">
+                  <label className="cms-label">
                     <Mail size={14} className="text-emerald-700" />
                     <span>Official Email Address</span>
                     <span className="required-star">*</span>
                   </label>
-                  <div className="eco-input-icon-wrap">
-                    <Mail size={16} className="eco-input-left-icon" />
+                  <div className="cms-input-group">
+                    <Mail size={16} className="cms-input-icon" />
                     <input
                       type="email"
                       required
                       value={formData.contactInfo.email}
                       onChange={(e) => handleContactChange('email', e.target.value)}
-                      placeholder="e.g. contact@godhavari.org"
-                      className="eco-form-input with-icon"
+                      readOnly={!editingSections.contact}
+                      placeholder="e.g. contact@godhavarinadhiorg.in"
+                      className="cms-input"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        borderColor: editingSections.contact ? '#059669' : '#e2e8f0',
+                        boxShadow: editingSections.contact ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                        color: '#0f172a',
+                        fontWeight: 500,
+                      }}
                     />
                   </div>
                 </div>
 
-                {/* Office Phone */}
-                <div className="eco-form-field-group">
-                  <label className="eco-form-label">
+                <div className="cms-field">
+                  <label className="cms-label">
                     <Phone size={14} className="text-emerald-700" />
                     <span>Office Landline / Phone</span>
                     <span className="required-star">*</span>
                   </label>
-                  <div className="eco-input-icon-wrap">
-                    <Phone size={16} className="eco-input-left-icon" />
+                  <div className="cms-input-group">
+                    <Phone size={16} className="cms-input-icon" />
                     <input
                       type="text"
                       required
                       value={formData.contactInfo.phone}
                       onChange={(e) => handleContactChange('phone', e.target.value)}
+                      readOnly={!editingSections.contact}
                       placeholder="e.g. +91 883 245 7890"
-                      className="eco-form-input with-icon"
+                      className="cms-input"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        borderColor: editingSections.contact ? '#059669' : '#e2e8f0',
+                        boxShadow: editingSections.contact ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                        color: '#0f172a',
+                        fontWeight: 500,
+                      }}
                     />
                   </div>
                 </div>
 
-                {/* Emergency River Helpline */}
-                <div className="eco-form-field-group">
-                  <label className="eco-form-label">
+                <div className="cms-field">
+                  <label className="cms-label">
                     <AlertTriangle size={14} className="text-rose-600" />
                     <span className="text-rose-800">Emergency River Helpline</span>
-                    <span className="emergency-badge">24/7</span>
+                    <span className="emergency-badge">24/7 Live</span>
                   </label>
-                  <div className="eco-input-icon-wrap">
-                    <Phone size={16} className="eco-input-left-icon text-rose-600" />
+                  <div className="cms-input-group">
+                    <Phone size={16} className="cms-input-icon text-rose-600" />
                     <input
                       type="text"
                       required
                       value={formData.contactInfo.helpline}
                       onChange={(e) => handleContactChange('helpline', e.target.value)}
+                      readOnly={!editingSections.contact}
                       placeholder="e.g. +91 944 012 3456"
-                      className="eco-form-input with-icon emergency-input"
+                      className="cms-input"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        borderColor: editingSections.contact ? '#059669' : '#fca5a5',
+                        boxShadow: editingSections.contact ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                        color: '#0f172a',
+                        fontWeight: 600,
+                      }}
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Row 2: 2 Column Physical Address & Office Hours */}
-              <div className="eco-cms-grid-2 mt-4">
-                {/* Physical Secretariat Address */}
-                <div className="eco-form-field-group">
-                  <label className="eco-form-label">
+              {/* 2-Column: Physical Address & Operating Hours */}
+              <div className="ref-form-grid-2" style={{ marginTop: '0.75rem' }}>
+                <div className="cms-field">
+                  <label className="cms-label">
                     <MapPin size={14} className="text-emerald-700" />
                     <span>Head Office Physical Address</span>
                     <span className="required-star">*</span>
                   </label>
-                  <div className="eco-input-icon-wrap">
-                    <MapPin size={16} className="eco-input-left-icon" />
+                  <div className="cms-input-group">
+                    <MapPin size={16} className="cms-input-icon" />
                     <input
                       type="text"
                       required
                       value={formData.contactInfo.address}
                       onChange={(e) => handleContactChange('address', e.target.value)}
-                      placeholder="e.g. Godavari Bund Road, Opp. Kotilingala Temple Ghat, Rajahmundry, AP"
-                      className="eco-form-input with-icon"
+                      readOnly={!editingSections.contact}
+                      placeholder="e.g. Godavari Bund Road, Near Kotilingala Ghat, Rajahmundry"
+                      className="cms-input"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        borderColor: editingSections.contact ? '#059669' : '#e2e8f0',
+                        boxShadow: editingSections.contact ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                        color: '#0f172a',
+                        fontWeight: 500,
+                      }}
                     />
                   </div>
                 </div>
 
-                {/* Office Hours */}
-                <div className="eco-form-field-group">
-                  <label className="eco-form-label">
+                <div className="cms-field">
+                  <label className="cms-label">
                     <Clock size={14} className="text-emerald-700" />
                     <span>Office Operating Hours</span>
                     <span className="required-star">*</span>
                   </label>
-                  <div className="eco-input-icon-wrap">
-                    <Clock size={16} className="eco-input-left-icon" />
+                  <div className="cms-input-group">
+                    <Clock size={16} className="cms-input-icon" />
                     <input
                       type="text"
                       required
                       value={formData.contactInfo.officeHours}
                       onChange={(e) => handleContactChange('officeHours', e.target.value)}
-                      placeholder="e.g. Monday - Saturday: 8:30 AM - 6:30 PM"
-                      className="eco-form-input with-icon"
+                      readOnly={!editingSections.contact}
+                      placeholder="e.g. Monday - Saturday: 9:00 AM - 6:00 PM"
+                      className="cms-input"
+                      style={{
+                        backgroundColor: '#ffffff',
+                        borderColor: editingSections.contact ? '#059669' : '#e2e8f0',
+                        boxShadow: editingSections.contact ? '0 0 0 2px rgba(5, 150, 105, 0.12)' : 'none',
+                        color: '#0f172a',
+                        fontWeight: 500,
+                      }}
                     />
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Sticky / Floating Action Bar at the Bottom */}
-          <div className="eco-cms-bottom-bar">
-            <div className="eco-cms-bottom-meta">
-              <ShieldCheck size={18} className="text-emerald-600" />
-              <span>
-                Changes are verified and directly persisted to the <strong>MongoDB Atlas</strong> database.
-              </span>
-            </div>
-
-            <div className="eco-cms-bottom-actions">
-              <button
-                type="button"
-                onClick={fetchWebsiteData}
-                disabled={loading || saving}
-                className="eco-cms-btn-secondary"
-              >
-                <RefreshCw size={14} />
-                <span>Discard Changes</span>
-              </button>
-              <button
-                type="submit"
-                disabled={saving}
-                className="eco-cms-btn-save-primary"
-              >
-                <Save size={16} />
-                <span>{saving ? 'Saving to Database...' : 'Save & Publish CMS Content'}</span>
-              </button>
-            </div>
+        {/* =========================================================================
+            BOTTOM ACTION DOCK
+            ========================================================================= */}
+        <div className="eco-cms-bottom-bar">
+          <div className="eco-cms-bottom-meta">
+            <ShieldCheck size={18} className="text-emerald-600" />
+            <span>
+              All updates are saved securely to MongoDB Atlas.
+            </span>
           </div>
-        </form>
-      )}
+
+          <div className="eco-cms-bottom-actions">
+            <button
+              type="submit"
+              disabled={saving}
+              className="ref-btn-enroll"
+            >
+              <Save size={16} />
+              <span>{saving ? 'Saving...' : 'Save & Publish'}</span>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };

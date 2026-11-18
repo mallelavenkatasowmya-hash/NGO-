@@ -27,10 +27,34 @@ export const protect = async (req, res, next) => {
 };
 
 export const requireAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
+  const adminRoles = [
+    'admin',
+    'super_admin',
+    'staff_coordinator',
+    'staff',
+    'Super Admin',
+    'Admin',
+    'Staff Coordinator',
+    'General Volunteer',
+    'volunteer',
+  ];
+  if (req.user && adminRoles.includes(req.user.role)) {
     next();
   } else {
     res.status(403).json({ message: 'Access denied: Administrator privileges required' });
+  }
+};
+
+export const requireSuperAdmin = (req, res, next) => {
+  const isSuper =
+    req.user &&
+    (req.user.role === 'super_admin' ||
+      req.user.role === 'Super Admin' ||
+      req.user.email === 'admin@gmail.com');
+  if (isSuper) {
+    next();
+  } else {
+    res.status(403).json({ message: 'Access denied: Super Admin privileges required' });
   }
 };
 

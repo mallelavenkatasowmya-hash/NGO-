@@ -85,13 +85,6 @@ const Footer = () => {
           <p className="footer-copyright">
             &copy; {currentYear} Godhavari Nadhi Paryavarana Parishubratha. All rights reserved.
           </p>
-          <div className="footer-legal-row">
-            <Link to="/about">About Us</Link>
-            <span className="footer-dot">•</span>
-            <Link to="/contact">Contact</Link>
-            <span className="footer-dot">•</span>
-            <span>Rajahmundry, Andhra Pradesh</span>
-          </div>
         </div>
       </div>
     </footer>
