@@ -28,10 +28,12 @@ const MemberHome = () => {
           API.get('/member/announcements'),
         ]);
 
-        if (eventsRes.data && eventsRes.data.length > 0) {
-          setNextEvent(eventsRes.data[0]);
+        const eventsData = Array.isArray(eventsRes.data) ? eventsRes.data : Array.isArray(eventsRes.data?.events) ? eventsRes.data.events : [];
+        if (eventsData.length > 0) {
+          setNextEvent(eventsData[0]);
         }
-        setAnnouncements(announcementsRes.data ? announcementsRes.data.slice(0, 3) : []);
+        const announcementsData = Array.isArray(announcementsRes.data) ? announcementsRes.data : Array.isArray(announcementsRes.data?.announcements) ? announcementsRes.data.announcements : [];
+        setAnnouncements(announcementsData.slice(0, 3));
       } catch (err) {
         console.error('Error fetching member home data:', err);
       } finally {
