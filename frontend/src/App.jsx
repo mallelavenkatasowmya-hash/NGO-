@@ -11,6 +11,9 @@ import MemberRoute from './components/MemberRoute';
 // Public Pages
 import Home from './pages/Home';
 import About from './pages/About';
+import AboutNGO from './pages/AboutNGO';
+import AboutMission from './pages/AboutMission';
+import AboutObjectives from './pages/AboutObjectives';
 import Activities from './pages/Activities';
 import AwarenessPrograms from './pages/AwarenessPrograms';
 import Events from './pages/Events';
@@ -78,7 +81,10 @@ function App() {
           {/* Public Website Routes */}
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/about" element={<AboutNGO />} />
+            <Route path="/about/ngo" element={<AboutNGO />} />
+            <Route path="/about/mission" element={<AboutMission />} />
+            <Route path="/about/objectives" element={<AboutObjectives />} />
             <Route path="/activities" element={<Activities />} />
             <Route path="/awareness" element={<AwarenessPrograms />} />
             <Route path="/events" element={<Events />} />

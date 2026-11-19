@@ -67,9 +67,9 @@ const Navbar = () => {
       path: '/about',
       hasDropdown: true,
       children: [
-        { label: 'About Our NGO', path: '/about', icon: Info },
-        { label: 'Our Mission & Vision', path: '/about#mission', icon: Target },
-        { label: 'Our Objectives', path: '/about#objectives', icon: Star },
+        { label: 'About Our NGO', path: '/about/ngo', icon: Info },
+        { label: 'Our Mission & Vision', path: '/about/mission', icon: Target },
+        { label: 'Our Objectives', path: '/about/objectives', icon: Star },
       ],
     },
     {
