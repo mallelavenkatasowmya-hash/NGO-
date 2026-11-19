@@ -1,502 +1,428 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import heroBannerImg from '../assets/hero-banner.jpg';
 import { 
-  Leaf, 
-  Target, 
   Users, 
+  Target, 
+  Leaf, 
+  Globe, 
   HeartHandshake, 
+  ShieldCheck, 
   Sparkles, 
-  ArrowRight, 
-  CheckCircle2, 
-  Globe2, 
-  ShieldCheck,
-  Compass
+  ArrowRight,
+  Compass,
+  CheckCircle2
 } from 'lucide-react';
 
-const standForItems = [
+const standForList = [
   {
     title: 'Environmental Cleanliness',
-    desc: 'Dedicated to preserving pure riverbanks, ghats, and natural ecological surroundings.',
+    desc: 'Maintaining pristine surroundings and protecting our riverbanks, ghats, and natural ecosystems.',
     icon: Leaf,
-    color: '#15803d',
-    bg: '#f0fdf4',
-    border: '#bbf7d0',
+    color: '#059669',
+    bg: '#ecfdf5',
   },
   {
     title: 'Public Awareness',
-    desc: 'Educating citizens on responsible waste disposal and long-term river conservation.',
-    icon: Globe2,
+    desc: 'Spreading knowledge on environmental responsibility and the critical importance of conservation.',
+    icon: Globe,
     color: '#0284c7',
     bg: '#f0f9ff',
-    border: '#bae6fd',
   },
   {
     title: 'Community Participation',
-    desc: 'Mobilizing youth, families, and local groups to take direct civic ownership.',
+    desc: 'Mobilizing citizens, youth, and local organizations to take active civic ownership of our environment.',
     icon: Users,
     color: '#7c3aed',
     bg: '#faf5ff',
-    border: '#e9d5ff',
   },
   {
     title: 'Responsible Environmental Practices',
-    desc: 'Encouraging sustainable everyday habits that eliminate plastic and reduce contamination.',
+    desc: 'Fostering sustainable everyday habits that eliminate plastic waste and prevent pollution.',
     icon: ShieldCheck,
-    color: '#b45309',
+    color: '#d97706',
     bg: '#fffbeb',
-    border: '#fde68a',
   },
   {
     title: 'Collective Efforts for a Cleaner Society',
-    desc: 'Uniting public administration, pilgrims, and local residents for lasting social impact.',
+    desc: 'Uniting volunteers, authorities, and pilgrims for lasting and meaningful social impact.',
     icon: HeartHandshake,
     color: '#0f766e',
     bg: '#f0fdfa',
-    border: '#99f6e4',
   },
 ];
 
 const AboutNGO = () => {
   return (
-    <div style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', system-ui, sans-serif", color: '#0f172a', background: '#f8fafc', minHeight: '100vh' }}>
+    <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. HERO BANNER */}
-      <section style={{
-        background: 'linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%)',
-        color: '#ffffff',
-        padding: '80px 24px 70px',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: '-30%',
-          right: '-10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.15) 0%, transparent 70%)',
-          borderRadius: '50%',
-          pointerEvents: 'none'
-        }} />
-
-        <div style={{ maxWidth: '880px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'rgba(255, 255, 255, 0.16)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255, 255, 255, 0.25)',
-            padding: '6px 16px',
-            borderRadius: '999px',
-            fontSize: '0.82rem',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: '#bbf7d0',
-            marginBottom: '20px'
-          }}>
-            <Leaf size={14} />
-            <span>Official Organization Profile</span>
-          </div>
-
-          <h1 style={{
-            fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
-            fontWeight: 800,
-            lineHeight: 1.2,
-            letterSpacing: '-0.025em',
-            margin: '0 0 16px',
-            color: '#ffffff'
-          }}>
+      {/* 1. PROFESSIONAL HEADER */}
+      <section className="clean-page-header" style={{ padding: '4rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
+          <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
+            WHO WE ARE
+          </span>
+          <h1 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', fontWeight: 800, color: '#0f172a', margin: '0.75rem 0', letterSpacing: '-0.025em', lineHeight: 1.2 }}>
             Godhavari Nadhi Paryavarana Parishubratha
           </h1>
-
-          <p style={{
-            fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
-            fontWeight: 600,
-            color: '#86efac',
-            margin: '0 auto 24px',
-            lineHeight: 1.5,
-            maxWidth: '720px'
-          }}>
+          <p style={{ fontSize: '1.15rem', fontWeight: 600, color: '#059669', margin: '0 0 1rem', lineHeight: 1.5 }}>
             Creating Awareness. Promoting Cleanliness. Encouraging Community Participation.
           </p>
-
-          <p style={{
-            fontSize: 'clamp(0.95rem, 1.3vw, 1.05rem)',
-            color: '#ecfdf5',
-            lineHeight: 1.75,
-            margin: '0 auto',
-            maxWidth: '740px',
-            opacity: 0.95
-          }}>
+          <p className="clean-page-sub" style={{ fontSize: '1rem', color: '#64748b', maxWidth: '720px', margin: '0 auto', lineHeight: 1.7 }}>
             Godhavari Nadhi Paryavarana Parishubratha is an organization focused on public awareness, 
             environmental cleanliness and community development activities.
           </p>
         </div>
       </section>
 
-      {/* 2. MAIN INTRO STATEMENT */}
-      <section style={{ maxWidth: '1080px', margin: '-32px auto 0', padding: '0 24px', position: 'relative', zIndex: 2 }}>
-        <div style={{
-          background: '#ffffff',
-          borderRadius: '20px',
-          boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
-          border: '1px solid #e2e8f0',
-          padding: '40px 36px'
-        }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', alignItems: 'center' }}>
+      {/* 2. CORE STORY & NARRATIVE (IMAGE + EDITORIAL) */}
+      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff' }}>
+        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
+            
+            {/* Left Content */}
             <div>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                color: '#059669',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                marginBottom: '10px'
-              }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#059669', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
                 <Sparkles size={16} />
-                <span>Our Core Conviction</span>
+                <span>Our Foundation</span>
               </div>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', margin: '0 0 14px', lineHeight: 1.3 }}>
+              <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.1rem)', fontWeight: 800, color: '#0f172a', lineHeight: 1.3, margin: '0 0 1.25rem' }}>
                 Collective Responsibility for a Cleaner Environment
               </h2>
-              <p style={{ color: '#475569', lineHeight: 1.8, fontSize: '0.98rem', margin: 0 }}>
-                Our organization aims to encourage individuals and communities to understand the importance 
-                of environmental protection and cleanliness. We believe that maintaining a clean environment 
-                is a collective responsibility that requires active participation from every individual.
+              <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.8, margin: '0 0 1.25rem' }}>
+                Our organization aims to encourage individuals and communities to understand the importance of 
+                environmental protection and cleanliness. We believe that maintaining a clean environment is a 
+                <strong style={{ color: '#0f172a' }}> collective responsibility</strong> that requires active participation from every individual.
               </p>
-            </div>
-
-            <div style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '16px',
-              padding: '24px 28px',
-              borderLeft: '4px solid #10b981'
-            }}>
-              <p style={{ color: '#334155', lineHeight: 1.8, fontSize: '0.96rem', margin: 0 }}>
-                Through <strong>cleanliness drives</strong>, <strong>public awareness initiatives</strong> and <strong>community activities</strong>, 
-                we seek to motivate people to participate in maintaining clean surroundings and protecting 
-                the natural environment.
+              <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.8, margin: '0 0 1.75rem' }}>
+                Through cleanliness drives, public awareness initiatives and community activities, we seek to 
+                motivate people to participate in maintaining clean surroundings and protecting the natural environment.
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* 3. WHO WE ARE & OUR PURPOSE */}
-      <section style={{ maxWidth: '1080px', margin: '60px auto 0', padding: '0 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-          
-          {/* Card: Who We Are */}
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '18px',
-            padding: '36px 32px',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <div style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '12px',
-              background: '#ecfdf5',
-              color: '#059669',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '20px'
-            }}>
-              <Users size={24} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {[
+                  'Educating citizens and youth on long-term river conservation',
+                  'Regular weekend volunteer cleanliness drives across Godavari ghats',
+                  'Fostering civic ownership and environmental responsibility'
+                ].map((item, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.95rem', color: '#334155', fontWeight: 500 }}>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 14px' }}>
-              Who We Are
-            </h3>
-
-            <p style={{ color: '#475569', lineHeight: 1.8, fontSize: '0.96rem', margin: '0 0 14px' }}>
-              We are an organization committed to promoting environmental awareness and cleanliness among the public.
-            </p>
-
-            <p style={{ color: '#475569', lineHeight: 1.8, fontSize: '0.96rem', margin: 0 }}>
-              We believe that community participation plays an important role in creating positive environmental changes. 
-              Our focus is on encouraging people to come together, participate in cleanliness initiatives and develop 
-              responsible environmental practices.
-            </p>
-          </div>
-
-          {/* Card: Our Purpose */}
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '18px',
-            padding: '36px 32px',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <div style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '12px',
-              background: '#eff6ff',
-              color: '#2563eb',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '20px'
-            }}>
-              <Target size={24} />
-            </div>
-
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 14px' }}>
-              Our Purpose
-            </h3>
-
-            <p style={{ color: '#475569', lineHeight: 1.85, fontSize: '1rem', margin: '0 0 20px' }}>
-              Our purpose is to promote cleanliness, create environmental awareness and encourage public participation 
-              in activities that contribute to a healthier environment.
-            </p>
-
-            <div style={{
-              marginTop: 'auto',
-              background: '#f8fafc',
-              borderRadius: '12px',
-              padding: '16px 20px',
-              border: '1px dashed #cbd5e1'
-            }}>
-              <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Key Focus Areas
-              </span>
-              <p style={{ margin: '6px 0 0', fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6 }}>
-                Awareness campaigns • On-ground cleanliness • Youth mobilization
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. WHAT WE STAND FOR */}
-      <section style={{ maxWidth: '1080px', margin: '60px auto 0', padding: '0 24px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            color: '#059669',
-            fontSize: '0.82rem',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            marginBottom: '8px'
-          }}>
-            <Compass size={14} />
-            <span>Guiding Principles</span>
-          </div>
-          <h2 style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)', fontWeight: 800, color: '#0f172a', margin: 0 }}>
-            What We Stand For
-          </h2>
-        </div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '20px'
-        }}>
-          {standForItems.map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={idx}
-                style={{
-                  background: '#ffffff',
-                  border: `1.5px solid #e2e8f0`,
-                  borderRadius: '16px',
-                  padding: '24px 22px',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '16px',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
-                  transition: 'transform 0.2s ease, border-color 0.2s ease'
-                }}
-              >
+            {/* Right Visual Image Card */}
+            <div style={{ position: 'relative' }}>
+              <div style={{
+                borderRadius: '20px',
+                overflow: 'hidden',
+                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.12)',
+                border: '1px solid #e2e8f0',
+                position: 'relative',
+                background: '#0f172a'
+              }}>
+                <img 
+                  src={heroBannerImg} 
+                  alt="Godavari River Cleanliness and Awareness Drive" 
+                  style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block', opacity: 0.92 }}
+                />
                 <div style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '12px',
-                  background: item.bg,
-                  color: item.color,
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(6, 78, 59, 0.85) 0%, rgba(6, 78, 59, 0.2) 60%, transparent 100%)',
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                  padding: '2rem'
                 }}>
-                  <Icon size={22} />
-                </div>
-                <div>
-                  <h4 style={{ fontSize: '1.02rem', fontWeight: 700, color: '#0f172a', margin: '0 0 6px', lineHeight: 1.35 }}>
-                    {item.title}
-                  </h4>
-                  <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-                    {item.desc}
+                  <span style={{ color: '#86efac', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.4rem' }}>
+                    Environmental Mission
+                  </span>
+                  <p style={{ color: '#ffffff', fontSize: '1.2rem', fontWeight: 700, margin: 0, lineHeight: 1.4 }}>
+                    Together for a Cleaner Environment.<br />Together for a Better Future.
                   </p>
                 </div>
               </div>
-            );
-          })}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 3. WHO WE ARE & OUR PURPOSE (DUAL SECTION) */}
+      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+            
+            {/* Box 1: Who We Are */}
+            <div style={{
+              background: '#ffffff',
+              borderRadius: '16px',
+              border: '1px solid #e2e8f0',
+              padding: '2.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#ecfdf5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <Users size={24} />
+              </div>
+              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', margin: '0 0 1rem' }}>
+                Who We Are
+              </h3>
+              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.75, margin: '0 0 1rem' }}>
+                We are an organization committed to promoting environmental awareness and cleanliness among the public.
+              </p>
+              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.75, margin: 0 }}>
+                We believe that community participation plays an important role in creating positive environmental changes. 
+                Our focus is on encouraging people to come together, participate in cleanliness initiatives and develop 
+                responsible environmental practices.
+              </p>
+            </div>
+
+            {/* Box 2: Our Purpose */}
+            <div style={{
+              background: '#ffffff',
+              borderRadius: '16px',
+              border: '1px solid #e2e8f0',
+              padding: '2.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: '#eff6ff', color: '#0284c7', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <Target size={24} />
+              </div>
+              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', margin: '0 0 1rem' }}>
+                Our Purpose
+              </h3>
+              <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.8, margin: '0 0 1.5rem' }}>
+                Our purpose is to promote cleanliness, create environmental awareness and encourage public participation 
+                in activities that contribute to a healthier environment.
+              </p>
+              <div style={{
+                marginTop: 'auto',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+                padding: '1.25rem'
+              }}>
+                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Core Mission Goal
+                </span>
+                <p style={{ margin: '0.35rem 0 0', fontSize: '0.92rem', color: '#334155', lineHeight: 1.6 }}>
+                  Empowering every citizen to be an active guardian of our river and public surroundings.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 4. WHAT WE STAND FOR (5 PILLARS) */}
+      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff' }}>
+        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
+              GUIDING PRINCIPLES
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+              What We Stand For
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
+              Five foundational values that steer our organization's daily work and community engagements.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1.5rem'
+          }}>
+            {standForList.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <div 
+                  key={idx}
+                  style={{
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '16px',
+                    padding: '2rem 1.75rem',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start'
+                  }}
+                >
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: item.bg,
+                    color: item.color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '1.25rem'
+                  }}>
+                    <Icon size={22} />
+                  </div>
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
+                    {item.title}
+                  </h4>
+                  <p style={{ fontSize: '0.92rem', color: '#64748b', lineHeight: 1.65, margin: 0 }}>
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
       </section>
 
       {/* 5. OUR APPROACH & OUR COMMITMENT */}
-      <section style={{ maxWidth: '1080px', margin: '60px auto 0', padding: '0 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
+      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           
-          {/* Our Approach */}
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '18px',
-            padding: '36px 32px',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)'
-          }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+            
+            {/* Our Approach */}
             <div style={{
-              display: 'inline-flex',
-              padding: '6px 12px',
-              borderRadius: '8px',
-              background: '#ecfdf5',
-              color: '#059669',
-              fontWeight: 700,
-              fontSize: '0.8rem',
-              marginBottom: '16px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em'
+              background: '#ffffff',
+              border: '1px solid #e2e8f0',
+              borderRadius: '16px',
+              padding: '2.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
             }}>
-              Strategy in Action
-            </div>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 14px' }}>
-              Our Approach
-            </h3>
-            <p style={{ color: '#475569', lineHeight: 1.85, fontSize: '0.96rem', margin: 0 }}>
-              We believe that meaningful environmental change begins with <strong>awareness and action</strong>. 
-              By encouraging people to participate in community activities and cleanliness initiatives, 
-              we aim to create a positive impact on society.
-            </p>
-          </div>
-
-          {/* Our Commitment */}
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '18px',
-            padding: '36px 32px',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)'
-          }}>
-            <div style={{
-              display: 'inline-flex',
-              padding: '6px 12px',
-              borderRadius: '8px',
-              background: '#fef3c7',
-              color: '#b45309',
-              fontWeight: 700,
-              fontSize: '0.8rem',
-              marginBottom: '16px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em'
-            }}>
-              Dedication to Future
-            </div>
-            <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 14px' }}>
-              Our Commitment
-            </h3>
-            <p style={{ color: '#475569', lineHeight: 1.85, fontSize: '0.96rem', margin: '0 0 14px' }}>
-              We are committed to encouraging a culture of cleanliness, environmental responsibility and community involvement.
-            </p>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-              <CheckCircle2 size={18} style={{ color: '#10b981', flexShrink: 0, marginTop: '2px' }} />
-              <p style={{ color: '#0f766e', fontWeight: 600, fontSize: '0.92rem', lineHeight: 1.6, margin: 0 }}>
-                Every small effort towards protecting our surroundings can contribute to a cleaner and healthier future.
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#ecfdf5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Compass size={22} />
+                </div>
+                <div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Strategy in Action</span>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Our Approach</h3>
+                </div>
+              </div>
+              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.8, margin: 0 }}>
+                We believe that meaningful environmental change begins with <strong>awareness and action</strong>. 
+                By encouraging people to participate in community activities and cleanliness initiatives, 
+                we aim to create a positive impact on society.
               </p>
             </div>
+
+            {/* Our Commitment */}
+            <div style={{
+              background: '#ffffff',
+              border: '1px solid #e2e8f0',
+              borderRadius: '16px',
+              padding: '2.5rem',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <ShieldCheck size={22} />
+                </div>
+                <div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#d97706', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Long-Term Promise</span>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Our Commitment</h3>
+                </div>
+              </div>
+              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.8, margin: '0 0 1rem' }}>
+                We are committed to encouraging a culture of cleanliness, environmental responsibility and community involvement.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', background: '#f0fdf4', padding: '0.9rem 1.1rem', borderRadius: '10px', border: '1px solid #bbf7d0' }}>
+                <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <span style={{ fontSize: '0.92rem', color: '#065f46', fontWeight: 600, lineHeight: 1.5 }}>
+                  Every small effort towards protecting our surroundings can contribute to a cleaner and healthier future.
+                </span>
+              </div>
+            </div>
+
           </div>
 
         </div>
       </section>
 
-      {/* 6. JOIN OUR INITIATIVE (CTA) */}
-      <section style={{ maxWidth: '1080px', margin: '60px auto 80px', padding: '0 24px' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, #064e3b 0%, #047857 100%)',
-          borderRadius: '24px',
-          padding: '60px 36px',
-          textAlign: 'center',
-          color: '#ffffff',
-          boxShadow: '0 15px 35px -10px rgba(6, 78, 59, 0.3)'
-        }}>
-          <h2 style={{ fontSize: 'clamp(1.7rem, 2.8vw, 2.3rem)', fontWeight: 800, margin: '0 0 14px', color: '#ffffff' }}>
+      {/* 6. JOIN OUR INITIATIVE (PROFESSIONAL CTA) */}
+      <section style={{ padding: '5rem 1.5rem', background: '#064e3b', color: '#ffffff' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
+          
+          <span style={{
+            display: 'inline-block',
+            background: 'rgba(255, 255, 255, 0.12)',
+            border: '1px solid rgba(255, 255, 255, 0.25)',
+            color: '#86efac',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            padding: '0.35rem 1rem',
+            borderRadius: '999px',
+            marginBottom: '1rem',
+            textTransform: 'uppercase'
+          }}>
+            BE PART OF THE CHANGE
+          </span>
+
+          <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', fontWeight: 800, margin: '0 0 1rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
             Join Our Initiative
           </h2>
 
-          <p style={{ fontSize: '1.05rem', color: '#ecfdf5', maxWidth: '640px', margin: '0 auto 12px', lineHeight: 1.75 }}>
+          <p style={{ fontSize: '1.1rem', color: '#d1fae5', lineHeight: 1.75, maxWidth: '660px', margin: '0 auto 1.25rem' }}>
             Let us work together to promote cleanliness, protect our environment and create awareness among future generations.
           </p>
 
-          <p style={{
-            fontSize: '1.15rem',
-            fontWeight: 700,
-            color: '#86efac',
-            margin: '0 auto 32px',
-            letterSpacing: '-0.01em'
-          }}>
+          <p style={{ fontSize: '1.2rem', fontWeight: 700, color: '#86efac', margin: '0 auto 2.5rem' }}>
             Together for a Cleaner Environment. Together for a Better Future.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link
               to="/register"
+              className="btn btn-primary btn-lg"
               style={{
-                background: '#ffffff',
+                backgroundColor: '#ffffff',
                 color: '#064e3b',
                 fontWeight: 700,
-                fontSize: '0.95rem',
-                padding: '13px 32px',
-                borderRadius: '999px',
-                textDecoration: 'none',
+                border: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                gap: '0.5rem',
+                padding: '0.9rem 2rem',
+                borderRadius: '8px',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.15)'
               }}
             >
-              <span>Join As Volunteer</span>
-              <ArrowRight size={16} />
+              <span>Join Our Mission</span>
+              <ArrowRight size={18} />
             </Link>
 
             <Link
               to="/activities"
+              className="btn btn-outline btn-lg"
               style={{
-                background: 'rgba(255,255,255,0.12)',
+                backgroundColor: 'transparent',
+                borderColor: 'rgba(255,255,255,0.4)',
                 color: '#ffffff',
-                border: '1.5px solid rgba(255,255,255,0.3)',
                 fontWeight: 600,
-                fontSize: '0.95rem',
-                padding: '13px 28px',
-                borderRadius: '999px',
-                textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '0.5rem',
+                padding: '0.9rem 2rem',
+                borderRadius: '8px'
               }}
             >
-              <span>Explore Activities</span>
+              <span>Explore Our Activities</span>
             </Link>
           </div>
+
         </div>
       </section>
 
