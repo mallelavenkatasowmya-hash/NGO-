@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import heroBannerImg from '../assets/hero-banner.jpg';
+import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
 import { 
   Users, 
   Target, 
@@ -150,8 +150,8 @@ const AboutNGO = () => {
                 background: '#0f172a'
               }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600&auto=format&fit=crop&q=90" 
-                  alt="Godavari River Cleanliness and Conservation" 
+                  src={godavariCleanupImg} 
+                  alt="Godavari River Cleanliness and Awareness Volunteer Drive" 
                   style={{ 
                     width: '100%', 
                     height: '420px', 
@@ -164,7 +164,7 @@ const AboutNGO = () => {
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(180deg, rgba(6, 78, 59, 0.88) 0%, rgba(6, 78, 59, 0.35) 45%, transparent 75%)',
+                  background: 'linear-gradient(180deg, rgba(6, 78, 59, 0.9) 0%, rgba(6, 78, 59, 0.38) 40%, transparent 72%)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'flex-start',
@@ -174,9 +174,9 @@ const AboutNGO = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
-                    background: 'rgba(255, 255, 255, 0.18)',
+                    background: 'rgba(255, 255, 255, 0.2)',
                     backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    border: '1px solid rgba(255, 255, 255, 0.35)',
                     padding: '5px 14px',
                     borderRadius: '999px',
                     color: '#86efac',
@@ -188,7 +188,7 @@ const AboutNGO = () => {
                     marginBottom: '0.75rem'
                   }}>
                     <Leaf size={13} />
-                    <span>Godavari Conservation Movement</span>
+                    <span>Godavari Cleanliness Drive</span>
                   </div>
                   <p style={{ 
                     color: '#ffffff', 
@@ -196,7 +196,7 @@ const AboutNGO = () => {
                     fontWeight: 800, 
                     margin: 0, 
                     lineHeight: 1.38,
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.45)'
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
                   }}>
                     Together for a Cleaner Environment.<br />Together for a Better Future.
                   </p>
