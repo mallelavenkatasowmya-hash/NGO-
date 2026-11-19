@@ -243,60 +243,49 @@ const AboutObjectives = () => {
               </div>
             </div>
 
-            {/* Right Column Photo Card */}
+            {/* Right Column Photo Card (Clean & Unobstructed) */}
             <div>
               <div style={{
-                borderRadius: '20px',
+                borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.14)',
+                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
                 border: '1px solid #e2e8f0',
-                position: 'relative',
-                background: '#0f172a'
+                background: '#ffffff'
               }}>
                 <img 
                   src={godavariCleanupImg} 
                   alt="Godavari Cleanliness Action Team" 
-                  style={{ width: '100%', height: '400px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '390px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, rgba(6, 78, 59, 0.88) 0%, rgba(6, 78, 59, 0.35) 45%, transparent 75%)',
+                  padding: '0.85rem 1.25rem',
+                  background: '#f8fafc',
+                  borderTop: '1px solid #e2e8f0',
                   display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-start',
-                  padding: '2rem'
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem'
                 }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(255, 255, 255, 0.35)',
-                    padding: '5px 14px',
-                    borderRadius: '999px',
-                    color: '#86efac',
-                    fontSize: '0.78rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    width: 'fit-content',
-                    marginBottom: '0.75rem'
-                  }}>
-                    <ShieldCheck size={13} />
-                    <span>Active Stewardship</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1e293b' }}>
+                      Measurable Cleanliness Targets &amp; Volunteer Teams
+                    </span>
                   </div>
-                  <p style={{ 
-                    color: '#ffffff', 
-                    fontSize: '1.25rem', 
-                    fontWeight: 800, 
-                    margin: 0, 
-                    lineHeight: 1.35,
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#047857',
+                    background: '#ecfdf5',
+                    padding: '3px 10px',
+                    borderRadius: '999px',
+                    border: '1px solid #a7f3d0',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    whiteSpace: 'nowrap'
                   }}>
-                    Driven by Dedicated Volunteers &amp; Public Trust.
-                  </p>
+                    Operational Goal
+                  </span>
                 </div>
               </div>
             </div>

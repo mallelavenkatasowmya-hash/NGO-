@@ -225,60 +225,49 @@ const AboutMission = () => {
               </div>
             </div>
 
-            {/* Right Photo */}
+            {/* Right Photo (Clean, Unobstructed, Razor-Sharp) */}
             <div>
               <div style={{
-                borderRadius: '20px',
+                borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.14)',
+                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
                 border: '1px solid #e2e8f0',
-                position: 'relative',
-                background: '#0f172a'
+                background: '#ffffff'
               }}>
                 <img 
                   src={godavariCleanupImg} 
                   alt="Active Godavari Cleanliness Drive" 
-                  style={{ width: '100%', height: '420px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '390px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, rgba(6, 78, 59, 0.88) 0%, rgba(6, 78, 59, 0.35) 45%, transparent 75%)',
+                  padding: '0.85rem 1.25rem',
+                  background: '#f8fafc',
+                  borderTop: '1px solid #e2e8f0',
                   display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-start',
-                  padding: '2rem'
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem'
                 }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(255, 255, 255, 0.35)',
-                    padding: '5px 14px',
-                    borderRadius: '999px',
-                    color: '#86efac',
-                    fontSize: '0.78rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    width: 'fit-content',
-                    marginBottom: '0.75rem'
-                  }}>
-                    <Sparkles size={13} />
-                    <span>On-Ground Execution</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1e293b' }}>
+                      Active Ghat Cleanliness Drive — Rajahmundry
+                    </span>
                   </div>
-                  <p style={{ 
-                    color: '#ffffff', 
-                    fontSize: '1.25rem', 
-                    fontWeight: 800, 
-                    margin: 0, 
-                    lineHeight: 1.35,
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#047857',
+                    background: '#ecfdf5',
+                    padding: '3px 10px',
+                    borderRadius: '999px',
+                    border: '1px solid #a7f3d0',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    whiteSpace: 'nowrap'
                   }}>
-                    Action-Driven River Cleanliness &amp; Community Care.
-                  </p>
+                    Field Action
+                  </span>
                 </div>
               </div>
             </div>
@@ -292,60 +281,49 @@ const AboutMission = () => {
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
             
-            {/* Left Photo (River Splendor) */}
+            {/* Left Photo (Authentic River Godavari, Crystal-Clear & Unobstructed) */}
             <div>
               <div style={{
-                borderRadius: '20px',
+                borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.14)',
+                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
                 border: '1px solid #e2e8f0',
-                position: 'relative',
-                background: '#0f172a'
+                background: '#ffffff'
               }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600&auto=format&fit=crop&q=90" 
-                  alt="Pristine River Godavari Landscape" 
-                  style={{ width: '100%', height: '420px', objectFit: 'cover', display: 'block' }}
+                  src={godavariMissionHeroImg} 
+                  alt="Pristine River Godavari Landscape at Golden Hour" 
+                  style={{ width: '100%', height: '390px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, rgba(2, 132, 199, 0.88) 0%, rgba(2, 132, 199, 0.35) 45%, transparent 75%)',
+                  padding: '0.85rem 1.25rem',
+                  background: '#f8fafc',
+                  borderTop: '1px solid #e2e8f0',
                   display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-start',
-                  padding: '2rem'
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem'
                 }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(255, 255, 255, 0.35)',
-                    padding: '5px 14px',
-                    borderRadius: '999px',
-                    color: '#bae6fd',
-                    fontSize: '0.78rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    width: 'fit-content',
-                    marginBottom: '0.75rem'
-                  }}>
-                    <Eye size={13} />
-                    <span>Long-Term Horizon</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284c7', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1e293b' }}>
+                      Sacred River Godavari Basin — Ecological Revival
+                    </span>
                   </div>
-                  <p style={{ 
-                    color: '#ffffff', 
-                    fontSize: '1.25rem', 
-                    fontWeight: 800, 
-                    margin: 0, 
-                    lineHeight: 1.35,
-                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#0369a1',
+                    background: '#f0f9ff',
+                    padding: '3px 10px',
+                    borderRadius: '999px',
+                    border: '1px solid #bae6fd',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    whiteSpace: 'nowrap'
                   }}>
-                    A Pristine, Free-Flowing &amp; Living Sacred River.
-                  </p>
+                    Future Vision
+                  </span>
                 </div>
               </div>
             </div>
