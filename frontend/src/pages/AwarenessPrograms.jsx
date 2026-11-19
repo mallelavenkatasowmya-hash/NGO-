@@ -1,73 +1,539 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Users, Award, BookOpen, Droplet, ArrowRight } from 'lucide-react';
+import godavariSchoolDrivesImg from '../assets/godavari-school-drives.jpg';
+import godavariPublicWorkshopsImg from '../assets/godavari-public-workshops.jpg';
+import godavariYouthCampaignsImg from '../assets/godavari-youth-campaigns.jpg';
+import godavariYouthEcoImg from '../assets/godavari-youth-eco.jpg';
+import { 
+  Sparkles, 
+  BookOpen, 
+  Users, 
+  Megaphone, 
+  GraduationCap, 
+  ArrowRight, 
+  Calendar, 
+  Clock, 
+  MapPin, 
+  Award, 
+  ShieldCheck, 
+  CheckCircle2, 
+  Drama,
+  Recycle,
+  Heart
+} from 'lucide-react';
+
+const awarenessPillars = [
+  {
+    title: 'School & College Drives',
+    tag: 'Academic Outreach',
+    badgeBg: '#f0fdf4',
+    badgeColor: '#15803d',
+    image: godavariSchoolDrivesImg,
+    path: '/awareness/schools',
+    desc: 'Bringing multimedia river basin science, hands-on water test demos, and student eco-ambassador charters into 35+ high schools and colleges.',
+    metric: '12,500+ Students Certified'
+  },
+  {
+    title: 'Public Workshops',
+    tag: 'Community Masterclasses',
+    badgeBg: '#ecfdf5',
+    badgeColor: '#047857',
+    image: godavariPublicWorkshopsImg,
+    path: '/awareness/workshops',
+    desc: 'Teaching families, pilgrims, and temple trusts how to convert floral offerings into bio-compost and craft banana-leaf pooja vessels.',
+    metric: '65+ Workshops Completed'
+  },
+  {
+    title: 'Youth Campaigns',
+    tag: 'Cultural Arts & Mobilization',
+    badgeBg: '#fffbeb',
+    badgeColor: '#b45309',
+    image: godavariYouthCampaignsImg,
+    path: '/awareness/campaigns',
+    desc: 'Staging vibrant Telugu street theatre (Nukkad Natak) on bathing ghats, hosting dawn cyclothons, and administering the Nadi Prathijna citizen pledge.',
+    metric: '12,000+ Pledges Signed'
+  }
+];
+
+const scheduledSessions = [
+  {
+    title: 'Aditya Degree College: River Basin Science Excursion',
+    category: 'School & College Drives',
+    date: 'Upcoming Tuesday • 10:30 AM',
+    location: 'Aditya College Auditorium, Danavaipeta',
+    lead: 'Dr. K. V. Subba Rao',
+    desc: 'Interactive lecture on river water chemistry followed by on-stage digital probe testing demonstration.'
+  },
+  {
+    title: 'Temple Floral Composting & Leaf-Pooja Masterclass',
+    category: 'Public Workshops',
+    date: 'Upcoming Saturday • 09:30 AM',
+    location: 'Kotilingala Ghat Riverside Pavilion',
+    lead: 'Smt. P. Lakshmi Devi',
+    desc: 'Hands-on practical training on diverting sacred temple marigolds from river waters into organic compost.'
+  },
+  {
+    title: 'Pushkar Ghat Weekend Nukkad Natak Performance',
+    category: 'Youth Campaigns',
+    date: 'Upcoming Sunday • 05:30 PM',
+    location: 'Pushkar Ghat Promenade Steps',
+    lead: 'NGO Youth Theatre Troupe',
+    desc: 'Original satirical comedy in Telugu addressing single-use plastic cups and celebrating River Godavari.'
+  }
+];
 
 const AwarenessPrograms = () => {
-  const programs = [
-    {
-      title: 'Nadi Vandanam: Student River Conservation Rallies',
-      description:
-        'Mobilizing school and college youth across Rajahmundry, Kovvur, and neighboring mandals through morning rallies, street theater, and youth pledges against plastic dumping into river water.',
-      tag: 'Youth Outreach',
-      impact: 'Over 5,000+ student participants engaged',
-      image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600',
-    },
-    {
-      title: 'Plastic-Free Riverbank & Merchant Capacity Building',
-      description:
-        'Engaging with tea stalls, flower merchants, and ritual item vendors along river steps to replace single-use plastic carry bags and thermocol bowls with biodegradable leaf plates.',
-      tag: 'Ghat Commerce',
-      impact: '200+ riverbank vendors transitioned to eco-alternatives',
-      image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600',
-    },
-    {
-      title: 'Water Quality Monitoring & Citizen Science Labs',
-      description:
-        'Training volunteer citizen teams to test dissolved oxygen, pH, and bacterial levels at multiple ghat locations, making monthly river health indices public and transparent.',
-      tag: 'Citizen Science',
-      impact: 'Monthly public water quality reports published',
-      image: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=600',
-    },
-  ];
+  const [activeTab, setActiveTab] = useState('All');
+  const tabs = ['All', 'School & College Drives', 'Public Workshops', 'Youth Campaigns'];
+
+  const filteredSessions = activeTab === 'All'
+    ? scheduledSessions
+    : scheduledSessions.filter(s => s.category === activeTab);
 
   return (
-    <div className="clean-page-wrapper">
-      <div className="clean-page-header">
-        <div className="container">
-          <span className="clean-badge">EDUCATION & MOBILIZATION</span>
-          <h1>Community Awareness Programs</h1>
-          <p className="clean-page-sub">
-            Empowering students, devotees, and citizens with practical environmental knowledge to
-            protect River Godavari.
-          </p>
-        </div>
-      </div>
-
-      <div className="container section-padding">
-        <div className="clean-editorial-list">
-          {programs.map((prog, idx) => (
-            <div key={idx} className="clean-editorial-card">
-              <div className="editorial-img-box">
-                <img src={prog.image} alt={prog.title} />
+    <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
+      
+      {/* 1. PROFESSIONAL SPLIT HERO HEADER */}
+      <section style={{
+        background: '#f8fafc',
+        borderBottom: '1px solid #e2e8f0',
+        padding: '4rem 1.5rem 3.5rem'
+      }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '3rem',
+            alignItems: 'center'
+          }}>
+            {/* Left Column: Awareness Hub Info */}
+            <div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
+                padding: '5px 14px',
+                borderRadius: '999px',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                color: '#047857',
+                marginBottom: '1rem'
+              }}>
+                <Sparkles size={14} />
+                <span>EDUCATION &amp; CIVIC MOBILIZATION</span>
               </div>
-              <div className="editorial-content-box">
-                <span className="badge badge-green mb-2">{prog.tag}</span>
-                <h2>{prog.title}</h2>
-                <p>{prog.description}</p>
-                <div className="editorial-impact-strip">
-                  <span className="impact-check">✓</span>
-                  <span>{prog.impact}</span>
-                </div>
-                <div className="mt-3">
-                  <Link to="/register" className="btn btn-outline btn-sm">
-                    Host or Participate in this Program <ArrowRight size={14} />
-                  </Link>
+
+              <h1 style={{
+                fontSize: 'clamp(2.1rem, 3.6vw, 3rem)',
+                fontWeight: 800,
+                color: '#0f172a',
+                margin: '0 0 1rem',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.2
+              }}>
+                Awareness Programs
+              </h1>
+
+              <p style={{
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
+                fontWeight: 600,
+                color: '#059669',
+                margin: '0 0 1rem',
+                lineHeight: 1.5
+              }}>
+                Educating Minds, Awakening Hearts, and Transforming Habits Across Communities.
+              </p>
+
+              <p style={{
+                fontSize: '1rem',
+                color: '#475569',
+                lineHeight: 1.8,
+                margin: '0 0 1.5rem'
+              }}>
+                Lasting conservation happens when citizens understand why River Godavari matters. 
+                Explore our three dedicated educational pathways designed for classrooms, community halls, and cultural gathering ghats.
+              </p>
+
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <Link to="/awareness/schools" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
+                  <GraduationCap size={14} color="#15803d" />
+                  <span>School Drives</span>
+                </Link>
+                <Link to="/awareness/workshops" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
+                  <Users size={14} color="#059669" />
+                  <span>Public Workshops</span>
+                </Link>
+                <Link to="/awareness/campaigns" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
+                  <Megaphone size={14} color="#d97706" />
+                  <span>Youth Campaigns</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Hero Photo */}
+            <div>
+              <div style={{
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff'
+              }}>
+                <img 
+                  src={godavariYouthEcoImg} 
+                  alt="Students and youth ambassadors advocating Godavari conservation" 
+                  style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block' }}
+                />
+                <div style={{
+                  padding: '0.85rem 1.25rem',
+                  background: '#ffffff',
+                  borderTop: '1px solid #e2e8f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
+                      Godavari Basin Environmental Education &amp; Civic Outreach
+                    </span>
+                  </div>
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#047857',
+                    background: '#ecfdf5',
+                    padding: '3px 10px',
+                    borderRadius: '999px',
+                    border: '1px solid #a7f3d0',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    Awareness Hub
+                  </span>
                 </div>
               </div>
             </div>
-          ))}
+
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* 2. THREE CORE AWARENESS PILLARS (CARD SHOWCASE) */}
+      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
+              OUR METHODOLOGY
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+              Three Pillars of Public Environmental Education
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '620px', margin: '0 auto' }}>
+              Click into each dedicated program to explore specific syllabi, practical workshop schedules, and campaign activities.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            {awarenessPillars.map((pillar, idx) => (
+              <div 
+                key={idx}
+                style={{
+                  background: '#ffffff',
+                  borderRadius: '16px',
+                  border: '1px solid #e2e8f0',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                }}
+              >
+                {/* Photo Header */}
+                <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
+                  <img 
+                    src={pillar.image} 
+                    alt={pillar.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '12px',
+                    left: '12px',
+                    background: pillar.badgeBg,
+                    color: pillar.badgeColor,
+                    padding: '3px 10px',
+                    borderRadius: '999px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em'
+                  }}>
+                    {pillar.tag}
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: pillar.badgeColor, marginBottom: '0.35rem' }}>
+                    {pillar.metric}
+                  </div>
+                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.65rem' }}>
+                    {pillar.title}
+                  </h3>
+                  <p style={{ fontSize: '0.92rem', color: '#64748b', lineHeight: 1.7, margin: '0 0 1.5rem', flex: 1 }}>
+                    {pillar.desc}
+                  </p>
+
+                  <Link 
+                    to={pillar.path}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      background: '#f8fafc',
+                      border: '1px solid #e2e8f0',
+                      padding: '0.65rem 1rem',
+                      borderRadius: '10px',
+                      color: '#0f172a',
+                      fontWeight: 700,
+                      fontSize: '0.88rem',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    <span>Explore Dedicated Page</span>
+                    <ArrowRight size={15} color={pillar.badgeColor} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 3. IMPACT STATISTICS STRIP */}
+      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '2.5rem 1.5rem' }}>
+        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
+            {[
+              { val: '35+', label: 'Educational Campuses', sub: 'Schools & degree colleges' },
+              { val: '65+', label: 'Community Workshops', sub: 'Floral composting & leaf craft' },
+              { val: '12,000+', label: 'Citizens Pledged', sub: 'Signed Nadi Prathijna' },
+              { val: '100%', label: 'Free Public Service', sub: 'All kits & events free of charge' }
+            ].map((stat, idx) => (
+              <div key={idx} style={{
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+                padding: '1.5rem',
+                borderLeft: '4px solid #059669'
+              }}>
+                <div style={{ fontSize: '1.85rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                  {stat.val}
+                </div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
+                  {stat.label}
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                  {stat.sub}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. UPCOMING SESSIONS SCHEDULE */}
+      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
+              SCHEDULE
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+              Scheduled Community Awareness Sessions
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
+              Attend an educational drive, register your school, or join our weekend street theater performances.
+            </p>
+          </div>
+
+          {/* Filter Tabs */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                style={{
+                  padding: '0.55rem 1.25rem',
+                  borderRadius: '999px',
+                  fontSize: '0.86rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  border: activeTab === tab ? '1px solid #059669' : '1px solid #e2e8f0',
+                  background: activeTab === tab ? '#059669' : '#ffffff',
+                  color: activeTab === tab ? '#ffffff' : '#475569',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Sessions Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+            {filteredSessions.map((session, idx) => (
+              <div key={idx} style={{
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
+                borderRadius: '14px',
+                padding: '1.75rem',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                    <span style={{
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                      color: '#047857',
+                      background: '#ecfdf5',
+                      padding: '3px 10px',
+                      borderRadius: '999px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em'
+                    }}>
+                      {session.category}
+                    </span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#64748b' }}>
+                      {session.date}
+                    </span>
+                  </div>
+
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
+                    {session.title}
+                  </h3>
+
+                  <div style={{ fontSize: '0.84rem', color: '#64748b', margin: '0 0 0.75rem', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <MapPin size={13} color="#059669" />
+                    <span>{session.location}</span>
+                  </div>
+
+                  <p style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.6, margin: '0 0 1rem' }}>
+                    {session.desc}
+                  </p>
+                </div>
+
+                <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#334155' }}>
+                    Lead: {session.lead}
+                  </span>
+                  <Link 
+                    to="/contact" 
+                    style={{
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      color: '#059669',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    <span>Register</span>
+                    <ArrowRight size={13} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 5. CALL TO ACTION BANNER */}
+      <section style={{
+        background: '#064e3b',
+        color: '#ffffff',
+        padding: '4.5rem 1.5rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '780px', margin: '0 auto' }}>
+          <span style={{
+            display: 'inline-block',
+            background: 'rgba(255, 255, 255, 0.15)',
+            border: '1px solid rgba(255, 255, 255, 0.25)',
+            padding: '4px 14px',
+            borderRadius: '999px',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: '#86efac',
+            marginBottom: '1rem'
+          }}>
+            COLLABORATE FOR CONSERVATION
+          </span>
+
+          <h2 style={{ fontSize: 'clamp(1.85rem, 3.2vw, 2.5rem)', fontWeight: 800, margin: '0 0 1rem', lineHeight: 1.25 }}>
+            Bring Environmental Education to Your Neighborhood or Institution
+          </h2>
+
+          <p style={{ fontSize: '1.05rem', color: '#ecfdf5', lineHeight: 1.7, margin: '0 0 2rem', opacity: 0.95 }}>
+            Partner with us to host a free school drive, community floral composting workshop, or ghat street play.
+          </p>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link
+              to="/contact"
+              style={{
+                background: '#ffffff',
+                color: '#064e3b',
+                padding: '0.85rem 2rem',
+                borderRadius: '10px',
+                fontWeight: 700,
+                fontSize: '0.98rem',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+              }}
+            >
+              <span>Request a Program Session</span>
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/register"
+              style={{
+                background: 'transparent',
+                color: '#ffffff',
+                border: '1px solid rgba(255, 255, 255, 0.35)',
+                padding: '0.85rem 1.75rem',
+                borderRadius: '10px',
+                fontWeight: 600,
+                fontSize: '0.98rem',
+                textDecoration: 'none'
+              }}
+            >
+              Join as Youth Volunteer
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };

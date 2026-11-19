@@ -20,6 +20,9 @@ import ActivityPlantation from './pages/activities/ActivityPlantation';
 import ActivityConservation from './pages/activities/ActivityConservation';
 import ActivityCommunity from './pages/activities/ActivityCommunity';
 import AwarenessPrograms from './pages/AwarenessPrograms';
+import AwarenessSchools from './pages/awareness/AwarenessSchools';
+import AwarenessWorkshops from './pages/awareness/AwarenessWorkshops';
+import AwarenessCampaigns from './pages/awareness/AwarenessCampaigns';
 import Events from './pages/Events';
 import Announcements from './pages/Announcements';
 import Gallery from './pages/Gallery';
@@ -95,6 +98,9 @@ function App() {
             <Route path="/activities/conservation" element={<ActivityConservation />} />
             <Route path="/activities/community" element={<ActivityCommunity />} />
             <Route path="/awareness" element={<AwarenessPrograms />} />
+            <Route path="/awareness/schools" element={<AwarenessSchools />} />
+            <Route path="/awareness/workshops" element={<AwarenessWorkshops />} />
+            <Route path="/awareness/campaigns" element={<AwarenessCampaigns />} />
             <Route path="/events" element={<Events />} />
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/gallery" element={<Gallery />} />

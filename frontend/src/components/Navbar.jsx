@@ -88,9 +88,9 @@ const Navbar = () => {
       path: '/awareness',
       hasDropdown: true,
       children: [
-        { label: 'School & College Drives', path: '/awareness', icon: BookOpen },
-        { label: 'Public Workshops', path: '/awareness', icon: Users },
-        { label: 'Youth Campaigns', path: '/awareness', icon: Megaphone },
+        { label: 'School & College Drives', path: '/awareness/schools', icon: BookOpen },
+        { label: 'Public Workshops', path: '/awareness/workshops', icon: Users },
+        { label: 'Youth Campaigns', path: '/awareness/campaigns', icon: Megaphone },
       ],
     },
     {
