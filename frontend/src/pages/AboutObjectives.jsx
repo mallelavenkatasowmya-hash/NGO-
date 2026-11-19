@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
+import godavariFieldOperationsImg from '../assets/godavari-field-operations.jpg';
 import godavariMissionHeroImg from '../assets/godavari-mission-hero.jpg';
 import heroBannerImg from '../assets/hero-banner.jpg';
 import { 
@@ -253,8 +254,8 @@ const AboutObjectives = () => {
                 background: '#ffffff'
               }}>
                 <img 
-                  src={godavariCleanupImg} 
-                  alt="Godavari Cleanliness Action Team" 
+                  src={godavariFieldOperationsImg} 
+                  alt="Godavari Environmental Field Operations and Water Sampling" 
                   style={{ width: '100%', height: '390px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
