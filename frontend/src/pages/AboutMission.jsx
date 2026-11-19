@@ -105,135 +105,86 @@ const AboutMission = () => {
   return (
     <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. PROFESSIONAL SPLIT HERO HEADER */}
+      {/* 1. PROFESSIONAL HERO BANNER WITH REAL NATURE PHOTOGRAPHY */}
       <section style={{
-        background: '#f8fafc',
-        borderBottom: '1px solid #e2e8f0',
-        padding: '4rem 1.5rem 3.5rem'
+        position: 'relative',
+        padding: '5.5rem 1.5rem 5rem',
+        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${godavariMissionHeroImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#ffffff',
+        textAlign: 'center',
+        overflow: 'hidden'
       }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+        {/* Subtle decorative glow */}
+        <div style={{
+          position: 'absolute',
+          top: '-20%',
+          right: '-10%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
+          borderRadius: '50%',
+          pointerEvents: 'none'
+        }} />
+
+        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3rem',
-            alignItems: 'center'
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(255, 255, 255, 0.16)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255, 255, 255, 0.28)',
+            padding: '6px 16px',
+            borderRadius: '999px',
+            fontSize: '0.82rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: '#bbf7d0',
+            marginBottom: '1.25rem'
           }}>
-            {/* Left Column: Mission & Vision Statement */}
-            <div>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: '#ecfdf5',
-                border: '1px solid #a7f3d0',
-                padding: '5px 14px',
-                borderRadius: '999px',
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                color: '#047857',
-                marginBottom: '1rem'
-              }}>
-                <Sparkles size={14} />
-                <span>PURPOSE &amp; DIRECTION</span>
-              </div>
-
-              <h1 style={{
-                fontSize: 'clamp(2.1rem, 3.6vw, 3rem)',
-                fontWeight: 800,
-                color: '#0f172a',
-                margin: '0 0 1rem',
-                letterSpacing: '-0.025em',
-                lineHeight: 1.2
-              }}>
-                Our Mission &amp; Vision
-              </h1>
-
-              <p style={{
-                fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
-                fontWeight: 600,
-                color: '#059669',
-                margin: '0 0 1rem',
-                lineHeight: 1.5
-              }}>
-                The Guiding Principles and Long-Term Aspirations Behind Our Conservation Movement.
-              </p>
-
-              <p style={{
-                fontSize: '1rem',
-                color: '#475569',
-                lineHeight: 1.8,
-                margin: '0 0 1.5rem'
-              }}>
-                Every volunteer initiative, community drive, and environmental policy of Godhavari Nadhi Paryavarana Parishubratha 
-                is anchored in a clear roadmap for lasting ecological revival across the river basin.
-              </p>
-
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <a href="#mission" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <Target size={14} color="#059669" />
-                  <span>Immediate Mission</span>
-                </a>
-                <a href="#vision" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <Eye size={14} color="#0284c7" />
-                  <span>Long-Term Vision</span>
-                </a>
-                <a href="#roadmap" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <Compass size={14} color="#7c3aed" />
-                  <span>2025–2030 Roadmap</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Right Column: Crystal-Clear Distinct Sunrise Photo */}
-            <div>
-              <div style={{
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
-                border: '1px solid #e2e8f0',
-                background: '#ffffff'
-              }}>
-                <img 
-                  src={godavariMissionHeroImg} 
-                  alt="Godavari River at Dawn - Guiding Vision" 
-                  style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block' }}
-                />
-                <div style={{
-                  padding: '0.85rem 1.25rem',
-                  background: '#ffffff',
-                  borderTop: '1px solid #e2e8f0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '0.75rem'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284c7', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
-                      Godavari River Basin — Guiding Ecological Horizon
-                    </span>
-                  </div>
-                  <span style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: '#0369a1',
-                    background: '#f0f9ff',
-                    padding: '3px 10px',
-                    borderRadius: '999px',
-                    border: '1px solid #bae6fd',
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    Vision
-                  </span>
-                </div>
-              </div>
-            </div>
-
+            <Sparkles size={14} />
+            <span>PURPOSE &amp; DIRECTION</span>
           </div>
+
+          <h1 style={{
+            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
+            fontWeight: 800,
+            color: '#ffffff',
+            margin: '0 0 1rem',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.2,
+            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+          }}>
+            Our Mission &amp; Vision
+          </h1>
+
+          <p style={{
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
+            fontWeight: 600,
+            color: '#86efac',
+            margin: '0 auto 1.25rem',
+            lineHeight: 1.5,
+            maxWidth: '780px',
+            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
+          }}>
+            The Guiding Principles and Long-Term Aspirations Behind Our Conservation Movement.
+          </p>
+
+          <p style={{
+            fontSize: '1.05rem',
+            color: '#ecfdf5',
+            maxWidth: '740px',
+            margin: '0 auto',
+            lineHeight: 1.75,
+            opacity: 0.95
+          }}>
+            Every volunteer initiative, community drive, and environmental policy of Godhavari Nadhi Paryavarana Parishubratha 
+            is anchored in a clear roadmap for lasting ecological revival.
+          </p>
         </div>
       </section>
 
@@ -340,8 +291,8 @@ const AboutMission = () => {
                 background: '#ffffff'
               }}>
                 <img 
-                  src={heroBannerImg} 
-                  alt="Pristine Free-Flowing River Godavari Corridor" 
+                  src={godavariMissionHeroImg} 
+                  alt="Pristine River Godavari Landscape at Golden Hour" 
                   style={{ width: '100%', height: '390px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
@@ -356,7 +307,7 @@ const AboutMission = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284c7', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1e293b' }}>
-                      Living River Godavari Corridor — Long-Term Ecological Horizon
+                      Sacred River Godavari Basin — Ecological Revival
                     </span>
                   </div>
                   <span style={{

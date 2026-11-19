@@ -81,132 +81,86 @@ const AboutNGO = () => {
   return (
     <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. PROFESSIONAL SPLIT HERO HEADER */}
+      {/* 1. PROFESSIONAL HERO HEADER WITH GODAVARI PHOTOGRAPHY */}
       <section style={{
-        background: '#f8fafc',
-        borderBottom: '1px solid #e2e8f0',
-        padding: '4rem 1.5rem 3.5rem'
+        position: 'relative',
+        padding: '5.5rem 1.5rem 5rem',
+        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${godavariMissionHeroImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#ffffff',
+        textAlign: 'center',
+        overflow: 'hidden'
       }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+        {/* Subtle decorative glow */}
+        <div style={{
+          position: 'absolute',
+          top: '-20%',
+          right: '-10%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
+          borderRadius: '50%',
+          pointerEvents: 'none'
+        }} />
+
+        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3rem',
-            alignItems: 'center'
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(255, 255, 255, 0.16)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255, 255, 255, 0.28)',
+            padding: '6px 16px',
+            borderRadius: '999px',
+            fontSize: '0.82rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: '#bbf7d0',
+            marginBottom: '1.25rem'
           }}>
-            {/* Left Column: NGO Profile & Purpose */}
-            <div>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: '#ecfdf5',
-                border: '1px solid #a7f3d0',
-                padding: '5px 14px',
-                borderRadius: '999px',
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                color: '#047857',
-                marginBottom: '1rem'
-              }}>
-                <Sparkles size={14} />
-                <span>OFFICIAL ORGANIZATION PROFILE</span>
-              </div>
-
-              <h1 style={{
-                fontSize: 'clamp(2.1rem, 3.6vw, 3rem)',
-                fontWeight: 800,
-                color: '#0f172a',
-                margin: '0 0 1rem',
-                letterSpacing: '-0.025em',
-                lineHeight: 1.2
-              }}>
-                Godhavari Nadhi Paryavarana Parishubratha
-              </h1>
-
-              <p style={{
-                fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
-                fontWeight: 600,
-                color: '#059669',
-                margin: '0 0 1rem',
-                lineHeight: 1.5
-              }}>
-                Creating Awareness. Promoting Cleanliness. Encouraging Community Participation.
-              </p>
-
-              <p style={{
-                fontSize: '1rem',
-                color: '#475569',
-                lineHeight: 1.8,
-                margin: '0 0 1.5rem'
-              }}>
-                Godhavari Nadhi Paryavarana Parishubratha is an organization focused on public awareness, 
-                environmental cleanliness and community development activities. We believe that maintaining a clean 
-                environment is a collective responsibility requiring active participation from every individual.
-              </p>
-
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <MapPin size={14} color="#059669" />
-                  <span>Rajahmundry, Andhra Pradesh</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Leaf size={14} color="#059669" />
-                  <span>River Basin Conservation</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Crystal-Clear Distinct River Panorama */}
-            <div>
-              <div style={{
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
-                border: '1px solid #e2e8f0',
-                background: '#ffffff'
-              }}>
-                <img 
-                  src={heroBannerImg} 
-                  alt="Godhavari River Natural Panorama" 
-                  style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block' }}
-                />
-                <div style={{
-                  padding: '0.85rem 1.25rem',
-                  background: '#ffffff',
-                  borderTop: '1px solid #e2e8f0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '0.75rem'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
-                      Sacred River Godavari Corridor — Rajahmundry
-                    </span>
-                  </div>
-                  <span style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: '#047857',
-                    background: '#ecfdf5',
-                    padding: '3px 10px',
-                    borderRadius: '999px',
-                    border: '1px solid #a7f3d0',
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    Headquarters
-                  </span>
-                </div>
-              </div>
-            </div>
-
+            <Sparkles size={14} />
+            <span>WHO WE ARE</span>
           </div>
+
+          <h1 style={{
+            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
+            fontWeight: 800,
+            color: '#ffffff',
+            margin: '0 0 1rem',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.2,
+            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+          }}>
+            Godhavari Nadhi Paryavarana Parishubratha
+          </h1>
+
+          <p style={{
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
+            fontWeight: 600,
+            color: '#86efac',
+            margin: '0 auto 1.25rem',
+            lineHeight: 1.5,
+            maxWidth: '780px',
+            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
+          }}>
+            Creating Awareness. Promoting Cleanliness. Encouraging Community Participation.
+          </p>
+
+          <p style={{
+            fontSize: '1.05rem',
+            color: '#ecfdf5',
+            maxWidth: '740px',
+            margin: '0 auto',
+            lineHeight: 1.75,
+            opacity: 0.95
+          }}>
+            Godhavari Nadhi Paryavarana Parishubratha is an organization focused on public awareness, 
+            environmental cleanliness and community development activities across the sacred Godavari river basin.
+          </p>
         </div>
       </section>
 
@@ -261,8 +215,8 @@ const AboutNGO = () => {
                 background: '#ffffff'
               }}>
                 <img 
-                  src={godavariMissionHeroImg} 
-                  alt="Pristine Godavari River and Ghat Steps" 
+                  src={godavariCleanupImg} 
+                  alt="Godavari River Cleanliness and Awareness Volunteer Drive" 
                   style={{ 
                     width: '100%', 
                     height: '390px', 
@@ -283,7 +237,7 @@ const AboutNGO = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1e293b' }}>
-                      Godavari River Conservation &amp; Clean Surroundings Focus
+                      Godavari Riverfront Community Cleanup Initiative
                     </span>
                   </div>
                   <span style={{
