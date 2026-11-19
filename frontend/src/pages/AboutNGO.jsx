@@ -154,69 +154,13 @@ const AboutNGO = () => {
             fontSize: '1.05rem',
             color: '#ecfdf5',
             maxWidth: '740px',
-            margin: '0 auto 2rem',
+            margin: '0 auto',
             lineHeight: 1.75,
             opacity: 0.95
           }}>
             Godhavari Nadhi Paryavarana Parishubratha is an organization focused on public awareness, 
             environmental cleanliness and community development activities across the sacred Godavari river basin.
           </p>
-
-          {/* Quick jump pills */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <a href="#conviction" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              ✨ Our Conviction
-            </a>
-            <a href="#who-we-are" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              👥 Who We Are
-            </a>
-            <a href="#principles" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              🌿 What We Stand For
-            </a>
-            <a href="#initiatives" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              📸 Field Highlights
-            </a>
-          </div>
         </div>
       </section>
 

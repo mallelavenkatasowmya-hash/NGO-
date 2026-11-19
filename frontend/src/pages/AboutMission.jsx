@@ -178,69 +178,13 @@ const AboutMission = () => {
             fontSize: '1.05rem',
             color: '#ecfdf5',
             maxWidth: '740px',
-            margin: '0 auto 2rem',
+            margin: '0 auto',
             lineHeight: 1.75,
             opacity: 0.95
           }}>
             Every volunteer initiative, community drive, and environmental policy of Godhavari Nadhi Paryavarana Parishubratha 
             is anchored in a clear roadmap for lasting ecological revival.
           </p>
-
-          {/* Quick jump pills */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <a href="#mission" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              🎯 Immediate Mission
-            </a>
-            <a href="#vision" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              👁️ Long-Term Vision
-            </a>
-            <a href="#values" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              🌍 Core Values
-            </a>
-            <a href="#roadmap" style={{
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff',
-              padding: '0.5rem 1.15rem',
-              borderRadius: '999px',
-              fontSize: '0.86rem',
-              fontWeight: 600,
-              textDecoration: 'none',
-              backdropFilter: 'blur(4px)'
-            }}>
-              🗺️ Strategic Roadmap
-            </a>
-          </div>
         </div>
       </section>
 
