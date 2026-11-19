@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
+import godavariMissionHeroImg from '../assets/godavari-mission-hero.jpg';
 import heroBannerImg from '../assets/hero-banner.jpg';
 import { 
   Trash2, 
@@ -125,7 +126,7 @@ const AboutObjectives = () => {
       <section style={{
         position: 'relative',
         padding: '5.5rem 1.5rem 5rem',
-        backgroundImage: `linear-gradient(135deg, rgba(6, 78, 59, 0.90) 0%, rgba(4, 120, 87, 0.82) 50%, rgba(15, 23, 42, 0.88) 100%), url(${heroBannerImg})`,
+        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${godavariMissionHeroImg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
