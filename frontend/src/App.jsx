@@ -15,6 +15,10 @@ import AboutNGO from './pages/AboutNGO';
 import AboutMission from './pages/AboutMission';
 import AboutObjectives from './pages/AboutObjectives';
 import Activities from './pages/Activities';
+import ActivityCleanliness from './pages/activities/ActivityCleanliness';
+import ActivityPlantation from './pages/activities/ActivityPlantation';
+import ActivityConservation from './pages/activities/ActivityConservation';
+import ActivityCommunity from './pages/activities/ActivityCommunity';
 import AwarenessPrograms from './pages/AwarenessPrograms';
 import Events from './pages/Events';
 import Announcements from './pages/Announcements';
@@ -86,6 +90,10 @@ function App() {
             <Route path="/about/mission" element={<AboutMission />} />
             <Route path="/about/objectives" element={<AboutObjectives />} />
             <Route path="/activities" element={<Activities />} />
+            <Route path="/activities/cleanliness" element={<ActivityCleanliness />} />
+            <Route path="/activities/plantation" element={<ActivityPlantation />} />
+            <Route path="/activities/conservation" element={<ActivityConservation />} />
+            <Route path="/activities/community" element={<ActivityCommunity />} />
             <Route path="/awareness" element={<AwarenessPrograms />} />
             <Route path="/events" element={<Events />} />
             <Route path="/announcements" element={<Announcements />} />

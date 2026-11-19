@@ -77,10 +77,10 @@ const Navbar = () => {
       path: '/activities',
       hasDropdown: true,
       children: [
-        { label: 'Cleanliness Drives', path: '/activities#cleanliness', icon: Brush },
-        { label: 'Tree Plantation', path: '/activities#plantation', icon: Sprout },
-        { label: 'River Conservation', path: '/activities#conservation', icon: Waves },
-        { label: 'Community Programs', path: '/activities#community', icon: Users },
+        { label: 'Cleanliness Drives', path: '/activities/cleanliness', icon: Brush },
+        { label: 'Tree Plantation', path: '/activities/plantation', icon: Sprout },
+        { label: 'River Conservation', path: '/activities/conservation', icon: Waves },
+        { label: 'Community Programs', path: '/activities/community', icon: Users },
       ],
     },
     {
