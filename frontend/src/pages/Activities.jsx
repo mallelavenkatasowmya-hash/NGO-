@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../services/api';
-import godavariMissionHeroImg from '../assets/godavari-mission-hero.jpg';
+import heroBannerImg from '../assets/hero-banner.jpg';
 import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
+import godavariWasteSortingImg from '../assets/godavari-waste-sorting.jpg';
 import godavariTreePlantationImg from '../assets/godavari-tree-plantation.jpg';
+import godavariSaplingGuardImg from '../assets/godavari-sapling-guard.jpg';
 import godavariFieldOperationsImg from '../assets/godavari-field-operations.jpg';
+import godavariCanalBarrierImg from '../assets/godavari-canal-barrier.jpg';
 import godavariCommunityImg from '../assets/godavari-community-programs.jpg';
+import godavariYouthEcoImg from '../assets/godavari-youth-eco.jpg';
 import { 
   Calendar, 
   Clock, 
@@ -76,7 +80,7 @@ const fallbackEvents = [
     enrolledVolunteersCount: 28,
     targetVolunteers: 40,
     description: 'Bi-weekly shoreline cleanup focusing on plastic bottle extraction and segregation into municipal recycling streams.',
-    bannerImage: godavariCleanupImg
+    bannerImage: godavariWasteSortingImg
   },
   {
     _id: 'sample-plantation-1',
@@ -88,7 +92,7 @@ const fallbackEvents = [
     enrolledVolunteersCount: 35,
     targetVolunteers: 50,
     description: 'Planting 250 native Neem and Pongamia saplings with protective bamboo guards along eroding riverbanks.',
-    bannerImage: godavariTreePlantationImg
+    bannerImage: godavariSaplingGuardImg
   },
   {
     _id: 'sample-conservation-1',
@@ -100,19 +104,19 @@ const fallbackEvents = [
     enrolledVolunteersCount: 16,
     targetVolunteers: 25,
     description: 'Testing dissolved oxygen, pH, and turbidity alongside college biology students using digital field equipment.',
-    bannerImage: godavariFieldOperationsImg
+    bannerImage: godavariCanalBarrierImg
   },
   {
     _id: 'sample-community-1',
-    title: 'Plastic-Free Pilgrim & Merchant Workshop',
+    title: 'Youth Eco-Ambassador Riverfront Campaign',
     eventType: 'Community Program',
     date: new Date(Date.now() + 86400000 * 16).toISOString(),
     time: '05:00 PM – 07:00 PM',
-    location: { venue: 'Community Hall, Pushkar Nagar' },
+    location: { venue: 'Godavari River Promenade, Rajahmundry' },
     enrolledVolunteersCount: 42,
     targetVolunteers: 60,
-    description: 'Distributing reusable cotton bags and training local vendors on biodegradable packaging options.',
-    bannerImage: godavariCommunityImg
+    description: 'Student-led environmental rally and merchant outreach promoting reusable cotton bags and plastic-free pooja traditions.',
+    bannerImage: godavariYouthEcoImg
   }
 ];
 
@@ -226,10 +230,14 @@ const Activities = () => {
                   <Waves size={14} color="#0284c7" />
                   <span>River Conservation</span>
                 </Link>
+                <Link to="/activities/community" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
+                  <GraduationCap size={14} color="#7c3aed" />
+                  <span>Community Programs</span>
+                </Link>
               </div>
             </div>
 
-            {/* Right Column: Crystal-Clear River Landscape Photo */}
+            {/* Right Column: River Landscape Photo */}
             <div>
               <div style={{
                 borderRadius: '16px',
@@ -239,8 +247,8 @@ const Activities = () => {
                 background: '#ffffff'
               }}>
                 <img 
-                  src={godavariMissionHeroImg} 
-                  alt="Godavari River Conservation Field Initiatives" 
+                  src={heroBannerImg} 
+                  alt="Godavari River Conservation Field Operations Corridor" 
                   style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
