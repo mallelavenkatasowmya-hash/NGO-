@@ -108,8 +108,8 @@ const Navbar = () => {
       path: '/announcements',
       hasDropdown: true,
       children: [
-        { label: 'Latest News', path: '/announcements', icon: Megaphone },
-        { label: 'Press Releases', path: '/announcements', icon: FileText },
+        { label: 'Latest News', path: '/announcements/news', icon: Megaphone },
+        { label: 'Press Releases', path: '/announcements/press', icon: FileText },
       ],
     },
     {

@@ -28,6 +28,8 @@ import EventsUpcoming from './pages/events/EventsUpcoming';
 import EventsVolunteerMeetings from './pages/events/EventsVolunteerMeetings';
 import EventsPastReports from './pages/events/EventsPastReports';
 import Announcements from './pages/Announcements';
+import AnnouncementsNews from './pages/announcements/AnnouncementsNews';
+import AnnouncementsPress from './pages/announcements/AnnouncementsPress';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
@@ -109,6 +111,8 @@ function App() {
             <Route path="/events/volunteer-meetings" element={<EventsVolunteerMeetings />} />
             <Route path="/events/past-reports" element={<EventsPastReports />} />
             <Route path="/announcements" element={<Announcements />} />
+            <Route path="/announcements/news" element={<AnnouncementsNews />} />
+            <Route path="/announcements/press" element={<AnnouncementsPress />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
