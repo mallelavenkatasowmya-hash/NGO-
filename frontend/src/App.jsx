@@ -24,6 +24,9 @@ import AwarenessSchools from './pages/awareness/AwarenessSchools';
 import AwarenessWorkshops from './pages/awareness/AwarenessWorkshops';
 import AwarenessCampaigns from './pages/awareness/AwarenessCampaigns';
 import Events from './pages/Events';
+import EventsUpcoming from './pages/events/EventsUpcoming';
+import EventsVolunteerMeetings from './pages/events/EventsVolunteerMeetings';
+import EventsPastReports from './pages/events/EventsPastReports';
 import Announcements from './pages/Announcements';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
@@ -102,6 +105,9 @@ function App() {
             <Route path="/awareness/workshops" element={<AwarenessWorkshops />} />
             <Route path="/awareness/campaigns" element={<AwarenessCampaigns />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/events/upcoming" element={<EventsUpcoming />} />
+            <Route path="/events/volunteer-meetings" element={<EventsVolunteerMeetings />} />
+            <Route path="/events/past-reports" element={<EventsPastReports />} />
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
