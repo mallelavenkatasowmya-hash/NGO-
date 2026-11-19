@@ -26,8 +26,8 @@ const nativeSpeciesCatalog = [
     rootDepth: 'Deep Taproot System',
     floodResist: 'High Drought & Heat Resistance',
     superpower: 'Acts as a natural antimicrobial air filter while the deep taproot prevents riverbank topsoil erosion during sudden water level fluctuations.',
-    tagColor: '#15803d',
-    tagBg: '#f0fdf4'
+    tagColor: '#047857',
+    tagBg: '#ecfdf5'
   },
   {
     name: 'Kanuga / Indian Beech',
@@ -46,8 +46,8 @@ const nativeSpeciesCatalog = [
     rootDepth: 'Massive Structural Soil Grips',
     floodResist: 'Century-Long Resilience',
     superpower: 'Exceptional 24-hour oxygen release profile with dense leaf canopy providing cooling microclimates for pilgrims and nesting birds.',
-    tagColor: '#0284c7',
-    tagBg: '#f0f9ff'
+    tagColor: '#047857',
+    tagBg: '#ecfdf5'
   },
   {
     name: 'Jamun / Black Plum',
@@ -56,8 +56,8 @@ const nativeSpeciesCatalog = [
     rootDepth: 'Dense Fibrous Water Bed',
     floodResist: 'High Riparian River Adaptation',
     superpower: 'Loves high water tables along watercourses; stabilizes muddy shorelines and provides rich organic fruit for resident aquatic wildlife.',
-    tagColor: '#7c3aed',
-    tagBg: '#f5f3ff'
+    tagColor: '#047857',
+    tagBg: '#ecfdf5'
   }
 ];
 
@@ -125,15 +125,15 @@ const ActivityPlantation = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#f0fdf4',
-                border: '1px solid #bbf7d0',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
                 padding: '5px 14px',
                 borderRadius: '999px',
                 fontSize: '0.8rem',
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#15803d',
+                color: '#047857',
                 marginBottom: '1rem'
               }}>
                 <Sprout size={14} />
@@ -154,7 +154,7 @@ const ActivityPlantation = () => {
               <p style={{
                 fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
                 fontWeight: 600,
-                color: '#15803d',
+                color: '#059669',
                 margin: '0 0 1rem',
                 lineHeight: 1.5
               }}>
@@ -174,15 +174,15 @@ const ActivityPlantation = () => {
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <TreeDeciduous size={14} color="#15803d" />
+                  <TreeDeciduous size={14} color="#059669" />
                   <span>10,000+ Native Saplings</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <MapPin size={14} color="#15803d" />
+                  <MapPin size={14} color="#059669" />
                   <span>8 km Bund Corridor</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <ShieldCheck size={14} color="#15803d" />
+                  <ShieldCheck size={14} color="#059669" />
                   <span>85%+ Monitored Survival</span>
                 </div>
               </div>
@@ -212,7 +212,7 @@ const ActivityPlantation = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#15803d', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Godavari Bund Corridor Afforestation Drive — Rajahmundry
                     </span>
@@ -220,11 +220,11 @@ const ActivityPlantation = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#15803d',
-                    background: '#f0fdf4',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #bbf7d0',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -258,9 +258,9 @@ const ActivityPlantation = () => {
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
                 padding: '1.25rem 1.5rem',
-                borderLeft: '4px solid #15803d'
+                borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#15803d', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
                   {stat.val}
                 </div>
                 <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
@@ -280,7 +280,7 @@ const ActivityPlantation = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#15803d', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <Leaf size={15} />
               <span>Botanical Curation</span>
             </div>
@@ -322,7 +322,7 @@ const ActivityPlantation = () => {
                     }}>
                       {spec.telugu}
                     </span>
-                    <TreeDeciduous size={18} color="#15803d" />
+                    <TreeDeciduous size={18} color="#059669" />
                   </div>
 
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem' }}>
@@ -365,7 +365,7 @@ const ActivityPlantation = () => {
             
             {/* Left: Riparian Embankment Blueprint */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#15803d', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
                 <Layers size={15} />
                 <span>Hydrological Engineering</span>
               </div>
@@ -383,12 +383,12 @@ const ActivityPlantation = () => {
                     border: '1px solid #e2e8f0',
                     borderRadius: '12px',
                     padding: '1.25rem 1.5rem',
-                    borderLeft: '4px solid #15803d'
+                    borderLeft: '4px solid #059669'
                   }}>
                     <h4 style={{ fontSize: '0.96rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.35rem' }}>
                       {zone.zone}
                     </h4>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#15803d', marginBottom: '0.35rem' }}>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#059669', marginBottom: '0.35rem' }}>
                       Key Flora: {zone.trees}
                     </div>
                     <p style={{ fontSize: '0.86rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
@@ -423,7 +423,7 @@ const ActivityPlantation = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#15803d', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Traditional Woven Bamboo Tree Guards Safeguarding River Saplings
                     </span>
@@ -431,11 +431,11 @@ const ActivityPlantation = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#15803d',
-                    background: '#f0fdf4',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #bbf7d0',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -456,7 +456,7 @@ const ActivityPlantation = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#15803d', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <Sun size={15} />
               <span>Long-Term Care Protocol</span>
             </div>
@@ -484,13 +484,13 @@ const ActivityPlantation = () => {
                 <div style={{
                   fontSize: '0.75rem',
                   fontWeight: 700,
-                  color: '#15803d',
-                  background: '#f0fdf4',
+                  color: '#047857',
+                  background: '#ecfdf5',
                   padding: '4px 12px',
                   borderRadius: '999px',
                   display: 'inline-block',
                   marginBottom: '1rem',
-                  border: '1px solid #bbf7d0'
+                  border: '1px solid #a7f3d0'
                 }}>
                   {m.period}
                 </div>
@@ -531,14 +531,14 @@ const ActivityPlantation = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#15803d',
+                background: '#059669',
                 color: '#ffffff',
                 padding: '12px 26px',
                 borderRadius: '8px',
                 fontWeight: 700,
                 fontSize: '0.94rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 12px rgba(21, 128, 61, 0.25)'
+                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
               }}
             >
               <span>Adopt a Godavari Tree</span>
@@ -560,7 +560,7 @@ const ActivityPlantation = () => {
           </Link>
           <Link
             to="/activities/conservation"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#15803d', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
           >
             <span>Next: River Conservation &rarr;</span>
           </Link>

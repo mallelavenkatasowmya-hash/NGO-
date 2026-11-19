@@ -26,8 +26,8 @@ const awarenessPillars = [
   {
     title: 'School & College Drives',
     tag: 'Academic Outreach',
-    badgeBg: '#f0fdf4',
-    badgeColor: '#15803d',
+    badgeBg: '#ecfdf5',
+    badgeColor: '#047857',
     image: godavariSchoolDrivesImg,
     path: '/awareness/schools',
     desc: 'Bringing multimedia river basin science, hands-on water test demos, and student eco-ambassador charters into 35+ high schools and colleges.',
@@ -46,8 +46,8 @@ const awarenessPillars = [
   {
     title: 'Youth Campaigns',
     tag: 'Cultural Arts & Mobilization',
-    badgeBg: '#fffbeb',
-    badgeColor: '#b45309',
+    badgeBg: '#ecfdf5',
+    badgeColor: '#047857',
     image: godavariYouthCampaignsImg,
     path: '/awareness/campaigns',
     desc: 'Staging vibrant Telugu street theatre (Nukkad Natak) on bathing ghats, hosting dawn cyclothons, and administering the Nadi Prathijna citizen pledge.',
@@ -160,7 +160,7 @@ const AwarenessPrograms = () => {
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <Link to="/awareness/schools" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <GraduationCap size={14} color="#15803d" />
+                  <GraduationCap size={14} color="#059669" />
                   <span>School Drives</span>
                 </Link>
                 <Link to="/awareness/workshops" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
@@ -168,7 +168,7 @@ const AwarenessPrograms = () => {
                   <span>Public Workshops</span>
                 </Link>
                 <Link to="/awareness/campaigns" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <Megaphone size={14} color="#d97706" />
+                  <Megaphone size={14} color="#059669" />
                   <span>Youth Campaigns</span>
                 </Link>
               </div>
@@ -282,7 +282,7 @@ const AwarenessPrograms = () => {
 
                 {/* Body */}
                 <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: pillar.badgeColor, marginBottom: '0.35rem' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', marginBottom: '0.35rem' }}>
                     {pillar.metric}
                   </div>
                   <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.65rem' }}>
@@ -309,7 +309,7 @@ const AwarenessPrograms = () => {
                     }}
                   >
                     <span>Explore Dedicated Page</span>
-                    <ArrowRight size={15} color={pillar.badgeColor} />
+                    <ArrowRight size={15} color="#059669" />
                   </Link>
                 </div>
               </div>

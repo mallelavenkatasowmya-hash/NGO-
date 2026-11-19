@@ -34,8 +34,8 @@ const waterMetrics = [
     ideal: '7.0 – 8.2',
     current: '7.4 pH',
     status: 'Balanced (Neutral River Water)',
-    statusColor: '#0284c7',
-    statusBg: '#f0f9ff',
+    statusColor: '#059669',
+    statusBg: '#ecfdf5',
     desc: 'Monitors runoff from upstream agricultural fields and urban storm drains, guaranteeing safe conditions for bathing and ritual ceremonies.'
   },
   {
@@ -52,8 +52,8 @@ const waterMetrics = [
     ideal: '< 2.5 mg/L',
     current: '2.1 mg/L',
     status: 'Standard Class-B Water',
-    statusColor: '#0284c7',
-    statusBg: '#f0f9ff',
+    statusColor: '#059669',
+    statusBg: '#ecfdf5',
     desc: 'Indicates the rate of microbial organic breakdown. Lower values confirm minimal untreated municipal sewage contamination in monitored zones.'
   }
 ];
@@ -118,15 +118,15 @@ const ActivityConservation = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#f0f9ff',
-                border: '1px solid #bae6fd',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
                 padding: '5px 14px',
                 borderRadius: '999px',
                 fontSize: '0.8rem',
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#0369a1',
+                color: '#047857',
                 marginBottom: '1rem'
               }}>
                 <Waves size={14} />
@@ -147,7 +147,7 @@ const ActivityConservation = () => {
               <p style={{
                 fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
                 fontWeight: 600,
-                color: '#0284c7',
+                color: '#059669',
                 margin: '0 0 1rem',
                 lineHeight: 1.5
               }}>
@@ -167,15 +167,15 @@ const ActivityConservation = () => {
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Activity size={14} color="#0284c7" />
+                  <Activity size={14} color="#059669" />
                   <span>15 Sampling Stations</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Filter size={14} color="#0284c7" />
+                  <Filter size={14} color="#059669" />
                   <span>22 Canal Barrier Traps</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <BarChart3 size={14} color="#0284c7" />
+                  <BarChart3 size={14} color="#059669" />
                   <span>Monthly Public Audits</span>
                 </div>
               </div>
@@ -205,7 +205,7 @@ const ActivityConservation = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284c7', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Ghat Hydrological Sampling &amp; Laboratory Operations
                     </span>
@@ -213,11 +213,11 @@ const ActivityConservation = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#0369a1',
-                    background: '#f0f9ff',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #bae6fd',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -251,9 +251,9 @@ const ActivityConservation = () => {
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
                 padding: '1.25rem 1.5rem',
-                borderLeft: '4px solid #0284c7'
+                borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#0369a1', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
                   {stat.val}
                 </div>
                 <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
@@ -273,7 +273,7 @@ const ActivityConservation = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#0284c7', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <Gauge size={15} />
               <span>Public Water Health Metrics</span>
             </div>
@@ -315,7 +315,7 @@ const ActivityConservation = () => {
                     }}>
                       {met.status}
                     </span>
-                    <Activity size={16} color="#0284c7" />
+                    <Activity size={16} color="#059669" />
                   </div>
 
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.75rem' }}>
@@ -379,7 +379,7 @@ const ActivityConservation = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0284c7', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Canal-Mouth Netting Infrastructure Intercepting Urban Plastics
                     </span>
@@ -387,11 +387,11 @@ const ActivityConservation = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#0369a1',
-                    background: '#f0f9ff',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #bae6fd',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -404,7 +404,7 @@ const ActivityConservation = () => {
 
             {/* Right: Technical Engineering Features */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#0284c7', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
                 <Filter size={15} />
                 <span>Physical Barrier Engineering</span>
               </div>
@@ -426,9 +426,9 @@ const ActivityConservation = () => {
                       width: '36px',
                       height: '36px',
                       borderRadius: '10px',
-                      background: '#f0f9ff',
-                      border: '1px solid #bae6fd',
-                      color: '#0284c7',
+                      background: '#ecfdf5',
+                      border: '1px solid #a7f3d0',
+                      color: '#047857',
                       fontSize: '0.9rem',
                       fontWeight: 800,
                       display: 'flex',
@@ -461,7 +461,7 @@ const ActivityConservation = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#0284c7', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <Microscope size={15} />
               <span>Scientific Rigor</span>
             </div>
@@ -489,13 +489,13 @@ const ActivityConservation = () => {
                 <div style={{
                   fontSize: '0.75rem',
                   fontWeight: 800,
-                  color: '#0284c7',
-                  background: '#f0f9ff',
+                  color: '#047857',
+                  background: '#ecfdf5',
                   padding: '4px 12px',
                   borderRadius: '999px',
                   display: 'inline-block',
                   marginBottom: '1rem',
-                  border: '1px solid #bae6fd'
+                  border: '1px solid #a7f3d0'
                 }}>
                   PHASE {proto.step}
                 </div>
@@ -536,14 +536,14 @@ const ActivityConservation = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#0284c7',
+                background: '#059669',
                 color: '#ffffff',
                 padding: '12px 26px',
                 borderRadius: '8px',
                 fontWeight: 700,
                 fontSize: '0.94rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 12px rgba(2, 132, 199, 0.25)'
+                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
               }}
             >
               <span>Volunteer as Water Auditor</span>
@@ -565,7 +565,7 @@ const ActivityConservation = () => {
           </Link>
           <Link
             to="/activities/community"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0284c7', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
           >
             <span>Next: Community Programs &rarr;</span>
           </Link>

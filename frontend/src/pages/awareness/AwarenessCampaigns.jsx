@@ -13,7 +13,8 @@ import {
   Palette,
   Users,
   Compass,
-  Smile
+  Smile,
+  ShieldCheck
 } from 'lucide-react';
 
 const campaignChannels = [
@@ -92,15 +93,15 @@ const AwarenessCampaigns = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#fffbeb',
-                border: '1px solid #fde68a',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
                 padding: '5px 14px',
                 borderRadius: '999px',
                 fontSize: '0.8rem',
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#b45309',
+                color: '#047857',
                 marginBottom: '1rem'
               }}>
                 <Megaphone size={14} />
@@ -121,7 +122,7 @@ const AwarenessCampaigns = () => {
               <p style={{
                 fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
                 fontWeight: 600,
-                color: '#d97706',
+                color: '#059669',
                 margin: '0 0 1rem',
                 lineHeight: 1.5
               }}>
@@ -141,15 +142,15 @@ const AwarenessCampaigns = () => {
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Drama size={14} color="#d97706" />
+                  <Drama size={14} color="#059669" />
                   <span>50+ Street Theatres</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Bike size={14} color="#d97706" />
+                  <Bike size={14} color="#059669" />
                   <span>Dawn Cyclothons</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Heart size={14} color="#d97706" />
+                  <Heart size={14} color="#059669" />
                   <span>12,000+ Pledges Signed</span>
                 </div>
               </div>
@@ -179,7 +180,7 @@ const AwarenessCampaigns = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#d97706', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Nukkad Natak Street Theatre — Kotilingala Ghat Steps
                     </span>
@@ -187,11 +188,11 @@ const AwarenessCampaigns = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#b45309',
-                    background: '#fffbeb',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #fde68a',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -225,9 +226,9 @@ const AwarenessCampaigns = () => {
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
                 padding: '1.25rem 1.5rem',
-                borderLeft: '4px solid #d97706'
+                borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#b45309', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
                   {stat.val}
                 </div>
                 <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
@@ -247,7 +248,7 @@ const AwarenessCampaigns = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#d97706', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <Palette size={15} />
               <span>Cultural Mobilization</span>
             </div>
@@ -280,9 +281,9 @@ const AwarenessCampaigns = () => {
                     width: '38px',
                     height: '38px',
                     borderRadius: '10px',
-                    background: '#fffbeb',
-                    border: '1px solid #fde68a',
-                    color: '#b45309',
+                    background: '#ecfdf5',
+                    border: '1px solid #a7f3d0',
+                    color: '#047857',
                     fontSize: '0.9rem',
                     fontWeight: 800,
                     display: 'flex',
@@ -297,7 +298,7 @@ const AwarenessCampaigns = () => {
                     {ch.title}
                   </h3>
 
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#d97706', marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', marginBottom: '1rem' }}>
                     {ch.format}
                   </div>
 
@@ -325,7 +326,7 @@ const AwarenessCampaigns = () => {
             
             {/* Left: Four Sacred Commitments */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#d97706', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
                 <Heart size={15} />
                 <span>The Sacred Promise</span>
               </div>
@@ -343,7 +344,7 @@ const AwarenessCampaigns = () => {
                     border: '1px solid #e2e8f0',
                     borderRadius: '12px',
                     padding: '1.25rem 1.5rem',
-                    borderLeft: '4px solid #d97706'
+                    borderLeft: '4px solid #059669'
                   }}>
                     <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.35rem' }}>
                       {p.title}
@@ -359,8 +360,8 @@ const AwarenessCampaigns = () => {
             {/* Right: Join Cultural Troupe Card */}
             <div>
               <div style={{
-                background: '#fffbeb',
-                border: '1px solid #fde68a',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
                 borderRadius: '16px',
                 padding: '2.5rem'
               }}>
@@ -373,21 +374,21 @@ const AwarenessCampaigns = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: '1.25rem',
-                  boxShadow: '0 2px 8px rgba(217, 119, 6, 0.15)'
+                  boxShadow: '0 2px 8px rgba(5, 150, 105, 0.15)'
                 }}>
-                  <Drama size={28} color="#d97706" />
+                  <Drama size={28} color="#059669" />
                 </div>
 
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#78350f', margin: '0 0 0.65rem' }}>
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#064e3b', margin: '0 0 0.65rem' }}>
                   Audition for Our Street Theatre &amp; Arts Troupe
                 </h3>
-                <p style={{ fontSize: '0.92rem', color: '#92400e', lineHeight: 1.65, margin: '0 0 1.5rem' }}>
+                <p style={{ fontSize: '0.92rem', color: '#065f46', lineHeight: 1.65, margin: '0 0 1.5rem' }}>
                   Are you an aspiring actor, folk singer, scriptwriter, or outdoor painter? Join our weekly rehearsal sessions every Saturday evening at Pushkar Ghat.
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.75rem' }}>
                   {troupeRoles.map((r, idx) => (
-                    <div key={idx} style={{ background: '#ffffff', borderRadius: '8px', padding: '0.75rem 1rem', border: '1px solid #fef3c7' }}>
+                    <div key={idx} style={{ background: '#ffffff', borderRadius: '8px', padding: '0.75rem 1rem', border: '1px solid #e2e8f0' }}>
                       <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a' }}>{r.role}</div>
                       <div style={{ fontSize: '0.78rem', color: '#64748b' }}>{r.skill}</div>
                     </div>
@@ -402,14 +403,14 @@ const AwarenessCampaigns = () => {
                     justifyContent: 'center',
                     gap: '8px',
                     width: '100%',
-                    background: '#d97706',
+                    background: '#059669',
                     color: '#ffffff',
                     padding: '12px 24px',
                     borderRadius: '8px',
                     fontWeight: 700,
                     fontSize: '0.92rem',
                     textDecoration: 'none',
-                    boxShadow: '0 4px 12px rgba(217, 119, 6, 0.25)'
+                    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
                   }}
                 >
                   <span>Join the Youth Campaign Troupe</span>
@@ -434,7 +435,7 @@ const AwarenessCampaigns = () => {
           </Link>
           <Link
             to="/awareness"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#d97706', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
           >
             <span>View All Awareness Programs &rarr;</span>
           </Link>

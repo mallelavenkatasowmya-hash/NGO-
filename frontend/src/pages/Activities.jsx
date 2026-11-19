@@ -40,8 +40,8 @@ const activityPillars = [
   {
     title: 'Tree Plantation',
     tag: 'Afforestation',
-    badgeBg: '#f0fdf4',
-    badgeColor: '#15803d',
+    badgeBg: '#ecfdf5',
+    badgeColor: '#047857',
     image: godavariTreePlantationImg,
     path: '/activities/plantation',
     desc: 'Planting indigenous Neem, Peepal, and Pongamia trees along 8 km of Godavari embankments to stabilize soil and cool local microclimates.',
@@ -50,8 +50,8 @@ const activityPillars = [
   {
     title: 'River Conservation',
     tag: 'Hydrology & Science',
-    badgeBg: '#f0f9ff',
-    badgeColor: '#0369a1',
+    badgeBg: '#ecfdf5',
+    badgeColor: '#047857',
     image: godavariFieldOperationsImg,
     path: '/activities/conservation',
     desc: 'Deploying canal plastic-trap netting barriers and operating 15 ghat water quality testing stations with transparent public health reporting.',
@@ -60,8 +60,8 @@ const activityPillars = [
   {
     title: 'Community Programs',
     tag: 'Civic Mobilization',
-    badgeBg: '#f5f3ff',
-    badgeColor: '#6d28d9',
+    badgeBg: '#ecfdf5',
+    badgeColor: '#047857',
     image: godavariCommunityImg,
     path: '/activities/community',
     desc: 'Youth eco-ambassador workshops, plastic-free pooja counseling for pilgrims, and merchant alliances across East & West Godavari.',
@@ -223,15 +223,15 @@ const Activities = () => {
                   <span>Cleanliness Drives</span>
                 </Link>
                 <Link to="/activities/plantation" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <Sprout size={14} color="#15803d" />
+                  <Sprout size={14} color="#059669" />
                   <span>Tree Plantation</span>
                 </Link>
                 <Link to="/activities/conservation" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <Waves size={14} color="#0284c7" />
+                  <Waves size={14} color="#059669" />
                   <span>River Conservation</span>
                 </Link>
                 <Link to="/activities/community" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155', textDecoration: 'none' }}>
-                  <GraduationCap size={14} color="#7c3aed" />
+                  <GraduationCap size={14} color="#059669" />
                   <span>Community Programs</span>
                 </Link>
               </div>

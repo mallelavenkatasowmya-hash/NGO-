@@ -79,15 +79,15 @@ const AwarenessSchools = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#f0fdf4',
-                border: '1px solid #bbf7d0',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
                 padding: '5px 14px',
                 borderRadius: '999px',
                 fontSize: '0.8rem',
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#15803d',
+                color: '#047857',
                 marginBottom: '1rem'
               }}>
                 <GraduationCap size={14} />
@@ -108,7 +108,7 @@ const AwarenessSchools = () => {
               <p style={{
                 fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
                 fontWeight: 600,
-                color: '#15803d',
+                color: '#059669',
                 margin: '0 0 1rem',
                 lineHeight: 1.5
               }}>
@@ -128,15 +128,15 @@ const AwarenessSchools = () => {
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <School size={14} color="#15803d" />
+                  <School size={14} color="#059669" />
                   <span>35+ Campuses Partnered</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Award size={14} color="#15803d" />
+                  <Award size={14} color="#059669" />
                   <span>Official Eco-Ambassador Badges</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Microscope size={14} color="#15803d" />
+                  <Microscope size={14} color="#059669" />
                   <span>Live Water Testing Demos</span>
                 </div>
               </div>
@@ -166,7 +166,7 @@ const AwarenessSchools = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#15803d', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Godavari Basin Ecology Session — Rajahmundry Campus
                     </span>
@@ -174,11 +174,11 @@ const AwarenessSchools = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#15803d',
-                    background: '#f0fdf4',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #bbf7d0',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -207,9 +207,9 @@ const AwarenessSchools = () => {
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
                 padding: '1.25rem 1.5rem',
-                borderLeft: '4px solid #15803d'
+                borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#15803d', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
                   {stat.value}
                 </div>
                 <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
@@ -229,7 +229,7 @@ const AwarenessSchools = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#15803d', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <Presentation size={15} />
               <span>Curriculum &amp; Methodology</span>
             </div>
@@ -262,9 +262,9 @@ const AwarenessSchools = () => {
                     width: '38px',
                     height: '38px',
                     borderRadius: '10px',
-                    background: '#f0fdf4',
-                    border: '1px solid #bbf7d0',
-                    color: '#15803d',
+                    background: '#ecfdf5',
+                    border: '1px solid #a7f3d0',
+                    color: '#047857',
                     fontSize: '0.9rem',
                     fontWeight: 800,
                     display: 'flex',
@@ -303,7 +303,7 @@ const AwarenessSchools = () => {
             
             {/* Left: Certification & Badging */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#15803d', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
                 <Award size={15} />
                 <span>Student Recognition</span>
               </div>
@@ -322,7 +322,7 @@ const AwarenessSchools = () => {
                   'Free distribution of native sapling kits for campus micro-forest plantations'
                 ].map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                    <CheckCircle2 size={18} color="#15803d" style={{ flexShrink: 0, marginTop: '3px' }} />
+                    <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '3px' }} />
                     <span style={{ fontSize: '0.94rem', color: '#334155', lineHeight: 1.6 }}>{item}</span>
                   </div>
                 ))}
@@ -337,7 +337,7 @@ const AwarenessSchools = () => {
                 borderRadius: '16px',
                 padding: '2rem'
               }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#15803d', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>
                   INSTITUTIONAL NETWORK
                 </div>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 1.25rem' }}>
@@ -360,18 +360,18 @@ const AwarenessSchools = () => {
                           {col.name}
                         </div>
                         <div style={{ fontSize: '0.8rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-                          <MapPin size={12} color="#15803d" />
+                          <MapPin size={12} color="#059669" />
                           <span>{col.location}</span>
                         </div>
                       </div>
                       <span style={{
                         fontSize: '0.72rem',
                         fontWeight: 700,
-                        color: '#15803d',
-                        background: '#f0fdf4',
+                        color: '#047857',
+                        background: '#ecfdf5',
                         padding: '3px 8px',
                         borderRadius: '6px',
-                        border: '1px solid #bbf7d0'
+                        border: '1px solid #a7f3d0'
                       }}>
                         {col.category}
                       </span>
@@ -416,14 +416,14 @@ const AwarenessSchools = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#15803d',
+                background: '#059669',
                 color: '#ffffff',
                 padding: '12px 26px',
                 borderRadius: '8px',
                 fontWeight: 700,
                 fontSize: '0.94rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 12px rgba(21, 128, 61, 0.25)'
+                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
               }}
             >
               <span>Schedule a Campus Drive</span>
@@ -445,7 +445,7 @@ const AwarenessSchools = () => {
           </Link>
           <Link
             to="/awareness/workshops"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#15803d', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
           >
             <span>Next: Public Workshops &rarr;</span>
           </Link>

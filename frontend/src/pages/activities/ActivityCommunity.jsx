@@ -15,7 +15,8 @@ import {
   Store,
   Drama,
   Compass,
-  Smile
+  Smile,
+  ShieldCheck
 } from 'lucide-react';
 
 const outreachChannels = [
@@ -23,15 +24,15 @@ const outreachChannels = [
     title: 'School & College Eco-Clubs',
     icon: GraduationCap,
     badge: 'Youth Leadership',
-    badgeColor: '#7c3aed',
-    badgeBg: '#f5f3ff',
+    badgeColor: '#047857',
+    badgeBg: '#ecfdf5',
     desc: 'Empowering students across 25+ local schools and colleges with interactive river ecology lectures, water test demonstrations, and certified environmental leadership badges.'
   },
   {
     title: 'Eco-Friendly Pilgrimage Guidance',
     icon: Compass,
     badge: 'Cultural Harmony',
-    badgeColor: '#059669',
+    badgeColor: '#047857',
     badgeBg: '#ecfdf5',
     desc: 'Partnering with temple priests and pilgrim committees to eliminate polythene bags from ritual offerings, providing compostable banana-leaf containers and floral collection bins.'
   },
@@ -39,16 +40,16 @@ const outreachChannels = [
     title: 'Street Theatres & Folk Storytelling',
     icon: Drama,
     badge: 'Cultural Arts',
-    badgeColor: '#d97706',
-    badgeBg: '#fffbeb',
+    badgeColor: '#047857',
+    badgeBg: '#ecfdf5',
     desc: 'Performing weekend street plays (nukkad nataks), puppet shows, and folk songs in Telugu at Pushkar and Kotilingala Ghats, making conservation emotionally resonant.'
   },
   {
     title: 'Riverfront Merchant Green Alliance',
     icon: Store,
     badge: 'Local Commerce',
-    badgeColor: '#0284c7',
-    badgeBg: '#f0f9ff',
+    badgeColor: '#047857',
+    badgeBg: '#ecfdf5',
     desc: 'Working directly with tea stalls, flower vendors, and souvenir shops along the bund to phase out single-use plastics in favor of subsidized cloth and paper alternatives.'
   }
 ];
@@ -99,15 +100,15 @@ const ActivityCommunity = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#f5f3ff',
-                border: '1px solid #ddd6fe',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
                 padding: '5px 14px',
                 borderRadius: '999px',
                 fontSize: '0.8rem',
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: '#6d28d9',
+                color: '#047857',
                 marginBottom: '1rem'
               }}>
                 <Users size={14} />
@@ -128,7 +129,7 @@ const ActivityCommunity = () => {
               <p style={{
                 fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
                 fontWeight: 600,
-                color: '#7c3aed',
+                color: '#059669',
                 margin: '0 0 1rem',
                 lineHeight: 1.5
               }}>
@@ -148,15 +149,15 @@ const ActivityCommunity = () => {
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <GraduationCap size={14} color="#7c3aed" />
+                  <GraduationCap size={14} color="#059669" />
                   <span>25+ Schools &amp; Colleges</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Users size={14} color="#7c3aed" />
+                  <Users size={14} color="#059669" />
                   <span>3,500+ Citizens Engaged</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                  <Store size={14} color="#7c3aed" />
+                  <Store size={14} color="#059669" />
                   <span>40+ Riverfront Merchants</span>
                 </div>
               </div>
@@ -186,7 +187,7 @@ const ActivityCommunity = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#7c3aed', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Civic Dialogue &amp; Stewardship Circle — Godavari Ghats
                     </span>
@@ -194,11 +195,11 @@ const ActivityCommunity = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#6d28d9',
-                    background: '#f5f3ff',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #ddd6fe',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -232,9 +233,9 @@ const ActivityCommunity = () => {
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
                 padding: '1.25rem 1.5rem',
-                borderLeft: '4px solid #7c3aed'
+                borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#6d28d9', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
                   {stat.val}
                 </div>
                 <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
@@ -254,7 +255,7 @@ const ActivityCommunity = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#7c3aed', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <HeartHandshake size={15} />
               <span>Grassroots Engagement</span>
             </div>
@@ -290,8 +291,8 @@ const ActivityCommunity = () => {
                         width: '42px',
                         height: '42px',
                         borderRadius: '10px',
-                        background: ch.badgeBg,
-                        color: ch.badgeColor,
+                        background: '#ecfdf5',
+                        color: '#047857',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
@@ -301,8 +302,8 @@ const ActivityCommunity = () => {
                       <span style={{
                         fontSize: '0.72rem',
                         fontWeight: 700,
-                        color: ch.badgeColor,
-                        background: ch.badgeBg,
+                        color: '#047857',
+                        background: '#ecfdf5',
                         padding: '3px 10px',
                         borderRadius: '999px',
                         textTransform: 'uppercase',
@@ -363,7 +364,7 @@ const ActivityCommunity = () => {
                   gap: '0.75rem'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#7c3aed', flexShrink: 0 }} />
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
                       Godavari Eco-Club Student Ambassadors on River Promenade
                     </span>
@@ -371,11 +372,11 @@ const ActivityCommunity = () => {
                   <span style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
-                    color: '#6d28d9',
-                    background: '#f5f3ff',
+                    color: '#047857',
+                    background: '#ecfdf5',
                     padding: '3px 10px',
                     borderRadius: '999px',
-                    border: '1px solid #ddd6fe',
+                    border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
@@ -388,7 +389,7 @@ const ActivityCommunity = () => {
 
             {/* Right: School & Youth Curriculum */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#7c3aed', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
                 <Award size={15} />
                 <span>Next Generation Champions</span>
               </div>
@@ -407,7 +408,7 @@ const ActivityCommunity = () => {
                   'Inter-school debates, street-art poster showcases, and regional environmental quizzes'
                 ].map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                    <CheckCircle2 size={18} color="#7c3aed" style={{ flexShrink: 0, marginTop: '3px' }} />
+                    <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '3px' }} />
                     <span style={{ fontSize: '0.94rem', color: '#334155', lineHeight: 1.6 }}>{item}</span>
                   </div>
                 ))}
@@ -424,7 +425,7 @@ const ActivityCommunity = () => {
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#7c3aed', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
               <Smile size={15} />
               <span>Roles for Every Passion</span>
             </div>
@@ -452,13 +453,13 @@ const ActivityCommunity = () => {
                 <div style={{
                   fontSize: '0.75rem',
                   fontWeight: 700,
-                  color: '#6d28d9',
-                  background: '#f5f3ff',
+                  color: '#047857',
+                  background: '#ecfdf5',
                   padding: '4px 12px',
                   borderRadius: '999px',
                   display: 'inline-block',
                   marginBottom: '1rem',
-                  border: '1px solid #ddd6fe'
+                  border: '1px solid #a7f3d0'
                 }}>
                   {role.commitment}
                 </div>
@@ -499,14 +500,14 @@ const ActivityCommunity = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: '#7c3aed',
+                background: '#059669',
                 color: '#ffffff',
                 padding: '12px 26px',
                 borderRadius: '8px',
                 fontWeight: 700,
                 fontSize: '0.94rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 12px rgba(124, 58, 237, 0.25)'
+                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
               }}
             >
               <span>Partner With Our Community</span>
@@ -528,7 +529,7 @@ const ActivityCommunity = () => {
           </Link>
           <Link
             to="/activities"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#7c3aed', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
+            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
           >
             <span>View All Activities &rarr;</span>
           </Link>
