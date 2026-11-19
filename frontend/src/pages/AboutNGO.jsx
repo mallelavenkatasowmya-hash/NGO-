@@ -58,19 +58,19 @@ const photoHighlights = [
   {
     title: 'Community Cleanliness Drives',
     subtitle: 'Kotilingala & Pushkar Ghats',
-    image: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=1200&auto=format&fit=crop&q=85',
     tag: 'Field Action'
   },
   {
     title: 'Public Awareness & Youth Education',
     subtitle: 'Schools & Pilgrim Workshops',
-    image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&auto=format&fit=crop&q=85',
     tag: 'Awareness'
   },
   {
     title: 'Riverbank Afforestation & Tree Plantation',
     subtitle: 'Godavari Bund Road Corridor',
-    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&auto=format&fit=crop&q=85',
     tag: 'Conservation'
   }
 ];
@@ -144,29 +144,60 @@ const AboutNGO = () => {
               <div style={{
                 borderRadius: '20px',
                 overflow: 'hidden',
-                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.12)',
+                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.16)',
                 border: '1px solid #e2e8f0',
                 position: 'relative',
                 background: '#0f172a'
               }}>
                 <img 
-                  src={heroBannerImg} 
-                  alt="Godavari River Cleanliness and Awareness Drive" 
-                  style={{ width: '100%', height: '400px', objectFit: 'cover', display: 'block' }}
+                  src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600&auto=format&fit=crop&q=90" 
+                  alt="Godavari River Cleanliness and Conservation" 
+                  style={{ 
+                    width: '100%', 
+                    height: '420px', 
+                    objectFit: 'cover', 
+                    display: 'block',
+                    imageRendering: '-webkit-optimize-contrast'
+                  }}
+                  loading="eager"
                 />
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(to top, rgba(6, 78, 59, 0.9) 0%, rgba(6, 78, 59, 0.25) 55%, transparent 100%)',
+                  background: 'linear-gradient(180deg, rgba(6, 78, 59, 0.88) 0%, rgba(6, 78, 59, 0.35) 45%, transparent 75%)',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'flex-start',
                   padding: '2rem'
                 }}>
-                  <span style={{ color: '#86efac', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>
-                    Godavari Conservation Movement
-                  </span>
-                  <p style={{ color: '#ffffff', fontSize: '1.25rem', fontWeight: 700, margin: 0, lineHeight: 1.4 }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(255, 255, 255, 0.18)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    padding: '5px 14px',
+                    borderRadius: '999px',
+                    color: '#86efac',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    width: 'fit-content',
+                    marginBottom: '0.75rem'
+                  }}>
+                    <Leaf size={13} />
+                    <span>Godavari Conservation Movement</span>
+                  </div>
+                  <p style={{ 
+                    color: '#ffffff', 
+                    fontSize: '1.28rem', 
+                    fontWeight: 800, 
+                    margin: 0, 
+                    lineHeight: 1.38,
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.45)'
+                  }}>
                     Together for a Cleaner Environment.<br />Together for a Better Future.
                   </p>
                 </div>
@@ -195,7 +226,7 @@ const AboutNGO = () => {
             }}>
               <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=80" 
+                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&auto=format&fit=crop&q=85" 
                   alt="Community Volunteers"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -238,7 +269,7 @@ const AboutNGO = () => {
             }}>
               <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=800&auto=format&fit=crop&q=80" 
+                  src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=1200&auto=format&fit=crop&q=85" 
                   alt="Ghat Cleanliness Action"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
