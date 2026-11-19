@@ -4,6 +4,9 @@
 -------------------------------------------------------------- */
 
 /* Base Layout & Utilities */
+html {
+  scroll-behavior: smooth;
+}
 html, body {
   scrollbar-width: none;
   -ms-overflow-style: none;

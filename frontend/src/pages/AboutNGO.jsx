@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
+import heroBannerImg from '../assets/hero-banner.jpg';
 import { 
   Users, 
   Target, 
@@ -79,27 +80,147 @@ const AboutNGO = () => {
   return (
     <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. PROFESSIONAL HERO HEADER */}
-      <section className="clean-page-header" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-        <div style={{ maxWidth: '980px', margin: '0 auto', textAlign: 'center' }}>
-          <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
-            WHO WE ARE
-          </span>
-          <h1 style={{ fontSize: 'clamp(2rem, 3.6vw, 2.85rem)', fontWeight: 800, color: '#0f172a', margin: '0.75rem 0', letterSpacing: '-0.025em', lineHeight: 1.2 }}>
+      {/* 1. PROFESSIONAL HERO HEADER WITH GODAVARI PHOTOGRAPHY */}
+      <section style={{
+        position: 'relative',
+        padding: '5.5rem 1.5rem 5rem',
+        backgroundImage: `linear-gradient(135deg, rgba(6, 78, 59, 0.90) 0%, rgba(4, 120, 87, 0.82) 50%, rgba(15, 23, 42, 0.88) 100%), url(${heroBannerImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#ffffff',
+        textAlign: 'center',
+        overflow: 'hidden'
+      }}>
+        {/* Subtle decorative glow */}
+        <div style={{
+          position: 'absolute',
+          top: '-20%',
+          right: '-10%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
+          borderRadius: '50%',
+          pointerEvents: 'none'
+        }} />
+
+        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(255, 255, 255, 0.16)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255, 255, 255, 0.28)',
+            padding: '6px 16px',
+            borderRadius: '999px',
+            fontSize: '0.82rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: '#bbf7d0',
+            marginBottom: '1.25rem'
+          }}>
+            <Sparkles size={14} />
+            <span>WHO WE ARE</span>
+          </div>
+
+          <h1 style={{
+            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
+            fontWeight: 800,
+            color: '#ffffff',
+            margin: '0 0 1rem',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.2,
+            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+          }}>
             Godhavari Nadhi Paryavarana Parishubratha
           </h1>
-          <p style={{ fontSize: '1.18rem', fontWeight: 600, color: '#059669', margin: '0 0 1rem', lineHeight: 1.5 }}>
+
+          <p style={{
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
+            fontWeight: 600,
+            color: '#86efac',
+            margin: '0 auto 1.25rem',
+            lineHeight: 1.5,
+            maxWidth: '780px',
+            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
+          }}>
             Creating Awareness. Promoting Cleanliness. Encouraging Community Participation.
           </p>
-          <p className="clean-page-sub" style={{ fontSize: '1.02rem', color: '#64748b', maxWidth: '740px', margin: '0 auto', lineHeight: 1.75 }}>
+
+          <p style={{
+            fontSize: '1.05rem',
+            color: '#ecfdf5',
+            maxWidth: '740px',
+            margin: '0 auto 2rem',
+            lineHeight: 1.75,
+            opacity: 0.95
+          }}>
             Godhavari Nadhi Paryavarana Parishubratha is an organization focused on public awareness, 
-            environmental cleanliness and community development activities.
+            environmental cleanliness and community development activities across the sacred Godavari river basin.
           </p>
+
+          {/* Quick jump pills */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <a href="#conviction" style={{
+              background: 'rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              color: '#ffffff',
+              padding: '0.5rem 1.15rem',
+              borderRadius: '999px',
+              fontSize: '0.86rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+              backdropFilter: 'blur(4px)'
+            }}>
+              ✨ Our Conviction
+            </a>
+            <a href="#who-we-are" style={{
+              background: 'rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              color: '#ffffff',
+              padding: '0.5rem 1.15rem',
+              borderRadius: '999px',
+              fontSize: '0.86rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+              backdropFilter: 'blur(4px)'
+            }}>
+              👥 Who We Are
+            </a>
+            <a href="#principles" style={{
+              background: 'rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              color: '#ffffff',
+              padding: '0.5rem 1.15rem',
+              borderRadius: '999px',
+              fontSize: '0.86rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+              backdropFilter: 'blur(4px)'
+            }}>
+              🌿 What We Stand For
+            </a>
+            <a href="#initiatives" style={{
+              background: 'rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              color: '#ffffff',
+              padding: '0.5rem 1.15rem',
+              borderRadius: '999px',
+              fontSize: '0.86rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+              backdropFilter: 'blur(4px)'
+            }}>
+              📸 Field Highlights
+            </a>
+          </div>
         </div>
       </section>
 
       {/* 2. CORE NARRATIVE WITH FEATURED IMAGE */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff' }}>
+      <section id="conviction" style={{ padding: '4.5rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
             
@@ -209,7 +330,7 @@ const AboutNGO = () => {
       </section>
 
       {/* 3. WHO WE ARE & OUR PURPOSE WITH REAL PHOTO CARDS */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <section id="who-we-are" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
@@ -316,7 +437,7 @@ const AboutNGO = () => {
       </section>
 
       {/* 4. REAL-TIME ACTIVITIES PHOTO RIBBON */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff' }}>
+      <section id="initiatives" style={{ padding: '4.5rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
@@ -389,7 +510,7 @@ const AboutNGO = () => {
       </section>
 
       {/* 5. WHAT WE STAND FOR (5 PILLARS) */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <section id="principles" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
