@@ -139,12 +139,11 @@ const Navbar = () => {
         <nav className="eco-desktop-nav">
           {navMenuItems.map((item) => {
             if (item.isHome) {
-              const active = location.pathname === '/';
               return (
                 <Link
                   key={item.label}
                   to="/"
-                  className={`eco-nav-home-pill ${active ? 'active' : ''}`}
+                  className="eco-nav-home-pill"
                 >
                   <Home size={13} />
                   <span>Home</span>
