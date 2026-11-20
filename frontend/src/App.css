@@ -3716,10 +3716,10 @@ body::-webkit-scrollbar {
   min-width: 0;
 }
 
-/* Home Nav Link - Permanently Removed Green Pill Background */
+/* Home Nav Link - Dynamic Green on Hover and Active */
 .eco-nav-home-pill {
-  background-color: transparent !important;
-  color: #1e293b !important;
+  background-color: transparent;
+  color: #1e293b;
   border-radius: 9999px;
   padding: 0.28rem 0.65rem;
   font-size: 0.75rem;
@@ -3728,21 +3728,22 @@ body::-webkit-scrollbar {
   align-items: center;
   gap: 0.3rem;
   text-decoration: none;
-  box-shadow: none !important;
-  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 }
 
-.eco-nav-home-pill:hover {
-  background-color: #f1f5f9 !important;
-  color: #0f172a !important;
+.eco-nav-home-pill:hover,
+.eco-nav-home-pill.active {
+  background-color: #0f4a38 !important;
+  color: #ffffff !important;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(15, 74, 56, 0.25);
 }
 
-.eco-nav-home-pill.active {
-  background-color: transparent !important;
-  color: #1e293b !important;
-  box-shadow: none !important;
+.eco-nav-home-pill:hover svg,
+.eco-nav-home-pill.active svg {
+  color: #ffffff !important;
 }
 
 /* Nav Item with Dropdown */
