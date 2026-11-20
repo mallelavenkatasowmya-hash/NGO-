@@ -148,26 +148,6 @@ const AboutObjectives = () => {
         }} />
 
         <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'rgba(255, 255, 255, 0.16)',
-            backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255, 255, 255, 0.28)',
-            padding: '6px 16px',
-            borderRadius: '999px',
-            fontSize: '0.82rem',
-            fontWeight: 700,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: '#bbf7d0',
-            marginBottom: '1.25rem'
-          }}>
-            <Sparkles size={14} />
-            <span>STRATEGIC ACTION PLAN</span>
-          </div>
-
           <h1 style={{
             fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
             fontWeight: 800,
