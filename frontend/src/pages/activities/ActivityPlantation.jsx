@@ -6,7 +6,7 @@ import treeNeemImg from '../../assets/tree-neem.jpg';
 import treeKanugaImg from '../../assets/tree-kanuga.jpg';
 import treePeepalImg from '../../assets/tree-peepal.jpg';
 import treeJamunImg from '../../assets/tree-jamun.png';
-import plantationVolunteersImg from '../../assets/plantation-volunteers.jpg';
+import riparianForestImg from '../../assets/riparian-forest.jpg';
 import riverbankCanopyImg from '../../assets/riverbank-canopy.jpg';
 import { 
   Sprout, 
@@ -112,8 +112,8 @@ const stewardshipSteps = [
 
 const fieldGallery = [
   {
-    image: godavariTreePlantationImg,
-    title: 'Community Planting Drives',
+    image: riparianForestImg,
+    title: 'Riparian Embankment Forests',
     tag: 'Active On-Ground Action'
   },
   {
@@ -132,13 +132,13 @@ const ActivityPlantation = () => {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. CINEMATIC FULL-WIDTH HERO BANNER */}
+      {/* 1. CINEMATIC FULL-WIDTH HERO BANNER (CRYSTAL CLEAR HIGH-RES SUNLIT IMAGE) */}
       <section style={{
         position: 'relative',
         padding: '5.5rem 1.5rem 5rem',
-        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.58) 0%, rgba(6, 78, 59, 0.48) 50%, rgba(15, 23, 42, 0.76) 100%), url(${plantationVolunteersImg})`,
+        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.44) 0%, rgba(6, 78, 59, 0.30) 50%, rgba(15, 23, 42, 0.68) 100%), url(${godavariTreePlantationImg})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center 40%',
         backgroundRepeat: 'no-repeat',
         color: '#ffffff',
         textAlign: 'center',
