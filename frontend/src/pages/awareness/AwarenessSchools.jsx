@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import godavariSchoolDrivesImg from '../../assets/godavari-school-drives.jpg';
-import communityPillarSchoolsImg from '../../assets/community-pillar-schools.jpg';
-import protocolTestingImg from '../../assets/protocol-testing.jpg';
-import godavariWasteSortingImg from '../../assets/godavari-waste-sorting.jpg';
-import godavariYouthEcoImg from '../../assets/godavari-youth-eco.jpg';
-import ambassadorEducatorImg from '../../assets/ambassador-educator.jpg';
-import protocolCollectionImg from '../../assets/protocol-collection.jpg';
-import godavariTreePlantationImg from '../../assets/godavari-tree-plantation.jpg';
+import schoolUniqueHeroImg from '../../assets/school-unique-hero.jpg';
+import schoolUniqueCertImg from '../../assets/school-unique-cert.jpg';
+import schoolUniqueCampusImg from '../../assets/school-unique-campus.jpg';
+import schoolUniqueScienceImg from '../../assets/school-unique-science.jpg';
+import schoolUniqueWasteImg from '../../assets/school-unique-waste.jpg';
+import schoolUniqueClubImg from '../../assets/school-unique-club.jpg';
+import schoolUniquePlantingImg from '../../assets/school-unique-planting.jpg';
 
 import { 
   GraduationCap, 
@@ -26,28 +25,28 @@ const academicModules = [
   {
     num: '01',
     title: 'Hydrology & River Ecology',
-    image: communityPillarSchoolsImg,
+    image: schoolUniqueCampusImg,
     badge: 'Module 01',
     desc: 'Interactive visual modules exploring the Godavari watershed and river aquatic habitats.'
   },
   {
     num: '02',
     title: 'The Chemistry of River Water',
-    image: protocolTestingImg,
+    image: schoolUniqueScienceImg,
     badge: 'Module 02',
     desc: 'Live on-stage water demonstrations measuring dissolved oxygen, pH, and water clarity.'
   },
   {
     num: '03',
     title: 'Plastic Lifecycle & Segregation',
-    image: godavariWasteSortingImg,
+    image: schoolUniqueWasteImg,
     badge: 'Module 03',
     desc: 'Hands-on segregation exercises showing the 500-year impact of plastic waste.'
   },
   {
     num: '04',
     title: 'Student Eco-Ambassador Action',
-    image: godavariYouthEcoImg,
+    image: schoolUniqueClubImg,
     badge: 'Module 04',
     desc: 'Practical action plans for school bio-composting, plastic-free living, and cleanups.'
   }
@@ -71,19 +70,19 @@ const galleryHighlights = [
   {
     title: 'Interactive Classroom Workshops',
     subtitle: 'Godavari Basin Ecology Presentations',
-    image: godavariSchoolDrivesImg,
+    image: schoolUniqueHeroImg,
     badge: 'Classroom Drive'
   },
   {
-    title: 'Ghat Water Testing Excursions',
-    subtitle: 'Field Science at Rajahmundry Ghats',
-    image: protocolCollectionImg,
+    title: 'Hands-On Science Experiments',
+    subtitle: 'Water Clarity & Testing in School Lab',
+    image: schoolUniqueScienceImg,
     badge: 'Hands-On Science'
   },
   {
     title: 'Campus Afforestation Drives',
-    subtitle: 'Native Neem & Kanuga Sapling Planting',
-    image: godavariTreePlantationImg,
+    subtitle: 'Native Sapling Planting on Riverbank',
+    image: schoolUniquePlantingImg,
     badge: 'Campus Greening'
   }
 ];
@@ -185,9 +184,9 @@ const AwarenessSchools = () => {
                 background: '#ffffff'
               }}>
                 <img 
-                  src={godavariSchoolDrivesImg} 
+                  src={schoolUniqueHeroImg} 
                   alt="Environmental education classroom session in Andhra Pradesh" 
-                  style={{ width: '100%', height: '280px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '280px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
                 />
                 <div style={{
                   padding: '0.75rem 1.15rem',
@@ -351,13 +350,13 @@ const AwarenessSchools = () => {
                 marginBottom: '1.25rem'
               }}>
                 <img 
-                  src={ambassadorEducatorImg} 
-                  alt="Environmental educator teaching students" 
+                  src={schoolUniqueCertImg} 
+                  alt="Student receiving eco-ambassador certification" 
                   style={{ 
                     width: '100%', 
                     height: '340px', 
                     objectFit: 'cover', 
-                    objectPosition: 'top center', 
+                    objectPosition: 'center top', 
                     display: 'block' 
                   }}
                 />
@@ -373,7 +372,7 @@ const AwarenessSchools = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
                     <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1e293b' }}>
-                      Outdoor Godavari Biodiversity &amp; Ecology Session
+                      Certified Student Eco-Ambassador Honors Ceremony
                     </span>
                   </div>
                   <span style={{

@@ -6,7 +6,6 @@ import ghatKotilingalaImg from '../../assets/ghat-kotilingala.jpg';
 import ghatPushkarImg from '../../assets/ghat-pushkar.jpg';
 import ghatSaraswathiImg from '../../assets/ghat-saraswathi.jpg';
 import ghatMarkandeyaImg from '../../assets/ghat-markandeya.jpg';
-import ambassadorGhatCaptainImg from '../../assets/ambassador-ghat-captain.jpg';
 
 import { 
   Trash2, 
@@ -583,7 +582,7 @@ const ActivityCleanliness = () => {
                   boxShadow: '0 4px 10px rgba(5, 150, 105, 0.2)'
                 }}>
                   <img 
-                    src={ambassadorGhatCaptainImg} 
+                    src={ghatKotilingalaImg} 
                     alt="Field Safety Officer" 
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />

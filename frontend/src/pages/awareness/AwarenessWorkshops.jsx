@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import godavariPublicWorkshopsImg from '../../assets/godavari-public-workshops.jpg';
+import workshopUniqueHeroImg from '../../assets/workshop-unique-hero.jpg';
 import workshopUniqueCompostImg from '../../assets/workshop-unique-compost.jpg';
 import workshopUniqueLeafplateImg from '../../assets/workshop-unique-leafplate.jpg';
 import workshopUniqueMerchantImg from '../../assets/workshop-unique-merchant.jpg';
 import workshopUniqueBinsImg from '../../assets/workshop-unique-bins.jpg';
 import workshopUniquePressImg from '../../assets/workshop-unique-press.jpg';
+import workshopUniqueFloralImg from '../../assets/workshop-unique-floral.jpg';
+import workshopUniquePotterImg from '../../assets/workshop-unique-potter.jpg';
 
 import { 
   Users, 
@@ -91,8 +93,8 @@ const workshopSchedule = [
 const galleryHighlights = [
   {
     title: 'Sacred Temple Floral Recycling',
-    subtitle: 'Transforming River Offerings to Bio-Compost',
-    image: workshopUniqueCompostImg,
+    subtitle: 'Vibrant Temple Offerings Diverted for Bio-Compost',
+    image: workshopUniqueFloralImg,
     badge: 'Bio-Composting'
   },
   {
@@ -102,9 +104,9 @@ const galleryHighlights = [
     badge: 'Artisan Press'
   },
   {
-    title: 'Earthen Clay Kulhar & Cups',
+    title: 'Handmade Terracotta Pottery & Kulhars',
     subtitle: 'Phasing Out Disposable Plastic Cups at Stalls',
-    image: workshopUniqueMerchantImg,
+    image: workshopUniquePotterImg,
     badge: 'Plastic-Free Tea'
   }
 ];
@@ -206,7 +208,7 @@ const AwarenessWorkshops = () => {
                 background: '#ffffff'
               }}>
                 <img 
-                  src={godavariPublicWorkshopsImg} 
+                  src={workshopUniqueHeroImg} 
                   alt="Public eco-composting and leaf crafting workshop on Godavari Ghats" 
                   style={{ width: '100%', height: '280px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
                 />
