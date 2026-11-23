@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import godavariPublicWorkshopsImg from '../../assets/godavari-public-workshops.jpg';
-import workshopFloralCompostImg from '../../assets/workshop-floral-compost.jpg';
-import workshopLeafCraftingImg from '../../assets/workshop-leaf-crafting.jpg';
-import workshopMerchantTransitionImg from '../../assets/workshop-merchant-transition.jpg';
-import workshopZeroWasteImg from '../../assets/workshop-zero-waste.jpg';
-import workshopWelcomeKitImg from '../../assets/workshop-welcome-kit.jpg';
+import workshopUniqueCompostImg from '../../assets/workshop-unique-compost.jpg';
+import workshopUniqueLeafplateImg from '../../assets/workshop-unique-leafplate.jpg';
+import workshopUniqueMerchantImg from '../../assets/workshop-unique-merchant.jpg';
+import workshopUniqueBinsImg from '../../assets/workshop-unique-bins.jpg';
+import workshopUniquePressImg from '../../assets/workshop-unique-press.jpg';
 
 import { 
   Users, 
@@ -26,7 +26,7 @@ const workshopTracks = [
   {
     num: '01',
     title: 'Sacred Floral Waste Bio-Composting',
-    image: workshopFloralCompostImg,
+    image: workshopUniqueCompostImg,
     badge: 'Track 01',
     instructor: 'Organic Agronomy Team',
     desc: 'Teaches pilgrims and priests how to convert discarded temple floral offerings into rich vermicompost for farming.'
@@ -34,7 +34,7 @@ const workshopTracks = [
   {
     num: '02',
     title: 'Banana-Leaf & Palm Pooja Crafting',
-    image: workshopLeafCraftingImg,
+    image: workshopUniqueLeafplateImg,
     badge: 'Track 02',
     instructor: 'Women Artisan Guilds',
     desc: 'Hands-on training in pressing sun-dried banana leaves and areca palm into biodegradable pooja cups and bowls.'
@@ -42,7 +42,7 @@ const workshopTracks = [
   {
     num: '03',
     title: 'Riverfront Merchant Green Transition',
-    image: workshopMerchantTransitionImg,
+    image: workshopUniqueMerchantImg,
     badge: 'Track 03',
     instructor: 'Merchant Green Liaisons',
     desc: 'Equips tea stalls and vendors with subsidized reusable cloth bags and clay cups with zero business loss.'
@@ -50,7 +50,7 @@ const workshopTracks = [
   {
     num: '04',
     title: 'Household Zero-Waste Segregation',
-    image: workshopZeroWasteImg,
+    image: workshopUniqueBinsImg,
     badge: 'Track 04',
     instructor: 'Civic Sanitation Leaders',
     desc: 'A simple 2-bin segregation protocol for riverside households to keep plastics and detergents out of river canals.'
@@ -90,22 +90,22 @@ const workshopSchedule = [
 
 const galleryHighlights = [
   {
-    title: 'Riverside Floral Composting',
-    subtitle: 'Hands-On Organic Waste Conversion',
-    image: godavariPublicWorkshopsImg,
-    badge: 'Public Training'
+    title: 'Sacred Temple Floral Recycling',
+    subtitle: 'Transforming River Offerings to Bio-Compost',
+    image: workshopUniqueCompostImg,
+    badge: 'Bio-Composting'
   },
   {
-    title: 'Natural Leaf Pooja Crafts',
-    subtitle: 'Plastic-Free Sacred Ritual Alternatives',
-    image: workshopLeafCraftingImg,
-    badge: 'Artisan Guilds'
+    title: 'Areca Leaf & Palm Pressing Machine',
+    subtitle: 'Zero-Plastic Artisan Workshop in Action',
+    image: workshopUniquePressImg,
+    badge: 'Artisan Press'
   },
   {
-    title: 'Merchant Green Partnerships',
-    subtitle: 'Certified Zero-Plastic Vendor Pledges',
-    image: workshopMerchantTransitionImg,
-    badge: 'Local Commerce'
+    title: 'Earthen Clay Kulhar & Cups',
+    subtitle: 'Phasing Out Disposable Plastic Cups at Stalls',
+    image: workshopUniqueMerchantImg,
+    badge: 'Plastic-Free Tea'
   }
 ];
 
@@ -516,8 +516,8 @@ const AwarenessWorkshops = () => {
                   boxShadow: '0 4px 10px rgba(5, 150, 105, 0.2)'
                 }}>
                   <img 
-                    src={workshopWelcomeKitImg} 
-                    alt="Volunteer Orientation" 
+                    src={workshopUniquePressImg} 
+                    alt="Eco-Craft Pressing Tool" 
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
                   />
                 </div>
