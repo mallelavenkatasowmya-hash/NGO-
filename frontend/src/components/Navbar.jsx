@@ -21,6 +21,9 @@ import {
   Menu,
   X,
   User,
+  MapPin,
+  Phone,
+  Mail,
 } from 'lucide-react';
 import Logo from './Logo';
 
@@ -61,16 +64,6 @@ const Navbar = () => {
       label: 'Home',
       path: '/',
       isHome: true,
-    },
-    {
-      label: 'About Us',
-      path: '/about',
-      hasDropdown: true,
-      children: [
-        { label: 'About Our NGO', path: '/about/ngo', icon: Info },
-        { label: 'Our Mission & Vision', path: '/about/mission', icon: Target },
-        { label: 'Our Objectives', path: '/about/objectives', icon: Star },
-      ],
     },
     {
       label: 'Our Activities',
@@ -115,7 +108,22 @@ const Navbar = () => {
     {
       label: 'Contact Us',
       path: '/contact',
-      hasDropdown: false,
+      hasDropdown: true,
+      children: [
+        { label: 'Secretariat Office', path: '/contact#office', icon: MapPin },
+        { label: 'Phone & Helplines', path: '/contact#helpline', icon: Phone },
+        { label: 'Send an Inquiry', path: '/contact#inquiry', icon: Mail },
+      ],
+    },
+    {
+      label: 'About Us',
+      path: '/about',
+      hasDropdown: true,
+      children: [
+        { label: 'About Our NGO', path: '/about/ngo', icon: Info },
+        { label: 'Our Mission & Vision', path: '/about/mission', icon: Target },
+        { label: 'Our Objectives', path: '/about/objectives', icon: Star },
+      ],
     },
   ];
 

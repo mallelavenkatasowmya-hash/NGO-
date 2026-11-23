@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Droplet } from 'lucide-react';
 
 const Contact = () => {
+  const location = useLocation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,6 +12,18 @@ const Contact = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +47,7 @@ const Contact = () => {
       <div className="container section-padding">
         <div className="grid-two-cards">
           {/* Secretariat Contact Information */}
-          <div className="clean-content-box">
+          <div id="office" className="clean-content-box" style={{ scrollMarginTop: '100px' }}>
             <h2>Headquarters & Operations</h2>
             <p className="text-muted mb-4">
               Our central office is located on the Godavari Bund Road, directly opposite Kotilingala
@@ -41,7 +55,7 @@ const Contact = () => {
             </p>
 
             <div className="clean-contact-list">
-              <div className="clean-contact-row">
+              <div id="secretariat" className="clean-contact-row" style={{ scrollMarginTop: '100px' }}>
                 <div className="contact-bullet-icon bg-blue-tint">
                   <MapPin size={18} className="text-primary" />
                 </div>
@@ -51,7 +65,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="clean-contact-row">
+              <div id="helpline" className="clean-contact-row" style={{ scrollMarginTop: '100px' }}>
                 <div className="contact-bullet-icon bg-green-tint">
                   <Phone size={18} className="text-green" />
                 </div>
@@ -86,7 +100,7 @@ const Contact = () => {
           </div>
 
           {/* Clean Inquiry Form */}
-          <div className="clean-content-box form-card-box">
+          <div id="inquiry" className="clean-content-box form-card-box" style={{ scrollMarginTop: '100px' }}>
             <h3>Send an Inquiry</h3>
             {submitted ? (
               <div className="clean-success-box text-center py-4">
