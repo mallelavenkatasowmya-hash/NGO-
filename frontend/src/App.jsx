@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ContactToggleWidget from './components/ContactToggleWidget';
 import AdminRoute from './components/AdminRoute';
 import MemberRoute from './components/MemberRoute';
 
@@ -81,6 +82,7 @@ const PublicLayout = () => {
         <Outlet />
       </main>
       <Footer />
+      <ContactToggleWidget />
     </div>
   );
 };
