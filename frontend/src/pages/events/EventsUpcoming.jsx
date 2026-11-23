@@ -115,10 +115,19 @@ const galleryHighlights = [
   }
 ];
 
+const categoryImageMap = {
+  'cleanliness drive': upcomingUniqueCleanImg,
+  'tree plantation': upcomingUniquePlantImg,
+  'river conservation': upcomingUniqueWaterImg,
+  'community rally': upcomingUniqueWalkImg,
+  'awareness program': upcomingUniqueWalkImg,
+  'environmental protection': upcomingUniqueHeroImg
+};
+
 const EventsUpcoming = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(fallbackUpcoming);
   const [filter, setFilter] = useState('All');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const categories = ['All', 'Cleanliness Drive', 'Tree Plantation', 'River Conservation', 'Community Rally'];
 
@@ -128,18 +137,21 @@ const EventsUpcoming = () => {
         const { data } = await API.get('/public/events');
         const list = Array.isArray(data) ? data : Array.isArray(data?.events) ? data.events : [];
         if (list.length > 0) {
-          // Enrich API items with matching unique imagery
-          const enriched = list.map((item, idx) => ({
-            ...item,
-            image: item.image || fallbackUpcoming[idx % fallbackUpcoming.length].image,
-            badge: item.badge || item.eventType || item.category || 'Field Drive'
-          }));
-          setEvents(enriched);
-        } else {
-          setEvents(fallbackUpcoming);
+          const apiCategories = new Set(list.map(e => (e.eventType || e.category || '').toLowerCase()));
+          const missingFallbacks = fallbackUpcoming.filter(f => !apiCategories.has(f.category.toLowerCase()));
+
+          const enriched = list.map((item, idx) => {
+            const cat = (item.eventType || item.category || '').toLowerCase();
+            return {
+              ...item,
+              image: categoryImageMap[cat] || fallbackUpcoming[idx % fallbackUpcoming.length].image,
+              badge: item.badge || item.eventType || item.category || 'Field Drive'
+            };
+          });
+          setEvents([...enriched, ...missingFallbacks]);
         }
       } catch (err) {
-        setEvents(fallbackUpcoming);
+        // Retain fallbackUpcoming
       } finally {
         setLoading(false);
       }
@@ -378,7 +390,8 @@ const EventsUpcoming = () => {
           {/* Grid of Drives with Photos */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '1.5rem' }}>
             {filtered.map((evt, idx) => {
-              const cardImage = evt.image || fallbackUpcoming[idx % fallbackUpcoming.length].image;
+              const cat = (evt.eventType || evt.category || '').toLowerCase();
+              const cardImage = evt.image || categoryImageMap[cat] || fallbackUpcoming[idx % fallbackUpcoming.length].image;
               const cardBadge = evt.badge || evt.eventType || evt.category || 'Field Drive';
 
               return (
@@ -397,6 +410,10 @@ const EventsUpcoming = () => {
                     <img 
                       src={cardImage} 
                       alt={evt.title}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = upcomingUniqueHeroImg;
+                      }}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
                     />
                     <div style={{
