@@ -10,6 +10,10 @@ import newsTempleAllianceImg from '../../assets/news-temple-alliance.jpg';
 import newsGalleryReportingImg from '../../assets/news-gallery-reporting.jpg';
 import newsGalleryCommunityImg from '../../assets/news-gallery-community.jpg';
 import newsGalleryPressmeetImg from '../../assets/news-gallery-pressmeet.jpg';
+import pressEenaduImg from '../../assets/press-eenadu-cleanliness.jpg';
+import pressTheHinduImg from '../../assets/press-thehindu-shoreline.jpg';
+import pressAndhraJyothiImg from '../../assets/press-andhrajyothi-barriers.jpg';
+import pressSakshiImg from '../../assets/press-sakshi-harithasena.jpg';
 
 import { 
   Megaphone, 
@@ -136,10 +140,38 @@ const newsArticles = [
 ];
 
 const mediaCoverages = [
-  { outlet: 'Eenadu Regional', headline: 'రాజమండ్రి గోదావరి ఘాట్లలో స్వచ్ఛంద సేవకుల మహా ప్రక్షాళన', date: 'Nov 2026' },
-  { outlet: 'The Hindu', headline: 'Citizens Lead The Charge To Reclaim Godavari Shoreline In Rajamahendravaram', date: 'Nov 2026' },
-  { outlet: 'Andhra Jyothi', headline: 'కాలువలకు రక్షణ వలలు.. గోదావరిలోకి ప్లాస్టిక్ కట్టడి', date: 'Oct 2026' },
-  { outlet: 'Sakshi District', headline: 'పర్యావరణ పరిరక్షణలో గోదావరి హరిత సేన విద్యార్థుల భాగస్వామ్యం', date: 'Oct 2026' }
+  { 
+    outlet: 'Eenadu Regional', 
+    headline: 'Volunteers Lead Massive Cleanliness Drive Across Rajahmundry Godavari Ghats', 
+    date: 'Nov 2026',
+    image: pressEenaduImg,
+    tag: 'Ghat Cleanliness',
+    summary: 'Hundreds of dedicated volunteers clear plastic waste and pilgrim debris along the sacred Godavari ghat steps at dawn.'
+  },
+  { 
+    outlet: 'The Hindu', 
+    headline: 'Citizens Lead The Charge To Reclaim Godavari Shoreline In Rajamahendravaram', 
+    date: 'Nov 2026',
+    image: pressTheHinduImg,
+    tag: 'Civic Action',
+    summary: 'Community coalitions and riverfront ambassadors join hands along the promenade in a united push for clean waterways.'
+  },
+  { 
+    outlet: 'Andhra Jyothi', 
+    headline: 'Canal Defense Barrier Nets Stop Plastic Tide Into River Godavari', 
+    date: 'Oct 2026',
+    image: pressAndhraJyothiImg,
+    tag: 'Drain Interception',
+    summary: 'High-tensile bio-barrier nets mounted across 22 drainage outfalls intercept solid waste before reaching mainstream currents.'
+  },
+  { 
+    outlet: 'Sakshi District', 
+    headline: 'Godavari Haritha Sena Students Take Ownership Of Riverfront Conservation', 
+    date: 'Oct 2026',
+    image: pressSakshiImg,
+    tag: 'Student Eco-Club',
+    summary: 'Youth cadres across 40 schools conduct regular river water testing, pledge drives, and public environmental education.'
+  }
 ];
 
 const galleryHighlights = [
@@ -696,7 +728,7 @@ const AnnouncementsNews = () => {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
             gap: '1.25rem'
           }}>
             {mediaCoverages.map((item, idx) => (
@@ -704,44 +736,103 @@ const AnnouncementsNews = () => {
                 key={idx}
                 style={{
                   background: '#ffffff',
-                  padding: '1.15rem',
-                  borderRadius: '10px',
+                  borderRadius: '12px',
                   border: '1px solid #e2e8f0',
-                  boxShadow: '0 2px 5px rgba(0,0,0,0.02)'
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
               >
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '0.5rem'
-                }}>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#047857' }}>
-                    {item.outlet}
-                  </span>
-                  <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
-                    {item.date}
-                  </span>
+                <div>
+                  {/* Photo Header */}
+                  <div style={{ position: 'relative', height: '145px', overflow: 'hidden' }}>
+                    <img
+                      src={item.image}
+                      alt={item.headline}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block'
+                      }}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      top: '8px',
+                      left: '8px',
+                      background: 'rgba(255, 255, 255, 0.95)',
+                      padding: '2px 8px',
+                      borderRadius: '5px',
+                      fontSize: '0.68rem',
+                      fontWeight: 700,
+                      color: '#047857',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                    }}>
+                      {item.tag}
+                    </div>
+                    <div style={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      background: 'rgba(15, 23, 42, 0.85)',
+                      color: '#ffffff',
+                      padding: '2px 7px',
+                      borderRadius: '5px',
+                      fontSize: '0.68rem',
+                      fontWeight: 600
+                    }}>
+                      {item.date}
+                    </div>
+                  </div>
+
+                  {/* Body Content */}
+                  <div style={{ padding: '0.95rem 1.15rem 0.5rem' }}>
+                    <div style={{
+                      fontSize: '0.74rem',
+                      fontWeight: 700,
+                      color: '#059669',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                      marginBottom: '0.35rem'
+                    }}>
+                      {item.outlet}
+                    </div>
+                    <h3 style={{
+                      fontSize: '0.88rem',
+                      fontWeight: 700,
+                      color: '#0f172a',
+                      lineHeight: 1.4,
+                      margin: '0 0 0.45rem'
+                    }}>
+                      "{item.headline}"
+                    </h3>
+                    <p style={{
+                      fontSize: '0.78rem',
+                      color: '#64748b',
+                      lineHeight: 1.4,
+                      margin: 0
+                    }}>
+                      {item.summary}
+                    </p>
+                  </div>
                 </div>
-                <div style={{
-                  fontSize: '0.88rem',
-                  fontWeight: 600,
-                  color: '#1e293b',
-                  lineHeight: 1.4,
-                  marginBottom: '0.65rem'
-                }}>
-                  "{item.headline}"
-                </div>
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  fontSize: '0.74rem',
-                  color: '#059669',
-                  fontWeight: 600
-                }}>
-                  <ExternalLink size={12} />
-                  Print &amp; Digital Archive
+
+                {/* Footer Link */}
+                <div style={{ padding: '0.75rem 1.15rem 1rem' }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    fontSize: '0.74rem',
+                    color: '#059669',
+                    fontWeight: 600
+                  }}>
+                    <ExternalLink size={12} />
+                    <span>Print &amp; Digital Archive</span>
+                  </div>
                 </div>
               </div>
             ))}
