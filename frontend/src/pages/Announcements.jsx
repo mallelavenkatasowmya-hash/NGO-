@@ -88,231 +88,112 @@ const Announcements = () => {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. HERO SECTION */}
+      {/* 1. CINEMATIC HERO SECTION */}
       <section style={{
-        background: '#f8fafc',
-        borderBottom: '1px solid #e2e8f0',
-        padding: '3.5rem 1.5rem 3rem'
+        position: 'relative',
+        padding: '5.5rem 1.5rem 5rem',
+        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${godavariAnnouncementsHubImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        color: '#ffffff',
+        textAlign: 'center',
+        overflow: 'hidden'
       }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2.5rem',
-            alignItems: 'center'
+        {/* Soft Radial Ambient Glow */}
+        <div style={{
+          position: 'absolute',
+          top: '-20%',
+          right: '-10%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
+          borderRadius: '50%',
+          pointerEvents: 'none'
+        }} />
+
+        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <h1 style={{
+            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
+            fontWeight: 800,
+            color: '#ffffff',
+            margin: '0 0 1rem',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.2,
+            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
           }}>
-            {/* Left Column: Hero Info */}
-            <div>
-              <div style={{
+            Announcements & Communications Center
+          </h1>
+
+          <p style={{
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
+            fontWeight: 600,
+            color: '#86efac',
+            margin: '0 auto 1.25rem',
+            lineHeight: 1.5,
+            maxWidth: '780px',
+            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
+          }}>
+            Verified Administrative Circulars, Advisories, and Official Media Communiqués.
+          </p>
+
+          <p style={{
+            fontSize: '1.05rem',
+            color: '#ecfdf5',
+            maxWidth: '760px',
+            margin: '0 auto 2rem',
+            lineHeight: 1.75,
+            opacity: 0.95,
+            textShadow: '0 1px 4px rgba(0, 0, 0, 0.25)'
+          }}>
+            Verified administrative circulars, river cleanliness advisories, official press releases, 
+            and journalistic news coverage from Godavari Nadhi Paryavarana Parishubratha.
+          </p>
+
+          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link
+              to="/announcements/news"
+              style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                background: '#ecfdf5',
-                color: '#059669',
-                padding: '0.4rem 0.9rem',
-                borderRadius: '9999px',
-                fontSize: '0.8125rem',
+                gap: '8px',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                padding: '7px 18px',
+                borderRadius: '999px',
+                fontSize: '0.88rem',
                 fontWeight: 600,
-                marginBottom: '1rem',
-                border: '1px solid #a7f3d0'
-              }}>
-                <Megaphone size={15} />
-                OFFICIAL COMMUNICATIONS
-              </div>
+                color: '#ffffff',
+                textDecoration: 'none'
+              }}
+            >
+              <Newspaper size={15} color="#86efac" />
+              <span>Latest News</span>
+            </Link>
 
-              <h1 style={{
-                fontSize: 'clamp(2rem, 3.5vw, 2.75rem)',
-                fontWeight: 800,
-                color: '#0f172a',
-                lineHeight: 1.2,
-                marginBottom: '1rem'
-              }}>
-                Announcements & Communications Center
-              </h1>
-
-              <p style={{
-                fontSize: '1.0625rem',
-                color: '#475569',
-                lineHeight: 1.65,
-                marginBottom: '1.75rem',
-                maxWidth: '560px'
-              }}>
-                Verified administrative circulars, river cleanliness advisories, official press releases, 
-                and journalistic news coverage from Godavari Nadhi Paryavarana Parishubratha.
-              </p>
-
-              {/* Verified Trust Badges */}
-              <div style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '0.75rem',
-                marginBottom: '1.75rem'
-              }}>
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  padding: '0.5rem 0.9rem',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  color: '#047857'
-                }}>
-                  <ShieldCheck size={16} />
-                  Authorized Circulars
-                </div>
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  padding: '0.5rem 0.9rem',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  color: '#047857'
-                }}>
-                  <Newspaper size={16} />
-                  Dedicated Press Desk
-                </div>
-                <div style={{
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  padding: '0.5rem 0.9rem',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  color: '#047857'
-                }}>
-                  <Sparkles size={16} />
-                  Open Public Audits
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                <Link
-                  to="/announcements/news"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    background: '#059669',
-                    color: '#ffffff',
-                    padding: '0.75rem 1.4rem',
-                    borderRadius: '8px',
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                    fontSize: '0.9375rem'
-                  }}
-                >
-                  <Newspaper size={17} />
-                  Latest News
-                  <ArrowRight size={16} />
-                </Link>
-
-                <Link
-                  to="/announcements/press"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    background: '#ffffff',
-                    color: '#059669',
-                    padding: '0.75rem 1.4rem',
-                    borderRadius: '8px',
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                    fontSize: '0.9375rem',
-                    border: '1px solid #059669'
-                  }}
-                >
-                  <FileText size={17} />
-                  Press Releases
-                </Link>
-              </div>
-            </div>
-
-            {/* Right Column: Hero Showcase Image */}
-            <div>
-              <div style={{
-                position: 'relative',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 12px 30px -8px rgba(0, 0, 0, 0.12)',
-                border: '1px solid #e2e8f0',
-                background: '#ffffff'
-              }}>
-                <img
-                  src={godavariAnnouncementsHubImg}
-                  alt="Godavari Public Announcements and Official Communications"
-                  style={{
-                    width: '100%',
-                    height: '340px',
-                    objectFit: 'cover',
-                    display: 'block'
-                  }}
-                />
-                
-                {/* Overlay Top Tag */}
-                <div style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  left: '1rem',
-                  background: 'rgba(5, 150, 105, 0.92)',
-                  color: '#ffffff',
-                  padding: '0.35rem 0.85rem',
-                  borderRadius: '9999px',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                  backdropFilter: 'blur(4px)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem'
-                }}>
-                  <Megaphone size={13} />
-                  PUBLIC COMMUNICATIONS
-                </div>
-
-                {/* Bottom Caption Strip */}
-                <div style={{
-                  padding: '1rem 1.25rem',
-                  background: '#ffffff',
-                  borderTop: '1px solid #f1f5f9',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}>
-                  <div>
-                    <div style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#0f172a' }}>
-                      Godavari Nadhi Information Directorate
-                    </div>
-                    <div style={{ fontSize: '0.8125rem', color: '#64748b' }}>
-                      Central Secretariat & Riverfront Dispatch
-                    </div>
-                  </div>
-                  <span style={{
-                    background: '#ecfdf5',
-                    color: '#059669',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    padding: '0.25rem 0.65rem',
-                    borderRadius: '6px',
-                    border: '1px solid #a7f3d0'
-                  }}>
-                    VERIFIED DISPATCH
-                  </span>
-                </div>
-              </div>
-            </div>
-
+            <Link
+              to="/announcements/press"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                padding: '7px 18px',
+                borderRadius: '999px',
+                fontSize: '0.88rem',
+                fontWeight: 600,
+                color: '#ffffff',
+                textDecoration: 'none'
+              }}
+            >
+              <Megaphone size={15} color="#86efac" />
+              <span>Press Releases</span>
+            </Link>
           </div>
         </div>
       </section>
