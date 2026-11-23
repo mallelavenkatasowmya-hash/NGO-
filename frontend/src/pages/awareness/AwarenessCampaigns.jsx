@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import godavariYouthCampaignsImg from '../../assets/godavari-youth-campaigns.jpg';
+import campaignUniqueTheatreImg from '../../assets/campaign-unique-theatre.jpg';
+import campaignUniqueCyclothonImg from '../../assets/campaign-unique-cyclothon.jpg';
+import campaignUniquePledgeImg from '../../assets/campaign-unique-pledge.jpg';
+import campaignUniqueMuralImg from '../../assets/campaign-unique-mural.jpg';
+import campaignUniqueTroupeImg from '../../assets/campaign-unique-troupe.jpg';
+
 import { 
   Sparkles, 
   Megaphone, 
@@ -14,71 +19,101 @@ import {
   Users,
   Compass,
   Smile,
-  ShieldCheck
+  ShieldCheck,
+  Camera
 } from 'lucide-react';
 
 const campaignChannels = [
   {
     num: '01',
     title: 'Ghat Street Theatres (Nukkad Natak)',
-    format: 'Telugu Folk Theatre & Satirical Comedy',
-    desc: 'Lively, high-energy weekend street performances staged directly on the stone bathing steps of Kotilingala and Pushkar Ghats. Using folk songs and humorous satire, our student actors communicate the tragedy of river plastic pollution in terms everyone understands.'
+    format: 'Telugu Folk Satire',
+    image: campaignUniqueTheatreImg,
+    badge: 'Street Drama',
+    desc: 'High-energy satirical street plays staged on ghat steps communicating river conservation in lively Telugu folk satire.'
   },
   {
     num: '02',
     title: 'Dawn Riverfront Cyclothons',
-    format: 'Sunday Morning Cycling Rallies',
-    desc: 'Mobilizing hundreds of college cyclists, NCC cadets, and fitness clubs across the 12 km scenic Godavari Bund Road, bearing green flags and megaphone announcements championing a litter-free river corridor.'
+    format: 'Sunday Morning Rallies',
+    image: campaignUniqueCyclothonImg,
+    badge: 'Youth Cyclothon',
+    desc: 'Hundreds of student cyclists and cadets riding the 12 km scenic Godavari Bund Road with green flags and eco-announcements.'
   },
   {
     num: '03',
     title: '"Nadi Prathijna" Citizen Pledges',
-    format: 'On-Site Signature & Digital Pledging',
-    desc: 'Physical 20-foot canvas pledge walls erected at major ghat entrances during festival peaks where over 12,000 pilgrims and tourists have officially signed the sacred pledge to reject single-use plastic.'
+    format: 'Signature & Digital Pledging',
+    image: campaignUniquePledgeImg,
+    badge: 'Sacred Pledge',
+    desc: 'Over 12,000 pilgrims and citizens taking sacred oaths on 20-foot canvas pledge walls to completely reject single-use plastic.'
   },
   {
     num: '04',
     title: 'Riverbank Eco-Murals & Street Art',
     format: 'Public Wall Art Competitions',
-    desc: 'Transforming grey, neglected concrete flood walls along Rajahmundry bund into vibrant, colorful murals celebrating Godavari biodiversity, olive ridley turtles, and native river birds.'
+    image: campaignUniqueMuralImg,
+    badge: 'Eco-Murals',
+    desc: 'Transforming concrete flood walls along Rajahmundry bund into vibrant murals celebrating Godavari wildlife and birds.'
   }
 ];
 
 const pledgeCommitments = [
   {
     title: 'Zero Polythene into River Waters',
-    desc: 'I pledge never to toss plastic water bottles, wrappers, or synthetic garlands into River Godavari.'
+    desc: 'Never discard plastic bottles, synthetic wrappers, or polythene bags into River Godavari.'
   },
   {
     title: 'Cloth Bags for Sacred Offerings',
-    desc: 'I pledge to carry my own reusable cloth or jute tote bag and use banana-leaf plates for temple rituals.'
+    desc: 'Always carry reusable cloth totes and choose natural banana-leaf plates for temple rituals.'
   },
   {
     title: 'Two Hours Monthly for River Cleanliness',
-    desc: 'I pledge to dedicate at least two hours each month to join or support a community ghat sanitation drive.'
+    desc: 'Dedicate two hours every month to participate in or support community shoreline sanitation drives.'
   },
   {
-    title: 'Educating Five Family Members & Friends',
-    desc: 'I pledge to pass on this conservation mindset to five people in my immediate circle of family and neighbors.'
+    title: 'Inspiring Five Family Members & Friends',
+    desc: 'Share river conservation habits with five immediate family members and neighbors.'
   }
 ];
 
 const troupeRoles = [
-  { role: 'Street Theatre Actor / Performer', skill: 'Expressive voice, energy & passion for social drama' },
-  { role: 'Telugu Folk Songwriter / Musician', skill: 'Traditional dholak, harmonium, or lyric writing' },
-  { role: 'Wall Mural & Canvas Artist', skill: 'Outdoor mural painting, typography & street art' },
-  { role: 'Campaign Photographer & Videographer', skill: 'Capturing authentic reels, photos & citizen stories' }
+  { role: 'Street Theatre Actor / Performer', skill: 'Expressive voice & social drama energy' },
+  { role: 'Telugu Folk Songwriter / Musician', skill: 'Traditional dholak, harmonium, or lyrics' },
+  { role: 'Wall Mural & Canvas Artist', skill: 'Outdoor mural painting & street typography' },
+  { role: 'Campaign Photographer & Videographer', skill: 'Capturing reels, photos & citizen stories' }
+];
+
+const galleryHighlights = [
+  {
+    title: 'Nukkad Natak Street Theatre',
+    subtitle: 'Satirical Telugu Folk Performances at Ghats',
+    image: campaignUniqueTheatreImg,
+    badge: 'Street Play'
+  },
+  {
+    title: 'Godavari Bund Road Cyclothon',
+    subtitle: '12 km Clean-Corridor Youth Bicycle Convoy',
+    image: campaignUniqueCyclothonImg,
+    badge: 'Bicycle Rally'
+  },
+  {
+    title: 'Public Wall Art & Biodiversity Murals',
+    subtitle: 'Vibrant Flood-Wall Environmental Murals',
+    image: campaignUniqueMuralImg,
+    badge: 'Street Murals'
+  }
 ];
 
 const AwarenessCampaigns = () => {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. YOUTH CAMPAIGN HERO */}
+      {/* 1. BALANCED HERO SECTION */}
       <section style={{
         background: '#f8fafc',
         borderBottom: '1px solid #e2e8f0',
-        padding: '3.5rem 1.5rem 3rem'
+        padding: '3rem 1.5rem 2.5rem'
       }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{
@@ -87,7 +122,7 @@ const AwarenessCampaigns = () => {
             gap: '2.5rem',
             alignItems: 'center'
           }}>
-            {/* Left Column: Campaign Info */}
+            {/* Left Column: Headline & Concise Text */}
             <div>
               <div style={{
                 display: 'inline-flex',
@@ -95,24 +130,24 @@ const AwarenessCampaigns = () => {
                 gap: '8px',
                 background: '#ecfdf5',
                 border: '1px solid #a7f3d0',
-                padding: '5px 14px',
+                padding: '4px 12px',
                 borderRadius: '999px',
-                fontSize: '0.8rem',
+                fontSize: '0.78rem',
                 fontWeight: 700,
-                letterSpacing: '0.06em',
+                letterSpacing: '0.05em',
                 textTransform: 'uppercase',
                 color: '#047857',
-                marginBottom: '1rem'
+                marginBottom: '0.85rem'
               }}>
                 <Megaphone size={14} />
                 <span>STREET MOBILIZATION • CULTURAL ARTS</span>
               </div>
 
               <h1 style={{
-                fontSize: 'clamp(2.1rem, 3.6vw, 3rem)',
+                fontSize: 'clamp(2rem, 3.4vw, 2.75rem)',
                 fontWeight: 800,
                 color: '#0f172a',
-                margin: '0 0 1rem',
+                margin: '0 0 0.75rem',
                 letterSpacing: '-0.025em',
                 lineHeight: 1.2
               }}>
@@ -120,58 +155,58 @@ const AwarenessCampaigns = () => {
               </h1>
 
               <p style={{
-                fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
+                fontSize: 'clamp(1rem, 1.6vw, 1.15rem)',
                 fontWeight: 600,
                 color: '#059669',
-                margin: '0 0 1rem',
-                lineHeight: 1.5
+                margin: '0 0 0.85rem',
+                lineHeight: 1.45
               }}>
                 Energizing Citizens Through Street Theatre, Cyclothons, and Riverfront Art.
               </p>
 
               <p style={{
-                fontSize: '1rem',
+                fontSize: '0.94rem',
                 color: '#475569',
-                lineHeight: 1.8,
-                margin: '0 0 1.5rem'
+                lineHeight: 1.65,
+                margin: '0 0 1.25rem',
+                maxWidth: '540px'
               }}>
-                Facts change minds, but art changes hearts. Through weekend Nukkad Nataks (street plays) in Telugu, 
-                riverfront cyclothons, and public pledge drives, our vibrant youth cadres bring environmental conservation 
-                to life right where thousands gather every day.
+                Facts change minds, but art changes hearts. Through weekend Nukkad Nataks in Telugu, 
+                cyclothons, and pledge walls, our youth cadres bring river conservation directly to citizens.
               </p>
 
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <Drama size={14} color="#059669" />
                   <span>50+ Street Theatres</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <Bike size={14} color="#059669" />
                   <span>Dawn Cyclothons</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <Heart size={14} color="#059669" />
                   <span>12,000+ Pledges Signed</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Dedicated Street Theatre Photo */}
+            {/* Right Column: Sharp Street Theatre Photo */}
             <div>
               <div style={{
                 borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
+                boxShadow: '0 10px 25px -6px rgba(0, 0, 0, 0.1)',
                 border: '1px solid #e2e8f0',
                 background: '#ffffff'
               }}>
                 <img 
-                  src={godavariYouthCampaignsImg} 
-                  alt="Youth street theatre performance on Kotilingala Ghat beside River Godavari" 
-                  style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }}
+                  src={campaignUniqueTheatreImg} 
+                  alt="Youth street theatre performance on Godavari riverfront" 
+                  style={{ width: '100%', height: '280px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
                 />
                 <div style={{
-                  padding: '0.85rem 1.25rem',
+                  padding: '0.75rem 1.15rem',
                   background: '#ffffff',
                   borderTop: '1px solid #e2e8f0',
                   display: 'flex',
@@ -181,21 +216,20 @@ const AwarenessCampaigns = () => {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1e293b' }}>
                       Nukkad Natak Street Theatre — Kotilingala Ghat Steps
                     </span>
                   </div>
                   <span style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontWeight: 700,
                     color: '#047857',
                     background: '#ecfdf5',
-                    padding: '3px 10px',
+                    padding: '3px 9px',
                     borderRadius: '999px',
                     border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    whiteSpace: 'nowrap'
+                    textTransform: 'uppercase'
                   }}>
                     Live Street Action
                   </span>
@@ -208,7 +242,7 @@ const AwarenessCampaigns = () => {
       </section>
 
       {/* 2. STATS KPI BAR */}
-      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '2rem 1.5rem' }}>
+      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '1.75rem 1.5rem' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{
             display: 'grid',
@@ -225,16 +259,16 @@ const AwarenessCampaigns = () => {
                 background: '#f8fafc',
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
-                padding: '1.25rem 1.5rem',
+                padding: '1.15rem 1.25rem',
                 borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.2rem' }}>
                   {stat.val}
                 </div>
-                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.15rem' }}>
                   {stat.label}
                 </div>
-                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
                   {stat.note}
                 </div>
               </div>
@@ -243,68 +277,88 @@ const AwarenessCampaigns = () => {
         </div>
       </section>
 
-      {/* 3. PATTERN SECTION: 4 CAMPAIGN CHANNELS */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 3. FOUR CAMPAIGN CHANNELS WITH HIGH-RES PHOTOS & CONCISE COPY */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
-          <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-              <Palette size={15} />
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+              <Palette size={14} />
               <span>Cultural Mobilization</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.95rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.4rem' }}>
               Creative Ways We Awaken Public Consciousness
             </h2>
-            <p style={{ color: '#64748b', fontSize: '0.98rem', margin: 0, maxWidth: '750px' }}>
-              We harness the vibrancy of youth culture—drama, cycling, music, and public art—to break through apathy and make environmental responsibility exciting.
+            <p style={{ color: '#64748b', fontSize: '0.92rem', margin: 0 }}>
+              Harnessing youth drama, cycling, and public art to make environmental responsibility exciting.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))',
-            gap: '1.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '1.25rem'
           }}>
             {campaignChannels.map((ch, idx) => (
               <div key={idx} style={{
                 background: '#ffffff',
                 border: '1px solid #e2e8f0',
                 borderRadius: '14px',
-                padding: '1.75rem',
+                overflow: 'hidden',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                 display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
+                flexDirection: 'column'
               }}>
-                <div>
+                {/* Photo Header */}
+                <div style={{ position: 'relative', height: '165px', overflow: 'hidden' }}>
+                  <img 
+                    src={ch.image} 
+                    alt={ch.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                  />
                   <div style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '10px',
-                    background: '#ecfdf5',
-                    border: '1px solid #a7f3d0',
-                    color: '#047857',
-                    fontSize: '0.9rem',
+                    position: 'absolute',
+                    top: '10px',
+                    left: '10px',
+                    background: '#047857',
+                    color: '#ffffff',
+                    padding: '2px 8px',
+                    borderRadius: '6px',
+                    fontSize: '0.72rem',
                     fontWeight: 800,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1rem'
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.15)'
                   }}>
                     {ch.num}
                   </div>
-
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.35rem' }}>
-                    {ch.title}
-                  </h3>
-
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', marginBottom: '1rem' }}>
-                    {ch.format}
+                  <div style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#047857',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }}>
+                    {ch.badge}
                   </div>
+                </div>
 
-                  <p style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.65, margin: 0 }}>
-                    {ch.desc}
-                  </p>
+                {/* Content */}
+                <div style={{ padding: '1.2rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+                  <div>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.25rem' }}>
+                      {ch.title}
+                    </h3>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#059669', marginBottom: '0.65rem' }}>
+                      {ch.format}
+                    </div>
+                    <p style={{ fontSize: '0.84rem', color: '#475569', lineHeight: 1.5, margin: 0 }}>
+                      {ch.desc}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -313,43 +367,62 @@ const AwarenessCampaigns = () => {
         </div>
       </section>
 
-      {/* 4. PATTERN SECTION: NADI PRATHIJNA CITIZEN PLEDGE */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 4. NADI PRATHIJNA CITIZEN PLEDGE & TROUPE AUDITION */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3.5rem',
+            gap: '3rem',
             alignItems: 'center'
           }}>
             
-            {/* Left: Four Sacred Commitments */}
+            {/* Left: Four Sacred Commitments With Photo */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-                <Heart size={15} />
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+                <Heart size={14} />
                 <span>The Sacred Promise</span>
               </div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 1rem', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.95rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.65rem', lineHeight: 1.25 }}>
                 The "Nadi Prathijna" Citizen River Pledge
               </h2>
-              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.7, margin: '0 0 2rem' }}>
-                Every river dip is an act of spiritual purification. Our pledge connects this sacred ancient ritual with modern civic action through four uncompromising daily commitments.
+              <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: 1.55, margin: '0 0 1.25rem' }}>
+                Connecting spiritual reverence for River Godavari with four daily civic habits.
               </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {/* Pledge Photo Card */}
+              <div style={{
+                borderRadius: '12px',
+                overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                marginBottom: '1.25rem',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
+              }}>
+                <img 
+                  src={campaignUniquePledgeImg} 
+                  alt="Citizens taking Nadi Prathijna environmental pledge" 
+                  style={{ width: '100%', height: '170px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                />
+                <div style={{ padding: '0.5rem 0.85rem', background: '#f8fafc', fontSize: '0.78rem', color: '#047857', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <ShieldCheck size={14} />
+                  <span>Solemn Citizen River Protection Oath — Pushkar Ghat</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {pledgeCommitments.map((p, idx) => (
                   <div key={idx} style={{
                     background: '#f8fafc',
                     border: '1px solid #e2e8f0',
-                    borderRadius: '12px',
-                    padding: '1.25rem 1.5rem',
+                    borderRadius: '10px',
+                    padding: '0.9rem 1.15rem',
                     borderLeft: '4px solid #059669'
                   }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.35rem' }}>
+                    <h4 style={{ fontSize: '0.94rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.2rem' }}>
                       {p.title}
                     </h4>
-                    <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
+                    <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.45, margin: 0 }}>
                       {p.desc}
                     </p>
                   </div>
@@ -360,37 +433,43 @@ const AwarenessCampaigns = () => {
             {/* Right: Join Cultural Troupe Card */}
             <div>
               <div style={{
-                background: '#ecfdf5',
-                border: '1px solid #a7f3d0',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
                 borderRadius: '16px',
-                padding: '2.5rem'
+                padding: '1.75rem',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.04)'
               }}>
+                {/* Troupe Photo Header */}
                 <div style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  background: '#ffffff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                  boxShadow: '0 2px 8px rgba(5, 150, 105, 0.15)'
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1px solid #e2e8f0',
+                  marginBottom: '1.25rem'
                 }}>
-                  <Drama size={28} color="#059669" />
+                  <img 
+                    src={campaignUniqueTroupeImg} 
+                    alt="Youth theatre and campaign troupe artists in action" 
+                    style={{ width: '100%', height: '180px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                  />
                 </div>
 
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#064e3b', margin: '0 0 0.65rem' }}>
-                  Audition for Our Street Theatre &amp; Arts Troupe
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.35rem' }}>
+                  <Drama size={14} />
+                  <span>Audition &amp; Rehearsals</span>
+                </div>
+
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.45rem' }}>
+                  Join Our Street Theatre &amp; Arts Troupe
                 </h3>
-                <p style={{ fontSize: '0.92rem', color: '#065f46', lineHeight: 1.65, margin: '0 0 1.5rem' }}>
-                  Are you an aspiring actor, folk singer, scriptwriter, or outdoor painter? Join our weekly rehearsal sessions every Saturday evening at Pushkar Ghat.
+                <p style={{ fontSize: '0.86rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 1.15rem' }}>
+                  Weekly rehearsal sessions every Saturday evening at Pushkar Ghat. Open to actors, musicians, and artists.
                 </p>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.75rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1.25rem' }}>
                   {troupeRoles.map((r, idx) => (
-                    <div key={idx} style={{ background: '#ffffff', borderRadius: '8px', padding: '0.75rem 1rem', border: '1px solid #e2e8f0' }}>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a' }}>{r.role}</div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748b' }}>{r.skill}</div>
+                    <div key={idx} style={{ background: '#ffffff', borderRadius: '8px', padding: '0.65rem 0.85rem', border: '1px solid #e2e8f0' }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a' }}>{r.role}</div>
+                      <div style={{ fontSize: '0.76rem', color: '#64748b' }}>{r.skill}</div>
                     </div>
                   ))}
                 </div>
@@ -405,12 +484,12 @@ const AwarenessCampaigns = () => {
                     width: '100%',
                     background: '#059669',
                     color: '#ffffff',
-                    padding: '12px 24px',
+                    padding: '11px 20px',
                     borderRadius: '8px',
                     fontWeight: 700,
-                    fontSize: '0.92rem',
+                    fontSize: '0.88rem',
                     textDecoration: 'none',
-                    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
+                    boxShadow: '0 4px 10px rgba(5, 150, 105, 0.2)'
                   }}
                 >
                   <span>Join the Youth Campaign Troupe</span>
@@ -424,7 +503,74 @@ const AwarenessCampaigns = () => {
         </div>
       </section>
 
-      {/* 5. BOTTOM NAVIGATION BAR */}
+      {/* 5. LIVE CAMPAIGN ACTION FIELD GALLERY STRIP */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                <Camera size={14} />
+                <span>Field Documentation</span>
+              </div>
+              <h2 style={{ fontSize: 'clamp(1.4rem, 2vw, 1.85rem)', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                Live Youth Mobilization Gallery
+              </h2>
+            </div>
+            <span style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: 600 }}>
+              Live Cultural Records • Andhra Pradesh
+            </span>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.25rem'
+          }}>
+            {galleryHighlights.map((item, idx) => (
+              <div key={idx} style={{
+                borderRadius: '14px',
+                overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.04)'
+              }}>
+                <div style={{ height: '200px', overflow: 'hidden' }}>
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                  />
+                </div>
+                <div style={{ padding: '1rem 1.15rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                    <h4 style={{ fontSize: '0.98rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                      {item.title}
+                    </h4>
+                    <span style={{
+                      fontSize: '0.68rem',
+                      fontWeight: 700,
+                      color: '#047857',
+                      background: '#ecfdf5',
+                      padding: '2px 8px',
+                      borderRadius: '999px',
+                      border: '1px solid #a7f3d0'
+                    }}>
+                      {item.badge}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b', margin: 0 }}>
+                    {item.subtitle}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. BOTTOM NAVIGATION BAR */}
       <section style={{ padding: '2.5rem 1.5rem', background: '#ffffff' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
           <Link
