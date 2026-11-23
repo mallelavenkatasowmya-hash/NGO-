@@ -7,6 +7,10 @@ import upcomingUniquePlantImg from '../../assets/upcoming-unique-plant.jpg';
 import upcomingUniqueWaterImg from '../../assets/upcoming-unique-water.jpg';
 import upcomingUniqueWalkImg from '../../assets/upcoming-unique-walk.jpg';
 import upcomingUniqueGroupImg from '../../assets/upcoming-unique-group.jpg';
+import upcomingGalleryCleanImg from '../../assets/upcoming-gallery-clean.jpg';
+import upcomingGalleryPlantImg from '../../assets/upcoming-gallery-plant.jpg';
+import upcomingGalleryWaterImg from '../../assets/upcoming-gallery-water.jpg';
+import upcomingVolunteerPrepImg from '../../assets/upcoming-volunteer-prep.jpg';
 
 import { 
   Sparkles, 
@@ -92,21 +96,21 @@ const prepChecklist = [
 
 const galleryHighlights = [
   {
-    title: 'Sunrise Ghat Sanitation Squad',
-    subtitle: 'Morning Debris Removal at Kotilingala Ghat',
-    image: upcomingUniqueCleanImg,
+    title: 'Ghat Shramdaan Sanitation Squad',
+    subtitle: 'Morning Riverbank Cleaning & Silt Removal',
+    image: upcomingGalleryCleanImg,
     badge: 'Cleanliness Drive'
   },
   {
-    title: 'Riparian Bund Afforestation',
-    subtitle: 'Native Sapling Planting along Dowleswaram',
-    image: upcomingUniquePlantImg,
+    title: 'Native Sapling Embankment Plantation',
+    subtitle: 'Restoration Planting on Candura River Corridor',
+    image: upcomingGalleryPlantImg,
     badge: 'Tree Plantation'
   },
   {
-    title: 'Hydrological Citizen Science',
-    subtitle: 'On-Site Dissolved Oxygen & Water Sampling',
-    image: upcomingUniqueWaterImg,
+    title: 'Jar Testing Water Quality Laboratory',
+    subtitle: 'Pre-Audit Chemical Analysis Equipment',
+    image: upcomingGalleryWaterImg,
     badge: 'River Science'
   }
 ];
@@ -530,7 +534,7 @@ const EventsUpcoming = () => {
                 boxShadow: '0 4px 10px rgba(0,0,0,0.04)'
               }}>
                 <img 
-                  src={upcomingUniqueCleanImg} 
+                  src={upcomingVolunteerPrepImg} 
                   alt="Volunteer morning safety gear and equipment orientation" 
                   style={{ width: '100%', height: '175px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
                 />
