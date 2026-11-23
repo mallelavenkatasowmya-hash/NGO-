@@ -293,7 +293,7 @@ const AwarenessSchools = () => {
                   <img 
                     src={m.image} 
                     alt={m.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    style={{ width: '100%', height: '165px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
                   />
                   <div style={{
                     position: 'absolute',
@@ -348,35 +348,70 @@ const AwarenessSchools = () => {
                 boxShadow: '0 10px 25px -6px rgba(0, 0, 0, 0.1)',
                 border: '1px solid #e2e8f0',
                 background: '#ffffff',
-                marginBottom: '1.5rem'
+                marginBottom: '1.25rem'
               }}>
                 <img 
                   src={ambassadorEducatorImg} 
                   alt="Environmental educator teaching students" 
-                  style={{ width: '100%', height: '240px', objectFit: 'cover', display: 'block' }}
+                  style={{ 
+                    width: '100%', 
+                    height: '340px', 
+                    objectFit: 'cover', 
+                    objectPosition: 'top center', 
+                    display: 'block' 
+                  }}
                 />
+                <div style={{
+                  padding: '0.65rem 1rem',
+                  background: '#f8fafc',
+                  borderTop: '1px solid #e2e8f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.5rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1e293b' }}>
+                      Outdoor Godavari Biodiversity &amp; Ecology Session
+                    </span>
+                  </div>
+                  <span style={{
+                    fontSize: '0.68rem',
+                    fontWeight: 700,
+                    color: '#047857',
+                    background: '#ecfdf5',
+                    padding: '2px 8px',
+                    borderRadius: '999px',
+                    border: '1px solid #a7f3d0',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase'
+                  }}>
+                    Accredited
+                  </span>
+                </div>
               </div>
 
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
                 <Award size={14} />
                 <span>Student Recognition</span>
               </div>
-              <h2 style={{ fontSize: 'clamp(1.4rem, 2vw, 1.85rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.6rem', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(1.4rem, 2vw, 1.85rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.25 }}>
                 Official Eco-Ambassador Certification
               </h2>
-              <p style={{ color: '#475569', fontSize: '0.92rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
+              <p style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.55, margin: '0 0 1rem' }}>
                 Students completing the campus session and 8 volunteer hours along the Godavari shoreline receive an official serialized certificate.
               </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
                 {[
                   'Recognized service-learning hours valid for NSS and NCC institutional records',
                   'Exclusive invitations to monthly citizen-science river sampling cohorts',
                   'Free distribution of native sapling kits for campus micro-forest plantations'
                 ].map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
-                    <CheckCircle2 size={16} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
-                    <span style={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.5 }}>{item}</span>
+                    <CheckCircle2 size={15} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <span style={{ fontSize: '0.86rem', color: '#334155', lineHeight: 1.45 }}>{item}</span>
                   </div>
                 ))}
               </div>
