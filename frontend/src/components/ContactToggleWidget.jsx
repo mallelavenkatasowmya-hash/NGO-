@@ -468,52 +468,45 @@ const ContactToggleWidget = () => {
         </div>
       )}
 
-      {/* Real-time Website Floating Launcher Button */}
+      {/* Real-time Website Floating Launcher Button (Icon-Only Circle) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle Quick Message Support"
-        title={isOpen ? "Close Message Widget" : "Send us a Message / Contact Us"}
+        aria-label={isOpen ? "Close Message Widget" : "Open Secretariat Message Desk"}
+        title={isOpen ? "Close" : "Secretariat Message Desk"}
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '9px',
-          padding: isOpen ? '0.75rem 1.15rem' : '0.75rem 1.35rem',
-          borderRadius: '9999px',
+          width: '56px',
+          height: '56px',
+          borderRadius: '50%',
           background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
           color: '#ffffff',
           border: 'none',
-          boxShadow: '0 8px 25px rgba(5, 150, 105, 0.42), 0 2px 8px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 8px 25px rgba(5, 150, 105, 0.45), 0 2px 8px rgba(0, 0, 0, 0.12)',
           cursor: 'pointer',
-          fontSize: '0.92rem',
-          fontWeight: 700,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
           transform: isOpen ? 'scale(0.96)' : 'scale(1)',
-          letterSpacing: '-0.01em'
+          position: 'relative'
         }}
       >
         {isOpen ? (
-          <>
-            <X size={19} />
-            <span>Close</span>
-          </>
+          <X size={22} />
         ) : (
-          <>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <MessageCircle size={20} strokeWidth={2.3} />
-              <span style={{
-                position: 'absolute',
-                top: '-3px',
-                right: '-4px',
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                background: '#86efac',
-                border: '1.5px solid #047857',
-                boxShadow: '0 0 6px #86efac'
-              }} />
-            </div>
-            <span>Contact Us</span>
-          </>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <MessageCircle size={26} strokeWidth={2.2} />
+            <span style={{
+              position: 'absolute',
+              top: '-3px',
+              right: '-3px',
+              width: '10px',
+              height: '10px',
+              borderRadius: '50%',
+              background: '#86efac',
+              border: '2px solid #047857',
+              boxShadow: '0 0 8px #86efac'
+            }} />
+          </div>
         )}
       </button>
     </aside>
