@@ -1,44 +1,55 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import godavariSchoolDrivesImg from '../../assets/godavari-school-drives.jpg';
+import communityPillarSchoolsImg from '../../assets/community-pillar-schools.jpg';
+import protocolTestingImg from '../../assets/protocol-testing.jpg';
+import godavariWasteSortingImg from '../../assets/godavari-waste-sorting.jpg';
+import godavariYouthEcoImg from '../../assets/godavari-youth-eco.jpg';
+import ambassadorEducatorImg from '../../assets/ambassador-educator.jpg';
+import protocolCollectionImg from '../../assets/protocol-collection.jpg';
+import godavariTreePlantationImg from '../../assets/godavari-tree-plantation.jpg';
+
 import { 
-  Sparkles, 
-  BookOpen, 
   GraduationCap, 
   Award, 
   CheckCircle2, 
   ArrowRight,
-  School,
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  Presentation,
-  ShieldCheck,
+  School, 
+  Presentation, 
   Microscope,
-  FileText
+  MapPin,
+  Sparkles,
+  BookOpen
 } from 'lucide-react';
 
 const academicModules = [
   {
     num: '01',
-    title: 'Hydrology & Godavari River Ecology',
-    desc: 'Interactive visual module tracing River Godavari from Western Ghats to the Bay of Bengal, teaching watershed health, fish habitats, and microclimate regulation.'
+    title: 'Hydrology & River Ecology',
+    image: communityPillarSchoolsImg,
+    badge: 'Module 01',
+    desc: 'Interactive visual modules exploring the Godavari watershed and river aquatic habitats.'
   },
   {
     num: '02',
     title: 'The Chemistry of River Water',
-    desc: 'Live on-stage water testing demonstration where students test river water samples for dissolved oxygen, pH, and turbidity using digital scientific sensors.'
+    image: protocolTestingImg,
+    badge: 'Module 02',
+    desc: 'Live on-stage water demonstrations measuring dissolved oxygen, pH, and water clarity.'
   },
   {
     num: '03',
-    title: 'The Lifecycle of Single-Use Plastics',
-    desc: 'Unpacking the 500-year degradation timeline of polythene carry-bags and synthetic bottles, highlighting direct threats to river animals and municipal drinking water.'
+    title: 'Plastic Lifecycle & Segregation',
+    image: godavariWasteSortingImg,
+    badge: 'Module 03',
+    desc: 'Hands-on segregation exercises showing the 500-year impact of plastic waste.'
   },
   {
     num: '04',
-    title: 'Student Eco-Ambassador Action Plan',
-    desc: 'Every participant receives practical steps to eliminate plastics at home, start school bio-composting, and lead cleanups during festival seasons.'
+    title: 'Student Eco-Ambassador Action',
+    image: godavariYouthEcoImg,
+    badge: 'Module 04',
+    desc: 'Practical action plans for school bio-composting, plastic-free living, and cleanups.'
   }
 ];
 
@@ -56,15 +67,36 @@ const partnerColleges = [
   { name: 'Zilla Parishad High Schools', location: 'Kovvur & Kadiyam Mandals', category: 'Rural High Schools' }
 ];
 
+const galleryHighlights = [
+  {
+    title: 'Interactive Classroom Workshops',
+    subtitle: 'Godavari Basin Ecology Presentations',
+    image: godavariSchoolDrivesImg,
+    badge: 'Classroom Drive'
+  },
+  {
+    title: 'Ghat Water Testing Excursions',
+    subtitle: 'Field Science at Rajahmundry Ghats',
+    image: protocolCollectionImg,
+    badge: 'Hands-On Science'
+  },
+  {
+    title: 'Campus Afforestation Drives',
+    subtitle: 'Native Neem & Kanuga Sapling Planting',
+    image: godavariTreePlantationImg,
+    badge: 'Campus Greening'
+  }
+];
+
 const AwarenessSchools = () => {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. ACADEMIC MOBILIZATION HERO */}
+      {/* 1. BALANCED HERO SECTION */}
       <section style={{
         background: '#f8fafc',
         borderBottom: '1px solid #e2e8f0',
-        padding: '3.5rem 1.5rem 3rem'
+        padding: '3rem 1.5rem 2.5rem'
       }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{
@@ -73,7 +105,7 @@ const AwarenessSchools = () => {
             gap: '2.5rem',
             alignItems: 'center'
           }}>
-            {/* Left Column: School Drives Info */}
+            {/* Left: Headline & Concise Text */}
             <div>
               <div style={{
                 display: 'inline-flex',
@@ -81,24 +113,24 @@ const AwarenessSchools = () => {
                 gap: '8px',
                 background: '#ecfdf5',
                 border: '1px solid #a7f3d0',
-                padding: '5px 14px',
+                padding: '4px 12px',
                 borderRadius: '999px',
-                fontSize: '0.8rem',
+                fontSize: '0.78rem',
                 fontWeight: 700,
-                letterSpacing: '0.06em',
+                letterSpacing: '0.05em',
                 textTransform: 'uppercase',
                 color: '#047857',
-                marginBottom: '1rem'
+                marginBottom: '0.85rem'
               }}>
                 <GraduationCap size={14} />
                 <span>CAMPUS OUTREACH • YOUTH EDUCATION</span>
               </div>
 
               <h1 style={{
-                fontSize: 'clamp(2.1rem, 3.6vw, 3rem)',
+                fontSize: 'clamp(2rem, 3.4vw, 2.75rem)',
                 fontWeight: 800,
                 color: '#0f172a',
-                margin: '0 0 1rem',
+                margin: '0 0 0.75rem',
                 letterSpacing: '-0.025em',
                 lineHeight: 1.2
               }}>
@@ -106,58 +138,59 @@ const AwarenessSchools = () => {
               </h1>
 
               <p style={{
-                fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
+                fontSize: 'clamp(1rem, 1.6vw, 1.15rem)',
                 fontWeight: 600,
                 color: '#059669',
-                margin: '0 0 1rem',
-                lineHeight: 1.5
+                margin: '0 0 0.85rem',
+                lineHeight: 1.45
               }}>
                 Inspiring the Next Generation of River Guardians Across Andhra Pradesh.
               </p>
 
               <p style={{
-                fontSize: '1rem',
+                fontSize: '0.94rem',
                 color: '#475569',
-                lineHeight: 1.8,
-                margin: '0 0 1.5rem'
+                lineHeight: 1.65,
+                margin: '0 0 1.25rem',
+                maxWidth: '540px'
               }}>
-                Our educators bring multimedia science lectures, hands-on river water testing demonstrations, 
-                and certified student eco-club charters directly into high school and degree college auditoriums 
-                free of cost.
+                We bring multimedia science lectures, hands-on river water testing demonstrations, 
+                and official eco-ambassador charters directly into school and college auditoriums free of cost.
               </p>
 
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+              {/* Quick Highlight Pills */}
+              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <School size={14} color="#059669" />
                   <span>35+ Campuses Partnered</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <Award size={14} color="#059669" />
-                  <span>Official Eco-Ambassador Badges</span>
+                  <span>Eco-Ambassador Badges</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <Microscope size={14} color="#059669" />
-                  <span>Live Water Testing Demos</span>
+                  <span>Live Water Testing</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Dedicated School Session Photo */}
+            {/* Right: Sharp School Session Photo */}
             <div>
               <div style={{
                 borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
+                boxShadow: '0 10px 25px -6px rgba(0, 0, 0, 0.1)',
                 border: '1px solid #e2e8f0',
                 background: '#ffffff'
               }}>
                 <img 
                   src={godavariSchoolDrivesImg} 
                   alt="Environmental education classroom session in Andhra Pradesh" 
-                  style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '280px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
-                  padding: '0.85rem 1.25rem',
+                  padding: '0.75rem 1.15rem',
                   background: '#ffffff',
                   borderTop: '1px solid #e2e8f0',
                   display: 'flex',
@@ -167,21 +200,20 @@ const AwarenessSchools = () => {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1e293b' }}>
                       Godavari Basin Ecology Session — Rajahmundry Campus
                     </span>
                   </div>
                   <span style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontWeight: 700,
                     color: '#047857',
                     background: '#ecfdf5',
-                    padding: '3px 10px',
+                    padding: '3px 9px',
                     borderRadius: '999px',
                     border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    whiteSpace: 'nowrap'
+                    textTransform: 'uppercase'
                   }}>
                     Active Campus Drive
                   </span>
@@ -194,7 +226,7 @@ const AwarenessSchools = () => {
       </section>
 
       {/* 2. STATS KPI BAR */}
-      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '2rem 1.5rem' }}>
+      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '1.75rem 1.5rem' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{
             display: 'grid',
@@ -206,16 +238,16 @@ const AwarenessSchools = () => {
                 background: '#f8fafc',
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
-                padding: '1.25rem 1.5rem',
+                padding: '1.15rem 1.25rem',
                 borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.2rem' }}>
                   {stat.value}
                 </div>
-                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.15rem' }}>
                   {stat.label}
                 </div>
-                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
                   {stat.sub}
                 </div>
               </div>
@@ -224,64 +256,71 @@ const AwarenessSchools = () => {
         </div>
       </section>
 
-      {/* 3. PATTERN SECTION: 4 ACADEMIC MODULES */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 3. FOUR ACADEMIC MODULES (WITH DEDICATED HIGH-RES PHOTOS & LESS TEXT) */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
-          <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-              <Presentation size={15} />
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+              <Presentation size={14} />
               <span>Curriculum &amp; Methodology</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.95rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.4rem' }}>
               Structured Environmental Curriculum for Campuses
             </h2>
-            <p style={{ color: '#64748b', fontSize: '0.98rem', margin: 0, maxWidth: '750px' }}>
-              Designed in collaboration with environmental educators, our four-module framework transitions students from theoretical ecology to active community stewardship.
+            <p style={{ color: '#64748b', fontSize: '0.92rem', margin: 0 }}>
+              Four structured modules transitioning students from classroom science to active river stewardship.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))',
-            gap: '1.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '1.25rem'
           }}>
             {academicModules.map((m, idx) => (
               <div key={idx} style={{
                 background: '#ffffff',
                 border: '1px solid #e2e8f0',
                 borderRadius: '14px',
-                padding: '1.75rem',
+                overflow: 'hidden',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                 display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
+                flexDirection: 'column'
               }}>
-                <div>
+                {/* Photo Top */}
+                <div style={{ position: 'relative', height: '160px', overflow: 'hidden' }}>
+                  <img 
+                    src={m.image} 
+                    alt={m.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
                   <div style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '10px',
-                    background: '#ecfdf5',
-                    border: '1px solid #a7f3d0',
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
                     color: '#047857',
-                    fontSize: '0.9rem',
-                    fontWeight: 800,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1rem'
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                   }}>
-                    {m.num}
+                    {m.badge}
                   </div>
+                </div>
 
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.65rem' }}>
-                    {m.title}
-                  </h3>
-
-                  <p style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.65, margin: 0 }}>
-                    {m.desc}
-                  </p>
+                {/* Content */}
+                <div style={{ padding: '1.2rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+                  <div>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.45rem' }}>
+                      {m.title}
+                    </h3>
+                    <p style={{ fontSize: '0.84rem', color: '#475569', lineHeight: 1.5, margin: 0 }}>
+                      {m.desc}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -290,40 +329,54 @@ const AwarenessSchools = () => {
         </div>
       </section>
 
-      {/* 4. PATTERN SECTION: PARTNER INSTITUTIONS & CERTIFICATION */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 4. PARTNER INSTITUTIONS & STUDENT CERTIFICATION */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3.5rem',
+            gap: '3rem',
             alignItems: 'center'
           }}>
             
-            {/* Left: Certification & Badging */}
+            {/* Left: Certification & Badging With Educator Photo */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-                <Award size={15} />
+              <div style={{
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 10px 25px -6px rgba(0, 0, 0, 0.1)',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff',
+                marginBottom: '1.5rem'
+              }}>
+                <img 
+                  src={ambassadorEducatorImg} 
+                  alt="Environmental educator teaching students" 
+                  style={{ width: '100%', height: '240px', objectFit: 'cover', display: 'block' }}
+                />
+              </div>
+
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                <Award size={14} />
                 <span>Student Recognition</span>
               </div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 1rem', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(1.4rem, 2vw, 1.85rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.6rem', lineHeight: 1.25 }}>
                 Official Eco-Ambassador Certification
               </h2>
-              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.7, margin: '0 0 1.5rem' }}>
-                Students who complete the drive and complete 8 volunteer hours along the Godavari shoreline receive an official serialized certificate and enamel lapel pin for their academic portfolios.
+              <p style={{ color: '#475569', fontSize: '0.92rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
+                Students completing the campus session and 8 volunteer hours along the Godavari shoreline receive an official serialized certificate.
               </p>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                 {[
                   'Recognized service-learning hours valid for NSS and NCC institutional records',
-                  'Exclusive invitations to monthly ecological citizen-science river sampling cohorts',
-                  'Priority eligibility for annual NGO youth environmental leadership fellowships',
+                  'Exclusive invitations to monthly citizen-science river sampling cohorts',
                   'Free distribution of native sapling kits for campus micro-forest plantations'
                 ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                    <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '3px' }} />
-                    <span style={{ fontSize: '0.94rem', color: '#334155', lineHeight: 1.6 }}>{item}</span>
+                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
+                    <CheckCircle2 size={16} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <span style={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.5 }}>{item}</span>
                   </div>
                 ))}
               </div>
@@ -335,22 +388,22 @@ const AwarenessSchools = () => {
                 background: '#f8fafc',
                 border: '1px solid #e2e8f0',
                 borderRadius: '16px',
-                padding: '2rem'
+                padding: '1.75rem'
               }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
                   INSTITUTIONAL NETWORK
                 </div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 1.25rem' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 1rem' }}>
                   Key Participating Colleges &amp; Schools
                 </h3>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {partnerColleges.map((col, idx) => (
                     <div key={idx} style={{
                       background: '#ffffff',
                       border: '1px solid #e2e8f0',
                       borderRadius: '10px',
-                      padding: '1rem',
+                      padding: '0.85rem 1rem',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center'
@@ -359,17 +412,17 @@ const AwarenessSchools = () => {
                         <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a' }}>
                           {col.name}
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                        <div style={{ fontSize: '0.78rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
                           <MapPin size={12} color="#059669" />
                           <span>{col.location}</span>
                         </div>
                       </div>
                       <span style={{
-                        fontSize: '0.72rem',
+                        fontSize: '0.7rem',
                         fontWeight: 700,
                         color: '#047857',
                         background: '#ecfdf5',
-                        padding: '3px 8px',
+                        padding: '2px 8px',
                         borderRadius: '6px',
                         border: '1px solid #a7f3d0'
                       }}>
@@ -387,27 +440,99 @@ const AwarenessSchools = () => {
         </div>
       </section>
 
-      {/* 5. PATTERN SECTION: HOST A CAMPUS DRIVE CALLOUT */}
-      <section style={{ padding: '4rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 5. CAMPUS ACTION FIELD GALLERY STRIP */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                <Sparkles size={14} />
+                <span>Field Documentation</span>
+              </div>
+              <h2 style={{ fontSize: 'clamp(1.4rem, 2vw, 1.85rem)', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                Campus Drives &amp; Action In Progress
+              </h2>
+            </div>
+            <span style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: 600 }}>
+              Live Student Records • Andhra Pradesh
+            </span>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.25rem'
+          }}>
+            {galleryHighlights.map((item, idx) => (
+              <div key={idx} style={{
+                borderRadius: '14px',
+                overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.04)'
+              }}>
+                <div style={{ height: '200px', overflow: 'hidden' }}>
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                </div>
+                <div style={{ padding: '1rem 1.15rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                    <h4 style={{ fontSize: '0.98rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                      {item.title}
+                    </h4>
+                    <span style={{
+                      fontSize: '0.68rem',
+                      fontWeight: 700,
+                      color: '#047857',
+                      background: '#ecfdf5',
+                      padding: '2px 8px',
+                      borderRadius: '999px',
+                      border: '1px solid #a7f3d0'
+                    }}>
+                      {item.badge}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b', margin: 0 }}>
+                    {item.subtitle}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. HOST A CAMPUS DRIVE CALLOUT */}
+      <section style={{ padding: '3rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{
-            background: '#ffffff',
+            background: '#f8fafc',
             border: '1px solid #e2e8f0',
             borderRadius: '16px',
-            padding: '2.5rem',
+            padding: '2rem 2.25rem',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: '1.5rem'
+            gap: '1.5rem',
+            boxShadow: '0 4px 15px -4px rgba(0,0,0,0.04)'
           }}>
-            <div style={{ maxWidth: '650px' }}>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+            <div style={{ maxWidth: '640px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.76rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.35rem' }}>
+                <School size={14} />
+                <span>Zero Cost To Institution</span>
+              </div>
+              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.35rem' }}>
                 Invite Our Environmental Educators to Your Campus
               </h3>
-              <p style={{ color: '#475569', fontSize: '0.94rem', lineHeight: 1.6, margin: 0 }}>
-                We provide all projection slides, water test kits, student handouts, and certificates at zero cost to your institution.
+              <p style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.55, margin: 0 }}>
+                We provide all projection slides, water test kits, student handouts, and certificates free of cost to your school or college.
               </p>
             </div>
             <Link
@@ -418,12 +543,13 @@ const AwarenessSchools = () => {
                 gap: '8px',
                 background: '#059669',
                 color: '#ffffff',
-                padding: '12px 26px',
+                padding: '11px 22px',
                 borderRadius: '8px',
                 fontWeight: 700,
-                fontSize: '0.94rem',
+                fontSize: '0.9rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
+                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)',
+                whiteSpace: 'nowrap'
               }}
             >
               <span>Schedule a Campus Drive</span>
@@ -434,8 +560,8 @@ const AwarenessSchools = () => {
         </div>
       </section>
 
-      {/* 6. BOTTOM NAVIGATION BAR */}
-      <section style={{ padding: '2.5rem 1.5rem', background: '#ffffff' }}>
+      {/* 7. BOTTOM NAVIGATION BAR */}
+      <section style={{ padding: '2rem 1.5rem', background: '#ffffff' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
           <Link
             to="/awareness"
