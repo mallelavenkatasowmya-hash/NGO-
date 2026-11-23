@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../../services/api';
 import godavariEventsUpcomingImg from '../../assets/godavari-events-upcoming.jpg';
+import upcomingUniqueCleanImg from '../../assets/upcoming-unique-clean.jpg';
+import upcomingUniquePlantImg from '../../assets/upcoming-unique-plant.jpg';
+import upcomingUniqueWaterImg from '../../assets/upcoming-unique-water.jpg';
+import upcomingUniqueWalkImg from '../../assets/upcoming-unique-walk.jpg';
+import upcomingVolunteerPrepImg from '../../assets/upcoming-volunteer-prep.jpg';
+import upcomingUniqueGroupImg from '../../assets/upcoming-unique-group.jpg';
+
 import { 
   Sparkles, 
   Calendar, 
@@ -23,54 +30,67 @@ const fallbackUpcoming = [
     title: 'Kotilingala Ghat Sunrise Shoreline Sanitation',
     category: 'Cleanliness Drive',
     eventType: 'Cleanliness Drive',
+    image: upcomingUniqueCleanImg,
     date: new Date(Date.now() + 86400000 * 3).toISOString(),
     time: '06:30 AM – 09:00 AM',
     venue: 'Kotilingala Ghat, Godavari Bund Road, Rajahmundry',
     registered: 34,
     capacity: 50,
     lead: 'Field Lead: Sri M. Ramu Naidu',
-    desc: 'Targeted extraction of single-use plastic bottles, synthetic sachets, and packaging debris from ancient stone steps and waterlines.'
+    desc: 'Targeted morning plastic and debris removal along bathing steps.'
   },
   {
     _id: 'up-2',
     title: 'Dowleswaram Bund Native Afforestation Drive',
     category: 'Tree Plantation',
     eventType: 'Tree Plantation',
+    image: upcomingUniquePlantImg,
     date: new Date(Date.now() + 86400000 * 6).toISOString(),
     time: '07:00 AM – 10:00 AM',
     venue: 'Godavari Bund Corridor, Near Dowleswaram Barrage',
     registered: 41,
     capacity: 60,
     lead: 'Forestry Lead: Dr. K. V. Subba Rao',
-    desc: 'Planting 250 indigenous Neem and Pongamia saplings with protective bamboo tree guards along vulnerable river embankments.'
+    desc: 'Planting 250 native Neem and Kanuga saplings with protective guards.'
   },
   {
     _id: 'up-3',
     title: 'Pushkar & Saraswathi Ghats Citizen Water Audit',
     category: 'River Conservation',
     eventType: 'River Conservation',
+    image: upcomingUniqueWaterImg,
     date: new Date(Date.now() + 86400000 * 10).toISOString(),
     time: '07:30 AM – 10:00 AM',
     venue: 'Pushkar Ghat Command Desk, Rajahmundry',
     registered: 18,
     capacity: 25,
     lead: 'Science Lead: Dr. P. Radha Krishna',
-    desc: 'Field water sampling, digital titration for dissolved oxygen, and logging turbidity metrics for public health transparency.'
+    desc: 'Citizen water sampling measuring dissolved oxygen, pH, and water clarity.'
   },
   {
     _id: 'up-4',
     title: 'Youth Riverfront Rally & Nadi Prathijna Campaign',
     category: 'Community Rally',
     eventType: 'Community Rally',
+    image: upcomingUniqueWalkImg,
     date: new Date(Date.now() + 86400000 * 14).toISOString(),
     time: '05:00 PM – 07:00 PM',
     venue: 'Godavari River Promenade, Opp. Pushkar Nagar',
     registered: 58,
     capacity: 100,
     lead: 'Youth Captain: Kum. S. Divya Vani',
-    desc: 'Bilingual student street theater (Nukkad Natak), community pledge wall signatures, and subsidized cloth bag distribution.'
+    desc: 'Youth awareness walk, river pledge signatures, and cloth bag distribution.'
   }
 ];
+
+const categoryImageMap = {
+  'cleanliness drive': upcomingUniqueCleanImg,
+  'tree plantation': upcomingUniquePlantImg,
+  'river conservation': upcomingUniqueWaterImg,
+  'community rally': upcomingUniqueWalkImg,
+  'awareness program': upcomingUniqueWalkImg,
+  'environmental protection': godavariEventsUpcomingImg
+};
 
 const prepChecklist = [
   { item: 'Wear comfortable closed footwear suitable for wet stone steps' },
@@ -94,7 +114,14 @@ const EventsUpcoming = () => {
         if (list.length > 0) {
           const apiCategories = new Set(list.map(e => (e.eventType || e.category || '').toLowerCase()));
           const missingFallbacks = fallbackUpcoming.filter(f => !apiCategories.has((f.category || '').toLowerCase()));
-          setEvents([...list, ...missingFallbacks]);
+          const enriched = list.map((item, idx) => {
+            const cat = (item.eventType || item.category || '').toLowerCase();
+            return {
+              ...item,
+              image: categoryImageMap[cat] || fallbackUpcoming[idx % fallbackUpcoming.length].image
+            };
+          });
+          setEvents([...enriched, ...missingFallbacks]);
         } else {
           setEvents(fallbackUpcoming);
         }
@@ -170,13 +197,13 @@ const EventsUpcoming = () => {
               </p>
 
               <p style={{
-                fontSize: '1rem',
+                fontSize: '0.96rem',
                 color: '#475569',
-                lineHeight: 1.8,
+                lineHeight: 1.7,
                 margin: '0 0 1.5rem'
               }}>
                 Every weekend, our volunteers gather at sunrise across Rajahmundry, Kovvur, and neighboring ghats. 
-                Registration is completely free, full field safety gear is provided, and all service hours are officially certified.
+                Registration is free, full safety gear is provided, and service hours are certified.
               </p>
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -207,7 +234,7 @@ const EventsUpcoming = () => {
                 <img 
                   src={godavariEventsUpcomingImg} 
                   alt="Volunteers gathered at sunrise along Godavari River for upcoming drive" 
-                  style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '340px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
                   padding: '0.85rem 1.25rem',
@@ -282,8 +309,8 @@ const EventsUpcoming = () => {
         </div>
       </section>
 
-      {/* 3. PATTERN SECTION: FILTERABLE UPCOMING SCHEDULE */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 3. PATTERN SECTION: FILTERABLE UPCOMING SCHEDULE WITH MORE IMAGES & LESS MATTER */}
+      <section style={{ padding: '4rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
@@ -304,10 +331,10 @@ const EventsUpcoming = () => {
             }}>
               RESERVE YOUR SPOT
             </span>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.5rem' }}>
               Confirmed Upcoming Field Drives
             </h2>
-            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
+            <p style={{ fontSize: '0.95rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
               Select a category to view dates, meeting points, and register as a participant or group leader.
             </p>
           </div>
@@ -335,104 +362,162 @@ const EventsUpcoming = () => {
             ))}
           </div>
 
-          {/* Grid of Drives */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.75rem' }}>
-            {filtered.map((evt) => (
-              <div key={evt._id} style={{
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                borderRadius: '16px',
-                padding: '1.75rem',
-                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}>
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
-                    <span style={{
+          {/* Responsive Grid: Keeps normal card width and centers nicely if 1 item is filtered */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: filtered.length === 1 
+              ? 'minmax(320px, 460px)' 
+              : 'repeat(auto-fit, minmax(320px, 1fr))',
+            justifyContent: 'center',
+            gap: '1.75rem',
+            maxWidth: filtered.length === 1 ? '460px' : '1180px',
+            margin: '0 auto'
+          }}>
+            {filtered.map((evt, idx) => {
+              const cat = (evt.eventType || evt.category || '').toLowerCase();
+              const cardImage = evt.image || categoryImageMap[cat] || fallbackUpcoming[idx % fallbackUpcoming.length].image;
+
+              return (
+                <div key={evt._id || idx} style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.04)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  transition: 'all 0.2s ease'
+                }}>
+                  {/* High-Resolution Dedicated Photo Header */}
+                  <div style={{ position: 'relative', height: '210px', width: '100%', overflow: 'hidden', background: '#f1f5f9' }}>
+                    <img 
+                      src={cardImage} 
+                      alt={evt.title}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = godavariEventsUpcomingImg;
+                      }}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        display: 'block'
+                      }}
+                    />
+                    
+                    {/* Category Tag Overlay */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      left: '12px',
+                      background: 'rgba(255, 255, 255, 0.95)',
+                      backdropFilter: 'blur(4px)',
+                      padding: '4px 10px',
+                      borderRadius: '999px',
                       fontSize: '0.72rem',
                       fontWeight: 700,
                       color: '#047857',
-                      background: '#ecfdf5',
-                      padding: '3px 10px',
-                      borderRadius: '999px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em'
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase'
                     }}>
                       {evt.eventType || evt.category}
-                    </span>
-                    <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#64748b' }}>
-                      {evt.date ? new Date(evt.date).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : 'Upcoming'}
-                    </span>
-                  </div>
-
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.65rem', lineHeight: 1.3 }}>
-                    {evt.title}
-                  </h3>
-
-                  <div style={{ fontSize: '0.84rem', color: '#64748b', margin: '0 0 0.5rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Clock size={13} color="#059669" />
-                    <span>{evt.time || '06:30 AM – 09:00 AM'}</span>
-                  </div>
-
-                  <div style={{ fontSize: '0.84rem', color: '#64748b', margin: '0 0 1rem', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
-                    <MapPin size={14} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
-                    <span>{evt.location?.venue || evt.venue}</span>
-                  </div>
-
-                  <p style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.6, margin: '0 0 1.25rem' }}>
-                    {evt.description || evt.desc}
-                  </p>
-
-                  <div style={{ background: '#f8fafc', padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid #f1f5f9', marginBottom: '1.25rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '0.35rem' }}>
-                      <span style={{ color: '#64748b' }}>Enrollment Capacity</span>
-                      <strong style={{ color: '#0f172a' }}>{evt.enrolledVolunteersCount || evt.registered || 28} / {evt.targetVolunteers || evt.capacity || 50} Volunteers</strong>
                     </div>
-                    <div style={{ height: '6px', background: '#e2e8f0', borderRadius: '999px', overflow: 'hidden' }}>
-                      <div style={{ 
-                        height: '100%', 
-                        background: '#059669', 
-                        width: `${Math.min(100, Math.round(((evt.enrolledVolunteersCount || evt.registered || 28) / (evt.targetVolunteers || evt.capacity || 50)) * 100))}%` 
-                      }} />
-                    </div>
-                  </div>
-                </div>
 
-                <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#334155' }}>
-                    {evt.lead || 'Coordinated by Field Cadre'}
-                  </span>
-                  <Link 
-                    to="/register" 
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                      background: '#059669',
+                    {/* Date Tag Overlay */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      background: 'rgba(15, 23, 42, 0.85)',
+                      backdropFilter: 'blur(4px)',
                       color: '#ffffff',
-                      padding: '8px 18px',
-                      borderRadius: '8px',
-                      fontSize: '0.84rem',
-                      fontWeight: 700,
-                      textDecoration: 'none',
-                      boxShadow: '0 2px 6px rgba(5, 150, 105, 0.2)'
-                    }}
-                  >
-                    <span>Sign Up Free</span>
-                    <ArrowRight size={13} />
-                  </Link>
+                      padding: '4px 10px',
+                      borderRadius: '999px',
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                    }}>
+                      {evt.date ? new Date(evt.date).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : 'Upcoming'}
+                    </div>
+                  </div>
+
+                  {/* Card Body - LESS MATTER & CONCISE DETAILS */}
+                  <div style={{ padding: '1.25rem 1.35rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+                    <div>
+                      <h3 style={{ fontSize: '1.18rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
+                        {evt.title}
+                      </h3>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '0.75rem' }}>
+                        <div style={{ fontSize: '0.82rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <Clock size={13} color="#059669" />
+                          <span>{evt.time || '06:30 AM – 09:00 AM'}</span>
+                        </div>
+
+                        <div style={{ fontSize: '0.82rem', color: '#64748b', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                          <MapPin size={13} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                          <span>{evt.location?.venue || evt.venue}</span>
+                        </div>
+                      </div>
+
+                      <p style={{ fontSize: '0.86rem', color: '#475569', lineHeight: 1.5, margin: '0 0 1rem' }}>
+                        {evt.description || evt.desc}
+                      </p>
+
+                      {/* Visual Capacity Bar */}
+                      <div style={{ background: '#f8fafc', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #f1f5f9', marginBottom: '1rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', marginBottom: '0.3rem' }}>
+                          <span style={{ color: '#64748b' }}>Capacity</span>
+                          <strong style={{ color: '#0f172a' }}>{evt.enrolledVolunteersCount || evt.registered || 28} / {evt.targetVolunteers || evt.capacity || 50} Enrolled</strong>
+                        </div>
+                        <div style={{ height: '6px', background: '#e2e8f0', borderRadius: '999px', overflow: 'hidden' }}>
+                          <div style={{ 
+                            height: '100%', 
+                            background: '#059669', 
+                            width: `${Math.min(100, Math.round(((evt.enrolledVolunteersCount || evt.registered || 28) / (evt.targetVolunteers || evt.capacity || 50)) * 100))}%` 
+                          }} />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.76rem', fontWeight: 600, color: '#64748b' }}>
+                        {evt.lead || 'Coordinated by Field Cadre'}
+                      </span>
+                      <Link 
+                        to="/register" 
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          background: '#059669',
+                          color: '#ffffff',
+                          padding: '7px 16px',
+                          borderRadius: '8px',
+                          fontSize: '0.82rem',
+                          fontWeight: 700,
+                          textDecoration: 'none',
+                          boxShadow: '0 2px 6px rgba(5, 150, 105, 0.2)'
+                        }}
+                      >
+                        <span>Sign Up Free</span>
+                        <ArrowRight size={13} />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
       </section>
 
-      {/* 4. PATTERN SECTION: VOLUNTEER PREP & HOST A DRIVE */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 4. PATTERN SECTION: VOLUNTEER PREP & HOST A DRIVE WITH VISUALS */}
+      <section style={{ padding: '4rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{
@@ -442,56 +527,84 @@ const EventsUpcoming = () => {
             alignItems: 'center'
           }}>
             
-            {/* Left: What to Expect & Preparation */}
+            {/* Left: What to Expect & Preparation with Photo */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
                 <ShieldCheck size={16} />
                 <span>First-Time Volunteer Guide</span>
               </div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 1rem', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 2.3vw, 2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.75rem', lineHeight: 1.25 }}>
                 What to Expect on Your First Morning Drive
               </h2>
-              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.7, margin: '0 0 1.5rem' }}>
-                You do not need prior environmental experience to make an impact. Simply register online, arrive at 06:30 AM, and our team will guide you every step of the way.
-              </p>
+              
+              {/* Volunteer Prep Photo */}
+              <div style={{
+                borderRadius: '12px',
+                overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                marginBottom: '1.25rem',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.04)'
+              }}>
+                <img 
+                  src={upcomingVolunteerPrepImg} 
+                  alt="Morning volunteer equipment orientation" 
+                  style={{ width: '100%', height: '175px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                />
+              </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {prepChecklist.map((c, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                    <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '3px' }} />
-                    <span style={{ fontSize: '0.94rem', color: '#334155', lineHeight: 1.6 }}>{c.item}</span>
+                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
+                    <CheckCircle2 size={16} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <span style={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.5 }}>{c.item}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right: Host a Drive Callout */}
+            {/* Right: Host a Drive Callout with Group Photo */}
             <div>
               <div style={{
-                background: '#ecfdf5',
-                border: '1px solid #a7f3d0',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
                 borderRadius: '16px',
-                padding: '2.5rem'
+                padding: '1.75rem',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.04)'
               }}>
+                {/* Group Assembly Photo */}
                 <div style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  background: '#ffffff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                  boxShadow: '0 2px 8px rgba(5, 150, 105, 0.15)'
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1px solid #e2e8f0',
+                  marginBottom: '1.25rem'
                 }}>
-                  <HeartHandshake size={28} color="#059669" />
+                  <img 
+                    src={upcomingUniqueGroupImg} 
+                    alt="Corporate CSR and college group volunteers assembled" 
+                    style={{ width: '100%', height: '180px', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+                  />
                 </div>
 
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#064e3b', margin: '0 0 0.65rem' }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: '#059669',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  marginBottom: '0.35rem'
+                }}>
+                  <HeartHandshake size={14} />
+                  <span>Group Partnerships</span>
+                </div>
+
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.45rem' }}>
                   Want to Organize a Drive for Your Group?
                 </h3>
-                <p style={{ fontSize: '0.92rem', color: '#065f46', lineHeight: 1.65, margin: '0 0 1.5rem' }}>
-                  Are you a corporate CSR committee, college NSS cell, or resident association? We will co-host a dedicated cleanup or plantation drive with full on-site logistics and equipment.
+                <p style={{ fontSize: '0.86rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 1.25rem' }}>
+                  Are you a corporate CSR committee, college NSS cell, or resident association? We will co-host a dedicated cleanup or plantation drive with full equipment.
                 </p>
 
                 <Link
@@ -504,12 +617,12 @@ const EventsUpcoming = () => {
                     width: '100%',
                     background: '#059669',
                     color: '#ffffff',
-                    padding: '12px 24px',
+                    padding: '11px 20px',
                     borderRadius: '8px',
                     fontWeight: 700,
-                    fontSize: '0.92rem',
+                    fontSize: '0.88rem',
                     textDecoration: 'none',
-                    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
+                    boxShadow: '0 4px 10px rgba(5, 150, 105, 0.2)'
                   }}
                 >
                   <span>Request a Custom Group Drive</span>
