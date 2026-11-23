@@ -209,34 +209,8 @@ const Navbar = () => {
           })}
         </nav>
 
-        {/* Right CTA Action: Join Us Pill & Contact Toggle */}
-        <div className="eco-header-actions" style={{ display: 'flex', alignItems: 'center' }}>
-          {/* Quick Contact Toggle Button */}
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new CustomEvent('toggle-contact-widget'))}
-            className="eco-header-contact-toggle"
-            title="Toggle Secretariat Quick Contact"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '0.42rem 0.9rem',
-              borderRadius: '9999px',
-              border: '1px solid #a7f3d0',
-              background: '#ecfdf5',
-              color: '#047857',
-              fontSize: '0.84rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              marginRight: '0.5rem'
-            }}
-          >
-            <Phone size={13} color="#059669" />
-            <span>Contact</span>
-          </button>
-
+        {/* Right CTA Action: Join Us Pill */}
+        <div className="eco-header-actions">
           {user && isAdmin ? (
             <div className="eco-user-actions">
               <Link to="/admin" className="btn-eco-join-pill" title="Go to Admin Dashboard">
@@ -363,15 +337,6 @@ const Navbar = () => {
                   >
                     <Users size={16} />
                     <span>Join Us</span>
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="btn-eco-login-outline btn-block text-center"
-                    style={{ borderColor: '#a7f3d0', color: '#047857', background: '#ecfdf5' }}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Phone size={14} style={{ display: 'inline', marginRight: '6px' }} />
-                    Contact Secretariat
                   </Link>
                   <Link
                     to="/login"
