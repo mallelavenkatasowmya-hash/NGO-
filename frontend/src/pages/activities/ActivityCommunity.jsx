@@ -2,78 +2,111 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import godavariCommunityImg from '../../assets/godavari-community-programs.jpg';
 import godavariYouthEcoImg from '../../assets/godavari-youth-eco.jpg';
+import godavariSchoolDrivesImg from '../../assets/godavari-school-drives.jpg';
+import godavariPublicWorkshopsImg from '../../assets/godavari-public-workshops.jpg';
+
+import communityPillarSchoolsImg from '../../assets/community-pillar-schools.jpg';
+import communityPillarPilgrimageImg from '../../assets/community-pillar-pilgrimage.jpg';
+import communityPillarStreetPlayImg from '../../assets/community-pillar-street-play.jpg';
+import communityPillarMerchantsImg from '../../assets/community-pillar-merchants.jpg';
+
+import ambassadorGhatCaptainImg from '../../assets/ambassador-ghat-captain.jpg';
+import ambassadorEducatorImg from '../../assets/ambassador-educator.jpg';
+import ambassadorMerchantLiaisonImg from '../../assets/ambassador-merchant-liaison.jpg';
+import ambassadorStorytellerImg from '../../assets/ambassador-storyteller.jpg';
+
 import { 
-  Sparkles, 
   Users, 
   GraduationCap, 
   HeartHandshake, 
   CheckCircle2, 
   ArrowRight,
-  Megaphone,
   Award,
-  BookOpen,
   Store,
-  Drama,
   Compass,
   Smile,
+  Sparkles,
+  MapPin,
+  Clock,
   ShieldCheck
 } from 'lucide-react';
 
 const outreachChannels = [
   {
     title: 'School & College Eco-Clubs',
-    icon: GraduationCap,
+    image: communityPillarSchoolsImg,
     badge: 'Youth Leadership',
-    badgeColor: '#047857',
-    badgeBg: '#ecfdf5',
-    desc: 'Empowering students across 25+ local schools and colleges with interactive river ecology lectures, water test demonstrations, and certified environmental leadership badges.'
+    stat: '25+ Campuses',
+    desc: 'Empowers students with hands-on river ecology workshops, water testing demonstrations, and eco-leadership awards.'
   },
   {
     title: 'Eco-Friendly Pilgrimage Guidance',
-    icon: Compass,
+    image: communityPillarPilgrimageImg,
     badge: 'Cultural Harmony',
-    badgeColor: '#047857',
-    badgeBg: '#ecfdf5',
-    desc: 'Partnering with temple priests and pilgrim committees to eliminate polythene bags from ritual offerings, providing compostable banana-leaf containers and floral collection bins.'
+    stat: '100% Plastic-Free',
+    desc: 'Partners with temple priests and devotees to replace plastic carry-bags with natural leaf baskets and floral bins.'
   },
   {
-    title: 'Street Theatres & Folk Storytelling',
-    icon: Drama,
+    title: 'Street Theatres & Folk Songs',
+    image: communityPillarStreetPlayImg,
     badge: 'Cultural Arts',
-    badgeColor: '#047857',
-    badgeBg: '#ecfdf5',
-    desc: 'Performing weekend street plays (nukkad nataks), puppet shows, and folk songs in Telugu at Pushkar and Kotilingala Ghats, making conservation emotionally resonant.'
+    stat: 'Weekly Ghat Plays',
+    desc: 'Performs weekend Telugu street plays (Nukkad Natak) and folk ballads at Pushkar Ghat to engage river visitors.'
   },
   {
     title: 'Riverfront Merchant Green Alliance',
-    icon: Store,
+    image: communityPillarMerchantsImg,
     badge: 'Local Commerce',
-    badgeColor: '#047857',
-    badgeBg: '#ecfdf5',
-    desc: 'Working directly with tea stalls, flower vendors, and souvenir shops along the bund to phase out single-use plastics in favor of subsidized cloth and paper alternatives.'
+    stat: '40+ Certified Stalls',
+    desc: 'Distributes subsidized reusable cotton bags to tea stalls and souvenir vendors to phase out single-use plastics.'
   }
 ];
 
 const ambassadorRoles = [
   {
     role: 'Ghat Youth Captain',
-    commitment: 'Weekend Mornings (4 hrs/week)',
-    duties: 'Manages volunteer check-ins at Kotilingala & Pushkar Ghats, delivers morning safety orientations, and leads grid coordination teams.'
+    image: ambassadorGhatCaptainImg,
+    commitment: 'Weekend Mornings (4 hrs/wk)',
+    duties: 'Manages volunteer check-ins at Kotilingala & Pushkar Ghats and leads morning riverbank safety teams.'
   },
   {
     role: 'School Environmental Educator',
+    image: ambassadorEducatorImg,
     commitment: 'Weekday Afternoons (2 hrs/drive)',
-    duties: 'Delivers high-impact slide presentations, interactive water demonstrations, and organizes student nature walks along the Godavari.'
+    duties: 'Delivers high-impact slide presentations, interactive water testing kits, and student nature walks.'
   },
   {
     role: 'Merchant Green Liaison',
-    commitment: 'Flexible (3 hrs/week)',
-    duties: 'Builds trust with local shopkeepers, supplies subsidized cloth carry-bags, and audits compliance with plastic-free pledges.'
+    image: ambassadorMerchantLiaisonImg,
+    commitment: 'Flexible (3 hrs/wk)',
+    duties: 'Supplies subsidized cloth bags to riverfront shops and monitors compliance with zero-plastic pledges.'
   },
   {
     role: 'Civic Media & Storyteller',
-    commitment: 'Flexible / Remote Support',
-    duties: 'Captures authentic on-ground photos and short video stories of citizen heroes, sharing transparent updates across social channels.'
+    image: ambassadorStorytellerImg,
+    commitment: 'Remote / Field Media',
+    duties: 'Captures authentic on-ground photo stories and short reels highlighting citizen conservation heroes.'
+  }
+];
+
+const galleryHighlights = [
+  {
+    title: 'Civic Dialogue at Ghats',
+    subtitle: 'Weekly Community Stewardship Circles',
+    image: godavariCommunityImg,
+    badge: 'Community Forum'
+  },
+  {
+    title: 'School Afforestation Drives',
+    subtitle: 'Student Sapling Planting Drives',
+    image: godavariSchoolDrivesImg,
+    badge: 'Campus Action'
+  },
+  {
+    title: 'Public Environmental Workshops',
+    subtitle: 'Open Citizen Hydrology Seminars',
+    image: godavariPublicWorkshopsImg,
+    badge: 'Education'
   }
 ];
 
@@ -81,11 +114,11 @@ const ActivityCommunity = () => {
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. COMMUNITY CITIZEN HERO */}
+      {/* 1. BALANCED HERO SECTION */}
       <section style={{
         background: '#f8fafc',
         borderBottom: '1px solid #e2e8f0',
-        padding: '3.5rem 1.5rem 3rem'
+        padding: '3rem 1.5rem 2.5rem'
       }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{
@@ -94,7 +127,7 @@ const ActivityCommunity = () => {
             gap: '2.5rem',
             alignItems: 'center'
           }}>
-            {/* Left Column: Community Info */}
+            {/* Left: Headline & Concise Text */}
             <div>
               <div style={{
                 display: 'inline-flex',
@@ -102,24 +135,24 @@ const ActivityCommunity = () => {
                 gap: '8px',
                 background: '#ecfdf5',
                 border: '1px solid #a7f3d0',
-                padding: '5px 14px',
+                padding: '4px 12px',
                 borderRadius: '999px',
-                fontSize: '0.8rem',
+                fontSize: '0.78rem',
                 fontWeight: 700,
-                letterSpacing: '0.06em',
+                letterSpacing: '0.05em',
                 textTransform: 'uppercase',
                 color: '#047857',
-                marginBottom: '1rem'
+                marginBottom: '0.85rem'
               }}>
                 <Users size={14} />
                 <span>COMMUNITY MOBILIZATION • CIVIC STEWARDSHIP</span>
               </div>
 
               <h1 style={{
-                fontSize: 'clamp(2.1rem, 3.6vw, 3rem)',
+                fontSize: 'clamp(2rem, 3.4vw, 2.75rem)',
                 fontWeight: 800,
                 color: '#0f172a',
-                margin: '0 0 1rem',
+                margin: '0 0 0.75rem',
                 letterSpacing: '-0.025em',
                 lineHeight: 1.2
               }}>
@@ -127,58 +160,59 @@ const ActivityCommunity = () => {
               </h1>
 
               <p style={{
-                fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
+                fontSize: 'clamp(1rem, 1.6vw, 1.15rem)',
                 fontWeight: 600,
                 color: '#059669',
-                margin: '0 0 1rem',
-                lineHeight: 1.5
+                margin: '0 0 0.85rem',
+                lineHeight: 1.45
               }}>
                 Inspiring Civic Ownership and Cultural Respect for River Godavari.
               </p>
 
               <p style={{
-                fontSize: '1rem',
+                fontSize: '0.94rem',
                 color: '#475569',
-                lineHeight: 1.8,
-                margin: '0 0 1.5rem'
+                lineHeight: 1.65,
+                margin: '0 0 1.25rem',
+                maxWidth: '540px'
               }}>
-                Real conservation does not happen through edicts; it is born when children, pilgrims, 
-                elders, and shopkeepers feel proud custodians of their sacred river. Our community programs 
-                bridge generations to create lasting behavioral change.
+                True conservation begins when children, pilgrims, elders, and shopkeepers become proud custodians 
+                of their sacred river. Our programs bridge generations to build lifelong environmental care.
               </p>
 
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+              {/* Quick Highlight Pills */}
+              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <GraduationCap size={14} color="#059669" />
                   <span>25+ Schools &amp; Colleges</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <Users size={14} color="#059669" />
                   <span>3,500+ Citizens Engaged</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 14px', borderRadius: '8px', fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#ffffff', border: '1px solid #e2e8f0', padding: '6px 12px', borderRadius: '8px', fontSize: '0.82rem', fontWeight: 600, color: '#334155' }}>
                   <Store size={14} color="#059669" />
-                  <span>40+ Riverfront Merchants</span>
+                  <span>40+ Green Merchants</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Dedicated Community Dialogue Photo */}
+            {/* Right: Sharp Community Circle Photo */}
             <div>
               <div style={{
                 borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
+                boxShadow: '0 10px 25px -6px rgba(0, 0, 0, 0.1)',
                 border: '1px solid #e2e8f0',
                 background: '#ffffff'
               }}>
                 <img 
                   src={godavariCommunityImg} 
                   alt="Community outreach workshop along the ghats of River Godavari" 
-                  style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '280px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
-                  padding: '0.85rem 1.25rem',
+                  padding: '0.75rem 1.15rem',
                   background: '#ffffff',
                   borderTop: '1px solid #e2e8f0',
                   display: 'flex',
@@ -188,21 +222,20 @@ const ActivityCommunity = () => {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1e293b' }}>
                       Civic Dialogue &amp; Stewardship Circle — Godavari Ghats
                     </span>
                   </div>
                   <span style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontWeight: 700,
                     color: '#047857',
                     background: '#ecfdf5',
-                    padding: '3px 10px',
+                    padding: '3px 9px',
                     borderRadius: '999px',
                     border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    whiteSpace: 'nowrap'
+                    textTransform: 'uppercase'
                   }}>
                     Active Outreach
                   </span>
@@ -215,7 +248,7 @@ const ActivityCommunity = () => {
       </section>
 
       {/* 2. STATS KPI BAR */}
-      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '2rem 1.5rem' }}>
+      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '1.75rem 1.5rem' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{
             display: 'grid',
@@ -223,25 +256,25 @@ const ActivityCommunity = () => {
             gap: '1.25rem'
           }}>
             {[
-              { val: '85+', label: 'Workshops Conducted', note: 'Schools, ghats & community halls' },
-              { val: '3,500+', label: 'Citizens Reached', note: 'Youth, elders & river pilgrims' },
+              { val: '85+', label: 'Workshops Conducted', note: 'Schools, ghats & halls' },
+              { val: '3,500+', label: 'Citizens Reached', note: 'Youth, elders & pilgrims' },
               { val: '25+', label: 'Institutions Partnered', note: 'Colleges & high schools' },
-              { val: '40+', label: 'Merchant Pledges', note: 'Zero single-use plastic stalls' }
+              { val: '40+', label: 'Merchant Pledges', note: 'Zero single-use plastic' }
             ].map((stat, i) => (
               <div key={i} style={{
                 background: '#f8fafc',
                 border: '1px solid #e2e8f0',
                 borderRadius: '12px',
-                padding: '1.25rem 1.5rem',
+                padding: '1.15rem 1.25rem',
                 borderLeft: '4px solid #059669'
               }}>
-                <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.2rem' }}>
                   {stat.val}
                 </div>
-                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.15rem' }}>
                   {stat.label}
                 </div>
-                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
                   {stat.note}
                 </div>
               </div>
@@ -250,93 +283,103 @@ const ActivityCommunity = () => {
         </div>
       </section>
 
-      {/* 3. PATTERN SECTION: 4 COMMUNITY OUTREACH CHANNELS */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 3. FOUR PILLARS OF COMMUNITY MOBILIZATION (WITH PHOTOS & LESS TEXT) */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
-          <div style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-              <HeartHandshake size={15} />
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+              <HeartHandshake size={14} />
               <span>Grassroots Engagement</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.95rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.4rem' }}>
               Four Pillars of Community Mobilization
             </h2>
-            <p style={{ color: '#64748b', fontSize: '0.98rem', margin: 0, maxWidth: '750px' }}>
-              We reach every corner of society: from school classrooms and riverfront merchant associations to sacred temple ghats and weekend cultural festivals.
+            <p style={{ color: '#64748b', fontSize: '0.92rem', margin: 0 }}>
+              Engaging classrooms, sacred temple ghats, street artists, and riverfront merchants.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))',
-            gap: '1.5rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '1.25rem'
           }}>
-            {outreachChannels.map((ch, idx) => {
-              const IconComp = ch.icon;
-              return (
-                <div key={idx} style={{
-                  background: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '14px',
-                  padding: '1.75rem',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
-                }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                      <div style={{
-                        width: '42px',
-                        height: '42px',
-                        borderRadius: '10px',
-                        background: '#ecfdf5',
-                        color: '#047857',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
-                        <IconComp size={20} />
-                      </div>
-                      <span style={{
-                        fontSize: '0.72rem',
-                        fontWeight: 700,
-                        color: '#047857',
-                        background: '#ecfdf5',
-                        padding: '3px 10px',
-                        borderRadius: '999px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em'
-                      }}>
-                        {ch.badge}
-                      </span>
-                    </div>
+            {outreachChannels.map((ch, idx) => (
+              <div key={idx} style={{
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
+                borderRadius: '14px',
+                overflow: 'hidden',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                {/* Photo Top */}
+                <div style={{ position: 'relative', height: '160px', overflow: 'hidden' }}>
+                  <img 
+                    src={ch.image} 
+                    alt={ch.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    padding: '3px 8px',
+                    borderRadius: '6px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#047857',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }}>
+                    {ch.stat}
+                  </div>
+                </div>
 
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.65rem' }}>
+                {/* Content */}
+                <div style={{ padding: '1.2rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+                  <div>
+                    <span style={{
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                      color: '#047857',
+                      background: '#ecfdf5',
+                      padding: '2px 8px',
+                      borderRadius: '999px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.03em',
+                      display: 'inline-block',
+                      marginBottom: '0.5rem'
+                    }}>
+                      {ch.badge}
+                    </span>
+
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
                       {ch.title}
                     </h3>
 
-                    <p style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.65, margin: 0 }}>
+                    <p style={{ fontSize: '0.84rem', color: '#475569', lineHeight: 1.5, margin: 0 }}>
                       {ch.desc}
                     </p>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
 
         </div>
       </section>
 
-      {/* 4. PATTERN SECTION: YOUTH ECO-CLUB MOVEMENT WITH PHOTO */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 4. YOUTH ECO-CLUB MOVEMENT WITH PHOTO */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3.5rem',
+            gap: '3rem',
             alignItems: 'center'
           }}>
             
@@ -345,17 +388,17 @@ const ActivityCommunity = () => {
               <div style={{
                 borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
+                boxShadow: '0 10px 25px -6px rgba(0, 0, 0, 0.1)',
                 border: '1px solid #e2e8f0',
                 background: '#ffffff'
               }}>
                 <img 
                   src={godavariYouthEcoImg} 
                   alt="Students and youth volunteers in eco-club shirts with conservation placards along River Godavari" 
-                  style={{ width: '100%', height: '420px', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '360px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
-                  padding: '0.85rem 1.25rem',
+                  padding: '0.75rem 1.15rem',
                   background: '#f8fafc',
                   borderTop: '1px solid #e2e8f0',
                   display: 'flex',
@@ -365,21 +408,20 @@ const ActivityCommunity = () => {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
-                      Godavari Eco-Club Student Ambassadors on River Promenade
+                    <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1e293b' }}>
+                      Godavari Eco-Club Student Ambassadors
                     </span>
                   </div>
                   <span style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontWeight: 700,
                     color: '#047857',
                     background: '#ecfdf5',
-                    padding: '3px 10px',
+                    padding: '3px 9px',
                     borderRadius: '999px',
                     border: '1px solid #a7f3d0',
                     letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    whiteSpace: 'nowrap'
+                    textTransform: 'uppercase'
                   }}>
                     25+ Schools
                   </span>
@@ -387,29 +429,44 @@ const ActivityCommunity = () => {
               </div>
             </div>
 
-            {/* Right: School & Youth Curriculum */}
+            {/* Right: School & Youth Curriculum (Short Bullet Cards) */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-                <Award size={15} />
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+                <Award size={14} />
                 <span>Next Generation Champions</span>
               </div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 1rem', lineHeight: 1.25 }}>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.95rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.6rem', lineHeight: 1.25 }}>
                 Building Lifelong River Stewards in Schools
               </h2>
-              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.7, margin: '0 0 1.5rem' }}>
-                Our student eco-clubs are not passive classroom lectures. Students participate in hands-on science: testing river dissolved oxygen, leading weekend cleanup squads, and taking pledges back to their families.
+              <p style={{ color: '#475569', fontSize: '0.92rem', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
+                Our student eco-clubs engage youth directly in field ecology, practical river monitoring, and community outreach.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 {[
-                  'Hands-on field excursions where students test river water samples directly at local ghats',
-                  'Distribution of native sapling kits for students to plant at school premises and riverbanks',
-                  'Official Godavari Eco-Ambassador Certificates recognizing active volunteer leadership hours',
-                  'Inter-school debates, street-art poster showcases, and regional environmental quizzes'
+                  { title: 'Field Water Testing Excursions', desc: 'Students collect river samples and test dissolved oxygen right at local ghats.' },
+                  { title: 'Native Sapling Distribution', desc: 'Supplying indigenous neem and kanuga saplings for campus and bund planting.' },
+                  { title: 'Eco-Ambassador Certificates', desc: 'Recognizing student volunteer leadership with accredited environmental badges.' },
+                  { title: 'Inter-School Debates & Street Art', desc: 'Annual regional creative showcases, eco-quizzes, and public conservation rallies.' }
                 ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                    <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '3px' }} />
-                    <span style={{ fontSize: '0.94rem', color: '#334155', lineHeight: 1.6 }}>{item}</span>
+                  <div key={idx} style={{
+                    display: 'flex',
+                    gap: '0.85rem',
+                    alignItems: 'flex-start',
+                    background: '#f8fafc',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
+                    border: '1px solid #e2e8f0'
+                  }}>
+                    <CheckCircle2 size={16} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <div>
+                      <h4 style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.15rem' }}>
+                        {item.title}
+                      </h4>
+                      <p style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.45, margin: 0 }}>
+                        {item.desc}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -420,78 +477,163 @@ const ActivityCommunity = () => {
         </div>
       </section>
 
-      {/* 5. PATTERN SECTION: AMBASSADOR CADRE ROLES */}
-      <section style={{ padding: '4rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+      {/* 5. COMMUNITY AMBASSADOR CADRES (WITH PHOTOS & LESS TEXT) */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-              <Smile size={15} />
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.4rem' }}>
+              <Smile size={14} />
               <span>Roles for Every Passion</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 1.95rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.4rem' }}>
               Community Ambassador Leadership Cadres
             </h2>
-            <p style={{ color: '#64748b', fontSize: '0.98rem', margin: 0 }}>
-              Whatever your background or skillset, there is a meaningful way for you to lead change along River Godavari.
+            <p style={{ color: '#64748b', fontSize: '0.92rem', margin: 0 }}>
+              Lead positive environmental change along River Godavari across diverse volunteer roles.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1.5rem'
+            gap: '1.25rem'
           }}>
             {ambassadorRoles.map((role, idx) => (
               <div key={idx} style={{
                 background: '#ffffff',
                 border: '1px solid #e2e8f0',
                 borderRadius: '14px',
-                padding: '1.75rem',
+                overflow: 'hidden',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
               }}>
-                <div style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  color: '#047857',
-                  background: '#ecfdf5',
-                  padding: '4px 12px',
-                  borderRadius: '999px',
-                  display: 'inline-block',
-                  marginBottom: '1rem',
-                  border: '1px solid #a7f3d0'
-                }}>
-                  {role.commitment}
+                <div style={{ height: '160px', overflow: 'hidden' }}>
+                  <img 
+                    src={role.image} 
+                    alt={role.role}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
                 </div>
-                <h4 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.5rem' }}>
-                  {role.role}
-                </h4>
-                <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-                  {role.duties}
-                </p>
+                <div style={{ padding: '1.2rem' }}>
+                  <div style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#047857',
+                    background: '#ecfdf5',
+                    padding: '3px 10px',
+                    borderRadius: '999px',
+                    display: 'inline-block',
+                    marginBottom: '0.5rem',
+                    border: '1px solid #a7f3d0'
+                  }}>
+                    {role.commitment}
+                  </div>
+                  <h4 style={{ fontSize: '1.02rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.35rem' }}>
+                    {role.role}
+                  </h4>
+                  <p style={{ fontSize: '0.84rem', color: '#64748b', lineHeight: 1.5, margin: 0 }}>
+                    {role.duties}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* School & Community Enrollment Box */}
+        </div>
+      </section>
+
+      {/* 6. CONSERVATION FIELD GALLERY STRIP */}
+      <section style={{ padding: '3.5rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.35rem' }}>
+                <Sparkles size={14} />
+                <span>Field Documentation</span>
+              </div>
+              <h2 style={{ fontSize: 'clamp(1.4rem, 2vw, 1.85rem)', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                Community Outreach In Action
+              </h2>
+            </div>
+            <span style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: 600 }}>
+              Live Citizen Records • Rajahmundry
+            </span>
+          </div>
+
           <div style={{
-            marginTop: '3rem',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.25rem'
+          }}>
+            {galleryHighlights.map((item, idx) => (
+              <div key={idx} style={{
+                borderRadius: '14px',
+                overflow: 'hidden',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.04)'
+              }}>
+                <div style={{ height: '200px', overflow: 'hidden' }}>
+                  <img 
+                    src={item.image} 
+                    alt={item.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                </div>
+                <div style={{ padding: '1rem 1.15rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
+                    <h4 style={{ fontSize: '0.98rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                      {item.title}
+                    </h4>
+                    <span style={{
+                      fontSize: '0.68rem',
+                      fontWeight: 700,
+                      color: '#047857',
+                      background: '#ecfdf5',
+                      padding: '2px 8px',
+                      borderRadius: '999px',
+                      border: '1px solid #a7f3d0'
+                    }}>
+                      {item.badge}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b', margin: 0 }}>
+                    {item.subtitle}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7. ENROLLMENT CALLOUT BOX */}
+      <section style={{ padding: '3rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <div style={{
             background: '#ffffff',
             border: '1px solid #e2e8f0',
             borderRadius: '16px',
-            padding: '2.5rem',
+            padding: '2rem 2.25rem',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: '1.5rem'
+            gap: '1.5rem',
+            boxShadow: '0 4px 15px -4px rgba(0,0,0,0.05)'
           }}>
-            <div style={{ maxWidth: '650px' }}>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+            <div style={{ maxWidth: '640px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#059669', fontSize: '0.76rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.35rem' }}>
+                <ShieldCheck size={14} />
+                <span>Institutional Collaboration</span>
+              </div>
+              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.35rem' }}>
                 Enroll Your School, College, or Business
               </h3>
-              <p style={{ color: '#475569', fontSize: '0.94rem', lineHeight: 1.6, margin: 0 }}>
-                Schedule a customized campus workshop, invite our street theatre troupe, or receive official cloth carrier bags for your retail store.
+              <p style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.55, margin: 0 }}>
+                Schedule a campus workshop, invite our street theatre troupe, or receive certified cloth carrier bags for your retail store.
               </p>
             </div>
             <Link
@@ -502,24 +644,24 @@ const ActivityCommunity = () => {
                 gap: '8px',
                 background: '#059669',
                 color: '#ffffff',
-                padding: '12px 26px',
+                padding: '11px 22px',
                 borderRadius: '8px',
                 fontWeight: 700,
-                fontSize: '0.94rem',
+                fontSize: '0.9rem',
                 textDecoration: 'none',
-                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)'
+                boxShadow: '0 4px 12px rgba(5, 150, 105, 0.25)',
+                whiteSpace: 'nowrap'
               }}
             >
               <span>Partner With Our Community</span>
               <ArrowRight size={15} />
             </Link>
           </div>
-
         </div>
       </section>
 
-      {/* 6. BOTTOM NAVIGATION BAR */}
-      <section style={{ padding: '2.5rem 1.5rem', background: '#ffffff' }}>
+      {/* 8. PREVIOUS / NEXT NAVIGATION */}
+      <section style={{ padding: '2rem 1.5rem', background: '#ffffff' }}>
         <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
           <Link
             to="/activities/conservation"
