@@ -31,7 +31,8 @@ import {
   Building2, 
   ChevronRight,
   X,
-  Camera
+  Camera,
+  ArrowLeft
 } from 'lucide-react';
 
 const newsArticles = [
@@ -208,6 +209,400 @@ const AnnouncementsNews = () => {
                           item.summary.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCat && matchesSearch;
   });
+
+  if (selectedArticle) {
+    const related = newsArticles.filter(a => a.id !== selectedArticle.id).slice(0, 3);
+
+    return (
+      <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
+        {/* Full-Page Article Navigation Bar */}
+        <div style={{
+          background: '#f8fafc',
+          borderBottom: '1px solid #e2e8f0',
+          padding: '1rem 1.5rem',
+          position: 'sticky',
+          top: 0,
+          zIndex: 40,
+          backdropFilter: 'blur(8px)',
+          backgroundColor: 'rgba(248, 250, 252, 0.95)'
+        }}>
+          <div style={{ maxWidth: '960px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => {
+                setSelectedArticle(null);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: '#ffffff',
+                border: '1px solid #cbd5e1',
+                padding: '0.55rem 1.2rem',
+                borderRadius: '8px',
+                color: '#0f172a',
+                fontSize: '0.88rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <ArrowLeft size={16} color="#059669" />
+              <span>Back to All News</span>
+            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: '#64748b' }}>
+              <Link to="/" style={{ color: '#64748b', textDecoration: 'none' }}>Home</Link>
+              <span>/</span>
+              <Link to="/announcements" style={{ color: '#64748b', textDecoration: 'none' }}>Announcements</Link>
+              <span>/</span>
+              <button
+                onClick={() => {
+                  setSelectedArticle(null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                style={{ background: 'none', border: 'none', padding: 0, color: '#64748b', textDecoration: 'none', cursor: 'pointer', font: 'inherit' }}
+              >
+                Latest News
+              </button>
+              <span>/</span>
+              <span style={{ color: '#059669', fontWeight: 600 }}>Article Detail</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Full Article Content Container */}
+        <article style={{ maxWidth: '960px', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
+          {/* Header Metadata */}
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+              <span style={{
+                background: '#ecfdf5',
+                color: '#047857',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '9999px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                border: '1px solid #a7f3d0'
+              }}>
+                {selectedArticle.category}
+              </span>
+              <span style={{
+                background: '#f1f5f9',
+                color: '#475569',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '9999px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}>
+                <CheckCircle2 size={13} color="#059669" />
+                <span>Verified Field Report</span>
+              </span>
+            </div>
+
+            <h1 style={{
+              fontSize: 'clamp(2rem, 3.8vw, 2.85rem)',
+              fontWeight: 800,
+              color: '#0f172a',
+              lineHeight: 1.25,
+              margin: '0 0 1.25rem',
+              letterSpacing: '-0.025em'
+            }}>
+              {selectedArticle.title}
+            </h1>
+
+            <p style={{
+              fontSize: '1.15rem',
+              color: '#475569',
+              lineHeight: 1.65,
+              margin: '0 0 1.5rem',
+              fontWeight: 500
+            }}>
+              {selectedArticle.summary}
+            </p>
+
+            {/* Author & Date Bar */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
+              borderTop: '1px solid #f1f5f9',
+              borderBottom: '1px solid #f1f5f9',
+              padding: '1rem 0',
+              color: '#64748b',
+              fontSize: '0.88rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+                <span style={{ color: '#0f172a', fontWeight: 700 }}>
+                  By: {selectedArticle.author}
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <Calendar size={14} color="#059669" />
+                  <span>{selectedArticle.date}</span>
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <Clock size={14} color="#059669" />
+                  <span>{selectedArticle.readTime}</span>
+                </span>
+              </div>
+
+              <span style={{
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                color: '#059669',
+                background: '#ecfdf5',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                border: '1px solid #a7f3d0'
+              }}>
+                OFFICIAL REPORT
+              </span>
+            </div>
+          </div>
+
+          {/* Featured Large Hero Image */}
+          <div style={{
+            position: 'relative',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 12px 32px -6px rgba(0,0,0,0.12)',
+            marginBottom: '2.5rem',
+            border: '1px solid #e2e8f0',
+            background: '#f8fafc'
+          }}>
+            <img
+              src={selectedArticle.image}
+              alt={selectedArticle.title}
+              style={{
+                width: '100%',
+                maxHeight: '520px',
+                objectFit: 'cover',
+                display: 'block'
+              }}
+            />
+            <div style={{
+              padding: '0.85rem 1.25rem',
+              background: '#f8fafc',
+              borderTop: '1px solid #f1f5f9',
+              fontSize: '0.82rem',
+              color: '#64748b',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <Camera size={14} color="#059669" />
+              <span>Official documentary capture recorded during field operations along River Godavari</span>
+            </div>
+          </div>
+
+          {/* Executive Summary Box */}
+          <div style={{
+            background: '#ecfdf5',
+            border: '1px solid #a7f3d0',
+            borderRadius: '14px',
+            padding: '1.75rem',
+            marginBottom: '2.5rem'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '0.88rem',
+              fontWeight: 800,
+              color: '#047857',
+              marginBottom: '1rem',
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase'
+            }}>
+              <Sparkles size={16} />
+              <span>Executive Summary &amp; Key Takeaways</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {selectedArticle.highlights.map((h, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                  <CheckCircle2 size={16} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <span style={{ fontSize: '0.94rem', color: '#166534', lineHeight: 1.55, fontWeight: 500 }}>
+                    {h}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Full Article Content */}
+          <div style={{
+            fontSize: '1.05rem',
+            lineHeight: 1.85,
+            color: '#334155',
+            marginBottom: '3rem'
+          }}>
+            {selectedArticle.fullContent.split('\n\n').map((para, pIdx) => (
+              <p key={pIdx} style={{ margin: '0 0 1.5rem', textAlign: 'justify' }}>
+                {para}
+              </p>
+            ))}
+          </div>
+
+          {/* Official Sign-Off Bureau Block */}
+          <div style={{
+            background: '#f8fafc',
+            border: '1px solid #e2e8f0',
+            borderRadius: '12px',
+            padding: '1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            marginBottom: '3.5rem'
+          }}>
+            <div>
+              <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0f172a' }}>
+                Issued by Press &amp; Media Bureau
+              </div>
+              <div style={{ fontSize: '0.82rem', color: '#64748b', marginTop: '2px' }}>
+                Godavari Nadhi Paryavarana Parishubratha • Rajahmundry, Andhra Pradesh
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setSelectedArticle(null);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: '#059669',
+                color: '#ffffff',
+                padding: '0.6rem 1.25rem',
+                borderRadius: '8px',
+                fontSize: '0.86rem',
+                fontWeight: 700,
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <ArrowLeft size={14} />
+              <span>Back to All News</span>
+            </button>
+          </div>
+
+          {/* Related Stories Section */}
+          <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '3rem', marginBottom: '3rem' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', margin: '0 0 1.5rem' }}>
+              More Ground Stories &amp; Updates
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+              {related.map((rel) => (
+                <div
+                  key={rel.id}
+                  onClick={() => {
+                    setSelectedArticle(rel);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  style={{
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '14px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                  }}
+                >
+                  <div style={{ height: '170px', overflow: 'hidden' }}>
+                    <img
+                      src={rel.image}
+                      alt={rel.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#059669', marginBottom: '0.35rem', textTransform: 'uppercase' }}>
+                      {rel.category}
+                    </div>
+                    <h4 style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
+                      {rel.title}
+                    </h4>
+                    <p style={{ fontSize: '0.84rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 1rem', flex: 1 }}>
+                      {rel.summary}
+                    </p>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#059669', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span>Read Story</span>
+                      <ArrowRight size={13} />
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA Banner */}
+          <div style={{
+            background: '#064e3b',
+            color: '#ffffff',
+            borderRadius: '16px',
+            padding: '3rem 2rem',
+            textAlign: 'center'
+          }}>
+            <h3 style={{ fontSize: '1.75rem', fontWeight: 800, margin: '0 0 0.75rem' }}>
+              Want to Join Our Next Ground Initiative?
+            </h3>
+            <p style={{ fontSize: '0.96rem', color: '#ecfdf5', margin: '0 0 1.5rem', opacity: 0.9 }}>
+              Be part of the community restoring River Godavari through weekend drives and youth campaigns.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+              <Link
+                to="/register"
+                style={{
+                  background: '#ffffff',
+                  color: '#064e3b',
+                  padding: '0.75rem 1.75rem',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  fontSize: '0.92rem',
+                  textDecoration: 'none'
+                }}
+              >
+                Register as Volunteer
+              </Link>
+              <button
+                onClick={() => {
+                  setSelectedArticle(null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                style={{
+                  background: 'transparent',
+                  color: '#ffffff',
+                  border: '1px solid rgba(255,255,255,0.4)',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '8px',
+                  fontWeight: 600,
+                  fontSize: '0.92rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Back to News Hub
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
@@ -572,7 +967,13 @@ const AnnouncementsNews = () => {
               >
                 <div>
                   {/* Article Photo Header */}
-                  <div style={{ position: 'relative', height: '175px', overflow: 'hidden' }}>
+                  <div 
+                    onClick={() => {
+                      setSelectedArticle(article);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    style={{ position: 'relative', height: '175px', overflow: 'hidden', cursor: 'pointer' }}
+                  >
                     <img 
                       src={article.image} 
                       alt={article.title}
@@ -623,13 +1024,20 @@ const AnnouncementsNews = () => {
                       <span style={{ color: '#64748b' }}>{article.readTime}</span>
                     </div>
 
-                    <h3 style={{
-                      fontSize: '1.08rem',
-                      fontWeight: 800,
-                      color: '#0f172a',
-                      lineHeight: 1.35,
-                      margin: '0 0 0.5rem'
-                    }}>
+                    <h3 
+                      onClick={() => {
+                        setSelectedArticle(article);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      style={{
+                        fontSize: '1.08rem',
+                        fontWeight: 800,
+                        color: '#0f172a',
+                        lineHeight: 1.35,
+                        margin: '0 0 0.5rem',
+                        cursor: 'pointer'
+                      }}
+                    >
                       {article.title}
                     </h3>
 
@@ -662,7 +1070,10 @@ const AnnouncementsNews = () => {
                 {/* Read Full Story Button */}
                 <div style={{ padding: '0 1.25rem 1.15rem' }}>
                   <button
-                    onClick={() => setSelectedArticle(article)}
+                    onClick={() => {
+                      setSelectedArticle(article);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                     style={{
                       width: '100%',
                       padding: '0.6rem 1rem',
@@ -986,168 +1397,6 @@ const AnnouncementsNews = () => {
           </div>
         </div>
       </section>
-
-      {/* 7. MODAL DIALOG FOR FULL ARTICLE */}
-      {selectedArticle && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(15, 23, 42, 0.65)',
-          backdropFilter: 'blur(4px)',
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '1.5rem'
-        }}>
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '16px',
-            maxWidth: '680px',
-            width: '100%',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            padding: '2rem',
-            position: 'relative',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.2)'
-          }}>
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedArticle(null)}
-              style={{
-                position: 'absolute',
-                top: '1.25rem',
-                right: '1.25rem',
-                background: '#f1f5f9',
-                border: 'none',
-                borderRadius: '9999px',
-                width: '32px',
-                height: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                color: '#475569'
-              }}
-            >
-              <X size={18} />
-            </button>
-
-            {/* Modal Image */}
-            <div style={{
-              borderRadius: '12px',
-              overflow: 'hidden',
-              height: '240px',
-              marginBottom: '1.25rem'
-            }}>
-              <img 
-                src={selectedArticle.image} 
-                alt={selectedArticle.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-            </div>
-
-            {/* Modal Content */}
-            <div style={{
-              display: 'inline-block',
-              background: '#ecfdf5',
-              color: '#059669',
-              padding: '0.25rem 0.65rem',
-              borderRadius: '6px',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              marginBottom: '0.75rem',
-              border: '1px solid #a7f3d0'
-            }}>
-              {selectedArticle.category}
-            </div>
-
-            <h2 style={{
-              fontSize: '1.4rem',
-              fontWeight: 800,
-              color: '#0f172a',
-              lineHeight: 1.3,
-              marginBottom: '0.75rem'
-            }}>
-              {selectedArticle.title}
-            </h2>
-
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.85rem',
-              fontSize: '0.8125rem',
-              color: '#64748b',
-              marginBottom: '1.25rem',
-              borderBottom: '1px solid #f1f5f9',
-              paddingBottom: '0.85rem'
-            }}>
-              <span><strong>By:</strong> {selectedArticle.author}</span>
-              <span>•</span>
-              <span>{selectedArticle.date}</span>
-              <span>•</span>
-              <span>{selectedArticle.readTime}</span>
-            </div>
-
-            {/* Highlighted bullets in modal */}
-            <div style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '10px',
-              padding: '1rem',
-              marginBottom: '1.25rem'
-            }}>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#047857', marginBottom: '0.5rem' }}>
-                EXECUTIVE SUMMARY &amp; KEY TAKEAWAYS:
-              </div>
-              <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.84rem', color: '#334155', lineHeight: 1.6 }}>
-                {selectedArticle.highlights.map((h, i) => (
-                  <li key={i}>{h}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Full text with paragraph separation */}
-            <div style={{
-              fontSize: '0.9rem',
-              color: '#334155',
-              lineHeight: 1.7,
-              whiteSpace: 'pre-line',
-              marginBottom: '1.5rem'
-            }}>
-              {selectedArticle.fullContent}
-            </div>
-
-            {/* Modal Footer */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: '0.75rem',
-              borderTop: '1px solid #f1f5f9',
-              paddingTop: '1rem'
-            }}>
-              <button
-                onClick={() => setSelectedArticle(null)}
-                style={{
-                  padding: '0.6rem 1.25rem',
-                  background: '#059669',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  fontSize: '0.875rem',
-                  cursor: 'pointer'
-                }}
-              >
-                Close Article
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );

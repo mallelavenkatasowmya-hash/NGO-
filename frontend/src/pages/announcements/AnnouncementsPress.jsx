@@ -15,6 +15,7 @@ import {
   Download, 
   Calendar, 
   ArrowRight, 
+  ArrowLeft, 
   CheckCircle2, 
   Building2, 
   Mail, 
@@ -181,6 +182,376 @@ const AnnouncementsPress = () => {
     setDownloadSuccess(`Media asset "${kitTitle}" prepared for download.`);
     setTimeout(() => setDownloadSuccess(null), 3500);
   };
+
+  if (selectedRelease) {
+    const relatedReleases = pressReleases.filter(r => r.ref !== selectedRelease.ref).slice(0, 3);
+
+    return (
+      <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
+        {/* Full-Page Press Release Navigation Bar */}
+        <div style={{
+          background: '#f8fafc',
+          borderBottom: '1px solid #e2e8f0',
+          padding: '1rem 1.5rem',
+          position: 'sticky',
+          top: 0,
+          zIndex: 40,
+          backdropFilter: 'blur(8px)',
+          backgroundColor: 'rgba(248, 250, 252, 0.95)'
+        }}>
+          <div style={{ maxWidth: '960px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => {
+                setSelectedRelease(null);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: '#ffffff',
+                border: '1px solid #cbd5e1',
+                padding: '0.55rem 1.2rem',
+                borderRadius: '8px',
+                color: '#0f172a',
+                fontSize: '0.88rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <ArrowLeft size={16} color="#059669" />
+              <span>Back to All Press Releases</span>
+            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: '#64748b' }}>
+              <Link to="/" style={{ color: '#64748b', textDecoration: 'none' }}>Home</Link>
+              <span>/</span>
+              <Link to="/announcements" style={{ color: '#64748b', textDecoration: 'none' }}>Announcements</Link>
+              <span>/</span>
+              <button
+                onClick={() => {
+                  setSelectedRelease(null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                style={{ background: 'none', border: 'none', padding: 0, color: '#64748b', textDecoration: 'none', cursor: 'pointer', font: 'inherit' }}
+              >
+                Press Communiqués
+              </button>
+              <span>/</span>
+              <span style={{ color: '#059669', fontWeight: 600 }}>{selectedRelease.ref}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Full Communiqué Document Container */}
+        <article style={{ maxWidth: '960px', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
+          {/* Header Metadata */}
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+              <span style={{
+                background: '#0f172a',
+                color: '#ffffff',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '6px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.04em'
+              }}>
+                {selectedRelease.ref}
+              </span>
+              <span style={{
+                background: '#ecfdf5',
+                color: '#047857',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '6px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                border: '1px solid #a7f3d0'
+              }}>
+                {selectedRelease.status}
+              </span>
+              <span style={{
+                background: '#f1f5f9',
+                color: '#475569',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '6px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}>
+                <Calendar size={13} />
+                {selectedRelease.date}
+              </span>
+              <span style={{
+                background: '#f8fafc',
+                color: '#059669',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '6px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                border: '1px solid #e2e8f0'
+              }}>
+                {selectedRelease.category}
+              </span>
+            </div>
+
+            <h1 style={{
+              fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
+              fontWeight: 800,
+              color: '#0f172a',
+              lineHeight: 1.25,
+              marginBottom: '1.25rem'
+            }}>
+              {selectedRelease.title}
+            </h1>
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
+              padding: '1rem 1.25rem',
+              background: '#f8fafc',
+              borderRadius: '10px',
+              border: '1px solid #e2e8f0',
+              fontSize: '0.86rem',
+              color: '#475569'
+            }}>
+              <div>
+                <strong>Authorized Signatory:</strong> {selectedRelease.signatory}
+              </div>
+              <button
+                onClick={() => handleDownload(selectedRelease.ref)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: '#059669',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '0.45rem 1rem',
+                  borderRadius: '6px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  cursor: 'pointer'
+                }}
+              >
+                <Download size={14} />
+                <span>Download Official Statement PDF</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Hero Feature Image (if available) */}
+          {selectedRelease.image && (
+            <div style={{
+              borderRadius: '16px',
+              overflow: 'hidden',
+              marginBottom: '2.5rem',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
+              border: '1px solid #e2e8f0'
+            }}>
+              <img
+                src={selectedRelease.image}
+                alt={selectedRelease.title}
+                style={{ width: '100%', maxHeight: '480px', objectFit: 'cover', display: 'block' }}
+              />
+              <div style={{
+                padding: '0.75rem 1.25rem',
+                background: '#f8fafc',
+                borderTop: '1px solid #e2e8f0',
+                fontSize: '0.8rem',
+                color: '#64748b',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <span>Official Communiqué Record • Godavari Conservation Directorate</span>
+                <span style={{ fontWeight: 600, color: '#059669' }}>Verified Archival Release</span>
+              </div>
+            </div>
+          )}
+
+          {/* Key Deliverables & Executive Summary Box */}
+          <div style={{
+            background: 'linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%)',
+            border: '1px solid #a7f3d0',
+            borderRadius: '14px',
+            padding: '1.75rem',
+            marginBottom: '2.5rem'
+          }}>
+            <div style={{
+              fontSize: '0.84rem',
+              fontWeight: 800,
+              color: '#065f46',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              marginBottom: '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}>
+              <CheckCircle2 size={16} color="#059669" />
+              <span>Official Key Takeaways &amp; Action Items</span>
+            </div>
+            <ul style={{ margin: 0, paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              {selectedRelease.deliverables.map((item, idx) => (
+                <li key={idx} style={{ fontSize: '0.94rem', color: '#1e293b', lineHeight: 1.6, fontWeight: 500 }}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Official Communique Body Text */}
+          <div style={{
+            fontSize: '1.02rem',
+            lineHeight: 1.85,
+            color: '#334155',
+            marginBottom: '3rem',
+            background: '#ffffff',
+            padding: '2.5rem',
+            borderRadius: '14px',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+            whiteSpace: 'pre-line'
+          }}>
+            {selectedRelease.statement}
+          </div>
+
+          {/* Sign-off & Verification Seal */}
+          <div style={{
+            background: '#f8fafc',
+            border: '1px solid #e2e8f0',
+            borderRadius: '14px',
+            padding: '1.75rem',
+            marginBottom: '3.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1.5rem',
+            flexWrap: 'wrap'
+          }}>
+            <div>
+              <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: '#64748b', fontWeight: 700, letterSpacing: '0.04em', marginBottom: '0.35rem' }}>
+                Issued by Office of Communications
+              </div>
+              <div style={{ fontSize: '0.98rem', fontWeight: 700, color: '#0f172a' }}>
+                Godavari Nadhi Paryavarana Parishubratha
+              </div>
+              <div style={{ fontSize: '0.84rem', color: '#64748b', marginTop: '0.2rem' }}>
+                Rajahmundry Central Secretariat • Ref: {selectedRelease.ref}
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => {
+                  setSelectedRelease(null);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  color: '#0f172a',
+                  padding: '0.65rem 1.25rem',
+                  borderRadius: '8px',
+                  fontWeight: 600,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer'
+                }}
+              >
+                ← Back to Press Archive
+              </button>
+              <button
+                onClick={() => handleDownload(selectedRelease.ref)}
+                style={{
+                  background: '#059669',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '0.65rem 1.25rem',
+                  borderRadius: '8px',
+                  fontWeight: 600,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <Download size={15} />
+                <span>Download Communiqué PDF</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Related Communiqués Section */}
+          <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '3rem', marginBottom: '3rem' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', margin: '0 0 1.5rem' }}>
+              More Official Communiqués &amp; Statements
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+              {relatedReleases.map((rel) => (
+                <div
+                  key={rel.ref}
+                  onClick={() => {
+                    setSelectedRelease(rel);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  style={{
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '14px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                  }}
+                >
+                  {rel.image && (
+                    <div style={{ height: '160px', overflow: 'hidden' }}>
+                      <img
+                        src={rel.image}
+                        alt={rel.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </div>
+                  )}
+                  <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0.5rem' }}>
+                      <span style={{ background: '#0f172a', color: '#ffffff', fontSize: '0.7rem', fontWeight: 700, padding: '2px 6px', borderRadius: '4px' }}>
+                        {rel.ref}
+                      </span>
+                      <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#059669' }}>
+                        {rel.status}
+                      </span>
+                    </div>
+                    <h4 style={{ fontSize: '0.98rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
+                      {rel.title}
+                    </h4>
+                    <p style={{ fontSize: '0.84rem', color: '#64748b', lineHeight: 1.5, margin: '0 0 1rem', flex: 1 }}>
+                      {rel.summary}
+                    </p>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#059669', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span>Read Statement</span>
+                      <ArrowRight size={13} />
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
@@ -557,7 +928,13 @@ const AnnouncementsPress = () => {
                 }}
               >
                 {/* Photo Column */}
-                <div style={{ position: 'relative', minHeight: '220px', background: '#f1f5f9' }}>
+                <div 
+                  onClick={() => {
+                    setSelectedRelease(release);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  style={{ position: 'relative', minHeight: '220px', background: '#f1f5f9', cursor: 'pointer' }}
+                >
                   <img
                     src={release.image}
                     alt={release.title}
@@ -641,13 +1018,20 @@ const AnnouncementsPress = () => {
                     </div>
 
                     {/* Release Title */}
-                    <h3 style={{
-                      fontSize: '1.125rem',
-                      fontWeight: 700,
-                      color: '#0f172a',
-                      lineHeight: 1.4,
-                      margin: '0 0 0.5rem'
-                    }}>
+                    <h3 
+                      onClick={() => {
+                        setSelectedRelease(release);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      style={{
+                        fontSize: '1.125rem',
+                        fontWeight: 700,
+                        color: '#0f172a',
+                        lineHeight: 1.4,
+                        margin: '0 0 0.5rem',
+                        cursor: 'pointer'
+                      }}
+                    >
                       {release.title}
                     </h3>
 
@@ -686,7 +1070,10 @@ const AnnouncementsPress = () => {
                     gap: '0.65rem'
                   }}>
                     <button
-                      onClick={() => setSelectedRelease(release)}
+                      onClick={() => {
+                        setSelectedRelease(release);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
                       style={{
                         padding: '0.55rem 1.15rem',
                         background: '#059669',
@@ -957,191 +1344,6 @@ const AnnouncementsPress = () => {
           </div>
         </div>
       </section>
-
-      {/* 6. MODAL DIALOG FOR FULL PRESS RELEASE */}
-      {selectedRelease && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(15, 23, 42, 0.65)',
-          backdropFilter: 'blur(4px)',
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '1.5rem'
-        }}>
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '16px',
-            maxWidth: '720px',
-            width: '100%',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            padding: '2rem',
-            position: 'relative',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.2)'
-          }}>
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedRelease(null)}
-              style={{
-                position: 'absolute',
-                top: '1.25rem',
-                right: '1.25rem',
-                background: '#f1f5f9',
-                border: 'none',
-                borderRadius: '9999px',
-                width: '32px',
-                height: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                color: '#475569'
-              }}
-            >
-              <X size={18} />
-            </button>
-
-            {/* Official Communique Header */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '0.75rem'
-            }}>
-              <span style={{
-                background: '#0f172a',
-                color: '#ffffff',
-                padding: '0.25rem 0.65rem',
-                borderRadius: '4px',
-                fontSize: '0.75rem',
-                fontWeight: 700
-              }}>
-                {selectedRelease.ref}
-              </span>
-              <span style={{
-                background: '#ecfdf5',
-                color: '#059669',
-                padding: '0.25rem 0.65rem',
-                borderRadius: '4px',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                border: '1px solid #a7f3d0'
-              }}>
-                {selectedRelease.status}
-              </span>
-            </div>
-
-            <h2 style={{
-              fontSize: '1.5rem',
-              fontWeight: 800,
-              color: '#0f172a',
-              lineHeight: 1.3,
-              marginBottom: '0.75rem'
-            }}>
-              {selectedRelease.title}
-            </h2>
-
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.85rem',
-              fontSize: '0.8125rem',
-              color: '#64748b',
-              marginBottom: '1.5rem',
-              borderBottom: '1px solid #f1f5f9',
-              paddingBottom: '0.85rem'
-            }}>
-              <span><strong>Signatory:</strong> {selectedRelease.signatory}</span>
-              <span>•</span>
-              <span>{selectedRelease.date}</span>
-            </div>
-
-            {/* Official Highlights in modal */}
-            <div style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '10px',
-              padding: '1rem',
-              marginBottom: '1.5rem'
-            }}>
-              <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#047857', marginBottom: '0.5rem' }}>
-                EXECUTIVE KEY POINTS:
-              </div>
-              <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.875rem', color: '#334155', lineHeight: 1.6 }}>
-                {selectedRelease.deliverables.map((d, i) => (
-                  <li key={i}>{d}</li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Statement text with pre-line for official format */}
-            <div style={{
-              fontSize: '0.9375rem',
-              color: '#334155',
-              lineHeight: 1.7,
-              whiteSpace: 'pre-line',
-              marginBottom: '2rem',
-              background: '#ffffff',
-              padding: '1.25rem',
-              border: '1px solid #f1f5f9',
-              borderRadius: '8px'
-            }}>
-              {selectedRelease.statement}
-            </div>
-
-            {/* Modal Footer */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderTop: '1px solid #f1f5f9',
-              paddingTop: '1rem'
-            }}>
-              <button
-                onClick={() => handleDownload(selectedRelease.ref)}
-                style={{
-                  padding: '0.6rem 1.25rem',
-                  background: '#ffffff',
-                  color: '#059669',
-                  border: '1px solid #059669',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  fontSize: '0.875rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem'
-                }}
-              >
-                <Download size={14} />
-                Download Statement PDF
-              </button>
-
-              <button
-                onClick={() => setSelectedRelease(null)}
-                style={{
-                  padding: '0.6rem 1.25rem',
-                  background: '#059669',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  fontSize: '0.875rem',
-                  cursor: 'pointer'
-                }}
-              >
-                Close Statement
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );
