@@ -2,7 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
 import godavariMissionHeroImg from '../assets/godavari-mission-hero.jpg';
-import heroBannerImg from '../assets/hero-banner.jpg';
+import aboutWhoWeAreImg from '../assets/about-who-we-are.jpg';
+import aboutOurPurposeImg from '../assets/about-our-purpose.jpg';
+import aboutWorkCleanupImg from '../assets/about-work-cleanup.jpg';
+import aboutWorkAwarenessImg from '../assets/about-work-awareness.jpg';
+import aboutWorkPlantationImg from '../assets/about-work-plantation.jpg';
+import aboutPillarCleanlinessImg from '../assets/about-pillar-cleanliness.jpg';
+import aboutPillarAwarenessImg from '../assets/about-pillar-awareness.jpg';
+import aboutPillarCommunityImg from '../assets/about-pillar-community.jpg';
+import aboutPillarPracticesImg from '../assets/about-pillar-practices.jpg';
+import aboutPillarCollectiveImg from '../assets/about-pillar-collective.jpg';
+import aboutApproachImg from '../assets/about-approach.jpg';
+import aboutCommitmentImg from '../assets/about-commitment.jpg';
 import { 
   Users, 
   Target, 
@@ -21,38 +32,48 @@ import {
 const standForList = [
   {
     title: 'Environmental Cleanliness',
-    desc: 'Maintaining pristine surroundings and protecting our riverbanks, ghats, and natural ecosystems.',
+    desc: 'Protecting sacred riverbanks and maintaining clean, trash-free bathing ghat steps.',
+    image: aboutPillarCleanlinessImg,
     icon: Leaf,
     color: '#059669',
     bg: '#ecfdf5',
+    tag: 'River Purity'
   },
   {
     title: 'Public Awareness',
-    desc: 'Spreading knowledge on environmental responsibility and the critical importance of conservation.',
+    desc: 'Empowering students, pilgrims, and residents through hands-on water quality literacy.',
+    image: aboutPillarAwarenessImg,
     icon: Globe,
     color: '#0284c7',
     bg: '#f0f9ff',
+    tag: 'Education'
   },
   {
     title: 'Community Participation',
-    desc: 'Mobilizing citizens, youth, and local organizations to take active civic ownership of our environment.',
+    desc: 'Mobilizing citizens, youth groups, and local shopkeepers for shared civic action.',
+    image: aboutPillarCommunityImg,
     icon: Users,
     color: '#7c3aed',
     bg: '#faf5ff',
+    tag: 'Civic Pride'
   },
   {
-    title: 'Responsible Environmental Practices',
-    desc: 'Fostering sustainable everyday habits that eliminate plastic waste and prevent pollution.',
+    title: 'Responsible Practices',
+    desc: 'Transitioning to biodegradable leaf offerings and terracotta lamps across ghat temples.',
+    image: aboutPillarPracticesImg,
     icon: ShieldCheck,
     color: '#d97706',
     bg: '#fffbeb',
+    tag: 'Eco Traditions'
   },
   {
-    title: 'Collective Efforts for a Cleaner Society',
-    desc: 'Uniting volunteers, authorities, and pilgrims for lasting and meaningful social impact.',
+    title: 'Collective Society',
+    desc: 'Uniting grassroots volunteers with municipal teams for measurable river restoration.',
+    image: aboutPillarCollectiveImg,
     icon: HeartHandshake,
     color: '#0f766e',
     bg: '#f0fdfa',
+    tag: 'Teamwork'
   },
 ];
 
@@ -60,19 +81,19 @@ const photoHighlights = [
   {
     title: 'Community Cleanliness Drives',
     subtitle: 'Kotilingala & Pushkar Ghats',
-    image: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=1200&auto=format&fit=crop&q=85',
+    image: aboutWorkCleanupImg,
     tag: 'Field Action'
   },
   {
     title: 'Public Awareness & Youth Education',
     subtitle: 'Schools & Pilgrim Workshops',
-    image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&auto=format&fit=crop&q=85',
+    image: aboutWorkAwarenessImg,
     tag: 'Awareness'
   },
   {
     title: 'Riverbank Afforestation & Tree Plantation',
     subtitle: 'Godavari Bund Road Corridor',
-    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&auto=format&fit=crop&q=85',
+    image: aboutWorkPlantationImg,
     tag: 'Conservation'
   }
 ];
@@ -160,15 +181,9 @@ const AboutNGO = () => {
                 Collective Responsibility for a Cleaner Environment
               </h2>
               
-              <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.8, margin: '0 0 1.25rem' }}>
-                Our organization aims to encourage individuals and communities to understand the importance of 
-                environmental protection and cleanliness. We believe that maintaining a clean environment is a 
-                <strong style={{ color: '#0f172a' }}> collective responsibility</strong> that requires active participation from every individual.
-              </p>
-              
-              <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.8, margin: '0 0 1.75rem' }}>
-                Through cleanliness drives, public awareness initiatives and community activities, we seek to 
-                motivate people to participate in maintaining clean surroundings and protecting the natural environment.
+              <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.7, margin: '0 0 1.25rem' }}>
+                Maintaining a clean, unpolluted river ecosystem is a <strong style={{ color: '#0f172a' }}>collective civic responsibility</strong>. 
+                Through organized ghat sweeps, student eco-clubs, and public pledge drives, we empower citizens to actively protect Godavari.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -258,19 +273,19 @@ const AboutNGO = () => {
               display: 'flex',
               flexDirection: 'column'
             }}>
-              <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
+              <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&auto=format&fit=crop&q=85" 
-                  alt="Community Volunteers"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  src={aboutWhoWeAreImg} 
+                  alt="Community Volunteers in Rajahmundry"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
-                <div style={{ position: 'absolute', bottom: '12px', left: '16px', background: 'rgba(6, 78, 59, 0.85)', backdropFilter: 'blur(4px)', color: '#ffffff', padding: '4px 12px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                <div style={{ position: 'absolute', bottom: '12px', left: '16px', background: 'rgba(6, 78, 59, 0.9)', backdropFilter: 'blur(4px)', color: '#ffffff', padding: '4px 12px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   Community Stewardship
                 </div>
               </div>
               
-              <div style={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+              <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.75rem' }}>
                   <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: '#ecfdf5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Users size={20} />
                   </div>
@@ -279,15 +294,18 @@ const AboutNGO = () => {
                   </h3>
                 </div>
 
-                <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.75, margin: '0 0 1rem' }}>
-                  We are an organization committed to promoting environmental awareness and cleanliness among the public.
+                <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
+                  We are a grassroots civic movement dedicated to the environmental conservation and cleanliness of the sacred River Godavari.
                 </p>
 
-                <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.75, margin: 0 }}>
-                  We believe that community participation plays an important role in creating positive environmental changes. 
-                  Our focus is on encouraging people to come together, participate in cleanliness initiatives and develop 
-                  responsible environmental practices.
-                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: 'auto' }}>
+                  {['100% Volunteer-driven riverfront patrols', 'Daily plastic cleanup across bathing ghats', 'Citizen education and student eco-cadres'].map((t, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.84rem', color: '#334155', fontWeight: 500 }}>
+                      <CheckCircle2 size={15} style={{ color: '#059669', flexShrink: 0 }} />
+                      <span>{t}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -301,19 +319,19 @@ const AboutNGO = () => {
               display: 'flex',
               flexDirection: 'column'
             }}>
-              <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
+              <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=1200&auto=format&fit=crop&q=85" 
-                  alt="Ghat Cleanliness Action"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  src={aboutOurPurposeImg} 
+                  alt="Ghat Cleanliness Action and Orientation"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
-                <div style={{ position: 'absolute', bottom: '12px', left: '16px', background: 'rgba(2, 132, 199, 0.85)', backdropFilter: 'blur(4px)', color: '#ffffff', padding: '4px 12px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                <div style={{ position: 'absolute', bottom: '12px', left: '16px', background: 'rgba(2, 132, 199, 0.9)', backdropFilter: 'blur(4px)', color: '#ffffff', padding: '4px 12px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   Mission In Action
                 </div>
               </div>
 
-              <div style={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
+              <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.75rem' }}>
                   <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: '#eff6ff', color: '#0284c7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Target size={20} />
                   </div>
@@ -322,23 +340,22 @@ const AboutNGO = () => {
                   </h3>
                 </div>
 
-                <p style={{ color: '#475569', fontSize: '1rem', lineHeight: 1.8, margin: '0 0 1.5rem' }}>
-                  Our purpose is to promote cleanliness, create environmental awareness and encourage public participation 
-                  in activities that contribute to a healthier environment.
+                <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
+                  To preserve Godavari's ecological sanctity by eliminating floating plastics, fostering sustainable pilgrimage rituals, and inspiring civic ownership.
                 </p>
 
                 <div style={{
                   marginTop: 'auto',
                   background: '#f8fafc',
                   border: '1px solid #e2e8f0',
-                  borderRadius: '12px',
-                  padding: '1.1rem 1.25rem'
+                  borderRadius: '10px',
+                  padding: '0.85rem 1rem'
                 }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Key Focus Areas
                   </span>
-                  <p style={{ margin: '0.35rem 0 0', fontSize: '0.92rem', color: '#334155', lineHeight: 1.6 }}>
-                    Ghat cleanliness • Public awareness campaigns • Sustainable habits
+                  <p style={{ margin: '0.25rem 0 0', fontSize: '0.86rem', color: '#334155', fontWeight: 500, lineHeight: 1.4 }}>
+                    Ghat cleanliness • Drainage barrier nets • Nirmalya composting
                   </p>
                 </div>
               </div>
@@ -422,25 +439,25 @@ const AboutNGO = () => {
         </div>
       </section>
 
-      {/* 5. WHAT WE STAND FOR (5 PILLARS) */}
+      {/* 5. WHAT WE STAND FOR (5 PILLARS WITH CRISP IMAGES & LESS MATTER) */}
       <section id="principles" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
               GUIDING PRINCIPLES
             </span>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.5rem' }}>
               What We Stand For
             </h2>
-            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
-              Five foundational values that steer our organization's daily work and community engagements.
+            <p style={{ fontSize: '0.95rem', color: '#64748b', maxWidth: '580px', margin: '0 auto' }}>
+              Five foundational values that steer our daily riverfront restoration and volunteer programs.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
             gap: '1.5rem'
           }}>
             {standForList.map((item, idx) => {
@@ -452,32 +469,82 @@ const AboutNGO = () => {
                     background: '#ffffff',
                     border: '1px solid #e2e8f0',
                     borderRadius: '16px',
-                    padding: '2rem 1.75rem',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+                    overflow: 'hidden',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'flex-start'
+                    justifyContent: 'space-between',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                   }}
                 >
-                  <div style={{
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '12px',
-                    background: item.bg,
-                    color: item.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.25rem'
-                  }}>
-                    <Icon size={22} />
+                  <div>
+                    {/* Pillar Image Header */}
+                    <div style={{ position: 'relative', height: '145px', overflow: 'hidden' }}>
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block'
+                        }}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        top: '10px',
+                        left: '10px',
+                        background: 'rgba(255, 255, 255, 0.95)',
+                        color: item.color,
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                      }}>
+                        {item.tag}
+                      </div>
+                    </div>
+
+                    <div style={{ padding: '1.25rem 1.25rem 0.5rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
+                        <div style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '8px',
+                          background: item.bg,
+                          color: item.color,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0
+                        }}>
+                          <Icon size={16} />
+                        </div>
+                        <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>
+                          {item.title}
+                        </h4>
+                      </div>
+                      
+                      <p style={{ fontSize: '0.84rem', color: '#64748b', lineHeight: 1.5, margin: 0 }}>
+                        {item.desc}
+                      </p>
+                    </div>
                   </div>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.35 }}>
-                    {item.title}
-                  </h4>
-                  <p style={{ fontSize: '0.92rem', color: '#64748b', lineHeight: 1.65, margin: 0 }}>
-                    {item.desc}
-                  </p>
+
+                  <div style={{ padding: '0.75rem 1.25rem 1.15rem' }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      fontSize: '0.74rem',
+                      fontWeight: 600,
+                      color: item.color
+                    }}>
+                      <CheckCircle2 size={13} />
+                      Active Daily Standard
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -486,61 +553,132 @@ const AboutNGO = () => {
         </div>
       </section>
 
-      {/* 6. OUR APPROACH & OUR COMMITMENT */}
+      {/* 6. OUR APPROACH & OUR COMMITMENT WITH VISUALS */}
       <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff' }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
             
-            {/* Our Approach */}
+            {/* Our Approach Card with Photo Header */}
             <div style={{
               background: '#ffffff',
               border: '1px solid #e2e8f0',
               borderRadius: '16px',
-              padding: '2.5rem',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#ecfdf5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Compass size={22} />
+              <div style={{ position: 'relative', height: '175px', overflow: 'hidden' }}>
+                <img
+                  src={aboutApproachImg}
+                  alt="Our Approach on Godavari Ghats"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+                <span style={{
+                  position: 'absolute',
+                  top: '10px',
+                  left: '10px',
+                  background: 'rgba(5, 150, 105, 0.95)',
+                  color: '#ffffff',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  padding: '3px 9px',
+                  borderRadius: '5px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em'
+                }}>
+                  Strategy In Action
+                </span>
+              </div>
+
+              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.75rem' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#ecfdf5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Compass size={18} />
+                  </div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                    Our Approach
+                  </h3>
                 </div>
-                <div>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Strategy in Action</span>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Our Approach</h3>
+
+                <p style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
+                  We bridge science, local governance, and grassroots citizens to implement tangible river restoration.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginTop: 'auto' }}>
+                  {['Synchronized dawn volunteer ghat sweeps', 'Outfall bio-net barriers to stop canal plastics', 'Continuous riverfront youth stewardship cadres'].map((item, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: '#334155', fontWeight: 500 }}>
+                      <CheckCircle2 size={14} style={{ color: '#059669', flexShrink: 0 }} />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.8, margin: 0 }}>
-                We believe that meaningful environmental change begins with <strong>awareness and action</strong>. 
-                By encouraging people to participate in community activities and cleanliness initiatives, 
-                we aim to create a positive impact on society.
-              </p>
             </div>
 
-            {/* Our Commitment */}
+            {/* Our Commitment Card with Photo Header */}
             <div style={{
               background: '#ffffff',
               border: '1px solid #e2e8f0',
               borderRadius: '16px',
-              padding: '2.5rem',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <ShieldCheck size={22} />
-                </div>
-                <div>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#d97706', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Long-Term Promise</span>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Our Commitment</h3>
-                </div>
-              </div>
-              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.8, margin: '0 0 1rem' }}>
-                We are committed to encouraging a culture of cleanliness, environmental responsibility and community involvement.
-              </p>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem', background: '#f0fdf4', padding: '0.9rem 1.1rem', borderRadius: '10px', border: '1px solid #bbf7d0' }}>
-                <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <span style={{ fontSize: '0.92rem', color: '#065f46', fontWeight: 600, lineHeight: 1.5 }}>
-                  Every small effort towards protecting our surroundings can contribute to a cleaner and healthier future.
+              <div style={{ position: 'relative', height: '175px', overflow: 'hidden' }}>
+                <img
+                  src={aboutCommitmentImg}
+                  alt="Our Commitment and Civic Dedication"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+                <span style={{
+                  position: 'absolute',
+                  top: '10px',
+                  left: '10px',
+                  background: 'rgba(217, 119, 6, 0.95)',
+                  color: '#ffffff',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  padding: '3px 9px',
+                  borderRadius: '5px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em'
+                }}>
+                  Long-Term Promise
                 </span>
+              </div>
+
+              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.75rem' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#fef3c7', color: '#d97706', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <ShieldCheck size={18} />
+                  </div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                    Our Commitment
+                  </h3>
+                </div>
+
+                <p style={{ color: '#475569', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 1rem' }}>
+                  Unwavering dedication to keeping the Godavari waters pure, accessible, and ecologically thriving for generations.
+                </p>
+
+                <div style={{
+                  marginTop: 'auto',
+                  background: '#f0fdf4',
+                  border: '1px solid #bbf7d0',
+                  borderRadius: '8px',
+                  padding: '0.65rem 0.85rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <CheckCircle2 size={15} style={{ color: '#059669', flexShrink: 0 }} />
+                  <span style={{ fontSize: '0.8rem', color: '#14532d', fontWeight: 600 }}>
+                    Every small effort directly protects our sacred river ecosystem.
+                  </span>
+                </div>
               </div>
             </div>
 
