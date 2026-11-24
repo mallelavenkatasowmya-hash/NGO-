@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
-import godavariFieldOperationsImg from '../assets/godavari-field-operations.jpg';
-import godavariMissionHeroImg from '../assets/godavari-mission-hero.jpg';
-import heroBannerImg from '../assets/hero-banner.jpg';
+import objHeroShowcaseImg from '../assets/obj-hero-showcase.jpg';
+import objOperationalFrameworkImg from '../assets/obj-operational-framework.jpg';
+import objPillar1PlasticImg from '../assets/obj-pillar1-plastic.jpg';
+import objPillar2BarrierImg from '../assets/obj-pillar2-barrier.jpg';
+import objPillar3AfforestationImg from '../assets/obj-pillar3-afforestation.jpg';
+import objPillar4FestivalImg from '../assets/obj-pillar4-festival.jpg';
+import objPillar5EducationImg from '../assets/obj-pillar5-education.jpg';
+import objPillar6WaterQualityImg from '../assets/obj-pillar6-water-quality.jpg';
+import objTransparencyAuditImg from '../assets/obj-transparency-audit.jpg';
+
 import { 
   Trash2, 
   Filter, 
@@ -12,12 +18,15 @@ import {
   GraduationCap, 
   Activity, 
   CheckCircle2, 
-  ArrowRight,
-  ShieldCheck,
-  Target,
-  Clock,
-  MapPin,
-  HeartHandshake
+  ArrowRight, 
+  ShieldCheck, 
+  Target, 
+  Clock, 
+  MapPin, 
+  HeartHandshake,
+  Award,
+  Layers,
+  Users
 } from 'lucide-react';
 
 const objectivesList = [
@@ -29,12 +38,13 @@ const objectivesList = [
     color: '#059669',
     bg: '#ecfdf5',
     border: '#a7f3d0',
-    image: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=800&auto=format&fit=crop&q=85',
-    desc: 'Conduct bi-weekly cleanliness drives at major Godavari ghats — Kotilingala, Pushkar, Saraswathi, and Railway Ghats — collecting, segregating, and responsibly disposing of plastic, synthetic garments, and debris.',
+    image: objPillar1PlasticImg,
+    badge: 'Direct Action',
+    desc: 'Conducting bi-weekly cleanliness drives across Kotilingala, Pushkar, and Saraswathi Ghats, segregating plastics and debris for municipal recycling.',
     targets: [
-      'Minimum 2 weekend cleanup drives per month per ghat',
-      '100% waste segregation into recyclable & biodegradable streams',
-      'Direct coordination with municipal corporations for rapid transport'
+      'Bi-weekly weekend drives per major ghat',
+      '100% on-site segregation into recycling',
+      'Municipal transport coordination'
     ]
   },
   {
@@ -45,12 +55,13 @@ const objectivesList = [
     color: '#0284c7',
     bg: '#f0f9ff',
     border: '#bae6fd',
-    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&auto=format&fit=crop&q=85',
-    desc: 'Engineer, install, and service heavy-duty river-inlet netting barriers across drainage canals entering the Godavari to intercept floating plastics and bottles before they enter the mainstream water.',
+    image: objPillar2BarrierImg,
+    badge: 'Infrastructure',
+    desc: 'Installing and maintaining heavy-duty netting barriers across urban drainage inlets in Rajamahendravaram to trap floating waste before it enters the river.',
     targets: [
-      '22 active plastic-trap barrier sites operational by end of 2025',
-      'Scheduled weekly waste extraction and mesh maintenance',
-      'GPS mapping and public transparency on intercepted tonnage'
+      '22 active plastic-trap barrier sites',
+      'Weekly waste extraction & mesh servicing',
+      'GPS mapping & verified tonnage logs'
     ]
   },
   {
@@ -61,44 +72,47 @@ const objectivesList = [
     color: '#15803d',
     bg: '#f0fdf4',
     border: '#bbf7d0',
-    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=85',
-    desc: 'Plant and nurture 10,000 indigenous trees (Neem, Peepal, Pongamia, Tamarind) along vulnerable Godavari embankments to stabilize eroding bunds, prevent siltation, and restore native bird habitats.',
+    image: objPillar3AfforestationImg,
+    badge: 'Ecosystem Care',
+    desc: 'Planting 10,000 indigenous Neem, Peepal, and Pongamia saplings with bamboo guards along eroding river embankments to stabilize bunds.',
     targets: [
-      'Plant 2,000 native saplings annually with an 85% survival rate',
-      'Establish community youth groups as dedicated "Tree Guardians"',
-      'Bi-annual ecological surveys to document canopy expansion'
+      '2,000 native saplings planted yearly',
+      'Community youth Tree Guardians',
+      'Embankment soil retention surveys'
     ]
   },
   {
     num: '04',
-    title: 'Eco-Friendly Festival & Pilgrimage Practices',
+    title: 'Eco-Friendly Festival Practices',
     category: 'Cultural Stewardship',
     icon: Sparkles,
     color: '#7c3aed',
     bg: '#faf5ff',
     border: '#e9d5ff',
-    image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=85',
-    desc: 'Partner with temple boards, priests, and pilgrims to replace harmful immersion offerings — plaster of Paris, synthetic dyes, and plastic bags — with unbaked clay and biodegradable alternatives.',
+    image: objPillar4FestivalImg,
+    badge: 'Sacred Heritage',
+    desc: 'Partnering with riverside temples, mutts, and pilgrims to replace plastic bags and synthetic dyes with compostable leaf plates and earthen offerings.',
     targets: [
-      'Active partnerships with 50+ riverside temples and mutts',
-      'Distribute 10,000 compostable leaf-bowl sets each festival season',
-      'Deploy volunteer awareness squads during Pushkaram and Ugadi'
+      'Alliances with 50+ ghat temples',
+      '10,000+ compostable leaf-plate sets',
+      'Volunteer awareness during Pushkaram'
     ]
   },
   {
     num: '05',
-    title: 'Community Education & Youth Mobilization',
+    title: 'Community Education & Youth Cadres',
     category: 'Public Awareness',
     icon: GraduationCap,
     color: '#b45309',
     bg: '#fffbeb',
     border: '#fde68a',
-    image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=85',
-    desc: 'Build an enduring generation of informed river guardians through interactive school modules, college cleanliness drives, street plays (nukkad nataks), and digital campaigns across East & West Godavari.',
+    image: objPillar5EducationImg,
+    badge: 'Youth Leadership',
+    desc: 'Empowering school students and collegiate youth through Haritha Sena eco-clubs, riverfront street plays, and hands-on environmental leadership.',
     targets: [
-      '50 interactive school and collegiate environmental workshops yearly',
-      'Onboard and train 1,000 youth volunteers annually',
-      'Conduct quarterly youth leadership river ambassador certificates'
+      '50 interactive school & college workshops',
+      '1,000 youth volunteers trained yearly',
+      'Youth leadership river ambassador badges'
     ]
   },
   {
@@ -109,12 +123,13 @@ const objectivesList = [
     color: '#0f766e',
     bg: '#f0fdfa',
     border: '#99f6e4',
-    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&auto=format&fit=crop&q=85',
-    desc: 'Operate a citizen-science water testing network across Godavari ghats, analyzing essential hydrological indicators (Dissolved Oxygen, pH, Turbidity, Coliform) and publishing transparent live data.',
+    image: objPillar6WaterQualityImg,
+    badge: 'Verified Data',
+    desc: 'Operating citizen-science water testing across bathing ghats, measuring Dissolved Oxygen, pH, and Turbidity with open public metrics.',
     targets: [
-      '15 automated water testing stations deployed across ghats by 2027',
-      'Monthly public water health index reports shared openly',
-      'Direct data sharing with State Pollution Control Board & GVMC'
+      '15 automated water testing stations',
+      'Monthly public river health reports',
+      'Data shared with civic authorities'
     ]
   }
 ];
@@ -123,120 +138,311 @@ const AboutObjectives = () => {
   return (
     <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. PROFESSIONAL HERO HEADER WITH GODAVARI PHOTOGRAPHY */}
+      {/* 1. SIGNATURE 2-COLUMN HERO (MATCHES ABOUT NGO & MISSION) */}
       <section style={{
-        position: 'relative',
-        padding: '5.5rem 1.5rem 5rem',
-        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${godavariMissionHeroImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        color: '#ffffff',
-        textAlign: 'center',
-        overflow: 'hidden'
+        background: '#f8fafc',
+        borderBottom: '1px solid #e2e8f0',
+        padding: '3rem 1.5rem 2.5rem'
       }}>
-        {/* Subtle decorative glow */}
-        <div style={{
-          position: 'absolute',
-          top: '-20%',
-          right: '-10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
-          borderRadius: '50%',
-          pointerEvents: 'none'
-        }} />
-
-        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <h1 style={{
-            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
-            fontWeight: 800,
-            color: '#ffffff',
-            margin: '0 0 1rem',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.2,
-            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem',
+            alignItems: 'center'
           }}>
-            Our Strategic Objectives
-          </h1>
+            {/* Left Column: Info & Action */}
+            <div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: '#ecfdf5',
+                color: '#059669',
+                padding: '0.4rem 0.9rem',
+                borderRadius: '9999px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                marginBottom: '0.85rem',
+                border: '1px solid #a7f3d0'
+              }}>
+                <Sparkles size={14} />
+                <span>STRATEGIC FRAMEWORK • SIX ACTION PILLARS</span>
+              </div>
 
-          <p style={{
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
-            fontWeight: 600,
-            color: '#86efac',
-            margin: '0 auto 1.25rem',
-            lineHeight: 1.5,
-            maxWidth: '780px',
-            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
-          }}>
-            Six Action-Driven Pillars for Rejuvenating River Godavari.
-          </p>
+              <h1 style={{
+                fontSize: 'clamp(2.1rem, 3.8vw, 3rem)',
+                fontWeight: 800,
+                color: '#0f172a',
+                lineHeight: 1.2,
+                letterSpacing: '-0.025em',
+                marginBottom: '0.75rem'
+              }}>
+                Our Strategic Objectives
+              </h1>
 
-          <p style={{
-            fontSize: '1.05rem',
-            color: '#ecfdf5',
-            maxWidth: '740px',
-            margin: '0 auto',
-            lineHeight: 1.75,
-            opacity: 0.95
-          }}>
-            Every objective translates our founding mission into measurable, transparent, and community-led 
-            conservation programs across the Godavari delta.
-          </p>
+              <p style={{
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
+                color: '#059669',
+                fontWeight: 600,
+                lineHeight: 1.45,
+                marginBottom: '1rem'
+              }}>
+                Six Action-Driven Pillars for Rejuvenating River Godavari.
+              </p>
+
+              <p style={{
+                fontSize: '0.98rem',
+                color: '#475569',
+                lineHeight: 1.75,
+                marginBottom: '1.5rem',
+                maxWidth: '560px'
+              }}>
+                Every objective translates our founding mission into measurable, transparent, and community-led 
+                conservation programs across the Godavari delta.
+              </p>
+
+              {/* Three Stat Badges */}
+              <div style={{
+                display: 'flex',
+                gap: '0.75rem',
+                flexWrap: 'wrap',
+                marginBottom: '1.75rem'
+              }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.84rem',
+                  color: '#334155',
+                  fontWeight: 600
+                }}>
+                  <Layers size={16} color="#059669" />
+                  <span>6 Action Pillars</span>
+                </div>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.84rem',
+                  color: '#334155',
+                  fontWeight: 600
+                }}>
+                  <ShieldCheck size={16} color="#0284c7" />
+                  <span>100% Ground Verification</span>
+                </div>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.84rem',
+                  color: '#334155',
+                  fontWeight: 600
+                }}>
+                  <Clock size={16} color="#7c3aed" />
+                  <span>Bi-Weekly Cleanups</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
+                <a
+                  href="#pillars"
+                  className="btn btn-primary"
+                  style={{
+                    backgroundColor: '#059669',
+                    borderColor: '#059669',
+                    color: '#ffffff',
+                    fontWeight: 600,
+                    padding: '0.65rem 1.35rem',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>Explore 6 Pillars</span>
+                  <ArrowRight size={16} />
+                </a>
+                <Link
+                  to="/register"
+                  className="btn btn-outline"
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderColor: '#cbd5e1',
+                    color: '#334155',
+                    fontWeight: 600,
+                    padding: '0.65rem 1.35rem',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>Join As Volunteer</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Hero Showcase Card */}
+            <div>
+              <div style={{
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.08)',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff',
+                position: 'relative'
+              }}>
+                <div style={{ position: 'relative' }}>
+                  <img
+                    src={objHeroShowcaseImg}
+                    alt="River Godavari Conservation Framework"
+                    style={{
+                      width: '100%',
+                      height: '350px',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '14px',
+                    left: '14px',
+                    background: 'rgba(6, 78, 59, 0.92)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#86efac',
+                    padding: '4px 12px',
+                    borderRadius: '9999px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.05em',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    <Sparkles size={13} />
+                    <span>OPERATIONAL ROADMAP</span>
+                  </div>
+                </div>
+
+                <div style={{
+                  padding: '0.85rem 1.25rem',
+                  background: '#ffffff',
+                  borderTop: '1px solid #e2e8f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
+                      River Godavari Conservation Framework &amp; Field Directives
+                    </span>
+                  </div>
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#059669',
+                    background: '#ecfdf5',
+                    padding: '3px 10px',
+                    borderRadius: '9999px',
+                    border: '1px solid #a7f3d0',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    VERIFIED ACTION
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
-      {/* 2. OVERVIEW NARRATIVE & IMPACT CARD */}
-      <section id="overview" style={{ padding: '4.5rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
+      {/* 2. SECTION: OPERATIONAL FRAMEWORK (CONCISE BULLETS + AUTHENTIC PHOTO) */}
+      <section id="overview" style={{ padding: '4rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
         <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
             
             {/* Left Column */}
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#059669', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#059669', fontSize: '0.82rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.65rem' }}>
                 <Target size={18} />
                 <span>Operational Framework</span>
               </div>
               
-              <h2 style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.1rem)', fontWeight: 800, color: '#0f172a', lineHeight: 1.3, margin: '0 0 1.25rem' }}>
+              <h2 style={{ fontSize: 'clamp(1.7rem, 2.5vw, 2.2rem)', fontWeight: 800, color: '#0f172a', lineHeight: 1.3, margin: '0 0 1rem' }}>
                 Measurable Milestones &amp; Ground Execution
               </h2>
               
-              <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.8, margin: '0 0 1.25rem' }}>
-                We do not limit our work to advocacy alone. Each of our six core objectives is backed by 
-                tangible targets, dedicated field coordinators, and public accountability metrics.
-              </p>
-              
-              <p style={{ color: '#475569', fontSize: '1.02rem', lineHeight: 1.8, margin: '0 0 1.75rem' }}>
-                By pairing community volunteer energy with scientific guidance and civic administration 
-                support, we turn daily conservation efforts into lasting regional impact.
+              <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.75, margin: '0 0 1.5rem' }}>
+                Pairing grassroots volunteer energy with scientific testing and civic administration support, 
+                turning daily conservation drives into lasting regional river revival.
               </p>
 
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '1.75rem' }}>
+                {[
+                  { title: 'Quantifiable Targets', text: 'Every drive logs weighed bags, sapling counts, and water test indicators.' },
+                  { title: 'Civic Administration Link', text: 'Partnering directly with municipal bodies for rapid waste logistics and disposal.' },
+                  { title: 'Dedicated Field Captains', text: 'Certified local coordinators leading on-site safety, tools, and volunteer squads.' },
+                  { title: 'Open Public Accountability', text: 'Verified data and photos published openly after every community operation.' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                    <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0, marginTop: '3px' }} />
+                    <div>
+                      <strong style={{ fontSize: '0.95rem', color: '#0f172a' }}>{item.title}: </strong>
+                      <span style={{ fontSize: '0.92rem', color: '#475569', lineHeight: 1.6 }}>{item.text}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Stat Box Strip */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
                 <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1rem 1.25rem' }}>
                   <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#059669', display: 'block' }}>100%</span>
-                  <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Ground Verification</span>
+                  <span style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: 600 }}>Ground Verification</span>
                 </div>
                 <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '1rem 1.25rem' }}>
                   <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0284c7', display: 'block' }}>Bi-Weekly</span>
-                  <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Ghat Cleanups</span>
+                  <span style={{ fontSize: '0.84rem', color: '#64748b', fontWeight: 600 }}>Ghat Cleanups</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column Photo Card (Clean & Unobstructed) */}
+            {/* Right Column Photo Card */}
             <div>
               <div style={{
                 borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 12px 30px -10px rgba(0, 0, 0, 0.12)',
+                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.08)',
                 border: '1px solid #e2e8f0',
                 background: '#ffffff'
               }}>
                 <img 
-                  src={godavariFieldOperationsImg} 
-                  alt="Godavari Environmental Field Operations and Water Sampling" 
-                  style={{ width: '100%', height: '390px', objectFit: 'cover', display: 'block' }}
+                  src={objOperationalFrameworkImg} 
+                  alt="On-Site Ghat Weighing and Field Verification" 
+                  style={{ width: '100%', height: '380px', objectFit: 'cover', display: 'block' }}
                 />
                 <div style={{
                   padding: '0.85rem 1.25rem',
@@ -249,8 +455,8 @@ const AboutObjectives = () => {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#1e293b' }}>
-                      Measurable Cleanliness Targets &amp; Volunteer Teams
+                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
+                      On-Site Digital Weighing &amp; Data Logging Station
                     </span>
                   </div>
                   <span style={{
@@ -265,7 +471,7 @@ const AboutObjectives = () => {
                     textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
                   }}>
-                    Operational Goal
+                    Audited Records
                   </span>
                 </div>
               </div>
@@ -275,25 +481,25 @@ const AboutObjectives = () => {
         </div>
       </section>
 
-      {/* 3. SIX OBJECTIVES (RESPONSIVE PROFESSIONAL GRID) */}
+      {/* 3. SIX OBJECTIVES (ALL AUTHENTIC RIVER GODAVARI PHOTOS • NO GENERIC STOCK) */}
       <section id="pillars" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', scrollMarginTop: '80px' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
               TARGET AREAS
             </span>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.5rem' }}>
               Core Action Objectives
             </h2>
-            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '640px', margin: '0 auto' }}>
-              Detailed breakdown of our key programs, operational methods, and verified target deliverables.
+            <p style={{ fontSize: '0.98rem', color: '#64748b', maxWidth: '640px', margin: '0 auto' }}>
+              Six focused conservation priorities with verified field methods and target deliverables.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(330px, 1fr))',
             gap: '2rem'
           }}>
             {objectivesList.map((obj) => {
@@ -304,33 +510,33 @@ const AboutObjectives = () => {
                   style={{
                     background: '#ffffff',
                     border: '1px solid #e2e8f0',
-                    borderRadius: '18px',
+                    borderRadius: '16px',
                     overflow: 'hidden',
-                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
                     display: 'flex',
                     flexDirection: 'column',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                   }}
                 >
-                  {/* Photo Thumbnail Header */}
-                  <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
+                  {/* Photo Header */}
+                  <div style={{ height: '190px', overflow: 'hidden', position: 'relative' }}>
                     <img 
                       src={obj.image} 
                       alt={obj.title} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                       loading="lazy"
                     />
                     <div style={{
                       position: 'absolute',
-                      top: '14px',
-                      left: '14px',
-                      background: 'rgba(15, 23, 42, 0.78)',
-                      backdropFilter: 'blur(6px)',
+                      top: '12px',
+                      left: '12px',
+                      background: 'rgba(15, 23, 42, 0.85)',
+                      backdropFilter: 'blur(4px)',
                       color: '#ffffff',
-                      fontSize: '0.74rem',
+                      fontSize: '0.72rem',
                       fontWeight: 700,
-                      padding: '4px 10px',
-                      borderRadius: '6px',
+                      padding: '3px 10px',
+                      borderRadius: '999px',
                       textTransform: 'uppercase',
                       letterSpacing: '0.04em'
                     }}>
@@ -340,10 +546,10 @@ const AboutObjectives = () => {
                     <div style={{
                       position: 'absolute',
                       bottom: '12px',
-                      right: '14px',
+                      right: '12px',
                       background: '#064e3b',
                       color: '#ffffff',
-                      fontSize: '0.82rem',
+                      fontSize: '0.78rem',
                       fontWeight: 800,
                       padding: '3px 10px',
                       borderRadius: '6px'
@@ -353,12 +559,12 @@ const AboutObjectives = () => {
                   </div>
 
                   {/* Body Content */}
-                  <div style={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                  <div style={{ padding: '1.65rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.85rem' }}>
                       <div style={{
-                        width: '42px',
-                        height: '42px',
-                        borderRadius: '10px',
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '9px',
                         background: obj.bg,
                         color: obj.color,
                         border: `1px solid ${obj.border}`,
@@ -367,31 +573,31 @@ const AboutObjectives = () => {
                         justifyContent: 'center',
                         flexShrink: 0
                       }}>
-                        <Icon size={22} />
+                        <Icon size={20} />
                       </div>
-                      <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>
+                      <h3 style={{ fontSize: '1.12rem', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.3 }}>
                         {obj.title}
                       </h3>
                     </div>
 
-                    <p style={{ color: '#475569', fontSize: '0.94rem', lineHeight: 1.7, margin: '0 0 1.5rem' }}>
+                    <p style={{ color: '#475569', fontSize: '0.92rem', lineHeight: 1.65, margin: '0 0 1.25rem' }}>
                       {obj.desc}
                     </p>
 
                     <div style={{
                       marginTop: 'auto',
                       borderTop: '1px solid #f1f5f9',
-                      paddingTop: '1.25rem',
+                      paddingTop: '1rem',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '0.65rem'
+                      gap: '0.5rem'
                     }}>
-                      <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                         Target Deliverables
                       </span>
                       {obj.targets.map((target, tIdx) => (
-                        <div key={tIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
-                          <CheckCircle2 size={16} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
+                        <div key={tIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.55rem' }}>
+                          <CheckCircle2 size={15} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
                           <span style={{ fontSize: '0.86rem', color: '#334155', lineHeight: 1.5 }}>
                             {target}
                           </span>
@@ -407,36 +613,52 @@ const AboutObjectives = () => {
         </div>
       </section>
 
-      {/* 4. ACCOUNTABILITY & TRANSPARENCY CALLOUT */}
-      <section id="accountability" style={{ padding: '4.5rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+      {/* 4. TRANSPARENCY & GOVERNANCE CALLOUT */}
+      <section id="accountability" style={{ padding: '4rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
           <div style={{
             background: '#f8fafc',
             border: '1px solid #e2e8f0',
             borderRadius: '20px',
-            padding: '2.5rem 3rem',
+            padding: '2rem 2.5rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: '2rem',
             flexWrap: 'wrap'
           }}>
-            <div style={{ maxWidth: '600px' }}>
-              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            {/* Audit Thumbnail */}
+            <div style={{
+              width: '130px',
+              height: '90px',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              flexShrink: 0,
+              border: '1px solid #e2e8f0'
+            }}>
+              <img
+                src={objTransparencyAuditImg}
+                alt="Photographic Audit Trail"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+
+            <div style={{ flex: 1, minWidth: '280px' }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 Transparency &amp; Governance
               </span>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', margin: '0.4rem 0 0.75rem' }}>
+              <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0.35rem 0 0.5rem' }}>
                 Every Action Is Documented &amp; Verified
               </h3>
-              <p style={{ color: '#475569', fontSize: '0.96rem', lineHeight: 1.7, margin: 0 }}>
+              <p style={{ color: '#475569', fontSize: '0.94rem', lineHeight: 1.65, margin: 0 }}>
                 Our field operations undergo weekly log reviews, photographic audit trails, and open reports 
-                so our community of donors, volunteers, and citizens can follow our real-world progress.
+                so our community of donors, volunteers, and citizens can follow verified progress.
               </p>
             </div>
 
             <Link
               to="/activities"
-              className="btn btn-outline btn-lg"
+              className="btn btn-outline"
               style={{
                 backgroundColor: '#ffffff',
                 borderColor: '#cbd5e1',
@@ -445,9 +667,10 @@ const AboutObjectives = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '0.85rem 1.75rem',
+                padding: '0.75rem 1.5rem',
                 borderRadius: '8px',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                textDecoration: 'none'
               }}
             >
               <span>Explore Live Activities</span>
@@ -457,8 +680,8 @@ const AboutObjectives = () => {
         </div>
       </section>
 
-      {/* 5. PROFESSIONAL CTA */}
-      <section style={{ padding: '5rem 1.5rem', background: '#064e3b', color: '#ffffff' }}>
+      {/* 5. CALL TO ACTION BANNER */}
+      <section style={{ padding: '4.5rem 1.5rem', background: '#064e3b', color: '#ffffff' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
           
           <span style={{
@@ -466,7 +689,7 @@ const AboutObjectives = () => {
             background: 'rgba(255, 255, 255, 0.12)',
             border: '1px solid rgba(255, 255, 255, 0.25)',
             color: '#86efac',
-            fontSize: '0.78rem',
+            fontSize: '0.76rem',
             fontWeight: 700,
             letterSpacing: '0.08em',
             padding: '0.35rem 1rem',
@@ -477,15 +700,15 @@ const AboutObjectives = () => {
             BE PART OF THE CHANGE
           </span>
 
-          <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', fontWeight: 800, margin: '0 0 1rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontSize: 'clamp(1.9rem, 3.2vw, 2.5rem)', fontWeight: 800, margin: '0 0 0.85rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
             Help Us Achieve These Objectives
           </h2>
 
-          <p style={{ fontSize: '1.1rem', color: '#d1fae5', lineHeight: 1.75, maxWidth: '660px', margin: '0 auto 1.25rem' }}>
+          <p style={{ fontSize: '1.05rem', color: '#d1fae5', lineHeight: 1.7, maxWidth: '640px', margin: '0 auto 1.25rem' }}>
             Join our growing community of volunteers and make a direct, visible impact on the Godavari River.
           </p>
 
-          <p style={{ fontSize: '1.2rem', fontWeight: 700, color: '#86efac', margin: '0 auto 2.5rem' }}>
+          <p style={{ fontSize: '1.15rem', fontWeight: 700, color: '#86efac', margin: '0 auto 2.25rem' }}>
             Together for a Cleaner Environment. Together for a Better Future.
           </p>
 
@@ -501,9 +724,10 @@ const AboutObjectives = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '0.9rem 2rem',
+                padding: '0.85rem 1.85rem',
                 borderRadius: '8px',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.15)'
+                boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
+                textDecoration: 'none'
               }}
             >
               <span>Join As Volunteer</span>
@@ -521,8 +745,9 @@ const AboutObjectives = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '0.9rem 2rem',
-                borderRadius: '8px'
+                padding: '0.85rem 1.85rem',
+                borderRadius: '8px',
+                textDecoration: 'none'
               }}
             >
               <span>View All Activities</span>
