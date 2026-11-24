@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../services/api';
-import heroBannerImg from '../assets/hero-banner.jpg';
-import godavariCleanupImg from '../assets/godavari-cleanup.jpg';
-import godavariWasteSortingImg from '../assets/godavari-waste-sorting.jpg';
-import godavariTreePlantationImg from '../assets/godavari-tree-plantation.jpg';
-import godavariSaplingGuardImg from '../assets/godavari-sapling-guard.jpg';
-import godavariFieldOperationsImg from '../assets/godavari-field-operations.jpg';
-import godavariCanalBarrierImg from '../assets/godavari-canal-barrier.jpg';
-import godavariCommunityImg from '../assets/godavari-community-programs.jpg';
-import godavariYouthEcoImg from '../assets/godavari-youth-eco.jpg';
+import actHeroShowcaseImg from '../assets/act-hero-showcase.jpg';
+import actPillarCleanlinessImg from '../assets/act-pillar-cleanliness.jpg';
+import actPillarPlantationImg from '../assets/act-pillar-plantation.jpg';
+import actPillarConservationImg from '../assets/act-pillar-conservation.jpg';
+import actPillarCommunityImg from '../assets/act-pillar-community.jpg';
+import actEventCleanlinessImg from '../assets/act-event-cleanliness.jpg';
+import actEventPlantationImg from '../assets/act-event-plantation.jpg';
+import actEventConservationImg from '../assets/act-event-conservation.jpg';
+import actEventCommunityImg from '../assets/act-event-community.jpg';
+
 import { 
   Calendar, 
   Clock, 
@@ -23,7 +24,9 @@ import {
   GraduationCap,
   ShieldCheck,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Layers,
+  Award
 } from 'lucide-react';
 
 const activityPillars = [
@@ -32,17 +35,17 @@ const activityPillars = [
     tag: 'Shoreline Action',
     badgeBg: '#ecfdf5',
     badgeColor: '#047857',
-    image: godavariCleanupImg,
+    image: actPillarCleanlinessImg,
     path: '/activities/cleanliness',
-    desc: 'Systematic bi-weekly cleaning of major Godavari bathing ghats, removing synthetic plastic waste and restoring sacred riverfront beauty.',
+    desc: 'Systematic bi-weekly cleaning of major Godavari bathing ghats, removing synthetic plastic waste and restoring riverfront beauty.',
     metric: '45+ Drives Completed'
   },
   {
     title: 'Tree Plantation',
     tag: 'Afforestation',
-    badgeBg: '#ecfdf5',
-    badgeColor: '#047857',
-    image: godavariTreePlantationImg,
+    badgeBg: '#eff6ff',
+    badgeColor: '#1d4ed8',
+    image: actPillarPlantationImg,
     path: '/activities/plantation',
     desc: 'Planting indigenous Neem, Peepal, and Pongamia trees along 8 km of Godavari embankments to stabilize soil and cool local microclimates.',
     metric: '10,000+ Native Trees'
@@ -50,9 +53,9 @@ const activityPillars = [
   {
     title: 'River Conservation',
     tag: 'Hydrology & Science',
-    badgeBg: '#ecfdf5',
-    badgeColor: '#047857',
-    image: godavariFieldOperationsImg,
+    badgeBg: '#faf5ff',
+    badgeColor: '#7c3aed',
+    image: actPillarConservationImg,
     path: '/activities/conservation',
     desc: 'Deploying canal plastic-trap netting barriers and operating 15 ghat water quality testing stations with transparent public health reporting.',
     metric: '22 Net Traps Active'
@@ -60,9 +63,9 @@ const activityPillars = [
   {
     title: 'Community Programs',
     tag: 'Civic Mobilization',
-    badgeBg: '#ecfdf5',
-    badgeColor: '#047857',
-    image: godavariCommunityImg,
+    badgeBg: '#fffbeb',
+    badgeColor: '#b45309',
+    image: actPillarCommunityImg,
     path: '/activities/community',
     desc: 'Youth eco-ambassador workshops, plastic-free pooja counseling for pilgrims, and merchant alliances across East & West Godavari.',
     metric: '3,500+ Citizens Engaged'
@@ -80,7 +83,7 @@ const fallbackEvents = [
     enrolledVolunteersCount: 28,
     targetVolunteers: 40,
     description: 'Bi-weekly shoreline cleanup focusing on plastic bottle extraction and segregation into municipal recycling streams.',
-    bannerImage: godavariWasteSortingImg
+    bannerImage: actEventCleanlinessImg
   },
   {
     _id: 'sample-plantation-1',
@@ -92,7 +95,7 @@ const fallbackEvents = [
     enrolledVolunteersCount: 35,
     targetVolunteers: 50,
     description: 'Planting 250 native Neem and Pongamia saplings with protective bamboo guards along eroding riverbanks.',
-    bannerImage: godavariSaplingGuardImg
+    bannerImage: actEventPlantationImg
   },
   {
     _id: 'sample-conservation-1',
@@ -104,7 +107,7 @@ const fallbackEvents = [
     enrolledVolunteersCount: 16,
     targetVolunteers: 25,
     description: 'Testing dissolved oxygen, pH, and turbidity alongside college biology students using digital field equipment.',
-    bannerImage: godavariCanalBarrierImg
+    bannerImage: actEventConservationImg
   },
   {
     _id: 'sample-community-1',
@@ -116,7 +119,7 @@ const fallbackEvents = [
     enrolledVolunteersCount: 42,
     targetVolunteers: 60,
     description: 'Student-led environmental rally and merchant outreach promoting reusable cotton bags and plastic-free pooja traditions.',
-    bannerImage: godavariYouthEcoImg
+    bannerImage: actEventCommunityImg
   }
 ];
 
@@ -152,101 +155,259 @@ const Activities = () => {
   return (
     <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. CINEMATIC HERO SECTION */}
+      {/* 1. SIGNATURE 2-COLUMN HERO (MATCHES ABOUT NGO & MISSION) */}
       <section style={{
-        position: 'relative',
-        padding: '5.5rem 1.5rem 5rem',
-        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${heroBannerImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        color: '#ffffff',
-        textAlign: 'center',
-        overflow: 'hidden'
+        background: '#f8fafc',
+        borderBottom: '1px solid #e2e8f0',
+        padding: '3rem 1.5rem 2.5rem'
       }}>
-        {/* Soft Radial Ambient Glow */}
-        <div style={{
-          position: 'absolute',
-          top: '-20%',
-          right: '-10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
-          borderRadius: '50%',
-          pointerEvents: 'none'
-        }} />
-
-        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <h1 style={{
-            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
-            fontWeight: 800,
-            color: '#ffffff',
-            margin: '0 0 1rem',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.2,
-            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem',
+            alignItems: 'center'
           }}>
-            Our Field Activities
-          </h1>
+            {/* Left Column: Info & Action */}
+            <div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: '#ecfdf5',
+                color: '#059669',
+                padding: '0.4rem 0.9rem',
+                borderRadius: '9999px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                marginBottom: '0.85rem',
+                border: '1px solid #a7f3d0'
+              }}>
+                <Sparkles size={14} />
+                <span>FIELD OPERATIONS • ACTION PILLARS</span>
+              </div>
 
-          <p style={{
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
-            fontWeight: 600,
-            color: '#86efac',
-            margin: '0 auto 1.25rem',
-            lineHeight: 1.5,
-            maxWidth: '780px',
-            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
-          }}>
-            Four Action-Driven Pillars for Rejuvenating River Godavari.
-          </p>
+              <h1 style={{
+                fontSize: 'clamp(2.1rem, 3.8vw, 3rem)',
+                fontWeight: 800,
+                color: '#0f172a',
+                lineHeight: 1.2,
+                letterSpacing: '-0.025em',
+                marginBottom: '0.75rem'
+              }}>
+                Our Field Activities
+              </h1>
 
-          <p style={{
-            fontSize: '1.05rem',
-            color: '#ecfdf5',
-            maxWidth: '760px',
-            margin: '0 auto 2rem',
-            lineHeight: 1.75,
-            opacity: 0.95,
-            textShadow: '0 1px 4px rgba(0, 0, 0, 0.25)'
-          }}>
-            From weekend ghat sanitation and riverbank afforestation to scientific water testing and community empowerment, 
-            explore our structured on-ground conservation programs across the Godavari delta.
-          </p>
+              <p style={{
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
+                color: '#059669',
+                fontWeight: 600,
+                lineHeight: 1.45,
+                marginBottom: '1rem'
+              }}>
+                Four Action-Driven Pillars for Rejuvenating River Godavari.
+              </p>
 
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/activities/cleanliness" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '7px 16px', borderRadius: '999px', fontSize: '0.88rem', fontWeight: 600, color: '#ffffff', textDecoration: 'none' }}>
-              <Brush size={14} color="#86efac" />
-              <span>Cleanliness Drives</span>
-            </Link>
-            <Link to="/activities/plantation" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '7px 16px', borderRadius: '999px', fontSize: '0.88rem', fontWeight: 600, color: '#ffffff', textDecoration: 'none' }}>
-              <Sprout size={14} color="#86efac" />
-              <span>Tree Plantation</span>
-            </Link>
-            <Link to="/activities/conservation" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '7px 16px', borderRadius: '999px', fontSize: '0.88rem', fontWeight: 600, color: '#ffffff', textDecoration: 'none' }}>
-              <Waves size={14} color="#86efac" />
-              <span>River Conservation</span>
-            </Link>
-            <Link to="/activities/community" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '7px 16px', borderRadius: '999px', fontSize: '0.88rem', fontWeight: 600, color: '#ffffff', textDecoration: 'none' }}>
-              <GraduationCap size={14} color="#86efac" />
-              <span>Community Programs</span>
-            </Link>
+              <p style={{
+                fontSize: '0.98rem',
+                color: '#475569',
+                lineHeight: 1.75,
+                marginBottom: '1.5rem',
+                maxWidth: '560px'
+              }}>
+                From weekend ghat sanitation and riverbank afforestation to scientific water testing and community empowerment, 
+                explore our structured on-ground conservation programs across the Godavari delta.
+              </p>
+
+              {/* Three Stat Badges */}
+              <div style={{
+                display: 'flex',
+                gap: '0.75rem',
+                flexWrap: 'wrap',
+                marginBottom: '1.75rem'
+              }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.84rem',
+                  color: '#334155',
+                  fontWeight: 600
+                }}>
+                  <Layers size={16} color="#059669" />
+                  <span>4 Action Pillars</span>
+                </div>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.84rem',
+                  color: '#334155',
+                  fontWeight: 600
+                }}>
+                  <Award size={16} color="#0284c7" />
+                  <span>45+ Drives Completed</span>
+                </div>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: '#ffffff',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.85rem',
+                  fontSize: '0.84rem',
+                  color: '#334155',
+                  fontWeight: 600
+                }}>
+                  <Sprout size={16} color="#7c3aed" />
+                  <span>10,000+ Native Trees</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
+                <a
+                  href="#pillars"
+                  className="btn btn-primary"
+                  style={{
+                    backgroundColor: '#059669',
+                    borderColor: '#059669',
+                    color: '#ffffff',
+                    fontWeight: 600,
+                    padding: '0.65rem 1.35rem',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>Explore 4 Pillars</span>
+                  <ArrowRight size={16} />
+                </a>
+                <Link
+                  to="/register"
+                  className="btn btn-outline"
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderColor: '#cbd5e1',
+                    color: '#334155',
+                    fontWeight: 600,
+                    padding: '0.65rem 1.35rem',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    textDecoration: 'none'
+                  }}
+                >
+                  <span>Join As Volunteer</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Hero Showcase Card */}
+            <div>
+              <div style={{
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.08)',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff',
+                position: 'relative'
+              }}>
+                <div style={{ position: 'relative' }}>
+                  <img
+                    src={actHeroShowcaseImg}
+                    alt="River Godavari Conservation Field Operations"
+                    style={{
+                      width: '100%',
+                      height: '350px',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '14px',
+                    left: '14px',
+                    background: 'rgba(6, 78, 59, 0.92)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#86efac',
+                    padding: '4px 12px',
+                    borderRadius: '9999px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.05em',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    <Sparkles size={13} />
+                    <span>FIELD DIRECTORY</span>
+                  </div>
+                </div>
+
+                <div style={{
+                  padding: '0.85rem 1.25rem',
+                  background: '#ffffff',
+                  borderTop: '1px solid #e2e8f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#059669', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.86rem', fontWeight: 600, color: '#1e293b' }}>
+                      Grassroots Field Operations &amp; River Stewardship — River Godavari
+                    </span>
+                  </div>
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#059669',
+                    background: '#ecfdf5',
+                    padding: '3px 10px',
+                    borderRadius: '9999px',
+                    border: '1px solid #a7f3d0',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    ACTIVE INITIATIVE
+                  </span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* 2. FOUR CORE ACTIVITY PILLARS (CARD SHOWCASE) */}
-      <section style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+      {/* 2. FOUR CORE ACTIVITY PILLARS (CARD SHOWCASE WITH UNIQUE PHOTOS) */}
+      <section id="pillars" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', scrollMarginTop: '80px' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
               WHAT WE DO
             </span>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.5rem' }}>
               Explore Our Core Action Pillars
             </h2>
-            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '620px', margin: '0 auto' }}>
+            <p style={{ fontSize: '0.98rem', color: '#64748b', maxWidth: '620px', margin: '0 auto' }}>
               Click into each dedicated initiative to review schedules, methodologies, and volunteer opportunities.
             </p>
           </div>
@@ -260,25 +421,27 @@ const Activities = () => {
                   borderRadius: '16px',
                   border: '1px solid #e2e8f0',
                   overflow: 'hidden',
-                  boxShadow: '0 4px 6px -1px rgba(0,0,0,0.03)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
                   display: 'flex',
                   flexDirection: 'column',
                   transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
               >
                 {/* Photo Header */}
-                <div style={{ height: '190px', overflow: 'hidden', position: 'relative' }}>
+                <div style={{ height: '200px', overflow: 'hidden', position: 'relative', background: '#f1f5f9' }}>
                   <img 
                     src={pillar.image} 
                     alt={pillar.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+                    loading="lazy"
                   />
                   <div style={{
                     position: 'absolute',
                     top: '12px',
                     left: '12px',
-                    background: pillar.badgeBg,
-                    color: pillar.badgeColor,
+                    background: 'rgba(15, 23, 42, 0.85)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#ffffff',
                     padding: '3px 10px',
                     borderRadius: '999px',
                     fontSize: '0.72rem',
@@ -291,14 +454,14 @@ const Activities = () => {
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: '1.75rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', marginBottom: '0.35rem' }}>
+                <div style={{ padding: '1.65rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#059669', marginBottom: '0.35rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                     {pillar.metric}
                   </div>
-                  <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.65rem' }}>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem', lineHeight: 1.3 }}>
                     {pillar.title}
                   </h3>
-                  <p style={{ fontSize: '0.92rem', color: '#64748b', lineHeight: 1.7, margin: '0 0 1.5rem', flex: 1 }}>
+                  <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.65, margin: '0 0 1.25rem', flex: 1 }}>
                     {pillar.desc}
                   </p>
 
@@ -314,8 +477,9 @@ const Activities = () => {
                       borderRadius: '10px',
                       color: '#0f172a',
                       fontWeight: 700,
-                      fontSize: '0.88rem',
-                      textDecoration: 'none'
+                      fontSize: '0.86rem',
+                      textDecoration: 'none',
+                      transition: 'background 0.15s ease'
                     }}
                   >
                     <span>View Dedicated Page</span>
@@ -329,18 +493,18 @@ const Activities = () => {
         </div>
       </section>
 
-      {/* 3. SCHEDULED DRIVES & EVENTS LIST */}
+      {/* 3. SCHEDULED DRIVES & EVENTS LIST (WITH DEDICATED AUTHENTIC PHOTOS) */}
       <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
               UPCOMING SCHEDULE
             </span>
-            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.75rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0.5rem 0 0.5rem' }}>
               Scheduled Field Drives
             </h2>
-            <p style={{ fontSize: '1rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
+            <p style={{ fontSize: '0.98rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
               Join an upcoming drive. Free registration, safety equipment provided, and certified service hours.
             </p>
           </div>
@@ -392,7 +556,7 @@ const Activities = () => {
               </p>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.75rem' }}>
               {filteredEvents.map((evt) => (
                 <div 
                   key={evt._id} 
@@ -401,29 +565,31 @@ const Activities = () => {
                     border: '1px solid #e2e8f0',
                     borderRadius: '16px',
                     overflow: 'hidden',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
                     display: 'flex',
                     flexDirection: 'column'
                   }}
                 >
-                  <div style={{ height: '170px', overflow: 'hidden', position: 'relative' }}>
+                  <div style={{ height: '185px', overflow: 'hidden', position: 'relative', background: '#f1f5f9' }}>
                     <img
-                      src={evt.bannerImage || godavariCleanupImg}
+                      src={evt.bannerImage || actEventCleanlinessImg}
                       alt={evt.title}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+                      loading="lazy"
                     />
                     <span style={{
                       position: 'absolute',
                       top: '12px',
                       left: '12px',
-                      background: 'rgba(15, 23, 42, 0.8)',
+                      background: 'rgba(15, 23, 42, 0.85)',
                       backdropFilter: 'blur(4px)',
                       color: '#ffffff',
                       fontSize: '0.72rem',
                       fontWeight: 700,
                       padding: '3px 10px',
-                      borderRadius: '6px',
-                      textTransform: 'uppercase'
+                      borderRadius: '999px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em'
                     }}>
                       {evt.eventType}
                     </span>
@@ -448,34 +614,39 @@ const Activities = () => {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#475569', fontSize: '0.82rem', marginBottom: '1.25rem' }}>
                       <MapPin size={14} color="#059669" />
-                      <span>{evt.location?.venue || 'Godavari Riverfront'}</span>
+                      <span>{evt.location?.venue || 'Godavari Riverbank, Rajamahendravaram'}</span>
                     </div>
 
                     <div style={{
-                      borderTop: '1px solid #f1f5f9',
+                      marginTop: 'auto',
                       paddingTop: '1rem',
+                      borderTop: '1px solid #f1f5f9',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'space-between'
+                      justifyContent: 'space-between',
+                      gap: '1rem'
                     }}>
-                      <span style={{ fontSize: '0.82rem', color: '#64748b' }}>
-                        <strong style={{ color: '#0f172a' }}>{evt.enrolledVolunteersCount || 0}</strong> / {evt.targetVolunteers || 30} vols
-                      </span>
-                      <Link 
-                        to="/register" 
+                      <div style={{ fontSize: '0.82rem', color: '#64748b', fontWeight: 600 }}>
+                        <span style={{ color: '#059669', fontWeight: 800 }}>{evt.enrolledVolunteersCount || 0}</span> / {evt.targetVolunteers || 50} vols
+                      </div>
+                      <Link
+                        to="/register"
+                        className="btn btn-primary btn-sm"
                         style={{
-                          background: '#059669',
+                          backgroundColor: '#059669',
+                          borderColor: '#059669',
                           color: '#ffffff',
-                          padding: '0.45rem 1rem',
-                          borderRadius: '8px',
-                          fontSize: '0.82rem',
                           fontWeight: 700,
+                          fontSize: '0.82rem',
+                          padding: '0.45rem 1.1rem',
+                          borderRadius: '8px',
                           textDecoration: 'none'
                         }}
                       >
-                        Sign Up
+                        <span>Sign Up</span>
                       </Link>
                     </div>
+
                   </div>
                 </div>
               ))}
@@ -485,74 +656,76 @@ const Activities = () => {
         </div>
       </section>
 
-      {/* 4. CALL TO ACTION */}
-      <section style={{
-        background: '#064e3b',
-        color: '#ffffff',
-        padding: '4.5rem 1.5rem',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '780px', margin: '0 auto' }}>
+      {/* 4. CALL TO ACTION BANNER */}
+      <section style={{ padding: '4.5rem 1.5rem', background: '#064e3b', color: '#ffffff' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
+          
           <span style={{
             display: 'inline-block',
-            background: 'rgba(255, 255, 255, 0.15)',
+            background: 'rgba(255, 255, 255, 0.12)',
             border: '1px solid rgba(255, 255, 255, 0.25)',
-            padding: '4px 14px',
-            borderRadius: '999px',
-            fontSize: '0.78rem',
+            color: '#86efac',
+            fontSize: '0.76rem',
             fontWeight: 700,
             letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: '#86efac',
-            marginBottom: '1rem'
+            padding: '0.35rem 1rem',
+            borderRadius: '999px',
+            marginBottom: '1rem',
+            textTransform: 'uppercase'
           }}>
             BE PART OF THE CHANGE
           </span>
 
-          <h2 style={{ fontSize: 'clamp(1.85rem, 3.2vw, 2.5rem)', fontWeight: 800, margin: '0 0 1rem', lineHeight: 1.25 }}>
+          <h2 style={{ fontSize: 'clamp(1.9rem, 3.2vw, 2.5rem)', fontWeight: 800, margin: '0 0 0.85rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
             Together for a Cleaner Environment. Together for a Better Future.
           </h2>
 
-          <p style={{ fontSize: '1.05rem', color: '#ecfdf5', lineHeight: 1.7, margin: '0 0 2rem', opacity: 0.95 }}>
-            Join our growing family of dedicated environmental volunteers across the Godavari basin.
+          <p style={{ fontSize: '1.05rem', color: '#d1fae5', lineHeight: 1.7, maxWidth: '640px', margin: '0 auto 2rem' }}>
+            Join our growing family of dedicated environmental volunteers across the sacred Godavari basin.
           </p>
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link
               to="/register"
+              className="btn btn-primary btn-lg"
               style={{
-                background: '#ffffff',
+                backgroundColor: '#ffffff',
                 color: '#064e3b',
-                padding: '0.85rem 2rem',
-                borderRadius: '10px',
                 fontWeight: 700,
-                fontSize: '0.98rem',
-                textDecoration: 'none',
+                border: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-              }}
-            >
-              <span>Join Our Mission</span>
-              <ArrowRight size={16} />
-            </Link>
-            <Link
-              to="/contact"
-              style={{
-                background: 'transparent',
-                color: '#ffffff',
-                border: '1px solid rgba(255, 255, 255, 0.35)',
-                padding: '0.85rem 1.75rem',
-                borderRadius: '10px',
-                fontWeight: 600,
-                fontSize: '0.98rem',
+                gap: '0.5rem',
+                padding: '0.85rem 1.85rem',
+                borderRadius: '8px',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
                 textDecoration: 'none'
               }}
             >
-              Contact Us
+              <span>Join As Volunteer</span>
+              <ArrowRight size={18} />
+            </Link>
+
+            <Link
+              to="/events"
+              className="btn btn-outline btn-lg"
+              style={{
+                backgroundColor: 'transparent',
+                borderColor: 'rgba(255,255,255,0.4)',
+                color: '#ffffff',
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.85rem 1.85rem',
+                borderRadius: '8px',
+                textDecoration: 'none'
+              }}
+            >
+              <span>View All Events</span>
             </Link>
           </div>
+
         </div>
       </section>
 
