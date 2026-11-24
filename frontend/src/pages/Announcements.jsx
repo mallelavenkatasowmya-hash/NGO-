@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../services/api';
-import godavariAnnouncementsHubImg from '../assets/godavari-announcements-hub.jpg';
+import announceHeroShowcaseImg from '../assets/announce-hero-showcase.jpg';
+import announceStreamNewsImg from '../assets/announce-stream-news.jpg';
+import announceStreamPressImg from '../assets/announce-stream-press.jpg';
 import { 
   Megaphone, 
   FileText, 
@@ -14,7 +16,9 @@ import {
   Sparkles, 
   ChevronRight,
   Download,
-  Info
+  Info,
+  Radio,
+  Clock
 } from 'lucide-react';
 
 const fallbackCirculars = [
@@ -24,7 +28,7 @@ const fallbackCirculars = [
     category: 'Environmental Advisory',
     priority: 'Urgent',
     publishedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-    content: 'All residents, pilgrimage coordinators, and ghat vendors are strictly advised that newly tensioned bio-barrier nets are actively operational across 22 drainage outfalls. Any deliberate disposal of non-biodegradable packaging or plastic bottles into drainage canals will incur immediate civic penalties under the Municipal River Conservation Ordinance.'
+    content: 'Newly tensioned bio-barrier nets are actively operational across 22 drainage outfalls. Deliberate dumping of non-biodegradable packaging or plastic bottles into drainage canals incurs civic penalties under the Municipal River Conservation Ordinance.'
   },
   {
     _id: 'circ-2',
@@ -32,7 +36,7 @@ const fallbackCirculars = [
     category: 'Operational Circular',
     priority: 'Important',
     publishedAt: new Date(Date.now() - 86400000 * 5).toISOString(),
-    content: 'Morning sanitation shifts for registered volunteer squads will commence at 06:30 AM every Saturday and Sunday across Kotilingala, Pushkar, and Saraswathi Ghats. Shift coordinators must verify volunteer safety equipment (heavy-duty gloves, sashes, and grabbers) at the central command desk before deploying.'
+    content: 'Morning sanitation shifts for registered volunteers commence at 06:30 AM every Saturday and Sunday across Kotilingala, Pushkar, and Saraswathi Ghats. Shift coordinators must verify safety gear at the central desk before deploying.'
   },
   {
     _id: 'circ-3',
@@ -40,7 +44,7 @@ const fallbackCirculars = [
     category: 'Public Hearing',
     priority: 'Important',
     publishedAt: new Date(Date.now() - 86400000 * 9).toISOString(),
-    content: 'The NGO Ecological Directorate invites all citizens, collegiate researchers, and media representatives to attend the open public dissemination of the Third Quarter 2026 Godavari Basin Water Quality Index at the Municipal Library Auditorium, Rajahmundry.'
+    content: 'The NGO Ecological Directorate invites citizens, collegiate researchers, and media representatives to attend the open public dissemination of the Third Quarter 2026 Godavari Basin Water Quality Index at the Municipal Library Auditorium.'
   },
   {
     _id: 'circ-4',
@@ -48,7 +52,7 @@ const fallbackCirculars = [
     category: 'Community Notice',
     priority: 'General',
     publishedAt: new Date(Date.now() - 86400000 * 14).toISOString(),
-    content: 'Under the "Nadi Mitrula Sangham" civic program, 10,000 unbleached cotton carry bags are being supplied to riverbank flower and pooja merchants free of cost. Merchants are urged to hand over items only in reusable cotton bags and display eco-conservation placards on storefronts.'
+    content: 'Under the "Nadi Mitrula Sangham" civic program, 10,000 unbleached cotton carry bags are being supplied to riverbank flower and pooja merchants free of cost to replace single-use plastic covers.'
   }
 ];
 
@@ -86,330 +90,497 @@ const Announcements = () => {
       });
 
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
+    <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. CINEMATIC HERO SECTION */}
+      {/* 1. PROFESSIONAL 2-COLUMN HERO (CONSISTENT WITH ALL PLATFORM PAGES) */}
       <section style={{
-        position: 'relative',
-        padding: '5.5rem 1.5rem 5rem',
-        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${godavariAnnouncementsHubImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        color: '#ffffff',
-        textAlign: 'center',
-        overflow: 'hidden'
+        background: '#f8fafc',
+        borderBottom: '1px solid #e2e8f0',
+        padding: '3rem 1.5rem 2.5rem'
       }}>
-        {/* Soft Radial Ambient Glow */}
-        <div style={{
-          position: 'absolute',
-          top: '-20%',
-          right: '-10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
-          borderRadius: '50%',
-          pointerEvents: 'none'
-        }} />
-
-        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <h1 style={{
-            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
-            fontWeight: 800,
-            color: '#ffffff',
-            margin: '0 0 1rem',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.2,
-            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
-          }}>
-            Announcements & Communications Center
-          </h1>
-
-          <p style={{
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
-            fontWeight: 600,
-            color: '#86efac',
-            margin: '0 auto 1.25rem',
-            lineHeight: 1.5,
-            maxWidth: '780px',
-            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
-          }}>
-            Verified Administrative Circulars, Advisories, and Official Media Communiqués.
-          </p>
-
-          <p style={{
-            fontSize: '1.05rem',
-            color: '#ecfdf5',
-            maxWidth: '760px',
-            margin: '0 auto 2rem',
-            lineHeight: 1.75,
-            opacity: 0.95,
-            textShadow: '0 1px 4px rgba(0, 0, 0, 0.25)'
-          }}>
-            Verified administrative circulars, river cleanliness advisories, official press releases, 
-            and journalistic news coverage from Godavari Nadhi Paryavarana Parishubratha.
-          </p>
-
-          <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link
-              to="/announcements/news"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(255, 255, 255, 0.15)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                padding: '7px 18px',
-                borderRadius: '999px',
-                fontSize: '0.88rem',
-                fontWeight: 600,
-                color: '#ffffff',
-                textDecoration: 'none'
-              }}
-            >
-              <Newspaper size={15} color="#86efac" />
-              <span>Latest News</span>
-            </Link>
-
-            <Link
-              to="/announcements/press"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(255, 255, 255, 0.15)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                padding: '7px 18px',
-                borderRadius: '999px',
-                fontSize: '0.88rem',
-                fontWeight: 600,
-                color: '#ffffff',
-                textDecoration: 'none'
-              }}
-            >
-              <Megaphone size={15} color="#86efac" />
-              <span>Press Releases</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. CORE PUBLIC ANNOUNCEMENT CHANNELS */}
-      <section style={{
-        padding: '3.5rem 1.5rem 2rem',
-        maxWidth: '1180px',
-        margin: '0 auto'
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <span style={{
-            background: '#ecfdf5',
-            color: '#059669',
-            padding: '0.3rem 0.8rem',
-            borderRadius: '9999px',
-            fontSize: '0.8125rem',
-            fontWeight: 700,
-            border: '1px solid #a7f3d0'
-          }}>
-            COMMUNICATION PORTALS
-          </span>
-          <h2 style={{ fontSize: '1.875rem', fontWeight: 800, color: '#0f172a', margin: '0.75rem 0 0.5rem' }}>
-            Choose an Information Stream
-          </h2>
-          <p style={{ fontSize: '0.9375rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
-            Browse through daily ground news reporting or access formal press statements and white papers.
-          </p>
-        </div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1.75rem'
-        }}>
-          {/* Card 1: Latest News */}
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            padding: '2rem',
-            boxShadow: '0 4px 15px -2px rgba(0,0,0,0.04)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative'
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem',
+            alignItems: 'center'
           }}>
+            {/* Left Column: Info & Action */}
             <div>
               <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '12px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
                 background: '#ecfdf5',
                 color: '#059669',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '1.25rem',
+                padding: '0.4rem 0.9rem',
+                borderRadius: '9999px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                marginBottom: '0.85rem',
                 border: '1px solid #a7f3d0'
               }}>
-                <Newspaper size={24} />
+                <Sparkles size={14} />
+                <span>OFFICIAL DISPATCHES • COMMUNICATIONS HUB</span>
               </div>
+
+              <h1 style={{
+                fontSize: 'clamp(2rem, 3.4vw, 2.75rem)',
+                fontWeight: 800,
+                color: '#0f172a',
+                lineHeight: 1.2,
+                margin: '0 0 0.75rem',
+                letterSpacing: '-0.025em'
+              }}>
+                Announcements &amp; Media Center
+              </h1>
 
               <div style={{
-                display: 'inline-block',
-                background: '#f1f5f9',
-                color: '#475569',
-                fontSize: '0.75rem',
+                fontSize: '1.05rem',
                 fontWeight: 700,
-                padding: '0.2rem 0.6rem',
-                borderRadius: '4px',
-                marginBottom: '0.5rem'
+                color: '#059669',
+                margin: '0 0 0.75rem',
+                lineHeight: 1.45
               }}>
-                JOURNALISM & FIELD UPDATES
+                Verified Administrative Circulars, Advisories, and Official Media Communiqués.
               </div>
 
-              <h3 style={{ fontSize: '1.375rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.75rem' }}>
-                Latest News & Ground Stories
-              </h3>
-
-              <p style={{ fontSize: '0.9375rem', color: '#475569', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-                Field reporting, milestone updates, school eco-club charters, and civic honors. 
-                Follow frontline achievements and volunteer stories across Godavari ghats.
+              <p style={{
+                fontSize: '0.96rem',
+                color: '#475569',
+                lineHeight: 1.65,
+                margin: '0 0 1.25rem',
+                maxWidth: '540px'
+              }}>
+                Stay informed with authenticated field updates, community river conservation milestones, 
+                and formal municipal communiqués from Godavari Nadhi Paryavarana Parishubratha.
               </p>
 
+              {/* Stat Pills */}
               <div style={{
-                background: '#f8fafc',
-                borderRadius: '8px',
-                padding: '0.85rem 1rem',
-                marginBottom: '1.75rem',
-                border: '1px solid #e2e8f0'
+                display: 'flex',
+                gap: '0.6rem',
+                flexWrap: 'wrap',
+                marginBottom: '1.75rem'
               }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#047857', marginBottom: '0.25rem' }}>
-                  RECENT HIGHLIGHT:
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: '8px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: '#334155',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <Newspaper size={14} color="#059669" />
+                  <span>2 Information Portals</span>
                 </div>
-                <div style={{ fontSize: '0.8125rem', color: '#334155' }}>
-                  Kotilingala Ghat Achieves Landmark 90-Day Continuous Clean Shoreline Milestone.
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: '8px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: '#334155',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <Radio size={14} color="#059669" />
+                  <span>24/7 Rapid Alert Desk</span>
+                </div>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: '8px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: '#334155',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <ShieldCheck size={14} color="#059669" />
+                  <span>100% Verified Dispatches</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
+                <a
+                  href="#portals"
+                  style={{
+                    background: '#059669',
+                    color: '#ffffff',
+                    padding: '0.75rem 1.4rem',
+                    borderRadius: '10px',
+                    fontWeight: 700,
+                    fontSize: '0.92rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    boxShadow: '0 4px 10px rgba(5, 150, 105, 0.2)'
+                  }}
+                >
+                  <span>Explore Portals</span>
+                  <ArrowRight size={16} />
+                </a>
+                <a
+                  href="#circulars"
+                  style={{
+                    background: '#ffffff',
+                    color: '#334155',
+                    border: '1px solid #cbd5e1',
+                    padding: '0.75rem 1.4rem',
+                    borderRadius: '10px',
+                    fontWeight: 600,
+                    fontSize: '0.92rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}
+                >
+                  <span>View Circulars</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Visual Showcase Card */}
+            <div>
+              <div style={{
+                position: 'relative',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 12px 28px -6px rgba(0, 0, 0, 0.12)',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff'
+              }}>
+                <img
+                  src={announceHeroShowcaseImg}
+                  alt="NGO Field Journalism & Reporting"
+                  style={{
+                    width: '100%',
+                    height: '320px',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  left: '12px',
+                  background: 'rgba(15, 23, 42, 0.85)',
+                  backdropFilter: 'blur(6px)',
+                  color: '#ffffff',
+                  padding: '4px 12px',
+                  borderRadius: '9999px',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}>
+                  <Sparkles size={12} color="#86efac" />
+                  <span>OFFICIAL MEDIA DESK</span>
+                </div>
+                <div style={{
+                  padding: '1rem 1.25rem',
+                  background: '#ffffff',
+                  borderTop: '1px solid #f1f5f9',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem'
+                }}>
+                  <div style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '8px',
+                    background: '#ecfdf5',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#059669',
+                    flexShrink: 0
+                  }}>
+                    <Megaphone size={18} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0f172a' }}>
+                      Godavari Public Communications
+                    </div>
+                    <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                      Real-time public communications, circulars &amp; verified press statements
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <Link
-              to="/announcements/news"
-              style={{
-                width: '100%',
-                padding: '0.75rem 1.25rem',
-                background: '#059669',
-                color: '#ffffff',
-                borderRadius: '8px',
-                fontSize: '0.9375rem',
-                fontWeight: 600,
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem'
-              }}
-            >
-              Browse Latest News
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-
-          {/* Card 2: Press Releases */}
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            padding: '2rem',
-            boxShadow: '0 4px 15px -2px rgba(0,0,0,0.04)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative'
-          }}>
-            <div>
-              <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '12px',
-                background: '#ecfdf5',
-                color: '#059669',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '1.25rem',
-                border: '1px solid #a7f3d0'
-              }}>
-                <FileText size={24} />
-              </div>
-
-              <div style={{
-                display: 'inline-block',
-                background: '#f1f5f9',
-                color: '#475569',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                padding: '0.2rem 0.6rem',
-                borderRadius: '4px',
-                marginBottom: '0.5rem'
-              }}>
-                AUTHORIZED STATEMENTS
-              </div>
-
-              <h3 style={{ fontSize: '1.375rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.75rem' }}>
-                Press Releases & Statements
-              </h3>
-
-              <p style={{ fontSize: '0.9375rem', color: '#475569', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-                Official policy positions, environmental white papers, municipal tripartite MoUs, 
-                and media resource packs authorized by our Board of Trustees.
-              </p>
-
-              <div style={{
-                background: '#f8fafc',
-                borderRadius: '8px',
-                padding: '0.85rem 1rem',
-                marginBottom: '1.75rem',
-                border: '1px solid #e2e8f0'
-              }}>
-                <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#047857', marginBottom: '0.25rem' }}>
-                  LATEST RELEASE:
-                </div>
-                <div style={{ fontSize: '0.8125rem', color: '#334155' }}>
-                  Statement on Full Commissioning of 22 Outfall Plastic-Trap Netting Barriers (PR/2026/08).
-                </div>
-              </div>
-            </div>
-
-            <Link
-              to="/announcements/press"
-              style={{
-                width: '100%',
-                padding: '0.75rem 1.25rem',
-                background: '#059669',
-                color: '#ffffff',
-                borderRadius: '8px',
-                fontSize: '0.9375rem',
-                fontWeight: 600,
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem'
-              }}
-            >
-              Browse Press Releases
-              <ArrowRight size={16} />
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* 3. OFFICIAL CIRCULARS & NOTICES FEED */}
-      <section style={{
-        padding: '2.5rem 1.5rem 4rem',
+      {/* 2. CORE PUBLIC ANNOUNCEMENT CHANNELS (NOW WITH VISUAL PHOTOGRAPHY) */}
+      <section id="portals" style={{ padding: '4rem 1.5rem', background: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <span style={{
+              display: 'inline-block',
+              background: '#ecfdf5',
+              color: '#047857',
+              padding: '0.35rem 0.85rem',
+              borderRadius: '9999px',
+              fontSize: '0.76rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              border: '1px solid #a7f3d0',
+              marginBottom: '0.5rem'
+            }}>
+              COMMUNICATION PORTALS
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+              Choose an Information Stream
+            </h2>
+            <p style={{ fontSize: '0.98rem', color: '#64748b', maxWidth: '600px', margin: '0 auto' }}>
+              Browse through daily ground news reporting or access formal press statements and white papers.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2rem'
+          }}>
+            {/* Card 1: Latest News */}
+            <div style={{
+              background: '#ffffff',
+              borderRadius: '16px',
+              border: '1px solid #e2e8f0',
+              overflow: 'hidden',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+              display: 'flex',
+              flexDirection: 'column',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+            }}>
+              <div style={{ height: '210px', overflow: 'hidden', position: 'relative' }}>
+                <img
+                  src={announceStreamNewsImg}
+                  alt="Latest News & Ground Stories"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  left: '12px',
+                  background: '#ecfdf5',
+                  color: '#047857',
+                  padding: '3px 10px',
+                  borderRadius: '999px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.1)'
+                }}>
+                  JOURNALISM &amp; FIELD UPDATES
+                </div>
+              </div>
+
+              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', marginBottom: '0.35rem' }}>
+                  Daily Field Reporting
+                </div>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+                  Latest News &amp; Ground Stories
+                </h3>
+                <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6, margin: '0 0 1.25rem' }}>
+                  Field reporting, milestone updates, school eco-club charters, and civic honors. 
+                  Follow frontline achievements and volunteer stories across Godavari ghats.
+                </p>
+
+                {/* Highlights List */}
+                <div style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: '#334155' }}>
+                    <CheckCircle2 size={14} color="#059669" style={{ flexShrink: 0 }} />
+                    <span>Kotilingala 90-Day Continuous Clean Shoreline</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: '#334155' }}>
+                    <CheckCircle2 size={14} color="#059669" style={{ flexShrink: 0 }} />
+                    <span>Student River Science Charters &amp; Lab Demos</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: '#334155' }}>
+                    <CheckCircle2 size={14} color="#059669" style={{ flexShrink: 0 }} />
+                    <span>Civic Recognition &amp; Volunteer Tributes</span>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: 'auto' }}>
+                  <Link
+                    to="/announcements/news"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      background: '#f8fafc',
+                      border: '1px solid #e2e8f0',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '10px',
+                      color: '#0f172a',
+                      fontWeight: 700,
+                      fontSize: '0.88rem',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    <span>Browse Latest News</span>
+                    <ArrowRight size={15} color="#059669" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2: Press Releases */}
+            <div style={{
+              background: '#ffffff',
+              borderRadius: '16px',
+              border: '1px solid #e2e8f0',
+              overflow: 'hidden',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+              display: 'flex',
+              flexDirection: 'column',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+            }}>
+              <div style={{ height: '210px', overflow: 'hidden', position: 'relative' }}>
+                <img
+                  src={announceStreamPressImg}
+                  alt="Press Releases & Statements"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  left: '12px',
+                  background: '#ecfdf5',
+                  color: '#047857',
+                  padding: '3px 10px',
+                  borderRadius: '999px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.1)'
+                }}>
+                  AUTHORIZED STATEMENTS
+                </div>
+              </div>
+
+              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669', marginBottom: '0.35rem' }}>
+                  Official Board Communiqués
+                </div>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: '0 0 0.5rem' }}>
+                  Press Releases &amp; Statements
+                </h3>
+                <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6, margin: '0 0 1.25rem' }}>
+                  Official policy positions, environmental white papers, municipal tripartite MoUs, 
+                  and media resource packs authorized by our Board of Trustees.
+                </p>
+
+                {/* Highlights List */}
+                <div style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: '#334155' }}>
+                    <CheckCircle2 size={14} color="#059669" style={{ flexShrink: 0 }} />
+                    <span>22 Outfall Plastic-Trap Barriers Statement (PR/08)</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: '#334155' }}>
+                    <CheckCircle2 size={14} color="#059669" style={{ flexShrink: 0 }} />
+                    <span>Tripartite Municipal Conservation MoU Authorization</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.84rem', color: '#334155' }}>
+                    <CheckCircle2 size={14} color="#059669" style={{ flexShrink: 0 }} />
+                    <span>Quarterly Basin Water Quality Index Dispatches</span>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: 'auto' }}>
+                  <Link
+                    to="/announcements/press"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      background: '#f8fafc',
+                      border: '1px solid #e2e8f0',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '10px',
+                      color: '#0f172a',
+                      fontWeight: 700,
+                      fontSize: '0.88rem',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    <span>Browse Press Releases</span>
+                    <ArrowRight size={15} color="#059669" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 3. IMPACT STATISTICS STRIP */}
+      <section style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '2.5rem 1.5rem' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
+            {[
+              { val: '24/7', label: 'Rapid Alert Desk', sub: 'Hazard dispatching within 2 hours' },
+              { val: '100%', label: 'Verified Circulars', sub: 'Municipal & trustee authentication' },
+              { val: '45+', label: 'Ground News Stories', sub: 'Weekly frontline reporting' },
+              { val: '12+', label: 'Press Communiqués', sub: 'Authoritative policy white papers' }
+            ].map((stat, idx) => (
+              <div key={idx} style={{
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+                padding: '1.5rem',
+                borderLeft: '4px solid #059669',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+              }}>
+                <div style={{ fontSize: '1.85rem', fontWeight: 800, color: '#047857', lineHeight: 1.1, marginBottom: '0.25rem' }}>
+                  {stat.val}
+                </div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.2rem' }}>
+                  {stat.label}
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                  {stat.sub}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. OFFICIAL CIRCULARS & NOTICES FEED */}
+      <section id="circulars" style={{
+        padding: '4rem 1.5rem',
         maxWidth: '1180px',
         margin: '0 auto'
       }}>
@@ -432,8 +603,8 @@ const Announcements = () => {
             gap: '1rem'
           }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>
-                Administrative Circulars & Advisories
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                Administrative Circulars &amp; Advisories
               </h2>
               <p style={{ fontSize: '0.875rem', color: '#64748b', margin: '0.2rem 0 0' }}>
                 Public river cleanliness notices, volunteer timing circulars, and civic advisories
@@ -447,16 +618,15 @@ const Announcements = () => {
                   key={fil}
                   onClick={() => setActiveFilter(fil)}
                   style={{
-                    padding: '0.4rem 0.9rem',
+                    padding: '0.45rem 1rem',
                     borderRadius: '9999px',
-                    fontSize: '0.8125rem',
+                    fontSize: '0.82rem',
                     fontWeight: 600,
                     cursor: 'pointer',
-                    border: 'none',
+                    border: activeFilter === fil ? '1px solid #059669' : '1px solid #e2e8f0',
                     transition: 'all 0.15s ease',
                     background: activeFilter === fil ? '#059669' : '#ffffff',
-                    color: activeFilter === fil ? '#ffffff' : '#475569',
-                    boxShadow: activeFilter === fil ? '0 2px 5px rgba(5,150,105,0.2)' : '0 1px 3px rgba(0,0,0,0.05)'
+                    color: activeFilter === fil ? '#ffffff' : '#475569'
                   }}
                 >
                   {fil === 'All' ? 'All Circulars' : fil}
@@ -564,7 +734,7 @@ const Announcements = () => {
 
                   {/* Content */}
                   <p style={{
-                    fontSize: '0.9375rem',
+                    fontSize: '0.92rem',
                     color: '#475569',
                     lineHeight: 1.6,
                     margin: 0
@@ -578,7 +748,7 @@ const Announcements = () => {
         )}
       </section>
 
-      {/* 4. EMERGENCY NOTICE BANNER */}
+      {/* 5. EMERGENCY HAZARD BANNER */}
       <section style={{
         padding: '0 1.5rem 3.5rem',
         maxWidth: '1180px',
@@ -587,7 +757,7 @@ const Announcements = () => {
         <div style={{
           background: '#ecfdf5',
           border: '1px solid #a7f3d0',
-          borderRadius: '12px',
+          borderRadius: '14px',
           padding: '1.5rem',
           display: 'flex',
           flexWrap: 'wrap',
@@ -610,10 +780,10 @@ const Announcements = () => {
               <Info size={20} />
             </div>
             <div>
-              <div style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#064e3b' }}>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#064e3b' }}>
                 Notice an Environmental Hazard or Bulk Plastic Dumping?
               </div>
-              <div style={{ fontSize: '0.8125rem', color: '#047857' }}>
+              <div style={{ fontSize: '0.82rem', color: '#047857' }}>
                 Our Rapid Water Defense Desk dispatches field volunteers and notifies municipal authorities within 2 hours.
               </div>
             </div>
@@ -622,20 +792,21 @@ const Announcements = () => {
           <Link
             to="/contact"
             style={{
-              padding: '0.6rem 1.25rem',
+              padding: '0.65rem 1.3rem',
               background: '#059669',
               color: '#ffffff',
               borderRadius: '8px',
-              fontSize: '0.875rem',
-              fontWeight: 600,
+              fontSize: '0.88rem',
+              fontWeight: 700,
               textDecoration: 'none',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.4rem',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              boxShadow: '0 2px 6px rgba(5,150,105,0.2)'
             }}
           >
-            Report an Incident
+            <span>Report an Incident</span>
             <ArrowRight size={15} />
           </Link>
         </div>
