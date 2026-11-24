@@ -4264,7 +4264,7 @@ body::-webkit-scrollbar {
     height: 100%;
     min-height: 480px;
     object-fit: cover;
-    object-position: center 30%;
+    object-position: 0% 35%;
     display: block;
     filter: none !important;
     -webkit-filter: none !important;
@@ -4282,10 +4282,10 @@ body::-webkit-scrollbar {
     bottom: 0;
     transform: none;
     max-width: 100%;
-    padding: 2.25rem 1.25rem 1.75rem 1.25rem;
+    padding: 1.5rem 1.25rem 1.5rem 1.25rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     text-align: center;
     background: transparent !important;
