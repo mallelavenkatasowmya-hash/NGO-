@@ -11438,13 +11438,15 @@ body::-webkit-scrollbar {
    (Strictly scoped to max-width: 768px - Desktop website remains 100% untouched)
    ========================================================================== */
 
-/* Completely hide mobile dock on desktop */
-.mobile-app-bottom-dock {
-  display: none;
+/* Completely hide mobile dock & popovers on desktop */
+.mobile-app-bottom-dock,
+.mobile-dock-popover,
+.mobile-dock-backdrop {
+  display: none !important;
 }
 
 @media (max-width: 768px) {
-  /* 1. App-Style Bottom Navigation Dock */
+  /* 1. App-Style Bottom Navigation Dock - 6 Items */
   .mobile-app-bottom-dock {
     display: block !important;
     position: fixed;
@@ -11452,22 +11454,23 @@ body::-webkit-scrollbar {
     left: 0;
     right: 0;
     z-index: 9980;
-    background: #0f172a; /* Sleek dark tone matching modern mobile app dock */
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.35);
+    background: #0b1329; /* Deep, sleek midnight slate */
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
+    padding: 4px 6px calc(6px + env(safe-area-inset-bottom, 0px));
   }
 
   .mobile-dock-inner {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    max-width: 480px;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 520px;
     margin: 0 auto;
     position: relative;
-    height: 54px;
+    height: 52px;
   }
 
   .mobile-dock-item {
@@ -11478,21 +11481,31 @@ body::-webkit-scrollbar {
     text-decoration: none;
     color: #94a3b8;
     flex: 1;
+    min-width: 0;
     height: 100%;
-    transition: all 0.2s ease;
+    padding: 2px 2px;
+    transition: all 0.18s ease;
     -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    background: none;
+    border: none;
   }
 
   .mobile-dock-item.active {
     color: #34d399; /* Vibrant emerald active */
   }
 
+  .mobile-dock-item.popover-open {
+    color: #6ee7b7;
+  }
+
   .mobile-dock-icon-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     height: 24px;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     transition: transform 0.15s ease;
   }
 
@@ -11500,78 +11513,228 @@ body::-webkit-scrollbar {
     transform: translateY(-2px);
   }
 
-  .mobile-dock-label {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    line-height: 1;
-  }
-
-  /* Center Elevated Home Button (protruding circular button) */
-  .mobile-dock-center-slot {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    height: 100%;
-  }
-
-  .mobile-dock-center-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
+  .mobile-dock-chevron-dot {
     position: absolute;
-    top: -18px;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .mobile-dock-center-circle {
-    width: 46px;
-    height: 46px;
+    bottom: -1px;
+    right: -4px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: #ffffff;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 0 4px #0f172a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(148, 163, 184, 0.6);
+    transition: all 0.2s ease;
   }
 
-  .mobile-dock-center-btn.active .mobile-dock-center-circle {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-    box-shadow: 0 6px 18px rgba(5, 150, 105, 0.5), 0 0 0 4px #0f172a;
-    transform: scale(1.06);
+  .mobile-dock-chevron-dot.active-dot,
+  .mobile-dock-item.popover-open .mobile-dock-chevron-dot {
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
   }
 
-  .mobile-dock-label-center {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: #94a3b8;
-    margin-top: 4px;
+  .mobile-dock-label {
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
-  .mobile-dock-center-btn.active .mobile-dock-label-center {
+  .mobile-dock-item.active .mobile-dock-label {
+    font-weight: 700;
     color: #34d399;
   }
 
-  /* 2. Page clearance so content and footer are never hidden by dock */
+  /* 2. Floating Popover Sheet for Submenus */
+  .mobile-dock-backdrop {
+    display: block !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9975;
+    animation: fadeIn 0.15s ease-out;
+  }
+
+  .mobile-dock-popover {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    bottom: 64px;
+    left: 10px;
+    right: 10px;
+    max-width: 440px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(15, 23, 42, 0.08);
+    z-index: 9985;
+    padding: 1.15rem;
+    animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .mobile-dock-popover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.75rem;
+  }
+
+  .mobile-dock-popover-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #059669;
+    background: #ecfdf5;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-bottom: 0.2rem;
+  }
+
+  .mobile-dock-popover-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .mobile-dock-popover-close {
+    background: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    cursor: pointer;
+  }
+
+  .mobile-dock-popover-mainlink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #059669;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    padding: 0.65rem 1rem;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+  }
+
+  .mobile-dock-popover-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mobile-dock-popover-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 12px;
+    text-decoration: none !important;
+    color: #1e293b;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transition: all 0.15s ease;
+    position: relative;
+  }
+
+  .mobile-dock-popover-item.active {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #047857;
+  }
+
+  .mobile-dock-popover-item-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #059669;
+    flex-shrink: 0;
+  }
+
+  .mobile-dock-popover-item.active .mobile-dock-popover-item-icon {
+    background: #059669;
+    color: #ffffff;
+    border-color: #059669;
+  }
+
+  .mobile-dock-popover-item-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: inherit;
+    line-height: 1.25;
+  }
+
+  .mobile-dock-popover-item-desc {
+    font-size: 0.72rem;
+    color: #64748b;
+    line-height: 1.25;
+    margin-top: 2px;
+  }
+
+  .mobile-dock-active-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* 3. Page clearance so content and footer are never hidden by dock */
   .site-wrapper {
     padding-bottom: 74px !important;
   }
 
-  /* 3. Floating Contact Widget positioned above mobile dock */
+  /* 4. Floating Contact Widget positioned above mobile dock */
   .floating-contact-widget {
-    bottom: 78px !important;
+    bottom: 74px !important;
     right: 14px !important;
     transform: scale(0.92);
     transform-origin: bottom right;
   }
 
-  /* 4. Quick Actions 2x2 Grid on Mobile (like reference app screenshot) */
+  /* 5. Quick Actions 2x2 Grid on Mobile (like reference app screenshot) */
   .eco-perminu-cards-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.75rem !important;
@@ -11619,7 +11782,7 @@ body::-webkit-scrollbar {
     font-weight: 700 !important;
   }
 
-  /* 5. Mobile Typography & Touch Padding */
+  /* 6. Mobile Typography & Touch Padding */
   .eco-hero-buttons-overlay {
     flex-direction: column !important;
     width: 100% !important;
