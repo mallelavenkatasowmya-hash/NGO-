@@ -91,7 +91,7 @@ const objectivesList = [
     border: '#e9d5ff',
     image: objPillar4FestivalImg,
     badge: 'Sacred Heritage',
-    desc: 'Partnering with riverside temples, mutts, and pilgrims to replace plastic bags and synthetic dyes with compostable leaf plates and earthen offerings.',
+    desc: 'Partnering with riverside temples and local artisans to replace synthetic immersion materials with handcrafted unbaked terracotta lamps and eco-offerings.',
     targets: [
       'Alliances with 50+ ghat temples',
       '10,000+ compostable leaf-plate sets',
@@ -108,7 +108,7 @@ const objectivesList = [
     border: '#fde68a',
     image: objPillar5EducationImg,
     badge: 'Youth Leadership',
-    desc: 'Empowering school students and collegiate youth through Haritha Sena eco-clubs, riverfront street plays, and hands-on environmental leadership.',
+    desc: 'Empowering school students and collegiate youth through Haritha Sena eco-clubs, campus environmental rallies, and certified river ambassador leadership.',
     targets: [
       '50 interactive school & college workshops',
       '1,000 youth volunteers trained yearly',
@@ -125,7 +125,7 @@ const objectivesList = [
     border: '#99f6e4',
     image: objPillar6WaterQualityImg,
     badge: 'Verified Data',
-    desc: 'Operating citizen-science water testing across bathing ghats, measuring Dissolved Oxygen, pH, and Turbidity with open public metrics.',
+    desc: 'Operating student and citizen-science water testing across bathing ghats, measuring Dissolved Oxygen, pH, and Turbidity with open public metrics.',
     targets: [
       '15 automated water testing stations',
       'Monthly public river health reports',
@@ -519,11 +519,11 @@ const AboutObjectives = () => {
                   }}
                 >
                   {/* Photo Header */}
-                  <div style={{ height: '190px', overflow: 'hidden', position: 'relative' }}>
+                  <div style={{ height: '210px', overflow: 'hidden', position: 'relative', background: '#f1f5f9' }}>
                     <img 
                       src={obj.image} 
                       alt={obj.title} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
                       loading="lazy"
                     />
                     <div style={{
