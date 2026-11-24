@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#ffffff" stroke="#10b981" stroke-width="3.5"/>
+  <g id="ngo-emblem">
+    <!-- Riverbank Green Base -->
+    <path
+      d="M10 80C24 74 42 75 60 79C75 83 88 80 94 77C92 86 76 90 50 90C24 90 12 86 10 80Z"
+      fill="#15803d"
+    />
+
+    <!-- Lower River Stream (Sky Blue) -->
+    <path
+      d="M8 73C22 66 40 68 58 74C74 79 86 76 93 70C91 76 76 82 55 81C36 80 20 76 8 73Z"
+      fill="#0ea5e9"
+    />
+
+    <!-- Upper River Stream (Deep Godavari Blue) -->
+    <path
+      d="M10 66C25 59 46 61 64 68C78 73 88 69 94 64C91 70 77 75 58 74C41 73 24 69 10 66Z"
+      fill="#0284c7"
+    />
+
+    <!-- Left Tree -->
+    <path
+      d="M27 36L19 50H24L17 62H37L30 50H35L27 36Z"
+      fill="#22c55e"
+    />
+    <rect x="25.5" y="62" width="3" height="7" fill="#15803d" />
+
+    <!-- Center Tree (Taller, Rich Forest Green) -->
+    <path
+      d="M50 18L38 38H44L34 54H41L32 66H68L59 54H66L56 38H62L50 18Z"
+      fill="#15803d"
+    />
+    <rect x="48" y="66" width="4" height="8" fill="#0f5132" />
+
+    <!-- Right Tree -->
+    <path
+      d="M73 34L65 48H70L62 61H83L76 48H81L73 34Z"
+      fill="#16a34a"
+    />
+    <rect x="71.5" y="61" width="3" height="7" fill="#15803d" />
+
+    <!-- Small accent foliage -->
+    <circle cx="14" cy="60" r="3.5" fill="#4ade80" />
+    <circle cx="86" cy="59" r="3.5" fill="#4ade80" />
+  </g>
+</svg>
