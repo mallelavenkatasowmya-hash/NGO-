@@ -26,7 +26,9 @@ import {
   Compass,
   CheckCircle2,
   Calendar,
-  MapPin
+  MapPin,
+  Clock,
+  Award
 } from 'lucide-react';
 
 const standForList = [
@@ -102,72 +104,240 @@ const AboutNGO = () => {
   return (
     <div className="clean-page-wrapper" style={{ minHeight: '100vh', background: '#ffffff', color: '#1e293b' }}>
       
-      {/* 1. PROFESSIONAL HERO HEADER WITH GODAVARI PHOTOGRAPHY */}
+      {/* 1. PROFESSIONAL 2-COLUMN HERO (CONSISTENT WITH OTHER PLATFORM PAGES) */}
       <section style={{
-        position: 'relative',
-        padding: '5.5rem 1.5rem 5rem',
-        backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.52) 0%, rgba(6, 78, 59, 0.42) 50%, rgba(15, 23, 42, 0.72) 100%), url(${godavariMissionHeroImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        color: '#ffffff',
-        textAlign: 'center',
-        overflow: 'hidden'
+        background: '#f8fafc',
+        borderBottom: '1px solid #e2e8f0',
+        padding: '3rem 1.5rem 2.5rem'
       }}>
-        {/* Subtle decorative glow */}
-        <div style={{
-          position: 'absolute',
-          top: '-20%',
-          right: '-10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 70%)',
-          borderRadius: '50%',
-          pointerEvents: 'none'
-        }} />
-
-        <div style={{ maxWidth: '980px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <h1 style={{
-            fontSize: 'clamp(2.2rem, 4vw, 3.25rem)',
-            fontWeight: 800,
-            color: '#ffffff',
-            margin: '0 0 1rem',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.2,
-            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2.5rem',
+            alignItems: 'center'
           }}>
-            Godhavari Nadhi Paryavarana Parishubratha
-          </h1>
+            {/* Left Column: Info & Action */}
+            <div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: '#ecfdf5',
+                color: '#059669',
+                padding: '0.4rem 0.9rem',
+                borderRadius: '9999px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                marginBottom: '0.85rem',
+                border: '1px solid #a7f3d0'
+              }}>
+                <Sparkles size={14} />
+                <span>ORGANIZATION PROFILE • ABOUT US</span>
+              </div>
 
-          <p style={{
-            fontSize: 'clamp(1.1rem, 1.8vw, 1.3rem)',
-            fontWeight: 600,
-            color: '#86efac',
-            margin: '0 auto 1.25rem',
-            lineHeight: 1.5,
-            maxWidth: '780px',
-            textShadow: '0 1px 6px rgba(0, 0, 0, 0.35)'
-          }}>
-            Creating Awareness. Promoting Cleanliness. Encouraging Community Participation.
-          </p>
+              <h1 style={{
+                fontSize: 'clamp(2rem, 3.4vw, 2.75rem)',
+                fontWeight: 800,
+                color: '#0f172a',
+                lineHeight: 1.2,
+                margin: '0 0 0.75rem',
+                letterSpacing: '-0.025em'
+              }}>
+                Godhavari Nadhi Paryavarana Parishubratha
+              </h1>
 
-          <p style={{
-            fontSize: '1.05rem',
-            color: '#ecfdf5',
-            maxWidth: '740px',
-            margin: '0 auto',
-            lineHeight: 1.75,
-            opacity: 0.95
-          }}>
-            Godhavari Nadhi Paryavarana Parishubratha is an organization focused on public awareness, 
-            environmental cleanliness and community development activities across the sacred Godavari river basin.
-          </p>
+              <p style={{
+                fontSize: '0.96rem',
+                color: '#475569',
+                lineHeight: 1.65,
+                margin: '0 0 1.25rem',
+                maxWidth: '540px'
+              }}>
+                A dedicated grassroots environmental movement creating awareness, safeguarding ghat cleanliness, 
+                and inspiring active community stewardship across the sacred Godavari river basin.
+              </p>
+
+              {/* Quick Stat Badges Strip */}
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '0.6rem',
+                marginBottom: '1.5rem'
+              }}>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: '#047857'
+                }}>
+                  <Users size={14} />
+                  3,200+ Active Volunteers
+                </div>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: '#047857'
+                }}>
+                  <ShieldCheck size={14} />
+                  Certified River NGO
+                </div>
+                <div style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  color: '#047857'
+                }}>
+                  <MapPin size={14} />
+                  Rajahmundry &amp; Basin Ghats
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                <a
+                  href="#conviction"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: '#059669',
+                    color: '#ffffff',
+                    padding: '8px 18px',
+                    borderRadius: '8px',
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    fontSize: '0.88rem',
+                    boxShadow: '0 2px 6px rgba(5, 150, 105, 0.2)'
+                  }}
+                >
+                  <span>Explore Our Mission</span>
+                  <ArrowRight size={15} />
+                </a>
+
+                <Link
+                  to="/activities"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: '#ffffff',
+                    color: '#059669',
+                    padding: '8px 18px',
+                    borderRadius: '8px',
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    fontSize: '0.88rem',
+                    border: '1px solid #059669'
+                  }}
+                >
+                  View Field Activities
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Hero Image Showcase */}
+            <div>
+              <div style={{
+                position: 'relative',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 10px 25px -6px rgba(0, 0, 0, 0.1)',
+                border: '1px solid #e2e8f0',
+                background: '#ffffff'
+              }}>
+                <img
+                  src={godavariMissionHeroImg}
+                  alt="Godavari River Conservation Mission in Rajahmundry"
+                  style={{
+                    width: '100%',
+                    height: '280px',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
+                />
+                
+                {/* Overlay Top Tag */}
+                <div style={{
+                  position: 'absolute',
+                  top: '10px',
+                  left: '10px',
+                  background: 'rgba(5, 150, 105, 0.95)',
+                  color: '#ffffff',
+                  padding: '3px 10px',
+                  borderRadius: '9999px',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                  backdropFilter: 'blur(4px)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem'
+                }}>
+                  <ShieldCheck size={13} />
+                  FOUNDATIONAL MISSION
+                </div>
+
+                {/* Bottom Caption Strip */}
+                <div style={{
+                  padding: '0.75rem 1.15rem',
+                  background: '#ffffff',
+                  borderTop: '1px solid #f1f5f9',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                  <div>
+                    <div style={{ fontSize: '0.86rem', fontWeight: 700, color: '#0f172a' }}>
+                      Godavari Riverfront Community Initiative
+                    </div>
+                    <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                      Rajahmundry &amp; Basin Ghats Chapters
+                    </div>
+                  </div>
+                  <span style={{
+                    background: '#ecfdf5',
+                    color: '#059669',
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    padding: '3px 9px',
+                    borderRadius: '6px',
+                    border: '1px solid #a7f3d0'
+                  }}>
+                    COMMUNITY LED
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
       {/* 2. CORE NARRATIVE WITH FEATURED IMAGE */}
       <section id="conviction" style={{ padding: '4.5rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
             
             {/* Left Narrative */}
@@ -259,7 +429,7 @@ const AboutNGO = () => {
 
       {/* 3. WHO WE ARE & OUR PURPOSE WITH REAL PHOTO CARDS */}
       <section id="who-we-are" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', scrollMarginTop: '80px' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
             
@@ -368,7 +538,7 @@ const AboutNGO = () => {
 
       {/* 4. REAL-TIME ACTIVITIES PHOTO RIBBON */}
       <section id="initiatives" style={{ padding: '4.5rem 1.5rem', background: '#ffffff', scrollMarginTop: '80px' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
@@ -441,7 +611,7 @@ const AboutNGO = () => {
 
       {/* 5. WHAT WE STAND FOR (5 PILLARS WITH CRISP IMAGES & LESS MATTER) */}
       <section id="principles" style={{ padding: '4.5rem 1.5rem', background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0', scrollMarginTop: '80px' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="clean-badge" style={{ background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0' }}>
@@ -555,7 +725,7 @@ const AboutNGO = () => {
 
       {/* 6. OUR APPROACH & OUR COMMITMENT WITH VISUALS */}
       <section style={{ padding: '4.5rem 1.5rem', background: '#ffffff' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
             
