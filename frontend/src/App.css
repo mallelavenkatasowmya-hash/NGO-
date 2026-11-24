@@ -11433,6 +11433,214 @@ body::-webkit-scrollbar {
   border-bottom: none;
 }
 
+/* ==========================================================================
+   Mobile-Only App-Style Navigation & Responsive Enhancements
+   (Strictly scoped to max-width: 768px - Desktop website remains 100% untouched)
+   ========================================================================== */
+
+/* Completely hide mobile dock on desktop */
+.mobile-app-bottom-dock {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* 1. App-Style Bottom Navigation Dock */
+  .mobile-app-bottom-dock {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9980;
+    background: #0f172a; /* Sleek dark tone matching modern mobile app dock */
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .mobile-dock-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    height: 54px;
+  }
+
+  .mobile-dock-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #94a3b8;
+    flex: 1;
+    height: 100%;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-dock-item.active {
+    color: #34d399; /* Vibrant emerald active */
+  }
+
+  .mobile-dock-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    margin-bottom: 3px;
+    transition: transform 0.15s ease;
+  }
+
+  .mobile-dock-item.active .mobile-dock-icon-wrap {
+    transform: translateY(-2px);
+  }
+
+  .mobile-dock-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  /* Center Elevated Home Button (protruding circular button) */
+  .mobile-dock-center-slot {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+  }
+
+  .mobile-dock-center-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    position: absolute;
+    top: -18px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-dock-center-circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 0 4px #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .mobile-dock-center-btn.active .mobile-dock-center-circle {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 6px 18px rgba(5, 150, 105, 0.5), 0 0 0 4px #0f172a;
+    transform: scale(1.06);
+  }
+
+  .mobile-dock-label-center {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-top: 4px;
+    line-height: 1;
+  }
+
+  .mobile-dock-center-btn.active .mobile-dock-label-center {
+    color: #34d399;
+  }
+
+  /* 2. Page clearance so content and footer are never hidden by dock */
+  .site-wrapper {
+    padding-bottom: 74px !important;
+  }
+
+  /* 3. Floating Contact Widget positioned above mobile dock */
+  .floating-contact-widget {
+    bottom: 78px !important;
+    right: 14px !important;
+    transform: scale(0.92);
+    transform-origin: bottom right;
+  }
+
+  /* 4. Quick Actions 2x2 Grid on Mobile (like reference app screenshot) */
+  .eco-perminu-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    margin-top: -1.25rem !important;
+  }
+
+  .eco-perminu-card {
+    padding: 1rem 0.85rem !important;
+    border-radius: 16px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.65rem !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
+  }
+
+  .eco-pcard-icon-wrap {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+  }
+
+  .eco-pcard-icon-wrap .eco-pcard-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .eco-pcard-title {
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .eco-pcard-desc {
+    font-size: 0.74rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.45rem !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .eco-pcard-link {
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+  }
+
+  /* 5. Mobile Typography & Touch Padding */
+  .eco-hero-buttons-overlay {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.65rem !important;
+  }
+
+  .btn-hero-primary-green,
+  .btn-hero-outline-green {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 0.7rem 1.25rem !important;
+  }
+
+  /* Responsive Cards & Containers Across Sectional Pages */
+  .clean-page-wrapper {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
+
 
 
 

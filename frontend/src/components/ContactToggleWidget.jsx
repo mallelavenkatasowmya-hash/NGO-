@@ -13,6 +13,7 @@ const ContactToggleWidget = () => {
   return (
     <aside 
       aria-label="Direct Full Page Contact Link"
+      className="floating-contact-widget"
       style={{
         position: 'fixed',
         bottom: '26px',
