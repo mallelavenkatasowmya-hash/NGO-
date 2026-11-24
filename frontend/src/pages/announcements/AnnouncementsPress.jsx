@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import godavariAnnouncementsPressImg from '../../assets/godavari-announcements-press.jpg';
+import pressHeroImg from '../../assets/press-communique-hero.jpg';
+import statementCanalBarriersImg from '../../assets/statement-pr08-canal-barriers.jpg';
+import statementTempleAdvisoryImg from '../../assets/statement-pr06-temple-advisory.jpg';
+import statementWaterQualityImg from '../../assets/statement-pr05-water-quality-index.jpg';
+import statementTripartiteMouImg from '../../assets/statement-pr03-tripartite-mou.jpg';
+import kitBrandIdentityImg from '../../assets/kit-brand-identity.jpg';
+import kitNgoFactsheetImg from '../../assets/kit-ngo-factsheet.jpg';
+import kitLeadershipProfilesImg from '../../assets/kit-leadership-profiles.jpg';
+import kitRiparianStudyImg from '../../assets/kit-riparian-study.jpg';
 import { 
   FileText, 
   ShieldCheck, 
@@ -26,6 +34,7 @@ const pressReleases = [
     date: '16 Nov 2026',
     category: 'Policy & Infrastructure',
     status: 'Official Statement',
+    image: statementCanalBarriersImg,
     signatory: 'Sri K. Venkata Ramana, Executive Director',
     summary: 'The NGO officially announces the complete operationalization of high-tensile marine barrier nets across all 22 municipal stormwater outfalls discharging into River Godavari within Rajahmundry limits.',
     statement: `RAJAHMUNDRY, ANDHRA PRADESH — November 16, 2026
@@ -49,6 +58,7 @@ Inquiries regarding technical net specifications or replication in other river b
     date: '02 Nov 2026',
     category: 'Civic Advisory',
     status: 'Public Advisory',
+    image: statementTempleAdvisoryImg,
     signatory: 'Dr. P. Radha Krishna, Ecological Director & Regional Temple Council',
     summary: 'A joint advisory in collaboration with 12 major riverside temple trusts, formally advocating for the prohibition of polythene-wrapped puja offerings and synthetic dyes during holy baths.',
     statement: `RAJAHMUNDRY, ANDHRA PRADESH — November 02, 2026
@@ -74,6 +84,7 @@ The NGO reiterates that true devotion to Mother Godavari manifests in safeguardi
     date: '15 Oct 2026',
     category: 'Scientific Audit',
     status: 'Research Release',
+    image: statementWaterQualityImg,
     signatory: 'Environmental Monitoring Lab, Godavari Conservation Directorate',
     summary: 'Independent hydrological monitoring across 15 permanent riverbank stations confirms steady water quality recovery following intensified community sanitation and outfall defense.',
     statement: `RAJAHMUNDRY, ANDHRA PRADESH — October 15, 2026
@@ -98,6 +109,7 @@ The full 42-page technical dossier, including lab titration logs, spectrophotome
     date: '18 Sep 2026',
     category: 'Institutional Partnership',
     status: 'Bilateral Agreement',
+    image: statementTripartiteMouImg,
     signatory: 'Board of Trustees & Municipal Commissioner',
     summary: 'Execution of a formal five-year institutional memorandum establishing permanent student research fellowships, real-time telemetry sensor deployments, and civic funding for river cleanup.',
     statement: `RAJAHMUNDRY, ANDHRA PRADESH — September 18, 2026
@@ -123,24 +135,28 @@ const pressKits = [
     title: 'Official Brand Identity & Vector Assets',
     size: '14.2 MB',
     format: 'ZIP (PNG, SVG, PDF)',
+    image: kitBrandIdentityImg,
     desc: 'Official high-resolution emblem, verified color palette codes, and brand application guidelines for authorized media publications.'
   },
   {
     title: 'Comprehensive NGO Factsheet (2025–2026)',
     size: '2.4 MB',
     format: 'PDF Document',
+    image: kitNgoFactsheetImg,
     desc: 'Two-page executive summary covering founding history, governance board, key impact statistics, and active project locations.'
   },
   {
     title: 'Executive Leadership Profiles & Headshots',
     size: '8.6 MB',
     format: 'ZIP (High-Res Images)',
+    image: kitLeadershipProfilesImg,
     desc: 'Authorized biographies, speaking topics, and print-ready editorial portraits of key trustees and scientific coordinators.'
   },
   {
     title: 'Godavari Basin Riparian Baseline Study',
     size: '4.8 MB',
     format: 'PDF Technical Paper',
+    image: kitRiparianStudyImg,
     desc: 'Detailed environmental study on native tree species, bank erosion patterns, and riverbed biodiversity along the lower Godavari.'
   }
 ];
@@ -329,7 +345,7 @@ const AnnouncementsPress = () => {
                 background: '#ffffff'
               }}>
                 <img
-                  src={godavariAnnouncementsPressImg}
+                  src={pressHeroImg}
                   alt="Official Press Briefings and Media Announcements"
                   style={{
                     width: '100%',
@@ -533,151 +549,182 @@ const AnnouncementsPress = () => {
                   background: '#ffffff',
                   border: '1px solid #e2e8f0',
                   borderRadius: '14px',
-                  padding: '1.75rem',
+                  overflow: 'hidden',
                   boxShadow: '0 3px 10px rgba(0,0,0,0.03)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1rem',
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                   transition: 'border-color 0.15s ease'
                 }}
               >
-                {/* Meta strip */}
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  borderBottom: '1px solid #f1f5f9',
-                  paddingBottom: '0.85rem'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                {/* Photo Column */}
+                <div style={{ position: 'relative', minHeight: '220px', background: '#f1f5f9' }}>
+                  <img
+                    src={release.image}
+                    alt={release.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      minHeight: '220px',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                  />
+                  {/* Badges overlay */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '12px',
+                    left: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}>
                     <span style={{
                       background: '#0f172a',
                       color: '#ffffff',
-                      fontSize: '0.75rem',
+                      fontSize: '0.72rem',
                       fontWeight: 700,
-                      padding: '0.2rem 0.6rem',
-                      borderRadius: '4px',
+                      padding: '0.25rem 0.6rem',
+                      borderRadius: '5px',
                       letterSpacing: '0.04em'
                     }}>
                       {release.ref}
                     </span>
                     <span style={{
-                      background: '#ecfdf5',
+                      background: 'rgba(255, 255, 255, 0.95)',
                       color: '#059669',
-                      fontSize: '0.75rem',
+                      fontSize: '0.72rem',
                       fontWeight: 700,
-                      padding: '0.2rem 0.6rem',
-                      borderRadius: '4px',
-                      border: '1px solid #a7f3d0'
+                      padding: '0.25rem 0.6rem',
+                      borderRadius: '5px',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                     }}>
                       {release.category}
                     </span>
                   </div>
 
+                  {/* Signatory pill overlay bottom */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    background: 'linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, transparent 100%)',
+                    padding: '1.25rem 1rem 0.65rem',
+                    color: '#f8fafc',
+                    fontSize: '0.75rem',
+                    fontWeight: 600
+                  }}>
+                    {release.signatory}
+                  </div>
+                </div>
+
+                {/* Content Column */}
+                <div style={{
+                  padding: '1.35rem 1.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}>
+                  <div>
+                    {/* Meta strip */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      fontSize: '0.78rem',
+                      color: '#64748b',
+                      fontWeight: 500,
+                      marginBottom: '0.45rem'
+                    }}>
+                      <Calendar size={13} style={{ color: '#059669' }} />
+                      Issued: {release.date}
+                    </div>
+
+                    {/* Release Title */}
+                    <h3 style={{
+                      fontSize: '1.125rem',
+                      fontWeight: 700,
+                      color: '#0f172a',
+                      lineHeight: 1.4,
+                      margin: '0 0 0.5rem'
+                    }}>
+                      {release.title}
+                    </h3>
+
+                    {/* Summary - LESS MATTER */}
+                    <p style={{
+                      fontSize: '0.86rem',
+                      color: '#475569',
+                      lineHeight: 1.5,
+                      margin: '0 0 0.75rem'
+                    }}>
+                      {release.summary}
+                    </p>
+
+                    {/* Key Takeaway Pill */}
+                    <div style={{
+                      background: '#f0fdf4',
+                      border: '1px solid #bbf7d0',
+                      borderLeft: '3px solid #059669',
+                      borderRadius: '6px',
+                      padding: '0.45rem 0.75rem',
+                      marginBottom: '1rem'
+                    }}>
+                      <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#166534', marginBottom: '0.15rem' }}>
+                        KEY DELIVERABLE
+                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#14532d', lineHeight: 1.35 }}>
+                        {release.deliverables[0]}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
                   <div style={{
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    fontSize: '0.8125rem',
-                    color: '#64748b',
-                    fontWeight: 500
+                    flexWrap: 'wrap',
+                    gap: '0.65rem'
                   }}>
-                    <Calendar size={14} />
-                    Issued: {release.date}
+                    <button
+                      onClick={() => setSelectedRelease(release)}
+                      style={{
+                        padding: '0.55rem 1.15rem',
+                        background: '#059669',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
+                      }}
+                    >
+                      Read Full Statement
+                      <ChevronRight size={14} />
+                    </button>
+
+                    <button
+                      onClick={() => handleDownload(`${release.ref} Official Release`)}
+                      style={{
+                        padding: '0.55rem 1.15rem',
+                        background: '#ffffff',
+                        color: '#059669',
+                        border: '1px solid #059669',
+                        borderRadius: '8px',
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
+                      }}
+                    >
+                      <Download size={14} />
+                      Download PDF
+                    </button>
                   </div>
-                </div>
-
-                {/* Release Title */}
-                <h3 style={{
-                  fontSize: '1.25rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  lineHeight: 1.4,
-                  margin: 0
-                }}>
-                  {release.title}
-                </h3>
-
-                {/* Signatory */}
-                <div style={{ fontSize: '0.8125rem', color: '#047857', fontWeight: 600 }}>
-                  Authorized Signatory: {release.signatory}
-                </div>
-
-                {/* Summary */}
-                <p style={{
-                  fontSize: '0.9375rem',
-                  color: '#475569',
-                  lineHeight: 1.6,
-                  margin: 0
-                }}>
-                  {release.summary}
-                </p>
-
-                {/* Highlights pill box */}
-                <div style={{
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '0.85rem 1.15rem'
-                }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#047857', marginBottom: '0.4rem' }}>
-                    OFFICIAL HIGHLIGHTS:
-                  </div>
-                  <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.8125rem', color: '#334155', lineHeight: 1.5 }}>
-                    {release.deliverables.map((d, i) => (
-                      <li key={i}>{d}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Action buttons */}
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '0.75rem',
-                  paddingTop: '0.5rem'
-                }}>
-                  <button
-                    onClick={() => setSelectedRelease(release)}
-                    style={{
-                      padding: '0.65rem 1.25rem',
-                      background: '#059669',
-                      color: '#ffffff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: '0.875rem',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem'
-                    }}
-                  >
-                    Read Full Statement
-                    <ChevronRight size={15} />
-                  </button>
-
-                  <button
-                    onClick={() => handleDownload(`${release.ref} Official Release`)}
-                    style={{
-                      padding: '0.65rem 1.25rem',
-                      background: '#ffffff',
-                      color: '#059669',
-                      border: '1px solid #059669',
-                      borderRadius: '8px',
-                      fontSize: '0.875rem',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem'
-                    }}
-                  >
-                    <Download size={15} />
-                    Download Official Statement (PDF)
-                  </button>
                 </div>
               </article>
             ))}
@@ -726,75 +773,100 @@ const AnnouncementsPress = () => {
                   background: '#ffffff',
                   border: '1px solid #e2e8f0',
                   borderRadius: '12px',
-                  padding: '1.5rem',
+                  overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
               >
                 <div>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '0.75rem'
-                  }}>
-                    <span style={{
-                      background: '#ecfdf5',
+                  {/* Kit Image Header */}
+                  <div style={{ position: 'relative', height: '145px', overflow: 'hidden' }}>
+                    <img
+                      src={kit.image}
+                      alt={kit.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block'
+                      }}
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      top: '8px',
+                      left: '8px',
+                      background: 'rgba(255, 255, 255, 0.95)',
                       color: '#059669',
-                      fontSize: '0.75rem',
+                      fontSize: '0.68rem',
                       fontWeight: 700,
-                      padding: '0.2rem 0.6rem',
+                      padding: '2px 8px',
                       borderRadius: '4px',
-                      border: '1px solid #a7f3d0'
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                     }}>
                       {kit.format}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>
+                    </div>
+                    <div style={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      background: 'rgba(15, 23, 42, 0.85)',
+                      color: '#ffffff',
+                      fontSize: '0.68rem',
+                      fontWeight: 600,
+                      padding: '2px 7px',
+                      borderRadius: '4px'
+                    }}>
                       {kit.size}
-                    </span>
+                    </div>
                   </div>
 
-                  <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem' }}>
-                    {kit.title}
-                  </h3>
+                  {/* Kit Text - LESS MATTER */}
+                  <div style={{ padding: '1rem 1.15rem 0.5rem' }}>
+                    <h3 style={{ fontSize: '0.98rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.4rem', lineHeight: 1.35 }}>
+                      {kit.title}
+                    </h3>
 
-                  <p style={{ fontSize: '0.8125rem', color: '#475569', lineHeight: 1.5, marginBottom: '1.25rem' }}>
-                    {kit.desc}
-                  </p>
+                    <p style={{ fontSize: '0.8rem', color: '#64748b', lineHeight: 1.45, margin: 0 }}>
+                      {kit.desc}
+                    </p>
+                  </div>
                 </div>
 
-                <button
-                  onClick={() => handleDownload(kit.title)}
-                  style={{
-                    width: '100%',
-                    padding: '0.6rem 1rem',
-                    background: '#ffffff',
-                    color: '#059669',
-                    border: '1px solid #059669',
-                    borderRadius: '8px',
-                    fontSize: '0.8125rem',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.4rem',
-                    transition: 'all 0.15s ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.background = '#059669';
-                    e.currentTarget.style.color = '#ffffff';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.background = '#ffffff';
-                    e.currentTarget.style.color = '#059669';
-                  }}
-                >
-                  <Download size={14} />
-                  Download Kit
-                </button>
+                <div style={{ padding: '0.85rem 1.15rem 1.15rem' }}>
+                  <button
+                    onClick={() => handleDownload(kit.title)}
+                    style={{
+                      width: '100%',
+                      padding: '0.55rem 1rem',
+                      background: '#ffffff',
+                      color: '#059669',
+                      border: '1px solid #059669',
+                      borderRadius: '8px',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.4rem',
+                      transition: 'all 0.15s ease'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.background = '#059669';
+                      e.currentTarget.style.color = '#ffffff';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.background = '#ffffff';
+                      e.currentTarget.style.color = '#059669';
+                    }}
+                  >
+                    <Download size={14} />
+                    Download Kit
+                  </button>
+                </div>
               </div>
             ))}
           </div>
