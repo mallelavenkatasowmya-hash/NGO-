@@ -98,9 +98,9 @@ const Gallery = () => {
         </div>
       </div>
 
-      <div className="container py-8">
+      <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
         {/* Category Filter Pills */}
-        <div className="eco-filter-pills-wrap mb-8">
+        <div className="eco-filter-pills-wrap" style={{ marginBottom: '2.75rem', display: 'flex', justifyContent: 'center', gap: '0.65rem', flexWrap: 'wrap' }}>
           {categories.map((cat) => (
             <button
               key={cat}
