@@ -594,24 +594,6 @@ const AwarenessSchools = () => {
         </div>
       </section>
 
-      {/* 7. BOTTOM NAVIGATION BAR */}
-      <section style={{ padding: '2rem 1.5rem', background: '#ffffff' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <Link
-            to="/awareness"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
-          >
-            <span>&larr; Back to Awareness Hub</span>
-          </Link>
-          <Link
-            to="/awareness/workshops"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
-          >
-            <span>Next: Public Workshops &rarr;</span>
-          </Link>
-        </div>
-      </section>
-
     </div>
   );
 };

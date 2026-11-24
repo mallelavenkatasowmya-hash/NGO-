@@ -675,24 +675,6 @@ const ActivityPlantation = () => {
         </div>
       </section>
 
-      {/* 7. PREVIOUS / NEXT ACTIVITY NAVIGATION */}
-      <section style={{ padding: '2rem 1.5rem', background: '#f8fafc' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <Link
-            to="/activities/cleanliness"
-            style={{ fontSize: '0.86rem', fontWeight: 700, color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
-          >
-            <span>&larr; Previous: Cleanliness Drives</span>
-          </Link>
-          <Link
-            to="/activities/conservation"
-            style={{ fontSize: '0.86rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
-          >
-            <span>Next: River Conservation &rarr;</span>
-          </Link>
-        </div>
-      </section>
-
     </div>
   );
 };

@@ -570,24 +570,6 @@ const AwarenessCampaigns = () => {
         </div>
       </section>
 
-      {/* 6. BOTTOM NAVIGATION BAR */}
-      <section style={{ padding: '2.5rem 1.5rem', background: '#ffffff' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <Link
-            to="/awareness/workshops"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
-          >
-            <span>&larr; Previous: Public Workshops</span>
-          </Link>
-          <Link
-            to="/awareness"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
-          >
-            <span>View All Awareness Programs &rarr;</span>
-          </Link>
-        </div>
-      </section>
-
     </div>
   );
 };

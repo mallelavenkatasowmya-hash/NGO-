@@ -636,24 +636,6 @@ const EventsUpcoming = () => {
         </div>
       </section>
 
-      {/* 5. BOTTOM NAVIGATION BAR */}
-      <section style={{ padding: '2.5rem 1.5rem', background: '#ffffff' }}>
-        <div style={{ maxWidth: '1180px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <Link
-            to="/events"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748b', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
-          >
-            <span>&larr; Back to Events Hub</span>
-          </Link>
-          <Link
-            to="/events/volunteer-meetings"
-            style={{ fontSize: '0.88rem', fontWeight: 700, color: '#059669', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}
-          >
-            <span>Next: Volunteer Drives &amp; Meetings &rarr;</span>
-          </Link>
-        </div>
-      </section>
-
     </div>
   );
 };
