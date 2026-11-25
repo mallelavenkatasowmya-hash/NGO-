@@ -17,7 +17,8 @@ import {
   ChevronUp,
   X,
   ArrowRight,
-  Compass
+  Compass,
+  Phone
 } from 'lucide-react';
 
 const mobileNavSections = [
