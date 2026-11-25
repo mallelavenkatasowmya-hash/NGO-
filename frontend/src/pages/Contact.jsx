@@ -45,22 +45,6 @@ const Contact = () => {
       </div>
 
       <div className="container section-padding">
-        {/* Quick Action Strip (Mobile Response - Quick Tap to Call / Help / Mail) */}
-        <div className="mobile-contact-quick-strip">
-          <a href="tel:+918832457890" className="mobile-quick-btn call-btn">
-            <Phone size={15} />
-            <span>Call Secretariat</span>
-          </a>
-          <a href="tel:+919440123456" className="mobile-quick-btn emergency-btn">
-            <Phone size={15} />
-            <span>Ghat Helpline</span>
-          </a>
-          <a href="mailto:contact@godhavari.org" className="mobile-quick-btn email-btn">
-            <Mail size={15} />
-            <span>Email Desk</span>
-          </a>
-        </div>
-
         <div className="grid-two-cards">
           {/* Secretariat Contact Information */}
           <div id="office" className="clean-content-box" style={{ scrollMarginTop: '100px' }}>
@@ -78,14 +62,6 @@ const Contact = () => {
                 <div>
                   <strong>Secretariat Office</strong>
                   <p>Godavari Bund Road, Opp. Kotilingala Ghat Temple, Rajahmundry, AP - 533101</p>
-                  <a
-                    href="https://maps.google.com/?q=Kotilingala+Ghat+Temple+Rajahmundry"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact-action-link"
-                  >
-                    View on Map →
-                  </a>
                 </div>
               </div>
 
@@ -95,14 +71,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <strong>Phone & Helplines</strong>
-                  <p>
-                    Main Secretariat:{' '}
-                    <a href="tel:+918832457890" className="contact-action-link">+91 883 245 7890</a>
-                  </p>
-                  <p>
-                    Ghat Emergency Helpline:{' '}
-                    <a href="tel:+919440123456" className="contact-action-link font-semibold text-emerald-700">+91 944 012 3456</a>
-                  </p>
+                  <p>Main Secretariat: +91 883 245 7890</p>
+                  <p>Ghat Emergency Helpline: +91 944 012 3456</p>
                 </div>
               </div>
 
@@ -112,9 +82,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <strong>Official Email</strong>
-                  <p>
-                    <a href="mailto:contact@godhavari.org" className="contact-action-link">contact@godhavari.org</a>
-                  </p>
+                  <p>contact@godhavari.org</p>
                 </div>
               </div>
 

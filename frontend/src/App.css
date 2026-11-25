@@ -12138,26 +12138,6 @@ body::-webkit-scrollbar {
   display: none !important;
 }
 
-/* Contact page action links default desktop */
-.contact-action-link {
-  color: #059669;
-  font-size: 0.84rem;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 0.2rem;
-  transition: color 0.15s ease;
-}
-
-.contact-action-link:hover {
-  color: #047857;
-  text-decoration: underline;
-}
-
-.mobile-contact-quick-strip {
-  display: none !important;
-}
-
 @media (max-width: 768px) {
 
   /* 1. App-Style Bottom Navigation Dock - 6 Items */
@@ -12573,59 +12553,6 @@ body::-webkit-scrollbar {
     padding: 1rem 0 2rem 0 !important;
   }
 
-  /* Quick Mobile Action Bar */
-  .mobile-contact-quick-strip {
-    display: flex !important;
-    gap: 0.5rem !important;
-    margin-bottom: 1.15rem !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  .mobile-quick-btn {
-    flex: 1 1 0 !important;
-    min-width: 0 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.35rem !important;
-    padding: 0.65rem 0.45rem !important;
-    border-radius: 12px !important;
-    font-size: 0.72rem !important;
-    font-weight: 700 !important;
-    text-decoration: none !important;
-    white-space: nowrap !important;
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
-    transition: transform 0.15s ease !important;
-  }
-
-  .mobile-quick-btn svg {
-    flex-shrink: 0 !important;
-  }
-
-  .mobile-quick-btn span {
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  .mobile-quick-btn.call-btn {
-    background: #ecfdf5 !important;
-    color: #065f46 !important;
-    border: 1px solid #a7f3d0 !important;
-  }
-
-  .mobile-quick-btn.emergency-btn {
-    background: #fef2f2 !important;
-    color: #991b1b !important;
-    border: 1px solid #fecaca !important;
-  }
-
-  .mobile-quick-btn.email-btn {
-    background: #f0fdf4 !important;
-    color: #047857 !important;
-    border: 1px solid #bbf7d0 !important;
-  }
-
   /* Contact Cards Layout */
   .grid-two-cards {
     display: flex !important;
@@ -12724,15 +12651,6 @@ body::-webkit-scrollbar {
     margin: 0 !important;
     overflow-wrap: break-word !important;
     word-break: break-word !important;
-  }
-
-  .contact-action-link {
-    color: #059669 !important;
-    font-size: 0.78rem !important;
-    font-weight: 600 !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    margin-top: 0.25rem !important;
   }
 
   /* Contact Inquiry Form Responsive Styling */
