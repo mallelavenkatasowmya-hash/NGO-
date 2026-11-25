@@ -91,6 +91,7 @@ const mobileNavSections = [
       { label: 'About Our NGO', path: '/about/ngo', icon: Info, desc: 'History, leadership & legal registration' },
       { label: 'Mission & Vision', path: '/about/mission', icon: Target, desc: 'Core charter for Godavari conservation' },
       { label: 'Our Objectives', path: '/about/objectives', icon: Star, desc: 'Five operational targets & metrics' },
+      { label: 'Contact Us', path: '/contact', icon: Phone, desc: 'Helplines, secretariat desk & inquiry form' },
     ]
   }
 ];
@@ -108,6 +109,9 @@ const MobileBottomNav = () => {
   const isSectionActive = (section) => {
     if (section.path === '/') {
       return location.pathname === '/';
+    }
+    if (section.id === 'about' && location.pathname === '/contact') {
+      return true;
     }
     return location.pathname.startsWith(section.path);
   };
